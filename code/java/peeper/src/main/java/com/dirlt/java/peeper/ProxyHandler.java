@@ -43,7 +43,8 @@ public class ProxyHandler extends SimpleChannelHandler {
         PeepServer.logger.debug("proxy exception caught");
         StatStore.getInstance().addCounter("proxy.exception.count", 1);
 
-        connector.onChannelClosed(e.getChannel(),connected);
+        connector.onChannelClosed(e.getChannel(),
+                connected ? Connector.Node.ClosedCause.kReadWriteFailed : Connector.Node.ClosedCause.kConnectionFailed);
         e.getChannel().close();
     }
 }

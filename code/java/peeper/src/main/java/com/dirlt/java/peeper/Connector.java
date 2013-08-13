@@ -18,6 +18,7 @@ import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -34,24 +35,34 @@ public class Connector {
     private AtomicInteger connectionNumber = new AtomicInteger(0);
     private BlockingQueue<AsyncClient> requestQueue = null;
     private ClientBootstrap bootstrap = null;
-    public static final int kTickInterval = 1 * 1000; // 1s;
     // each time addConnection will create at least following number connections.
     public static final int kAddConnectionStep = 4;
 
-    class Node {
+    public static class Node {
         public InetSocketAddress socketAddress;
         public float staticWeight;
         // more fields.
         public static final int kMaxFailureCount = 10;
-        public static final int kRecoveryTickCount = 10; // 10s.
+        // do not use atomic integer because we have threshold.
         int connectFailureCount = 0;
         int readWriteFailureCount = 0;
         int connectionNumber = 0;
 
+        enum ClosedCause {
+            kActive,
+            kConnectionFailed,
+            kReadWriteFailed
+        }
+
         public float getWeight() {
             // less weight, more prefer.
+            // here we don't consider failure count thread safe.
             float dynWeight = connectFailureCount * 0.6f + readWriteFailureCount * 0.3f + connectionNumber * 0.1f;
             return dynWeight * 1.0f / staticWeight;
+        }
+
+        public boolean isSelectable() {
+            return connectFailureCount < kMaxFailureCount;
         }
     }
 
@@ -69,30 +80,28 @@ public class Connector {
         requestQueue.add(client);
     }
 
-    public void onChannelClosed(Channel channel, boolean connected) {
+    public void onChannelClosed(Channel channel, Node.ClosedCause cause) {
         Node node = nodes.get(channel.getRemoteAddress().toString());
-        if (!connected) {
-            // have not been already connected.
-            // so here we add one failure.
+        connectionNumber.decrementAndGet();
+        node.connectionNumber -= 1;
+        if (cause == Node.ClosedCause.kConnectionFailed) {
             synchronized (node) {
                 if (node.connectFailureCount < Node.kMaxFailureCount) {
                     node.connectFailureCount += 1;
                 }
-                node.connectionNumber -= 1;
             }
-            connectionNumber.decrementAndGet();
-        } else {
+        } else if (cause == Node.ClosedCause.kReadWriteFailed) {
             synchronized (node) {
                 if (node.readWriteFailureCount < Node.kMaxFailureCount) {
                     node.readWriteFailureCount += 1;
                 }
             }
-            // just do reconnect.
-            bootstrap.connect(channel.getRemoteAddress());
+        } else {
+            // cause == kActive;
         }
     }
 
-    public void addConnection() {
+    public void balanceConnection() {
         // TODO(dirlt):
     }
 
@@ -113,8 +122,8 @@ public class Connector {
                 pipeline.addLast("decoder", new HttpRequestDecoder());
                 pipeline.addLast("aggregator", new HttpChunkAggregator(1024 * 1024 * 8));
                 pipeline.addLast("encoder", new HttpResponseEncoder());
-                pipeline.addLast("rto_handler", new ReadTimeoutHandler(timer, configuration.getProxyReadTimeout()));
-                pipeline.addLast("wto_handler", new WriteTimeoutHandler(timer, configuration.getProxyWriteTimeout()));
+                pipeline.addLast("rto_handler", new ReadTimeoutHandler(timer, configuration.getProxyReadTimeout(), TimeUnit.MILLISECONDS));
+                pipeline.addLast("wto_handler", new WriteTimeoutHandler(timer, configuration.getProxyWriteTimeout(), TimeUnit.MILLISECONDS));
                 pipeline.addLast("handler", new ProxyHandler(configuration, connector));
                 return pipeline;
             }
@@ -129,12 +138,13 @@ public class Connector {
             Node node = new Node();
             node.socketAddress = new InetSocketAddress(host, port);
             node.staticWeight = 1.0f; // TODO(dirlt): some preference?
+            // TODO(dirlt): by comparing local hostname
             nodes.put(node.socketAddress.toString(), node);
         }
         // timer to decrease failure count.
         java.util.Timer tickTimer = new java.util.Timer(true);
         tickTimer.scheduleAtFixedRate(new TimerTask() {
-            private int recoveryTickCount = Node.kRecoveryTickCount;
+            private int recoveryTickCount = configuration.getProxyRecoveryTickNumber();
 
             @Override
             public void run() {
@@ -151,11 +161,10 @@ public class Connector {
                             }
                         }
                     }
-                    recoveryTickCount = Node.kRecoveryTickCount;
+                    recoveryTickCount = configuration.getProxyRecoveryTickNumber();
                 }
-                // connection.
-                addConnection();
+                balanceConnection();
             }
-        }, 0, kTickInterval);
+        }, 0, configuration.getProxyTimerTickInterval());
     }
 }
