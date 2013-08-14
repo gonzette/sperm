@@ -35,6 +35,7 @@ public class Connector {
     private Configuration configuration;
     private AtomicInteger connectionNumber = new AtomicInteger(0);
     private BlockingQueue<AsyncClient> requestQueue = null;
+    private float avgRequestQueueSize = 0.0f;
     private ClientBootstrap bootstrap = null;
 
     public static class Node {
@@ -46,6 +47,7 @@ public class Connector {
         int connectFailureCount = 0;
         int readWriteFailureCount = 0;
         AtomicInteger connectionNumber = new AtomicInteger(0);
+        float avgConnectionNumber = 0.0f;
 
         enum ClosedCause {
             kActive,
@@ -62,7 +64,7 @@ public class Connector {
 
         public boolean isCreatable() {
             // TODO(dirlt):also consider whether it's so idle that we don't need to create any connection.
-            return connectFailureCount < kMaxFailureCount;
+            return connectFailureCount < kMaxFailureCount && connectionNumber.get() < 8192;
         }
 
         public boolean isClosable() {
@@ -77,6 +79,16 @@ public class Connector {
 
     private Map<String, Node> nodes = null;
 
+    public String getStat() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(String.format("average request queue size = %.2f\n", avgRequestQueueSize));
+        for (Map.Entry<String, Node> entry : nodes.entrySet()) {
+            sb.append(String.format("node: %s, average connection number = %.2f\n",
+                    entry.getKey(), entry.getValue().avgConnectionNumber));
+        }
+        return sb.toString();
+    }
+
     public static void init(Configuration configuration) {
         instance = new Connector(configuration);
     }
@@ -85,13 +97,29 @@ public class Connector {
         return instance;
     }
 
-    public void request(AsyncClient client) {
+    public void pushRequest(AsyncClient client) {
         requestQueue.add(client);
     }
 
+    public AsyncClient popRequest() {
+        AsyncClient client = null;
+        while (true) {
+            try {
+                client = requestQueue.poll(500, TimeUnit.MICROSECONDS);
+            } catch (InterruptedException e) {
+                // ignore.
+            }
+            if (client != null) {
+                break;
+            }
+        }
+        return client;
+    }
+
     public void onChannelClosed(Channel channel, Node.ClosedCause cause) {
-        Node node = nodes.get(channel.getRemoteAddress().toString());
         connectionNumber.decrementAndGet();
+        PeepServer.logger.debug("closed channel remote address = " + channel.getAttachment());
+        Node node = nodes.get(channel.getAttachment());
         node.connectionNumber.decrementAndGet();
         if (cause == Node.ClosedCause.kConnectionFailed) {
             synchronized (node) {
@@ -112,7 +140,14 @@ public class Connector {
     }
 
     public void addConnection() {
-        for (int i = 0; i < configuration.getProxyAddConnectionStep(); i++) {
+        PeepServer.logger.debug("add connection");
+        // avg load is low and connection number is enough.
+        if (avgRequestQueueSize < 1.5f && connectionNumber.get() >= configuration.getProxyMinConnectionNumber()) {
+            return;
+        }
+        PeepServer.logger.debug("actually add connection");
+        // otherwise we have to make more connection.
+        for (int i = 0; i < configuration.getProxyAddConnectionNumberStep(); i++) {
             if (connectionNumber.get() > configuration.getProxyMaxConnectionNumber()) {
                 break;
             }
@@ -135,7 +170,7 @@ public class Connector {
             }
             connectionNumber.incrementAndGet();
             node.connectionNumber.incrementAndGet();
-            bootstrap.connect(node.socketAddress);
+            bootstrap.connect(node.socketAddress).getChannel().setAttachment(node.socketAddress.toString());
         }
     }
 
@@ -190,6 +225,7 @@ public class Connector {
 
             @Override
             public void run() {
+                // every some rounds
                 recoveryTickCount -= 1;
                 if (recoveryTickCount == 0) {
                     for (Map.Entry<String, Node> entry : nodes.entrySet()) {
@@ -205,6 +241,12 @@ public class Connector {
                     }
                     recoveryTickCount = configuration.getProxyRecoveryTickNumber();
                 }
+                // every one round.
+                for (Map.Entry<String, Node> entry : nodes.entrySet()) {
+                    Node node = entry.getValue();
+                    node.avgConnectionNumber = node.avgConnectionNumber * 0.6f + node.connectionNumber.get() * 0.4f;
+                }
+                avgRequestQueueSize = avgRequestQueueSize * 0.6f + requestQueue.size() * 0.4f;
                 addConnection();
             }
         }, 0, configuration.getProxyTimerTickInterval());

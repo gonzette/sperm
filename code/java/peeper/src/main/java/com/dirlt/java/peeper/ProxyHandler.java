@@ -1,6 +1,7 @@
 package com.dirlt.java.peeper;
 
 import org.jboss.netty.channel.*;
+import org.jboss.netty.handler.codec.http.HttpRequest;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,6 +13,7 @@ import org.jboss.netty.channel.*;
 public class ProxyHandler extends SimpleChannelHandler {
     private Configuration configuration;
     private Connector connector;
+    private AsyncClient client = null;
     private boolean connected = false;
 
     public ProxyHandler(Configuration configuration, Connector connector) {
@@ -19,20 +21,36 @@ public class ProxyHandler extends SimpleChannelHandler {
         this.connector = connector;
     }
 
+    private void driveAsyncClient(Channel channel) {
+        client = Connector.getInstance().popRequest();
+        client.proxyChannel = channel;
+        client.code = AsyncClient.Status.kProxyRequestId;
+        client.run();
+    }
+
     @Override
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
+        PeepServer.logger.debug("proxy channel connected");
         connected = true;
-        // TODO(dirlt):
+        driveAsyncClient(ctx.getChannel());
     }
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, final MessageEvent e) throws Exception {
-        // TODO(dirlt):
+        PeepServer.logger.debug("proxy message received");
+        HttpRequest request = (HttpRequest) e.getMessage();
+        StatStore.getInstance().addCounter("proxy.rpc.in.count", 1);
+        client.proxyBuffer = request.getContent();
+        client.run();
+        if (client.code == AsyncClient.Status.kResponse) {
+            driveAsyncClient(ctx.getChannel());
+        }
     }
 
     @Override
     public void writeComplete(ChannelHandlerContext ctx, WriteCompletionEvent e) throws Exception {
-        // TODO(dirlt):
+        PeepServer.logger.debug("proxy write completed");
+        StatStore.getInstance().addCounter("proxy.rpc.out.count", 1);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package com.dirlt.java.peeper;
 
-import org.jboss.netty.buffer.ChannelBuffer;
-import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.*;
-import org.jboss.netty.handler.codec.http.*;
+import org.jboss.netty.handler.codec.http.HttpRequest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,7 +21,7 @@ public class PeepHandler extends SimpleChannelHandler {
 
     static {
         allowedPath.add("/stat");
-        allowedPath.add("/read");
+        allowedPath.add("/peep");
     }
 
     private Configuration configuration;
@@ -34,16 +32,6 @@ public class PeepHandler extends SimpleChannelHandler {
         client = new AsyncClient(configuration); // each handler corresponding a channel or a connection.
     }
 
-    private void writeContent(Channel channel, String content) {
-        // so simple.
-        HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
-        response.setHeader("Content-Length", content.length());
-        ChannelBuffer buffer = ChannelBuffers.buffer(content.length());
-        buffer.writeBytes(content.getBytes());
-        response.setContent(buffer);
-        channel.write(response);
-    }
-
     @Override
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
         PeepServer.logger.debug("peeper message received");
@@ -51,6 +39,7 @@ public class PeepHandler extends SimpleChannelHandler {
         Channel channel = e.getChannel();
         StatStore stat = StatStore.getInstance();
         String path = null;
+        String query = null;
 
         // invalid uri.
         try {
@@ -59,6 +48,7 @@ public class PeepHandler extends SimpleChannelHandler {
             if (path.isEmpty() || path.equals("/")) {
                 path = "/stat";
             }
+            query = uri.getQuery();
         } catch (URISyntaxException ex) {
             // ignore.
             stat.addCounter("peeper.uri.invalid.count", 1);
@@ -75,16 +65,18 @@ public class PeepHandler extends SimpleChannelHandler {
 
         // as stat, we can easily handle it.
         if (path.equals("/stat")) {
-            // TODO(dirlt):add more info.
             String content = StatStore.getStat();
-            writeContent(channel, content);
+            AsyncClient.writeContent("peeper", channel, content);
             return;
         }
 
         stat.addCounter("peeper.rpc.in.count", 1);
-        client.externalChannel = channel;
+        client.init();
+        client.code = AsyncClient.Status.kHttpRequest;
         client.path = path;
-        client.buffer = request.getContent();
+        client.query = query;
+        client.peeperChannel = channel;
+        client.peeperBuffer = request.getContent();
         client.requestTimestamp = System.currentTimeMillis();
         client.run();
     }
