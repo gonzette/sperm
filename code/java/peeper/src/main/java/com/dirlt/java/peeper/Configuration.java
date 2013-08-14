@@ -27,6 +27,7 @@ public class Configuration {
     private int proxyMaxConnectionNumber = 32;
     private int proxyTimerTickInterval = 1000; // 1000ms
     private int proxyRecoveryTickNumber = 6; // 6 * 1000ms = 6s.
+    private int proxyAddConnectionStep = 4;
 
     private String serviceName = "peeper";
     private boolean debug = true;
@@ -67,6 +68,8 @@ public class Configuration {
                 proxyTimerTickInterval = Integer.valueOf(arg.substring("--proxy-timer-tick-interval=".length())).intValue();
             } else if (arg.startsWith("--proxy-recovery-tick-number=")) {
                 proxyRecoveryTickNumber = Integer.valueOf(arg.substring("--proxy-recovery-tick-number=".length())).intValue();
+            } else if (arg.startsWith("--proxy-add-connection-step=")) {
+                proxyAddConnectionStep = Integer.valueOf(arg.substring("--proxy-add-connection-step=".length())).intValue();
             } else if (arg.startsWith("--service-name=")) {
                 serviceName = arg.substring("--service-name=".length());
             } else if (arg.startsWith("--no-debug")) {
@@ -102,6 +105,7 @@ public class Configuration {
         System.out.println("\t--proxy-write-timeout # default 100(ms)");
         System.out.println("\t--proxy-timer-tick-interval # default 1000(ms)");
         System.out.println("\t--proxy-recovery-tick-number # default 6");
+        System.out.println("\t--proxy-add-connection-step # default 4");
         System.out.println("\t--service-name # set service name");
         System.out.println("\t--no-debug # turn off debug mode");
         System.out.println("\t--no-stat # turn off statistics");
@@ -118,8 +122,8 @@ public class Configuration {
         sb.append(String.format("accept-io-thread-number=%d, io-thread-number=%d\n",
                 getAcceptIOThreadNumber(), getIoThreadNumber()));
         sb.append(String.format("read-timeout=%d(ms), write-timeout=%d(ms)\n", getReadTimeout(), getWriteTimeout()));
-        sb.append(String.format("proxy-queue-size=%d proxy-max-connection-number=%d\n",
-                getProxyQueueSize(), getProxyMaxConnectionNumber()));
+        sb.append(String.format("proxy-queue-size=%d proxy-max-connection-number=%d proxy-add-connection-step=%d\n",
+                getProxyQueueSize(), getProxyMaxConnectionNumber(), getProxyAddConnectionStep()));
         sb.append(String.format("proxy-accept-io-thread-number=%d, proxy-io-thread-number=%d\n",
                 getProxyAcceptIOThreadNumber(), getProxyIOThreadNumber()));
         sb.append(String.format("proxy-read-timeout=%d(ms), proxy-write-timeout=%d(ms)\n",
@@ -194,6 +198,10 @@ public class Configuration {
 
     public int getProxyRecoveryTickNumber() {
         return proxyRecoveryTickNumber;
+    }
+
+    public int getProxyAddConnectionStep() {
+        return proxyAddConnectionStep;
     }
 
     public String getServiceName() {

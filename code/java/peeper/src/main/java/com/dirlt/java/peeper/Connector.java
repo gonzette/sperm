@@ -11,6 +11,7 @@ import org.jboss.netty.handler.timeout.WriteTimeoutHandler;
 import org.jboss.netty.util.HashedWheelTimer;
 import org.jboss.netty.util.Timer;
 
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,8 +36,6 @@ public class Connector {
     private AtomicInteger connectionNumber = new AtomicInteger(0);
     private BlockingQueue<AsyncClient> requestQueue = null;
     private ClientBootstrap bootstrap = null;
-    // each time addConnection will create at least following number connections.
-    public static final int kAddConnectionStep = 4;
 
     public static class Node {
         public InetSocketAddress socketAddress;
@@ -46,7 +45,7 @@ public class Connector {
         // do not use atomic integer because we have threshold.
         int connectFailureCount = 0;
         int readWriteFailureCount = 0;
-        int connectionNumber = 0;
+        AtomicInteger connectionNumber = new AtomicInteger(0);
 
         enum ClosedCause {
             kActive,
@@ -57,12 +56,22 @@ public class Connector {
         public float getWeight() {
             // less weight, more prefer.
             // here we don't consider failure count thread safe.
-            float dynWeight = connectFailureCount * 0.6f + readWriteFailureCount * 0.3f + connectionNumber * 0.1f;
+            float dynWeight = connectFailureCount * 0.6f + readWriteFailureCount * 0.3f + connectionNumber.get() * 0.1f;
             return dynWeight * 1.0f / staticWeight;
         }
 
-        public boolean isSelectable() {
+        public boolean isCreatable() {
+            // TODO(dirlt):also consider whether it's so idle that we don't need to create any connection.
             return connectFailureCount < kMaxFailureCount;
+        }
+
+        public boolean isClosable() {
+            // at least 2 connections.
+            if (connectionNumber.get() <= 2) {
+                return false;
+            } else {
+                return true;
+            }
         }
     }
 
@@ -83,7 +92,7 @@ public class Connector {
     public void onChannelClosed(Channel channel, Node.ClosedCause cause) {
         Node node = nodes.get(channel.getRemoteAddress().toString());
         connectionNumber.decrementAndGet();
-        node.connectionNumber -= 1;
+        node.connectionNumber.decrementAndGet();
         if (cause == Node.ClosedCause.kConnectionFailed) {
             synchronized (node) {
                 if (node.connectFailureCount < Node.kMaxFailureCount) {
@@ -98,11 +107,36 @@ public class Connector {
             }
         } else {
             // cause == kActive;
+            // do nothing.
         }
     }
 
-    public void balanceConnection() {
-        // TODO(dirlt):
+    public void addConnection() {
+        for (int i = 0; i < configuration.getProxyAddConnectionStep(); i++) {
+            if (connectionNumber.get() > configuration.getProxyMaxConnectionNumber()) {
+                break;
+            }
+            Node node = null;
+            float minWeight = Float.MAX_VALUE;
+            for (Map.Entry<String, Node> entry : nodes.entrySet()) {
+                Node x = entry.getValue();
+                if (!x.isCreatable()) {
+                    continue;
+                }
+                float weight = x.getWeight();
+                if (weight < minWeight) {
+                    minWeight = weight;
+                    node = x;
+                }
+            }
+            // if node can be selected to be connected.
+            if (node == null) {
+                break;
+            }
+            connectionNumber.incrementAndGet();
+            node.connectionNumber.incrementAndGet();
+            bootstrap.connect(node.socketAddress);
+        }
     }
 
     public Connector(final Configuration configuration) {
@@ -139,6 +173,14 @@ public class Connector {
             node.socketAddress = new InetSocketAddress(host, port);
             node.staticWeight = 1.0f; // TODO(dirlt): some preference?
             // TODO(dirlt): by comparing local hostname
+            try {
+                String hostname = InetAddress.getLocalHost().getHostName();
+                if (hostname.equals(host)) {
+                    node.staticWeight = 2.0f;
+                }
+            } catch (Exception e) {
+                // ignore it.
+            }
             nodes.put(node.socketAddress.toString(), node);
         }
         // timer to decrease failure count.
@@ -163,7 +205,7 @@ public class Connector {
                     }
                     recoveryTickCount = configuration.getProxyRecoveryTickNumber();
                 }
-                balanceConnection();
+                addConnection();
             }
         }, 0, configuration.getProxyTimerTickInterval());
     }
