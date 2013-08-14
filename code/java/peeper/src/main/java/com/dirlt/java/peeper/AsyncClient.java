@@ -37,6 +37,14 @@ public class AsyncClient implements Runnable {
     private static final String kDeviceIdMappingQualifier = "umid";
     private static final String kUserInfoTable = "user_info";
     private static final String kUserInfoColumnFamily = "info";
+    private static final String kDeviceIdKeys[] = "imei,udid,mac,idfa,openudid,idfv,utdid".split(",");
+    private static final Set<String> reqTypeKeys = new TreeSet<String>();
+
+    static {
+        reqTypeKeys.add("demographic");
+        reqTypeKeys.add("geographic");
+        reqTypeKeys.add("tcate");
+    }
 
     enum Status {
         kStat,
@@ -78,8 +86,6 @@ public class AsyncClient implements Runnable {
     public MessageProtos1.ReadResponse proxyInfoResponse;
     public long requestTimestamp;
     public long requestTimeout;
-    public long sessionStartTimestamp;
-    public long sessionEndTimestamp;
 
     public AsyncClient(Configuration configuration) {
         this.configuration = configuration;
@@ -94,15 +100,13 @@ public class AsyncClient implements Runnable {
     }
 
     public void raiseException() {
+        if (proxyChannel != null) {
+            Connector.getInstance().onChannelClosed(proxyChannel, Connector.Node.ClosedCause.kReadWriteFailed);
+            proxyChannel.close();
+        }
         requestStatus = RequestStatus.kException;
         code = Status.kResponse;
         run();
-    }
-
-    public void raiseProxyException() {
-        Connector.getInstance().onChannelClosed(proxyChannel, Connector.Node.ClosedCause.kReadWriteFailed);
-        proxyChannel.close();
-        raiseException();
     }
 
     public int detectTimeout(String stage) {
@@ -215,8 +219,6 @@ public class AsyncClient implements Runnable {
         run();
     }
 
-    private static final String deviceIdKeys[] = "imei,udid,mac,idfa,openudid,idfv,utdid".split(",");
-
     public void handleSingleRequest() {
         PeepServer.logger.debug("peeper handle single request");
         // parse json.
@@ -258,7 +260,7 @@ public class AsyncClient implements Runnable {
 
         JSONObject dev = (JSONObject) peeperRequest;
         ok = false;
-        for (String key : deviceIdKeys) {
+        for (String key : kDeviceIdKeys) {
             Object v = dev.get(key);
             if (!(v instanceof String)) {
                 continue;
@@ -313,19 +315,11 @@ public class AsyncClient implements Runnable {
         PeepServer.logger.debug("peeper handle proxy request id");
         int to = detectTimeout("before-request-proxy-id");
         if (to < 0) {
-            raiseProxyException();
+            raiseException();
             return;
         }
         code = Status.kProxyResponseId;
         writeMessage("proxy", proxyChannel, proxyIdRequest);
-    }
-
-    private static final Set<String> reqTypeKeys = new TreeSet<String>();
-
-    static {
-        reqTypeKeys.add("demographic");
-        reqTypeKeys.add("geographic");
-        reqTypeKeys.add("tcate");
     }
 
     public void handleProxyResponseId() {
@@ -341,7 +335,7 @@ public class AsyncClient implements Runnable {
             // just close channel.
             PeepServer.logger.debug("proxy parse message exception");
             StatStore.getInstance().addCounter("proxy.rpc.in.count.invalid", 1);
-            raiseProxyException();
+            raiseException();
             return;
         }
         proxyIdResponse = builder.build();
@@ -357,12 +351,12 @@ public class AsyncClient implements Runnable {
         if (umid == null) {
             PeepServer.logger.debug("proxy request id, umid == null");
             StatStore.getInstance().addCounter("rpc.null-umid.count", 1);
-            raiseProxyException();
+            raiseException();
             return;
         }
         int timeout = detectTimeout("before-makepb-proxy-info");
         if (timeout < 0) {
-            raiseProxyException();
+            raiseException();
             return;
         }
         // make protocol buffer.
@@ -386,7 +380,7 @@ public class AsyncClient implements Runnable {
         PeepServer.logger.debug("peeper handle proxy request info");
         int to = detectTimeout("before-request-proxy-info");
         if (to < 0) {
-            raiseProxyException();
+            raiseException();
             return;
         }
         code = Status.kProxyResponseInfo;
@@ -406,7 +400,7 @@ public class AsyncClient implements Runnable {
             // just close channel.
             PeepServer.logger.debug("proxy parse message exception");
             StatStore.getInstance().addCounter("proxy.rpc.in.count.invalid", 1);
-            raiseProxyException();
+            raiseException();
             return;
         }
         proxyInfoResponse = builder.build();

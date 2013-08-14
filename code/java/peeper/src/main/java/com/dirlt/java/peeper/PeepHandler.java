@@ -93,17 +93,11 @@ public class PeepHandler extends SimpleChannelHandler {
     @Override
     public void channelOpen(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         PeepServer.logger.debug("peeper.connection open");
-        StatStore.getInstance().addCounter("peeper.session.in.count", 1);
-        client.sessionStartTimestamp = System.currentTimeMillis();
     }
 
     @Override
     public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         PeepServer.logger.debug("peeper connection closed");
-
-        StatStore.getInstance().addCounter("peeper.session.out.count", 1);
-        client.sessionEndTimestamp = System.currentTimeMillis();
-        StatStore.getInstance().addCounter("peeper.session.duration", client.sessionEndTimestamp - client.sessionStartTimestamp);
         e.getChannel().close();
     }
 
