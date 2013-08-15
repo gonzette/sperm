@@ -31,7 +31,6 @@ public class Configuration {
     private boolean stat = true;
     private boolean cache = true;
     private boolean debug = true;
-    private boolean async = true;
     private Map<String, String> kv = new HashMap<String, String>();
 
     public boolean parse(String[] args) {
@@ -72,8 +71,6 @@ public class Configuration {
                 stat = false;
             } else if (arg.startsWith("--no-cache")) {
                 cache = false;
-            } else if (arg.startsWith("--no-async")) {
-                async = false;
             } else if (arg.startsWith("--no-debug")) {
                 debug = false;
             } else if (arg.startsWith("--kv=")) {
@@ -107,7 +104,6 @@ public class Configuration {
         System.out.println("\t--close-on-failure # turn on close on failure");
         System.out.println("\t--no-stat # turn off statistics");
         System.out.println("\t--no-cache # turn off cache");
-        System.out.println("\t--no-async # turn off async");
         System.out.println("\t--no-debug # turn off debug mode");
         System.out.println("\t--kv=<key>:<value> # key value pair");
     }
@@ -115,7 +111,7 @@ public class Configuration {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append(String.format("async=%s, stat=%s, cache=%s\n", isAsync(), isStat(), isCache()));
+        sb.append(String.format("stat=%s, cache=%s\n", isStat(), isCache()));
         sb.append(String.format("ip=%s, port=%d, backlog=%d\n", getIp(), getPort(), getBacklog()));
         sb.append(String.format("accept-io-thread-number=%d, accept-io-queue-size=%d\n", getAcceptIOThreadNumber(), getAcceptIOQueueSize()));
         sb.append(String.format("io-thread-number=%d, io-queue-size=%d\n", getIOThreadNumber(), getIOQueueSize()));
@@ -205,10 +201,6 @@ public class Configuration {
 
     public boolean isCache() {
         return cache;
-    }
-
-    public boolean isAsync() {
-        return async;
     }
 
     public Map<String, String> getKv() {

@@ -137,8 +137,8 @@ public class AsyncClient implements Runnable {
 
     @Override
     public void run() {
-        if(isChannelClosed()) {
-            return ;
+        if (isChannelClosed()) {
+            return;
         }
         switch (code) {
             case kHttpRequest:
@@ -198,13 +198,7 @@ public class AsyncClient implements Runnable {
             // impossible.
         }
 
-        // entry. if we want async mode, we put into cpu thread
-        // otherwise we just run.
-        if (configuration.isAsync()) {
-            CpuWorkerPool.getInstance().submit(this);
-        } else {
-            run();
-        }
+        run();
     }
 
     public void raiseReadException(String message) {

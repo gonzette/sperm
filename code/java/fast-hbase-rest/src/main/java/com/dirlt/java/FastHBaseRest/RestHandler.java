@@ -78,6 +78,7 @@ public class RestHandler extends SimpleChannelHandler {
             return;
         }
 
+        stat.addCounter("rpc.in.count", 1);
         // as stat, we can easily handle it.
         if (path.equals("/stat")) {
             String content = StatStore.getStat();
@@ -92,7 +93,6 @@ public class RestHandler extends SimpleChannelHandler {
             return;
         }
 
-        stat.addCounter("rpc.in.count", 1);
         client.init();
         client.code = AsyncClient.Status.kHttpRequest;
         client.subRequest = false;
@@ -100,17 +100,15 @@ public class RestHandler extends SimpleChannelHandler {
         client.path = path;
         client.buffer = request.getContent();
         client.requestTimestamp = System.currentTimeMillis();
-        client.run();
+        // put into cpu work pool.
+        CpuWorkerPool.getInstance().submit(client);
     }
 
     @Override
     public void writeComplete(ChannelHandlerContext ctx,
                               WriteCompletionEvent e) {
         RestServer.logger.debug("write completed");
-
-        if (client.code != AsyncClient.Status.kStat) {
-            StatStore.getInstance().addCounter("rpc.out.count", 1);
-        }
+        StatStore.getInstance().addCounter("rpc.out.count", 1);
     }
 
     @Override
@@ -134,7 +132,6 @@ public class RestHandler extends SimpleChannelHandler {
         client.sessionEndTimestamp = System.currentTimeMillis();
         StatStore.getInstance().addCounter("session.duration",
                 client.sessionEndTimestamp - client.sessionStartTimestamp);
-        e.getChannel().close();
     }
 
     @Override
