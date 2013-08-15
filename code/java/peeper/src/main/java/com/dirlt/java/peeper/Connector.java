@@ -72,7 +72,7 @@ public class Connector {
         sb.append(String.format("average request queue size = %.2f\n", avgRequestQueueSize));
         sb.append(String.format("connection number = %d\n", connectionNumber.get()));
         for (Map.Entry<String, Node> entry : nodes.entrySet()) {
-            sb.append(String.format("node: %s\n", entry.getKey()));
+            sb.append(String.format("node = %s\n", entry.getKey()));
             sb.append(String.format("\tconnection number = %d\n", entry.getValue().connectionNumber.get()));
             sb.append(String.format("\taverage connect failure count = %.2f\n", entry.getValue().avgConnectFailureCount));
             sb.append(String.format("\taverage read-write failure count = %.2f\n", entry.getValue().avgReadWriteFailureCount));
