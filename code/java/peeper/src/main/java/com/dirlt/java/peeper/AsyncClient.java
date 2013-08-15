@@ -62,7 +62,6 @@ public class AsyncClient implements Runnable {
     enum RequestStatus {
         kOK,
         kException,
-        kTimeout,
     }
 
     public Status code;
@@ -70,18 +69,22 @@ public class AsyncClient implements Runnable {
     public String query; // url query;
     public AsyncClient parent;
     public RequestStatus requestStatus = RequestStatus.kOK;
+    public String requestMessage;
     public boolean subRequest = false;
     public AtomicInteger refCounter;
     public List<AsyncClient> clients;
 
     public Channel peeperChannel;
+    public volatile boolean peeperChannelClosed;
     public Channel proxyChannel;
+    public volatile boolean proxyChannelClosed;
     public ChannelBuffer peeperBuffer;
     public Object peeperRequest;
     public Object peeperResponse;
     public ChannelBuffer proxyBuffer;
     public MessageProtos1.MultiReadRequest proxyIdRequest;
     public MessageProtos1.MultiReadResponse proxyIdResponse;
+    public String umengId;
     public MessageProtos1.ReadRequest proxyInfoRequest;
     public MessageProtos1.ReadResponse proxyInfoResponse;
     public long requestTimestamp;
@@ -96,17 +99,25 @@ public class AsyncClient implements Runnable {
         requestStatus = RequestStatus.kOK;
         clients = null;
         peeperChannel = null;
+        peeperChannelClosed = false;
         proxyChannel = null;
+        proxyChannelClosed = false;
+        umengId = null;
     }
 
-    public void raiseException() {
+    public void raiseException(String message) {
         if (proxyChannel != null) {
             Connector.getInstance().onChannelClosed(proxyChannel, Connector.Node.ClosedCause.kReadWriteFailed);
             proxyChannel.close();
         }
         requestStatus = RequestStatus.kException;
+        requestMessage = message;
         code = Status.kResponse;
         run();
+    }
+
+    public void raiseException(Exception e) {
+        raiseException(e.toString());
     }
 
     public int detectTimeout(String stage) {
@@ -118,7 +129,7 @@ public class AsyncClient implements Runnable {
         return rest;
     }
 
-    public static void writeContent(String id, Channel channel, String content) {
+    public static void writeContent(Channel channel, String content) {
         // so simple.
         HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
         response.setHeader("Content-Length", content.length());
@@ -126,20 +137,20 @@ public class AsyncClient implements Runnable {
         buffer.writeBytes(content.getBytes());
         response.setContent(buffer);
         channel.write(response);
-        StatStore.getInstance().addCounter(id + ".rpc.out.bytes", content.length());
+        StatStore.getInstance().addCounter("peeper.rpc.out.bytes", content.length());
     }
 
-    public static void writeMessage(String id, Channel channel, Message message) {
-        HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
+    public static void writeMessage(String path, Channel channel, Message message) {
+        HttpRequest httpRequest = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.POST, path);
         int size = message.getSerializedSize();
-        response.setHeader("Content-Length", size);
+        httpRequest.setHeader("Content-Length", size);
         ByteArrayOutputStream os = new ByteArrayOutputStream(size);
         try {
             message.writeTo(os);
             ChannelBuffer buffer = ChannelBuffers.copiedBuffer(os.toByteArray());
-            response.setContent(buffer);
-            channel.write(response); // write over.
-            StatStore.getInstance().addCounter(id + ".rpc.out.bytes", size);
+            httpRequest.setContent(buffer);
+            channel.write(httpRequest); // write over.
+            StatStore.getInstance().addCounter("proxy.rpc.out.bytes", size);
         } catch (Exception e) {
             // just ignore it.
         }
@@ -161,9 +172,6 @@ public class AsyncClient implements Runnable {
                 break;
             case kProxyResponseId:
                 handleProxyResponseId();
-                break;
-            case kProxyRequestInfo:
-                handleProxyRequestInfo();
                 break;
             case kProxyResponseInfo:
                 handleProxyResponseInfo();
@@ -193,7 +201,7 @@ public class AsyncClient implements Runnable {
                     e.printStackTrace();
                 }
                 StatStore.getInstance().addCounter("peeper.rpc.in.count.invalid", 1);
-                peeperChannel.close();
+                raiseException(e);
                 return;
             }
         } else {
@@ -210,7 +218,7 @@ public class AsyncClient implements Runnable {
         } else {
             PeepServer.logger.debug("peeper invalid json type");
             StatStore.getInstance().addCounter("peeper.rpc.in.count.invalid", 1);
-            peeperChannel.close();
+            raiseException("invalid json");
             return;
         }
 
@@ -240,7 +248,7 @@ public class AsyncClient implements Runnable {
             ok = false;
         }
         if (!ok) {
-            raiseException();
+            raiseException("invalid json without require fields");
             return;
         }
         requestTimeout = kDefaultTimeout;
@@ -249,16 +257,18 @@ public class AsyncClient implements Runnable {
             requestTimeout = ((Integer) timeout).intValue();
         }
 
+        PeepServer.logger.debug("peeper make pb proxy id");
         // make protocol buffer object.
         // use multi read.
         int to = detectTimeout("before-makepb-proxy-id");
         if (to < 0) {
-            raiseException();
+            raiseException("timeout before makepb proxy id");
+            return;
         }
         MessageProtos1.MultiReadRequest.Builder builder = MessageProtos1.MultiReadRequest.newBuilder();
         builder.setTimeout(to);
 
-        JSONObject dev = (JSONObject) peeperRequest;
+        JSONObject dev = (JSONObject) device;
         ok = false;
         for (String key : kDeviceIdKeys) {
             Object v = dev.get(key);
@@ -275,12 +285,14 @@ public class AsyncClient implements Runnable {
         }
         if (!ok) {
             PeepServer.logger.debug("peeper invalid json, no field in 'device'");
-            raiseException();
+            raiseException("invalid json without any field in 'device'");
             return;
         }
         proxyIdRequest = builder.build();
         code = Status.kProxyRequestId;
+        PeepServer.logger.debug("peeper push request into connector");
         Connector.getInstance().pushRequest(this);
+        PeepServer.logger.debug("peeper push request into connector OK!");
     }
 
     public void handleMultiRequest() {
@@ -291,7 +303,7 @@ public class AsyncClient implements Runnable {
             if (!(sub instanceof JSONObject)) {
                 PeepServer.logger.debug("peeper invalid json array");
                 StatStore.getInstance().addCounter("peeper.rpc.in.count.invalid", 1);
-                peeperChannel.close();
+                raiseException("invalid json");
                 return;
             }
         }
@@ -315,48 +327,63 @@ public class AsyncClient implements Runnable {
         PeepServer.logger.debug("peeper handle proxy request id");
         int to = detectTimeout("before-request-proxy-id");
         if (to < 0) {
-            raiseException();
+            raiseException("timeout before request proxy id");
             return;
         }
         code = Status.kProxyResponseId;
-        writeMessage("proxy", proxyChannel, proxyIdRequest);
+        writeMessage("/multi-read", proxyChannel, proxyIdRequest);
     }
 
     public void handleProxyResponseId() {
         PeepServer.logger.debug("peeper handle proxy response id");
+        if (proxyChannelClosed) {
+            raiseException("proxy id channel closed");
+            return;
+        }
         int size = proxyBuffer.readableBytes();
-        StatStore.getInstance().addCounter("rpc.in.bytes", size);
+        StatStore.getInstance().addCounter("proxy.rpc.in.bytes", size);
         byte[] bs = new byte[size];
         proxyBuffer.readBytes(bs);
         MessageProtos1.MultiReadResponse.Builder builder = MessageProtos1.MultiReadResponse.newBuilder();
         try {
             builder.mergeFrom(bs);
         } catch (InvalidProtocolBufferException e) {
-            // just close channel.
-            PeepServer.logger.debug("proxy parse message exception");
+            PeepServer.logger.debug("proxy id parse message exception");
             StatStore.getInstance().addCounter("proxy.rpc.in.count.invalid", 1);
-            raiseException();
+            raiseException(e);
             return;
         }
         proxyIdResponse = builder.build();
         // try to fetch umid.
         String umid = null;
+        String emesg = null;
         for (MessageProtos1.ReadResponse response : proxyIdResponse.getResponsesList()) {
+            if (response.getError()) {
+                emesg = response.getMessage();
+                break;
+            }
             ByteString content = response.getKvs(0).getContent();
             if (content.isEmpty()) { // no content.
                 continue;
             }
-            umid = content.toString();
+            umid = content.toStringUtf8();
+        }
+        if (emesg != null) {
+            PeepServer.logger.debug("proxy request id but with error : " + emesg);
+            StatStore.getInstance().addCounter("proxy.rpc.in.count.invalid", 1);
+            raiseException(emesg);
+            return;
         }
         if (umid == null) {
             PeepServer.logger.debug("proxy request id, umid == null");
             StatStore.getInstance().addCounter("rpc.null-umid.count", 1);
-            raiseException();
+            raiseException("null umid");
             return;
         }
+        umengId = umid;
         int timeout = detectTimeout("before-makepb-proxy-info");
         if (timeout < 0) {
-            raiseException();
+            raiseException("timeout before makepb proxy info");
             return;
         }
         // make protocol buffer.
@@ -372,35 +399,35 @@ public class AsyncClient implements Runnable {
             }
         }
         proxyInfoRequest = rdBuilder.build();
-        code = Status.kProxyRequestInfo;
-        run();
-    }
 
-    public void handleProxyRequestInfo() {
+        // proxy request info.
         PeepServer.logger.debug("peeper handle proxy request info");
         int to = detectTimeout("before-request-proxy-info");
         if (to < 0) {
-            raiseException();
+            raiseException("timeout before request proxy info");
             return;
         }
         code = Status.kProxyResponseInfo;
-        writeMessage("proxy", proxyChannel, proxyInfoRequest);
+        writeMessage("/read", proxyChannel, proxyInfoRequest);
     }
 
     public void handleProxyResponseInfo() {
         PeepServer.logger.debug("peeper handle proxy response info");
+        if (proxyChannelClosed) {
+            raiseException("proxy info channel closed");
+            return;
+        }
         int size = proxyBuffer.readableBytes();
-        StatStore.getInstance().addCounter("rpc.in.bytes", size);
+        StatStore.getInstance().addCounter("proxy.rpc.in.bytes", size);
         byte[] bs = new byte[size];
         proxyBuffer.readBytes(bs);
         MessageProtos1.ReadResponse.Builder builder = MessageProtos1.ReadResponse.newBuilder();
         try {
             builder.mergeFrom(bs);
         } catch (InvalidProtocolBufferException e) {
-            // just close channel.
-            PeepServer.logger.debug("proxy parse message exception");
+            PeepServer.logger.debug("proxy info parse message exception");
             StatStore.getInstance().addCounter("proxy.rpc.in.count.invalid", 1);
-            raiseException();
+            raiseException(e);
             return;
         }
         proxyInfoResponse = builder.build();
@@ -411,23 +438,40 @@ public class AsyncClient implements Runnable {
         }
         JSONObject content = new JSONObject();
         for (MessageProtos1.ReadResponse.KeyValue keyValue : proxyInfoResponse.getKvsList()) {
-            content.put(keyValue.getQualifier(), keyValue.getContent().toString());
+            if (keyValue.getContent().isEmpty()) {
+                continue;
+            }
+            content.put(keyValue.getQualifier(), keyValue.getContent().toStringUtf8());
         }
         object.put("content", content);
         object.put("ecode", "OK");
+        object.put("umid", umengId);
         peeperResponse = object;
         code = Status.kResponse;
         run();
     }
 
+    public static void handleExceptionResponse(AsyncClient client) {
+        JSONObject object = new JSONObject();
+        JSONObject origin = (JSONObject) client.peeperRequest;
+        if (origin.containsKey("reqid")) {
+            object.put("reqid", origin.get("reqid"));
+        }
+        object.put("ecode", client.requestMessage);
+        if (client.umengId != null) {
+            object.put("umid", client.umengId);
+        }
+        client.peeperResponse = object;
+    }
+
     public void handleResponse() {
+        PeepServer.logger.debug("peeper handle response");
         if (requestStatus == RequestStatus.kOK) {
             StatStore.getInstance().addCounter("peeper.rpc.duration", System.currentTimeMillis() - requestTimestamp);
         }
         if (!subRequest) {
             if (requestStatus != RequestStatus.kOK) {
-                peeperChannel.close();
-                return;
+                handleExceptionResponse(this);
             }
             code = Status.kHttpResponse;
             run();
@@ -437,8 +481,7 @@ public class AsyncClient implements Runnable {
                 JSONArray result = new JSONArray();
                 for (AsyncClient client : parent.clients) {
                     if (client.requestStatus != RequestStatus.kOK) {
-                        parent.peeperChannel.close();
-                        return;
+                        handleExceptionResponse(client);
                     }
                     result.add(client.peeperRequest);
                 }
@@ -450,13 +493,13 @@ public class AsyncClient implements Runnable {
     }
 
     public void handleHttpResponse() {
+        PeepServer.logger.debug("peeper handle http response");
         if (peeperResponse instanceof JSONObject) {
             JSONObject object = (JSONObject) peeperResponse;
-            writeContent("peeper", peeperChannel, object.toJSONString());
+            writeContent(peeperChannel, object.toJSONString());
         } else if (peeperResponse instanceof JSONArray) {
             JSONArray array = (JSONArray) peeperResponse;
-            writeContent("peeper", peeperChannel, array.toJSONString());
+            writeContent(peeperChannel, array.toJSONString());
         }
     }
-
 }

@@ -41,16 +41,17 @@ else
 	export HADOOP_HOME=$HOME/utils/hadoop-2.0.0-cdh4.2.0
 	export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop/
 	export HBASE_HOME=$HOME/utils/hbase-0.94.2-cdh4.2.0/
-	export HBASE_CONF_DIR=$HBASE_HOME/conf	
-	export HIVE_HOME=$HOME/utils/hive-0.10.0-cdh4.2.0/	
+	export HBASE_CONF_DIR=$HBASE_HOME/conf
+	export HIVE_HOME=$HOME/utils/hive-0.10.0-cdh4.2.0/
     fi
 
     if [ $CDH4_3_0 = 1 ]
     then
 	export HADOOP_HOME=$HOME/utils/hadoop-2.0.0-cdh4.3.0
 	export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop/
-	export HBASE_HOME=$HOME/utils/hbase-0.94.2-cdh4.3.0/
+	export HBASE_HOME=$HOME/utils/hbase-0.94.6-cdh4.3.0/
 	export HBASE_CONF_DIR=$HBASE_HOME/conf
+	export HIVE_HOME=$HOME/utils/hive-0.10.0-cdh4.3.0/
     fi
 
     export JAVA_LIBRARY_PATH=$HADOOP_HOME/lib/native/Linux-amd64-64:$HADOOP_HOME/lib/native

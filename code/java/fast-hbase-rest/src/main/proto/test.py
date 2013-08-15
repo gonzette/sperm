@@ -19,12 +19,12 @@ def queryColumnSameConnection():
     request.table_name='t1'
     request.row_key='r1'
     request.column_family='cf'
-    request.qualifiers.append('c2')
     request.qualifiers.append('c1')
-
+    request.qualifiers.append('c2')
+    
     data = request.SerializeToString()
 
-    conn = httplib.HTTPConnection('localhost',8000,timeout=20)
+    conn = httplib.HTTPConnection('localhost',12345,timeout=20)
     for i in range(0,3):
         conn.request('GET','/read',data)
         data2 = conn.getresponse().read()
@@ -39,11 +39,11 @@ def queryColumn():
     request.table_name='t1'
     request.row_key='r1'
     request.column_family='cf'
-    #request.qualifiers.append('c2')
     request.qualifiers.append('c1')
+    request.qualifiers.append('c2')
 
     data = request.SerializeToString()
-    data2 = raiseHTTPRequest('http://localhost:8000/read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://localhost:12345/read',data,timeout=20)
     response = message_pb2.ReadResponse()
     response.ParseFromString(data2)
     print response
@@ -59,25 +59,10 @@ def queryEmptyColumn():
     request.qualifiers.append('not-exits')
 
     data = request.SerializeToString()
-    data2 = raiseHTTPRequest('http://localhost:8000/read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://localhost:12345/read',data,timeout=20)
     response = message_pb2.ReadResponse()
     response.ParseFromString(data2)
     print response
-
-def queryColumnNone():
-    print '----------queryColumnNone----------'
-    request = message_pb2.ReadRequest()
-
-    request.table_name='t2'
-    request.row_key='r1'
-    request.column_family='cf'
-    request.qualifiers.append('not-exits')
-
-    data = request.SerializeToString()
-    try:
-        data2 = raiseHTTPRequest('http://localhost:8000/read',data,timeout=20)
-    except Exception,e:
-        pass
 
 def queryColumnFamily():
     print '----------queryColumnFamily----------'
@@ -88,7 +73,7 @@ def queryColumnFamily():
     request.column_family='cf'
 
     data = request.SerializeToString()
-    data2 = raiseHTTPRequest('http://localhost:8000/read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://localhost:12345/read',data,timeout=20)
 
     response = message_pb2.ReadResponse()
     response.ParseFromString(data2)
@@ -102,8 +87,8 @@ def multiQuery():
     request.table_name='t1'
     request.row_key='r1'
     request.column_family='cf'
-    request.qualifiers.append('c2')
     request.qualifiers.append('c1')
+    request.qualifiers.append('c2')
     mRequest.requests.extend([request])
 
     request = message_pb2.ReadRequest()
@@ -112,10 +97,8 @@ def multiQuery():
     request.column_family='cf'
     mRequest.requests.extend([request])
 
-    mRequest.timeout = 1
-
     data = mRequest.SerializeToString()
-    data2 = raiseHTTPRequest('http://localhost:8000/multi-read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://localhost:12345/multi-read',data,timeout=20)
     mResponse = message_pb2.MultiReadResponse()
     mResponse.ParseFromString(data2)
     print mResponse
@@ -125,25 +108,24 @@ def multiQueryNone():
     mRequest = message_pb2.MultiReadRequest()
 
     request = message_pb2.ReadRequest()
-    request.table_name='t2'
+    request.table_name='t1'
     request.row_key='r1'
     request.column_family='cf'
-    request.qualifiers.append('c2')
-    request.qualifiers.append('c1')
+    request.qualifiers.append('not-exist1')
+    request.qualifiers.append('not-exist2')
     mRequest.requests.extend([request])
 
     request = message_pb2.ReadRequest()
-    request.table_name='t2'
+    request.table_name='t1'
     request.row_key='r1'
     request.column_family='cf'
     mRequest.requests.extend([request])
 
     data = mRequest.SerializeToString()
-    try:
-        data2 = raiseHTTPRequest('http://localhost:8000/multi-read',data,timeout=20)
-    except Exception,e:
-        pass
-
+    data2 = raiseHTTPRequest('http://localhost:12345/multi-read',data,timeout=20)
+    mResponse = message_pb2.MultiReadResponse()
+    mResponse.ParseFromString(data2)
+    print mResponse
     
 def write():
     print '----------write----------'
@@ -157,7 +139,7 @@ def write():
     kv.content = 'value'
 
     data = request.SerializeToString()
-    data2 = raiseHTTPRequest('http://localhost:8000/write',data,timeout=20)
+    data2 = raiseHTTPRequest('http://localhost:12345/write',data,timeout=20)
 
     response = message_pb2.WriteResponse()
     response.ParseFromString(data2)
@@ -172,21 +154,21 @@ def multiWrite():
     request.row_key = 'r0'
     request.column_family = 'cf'
     kv = request.kvs.add()
-    kv.qualifier = 'key'
+    kv.qualifier = 'key1'
     kv.content = 'value'
     mRequest.requests.extend([request])
 
     request = message_pb2.WriteRequest()
     request.table_name = 't1'
-    request.row_key = 'r1'
+    request.row_key = 'r0'
     request.column_family = 'cf'
     kv = request.kvs.add()
-    kv.qualifier = 'key'
+    kv.qualifier = 'key2'
     kv.content = 'value'
     mRequest.requests.extend([request])
 
     data = mRequest.SerializeToString()
-    data2 = raiseHTTPRequest('http://localhost:8000/multi-write',data,timeout=20)
+    data2 = raiseHTTPRequest('http://localhost:12345/multi-write',data,timeout=20)
 
     mResponse = message_pb2.MultiWriteResponse()
     mResponse.ParseFromString(data2)
@@ -197,18 +179,18 @@ def multiWriteNone():
     mRequest = message_pb2.MultiWriteRequest()
 
     request = message_pb2.WriteRequest()
-    request.table_name = 't2'
+    request.table_name = 't1'
     request.row_key = 'r0'
-    request.column_family = 'cf'
+    request.column_family = 'cf-not-exist'
     kv = request.kvs.add()
     kv.qualifier = 'key'
     kv.content = 'value'
     mRequest.requests.extend([request])
 
     request = message_pb2.WriteRequest()
-    request.table_name = 't2'
+    request.table_name = 't1'
     request.row_key = 'r1'
-    request.column_family = 'cf'
+    request.column_family = 'cf-not-exist'
     kv = request.kvs.add()
     kv.qualifier = 'key'
     kv.content = 'value'
@@ -216,19 +198,17 @@ def multiWriteNone():
 
     data = mRequest.SerializeToString()
     try:
-        data2 = raiseHTTPRequest('http://localhost:8000/multi-write',data,timeout=20)
+        data2 = raiseHTTPRequest('http://localhost:12345/multi-write',data,timeout=20)
     except Exception,e:
         pass
 
 if __name__=='__main__':
+    queryColumnSameConnection()
     queryColumn()
-    # queryColumnSameConnection()
-    # queryColumn()
-    # queryEmptyColumn()
-    # queryColumnNone()
-    # queryColumnFamily()
-    # write()
-    # multiQuery()
-    # multiQueryNone()
-    # multiWrite()
-    # multiWriteNone()
+    queryEmptyColumn()
+    queryColumnFamily()
+    multiQuery()
+    multiQueryNone()
+    write()
+    multiWrite()
+    multiWriteNone()

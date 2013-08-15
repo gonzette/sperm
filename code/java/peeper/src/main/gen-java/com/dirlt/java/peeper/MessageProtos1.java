@@ -775,6 +775,14 @@ public final class MessageProtos1 {
         getKvsOrBuilderList();
     com.dirlt.java.peeper.MessageProtos1.ReadResponse.KeyValueOrBuilder getKvsOrBuilder(
         int index);
+    
+    // required bool error = 5;
+    boolean hasError();
+    boolean getError();
+    
+    // optional string message = 6;
+    boolean hasMessage();
+    String getMessage();
   }
   public static final class ReadResponse extends
       com.google.protobuf.GeneratedMessage
@@ -1255,6 +1263,7 @@ public final class MessageProtos1 {
       // @@protoc_insertion_point(class_scope:com.dirlt.java.peeper.ReadResponse.KeyValue)
     }
     
+    private int bitField0_;
     // repeated .com.dirlt.java.peeper.ReadResponse.KeyValue kvs = 4;
     public static final int KVS_FIELD_NUMBER = 4;
     private java.util.List<com.dirlt.java.peeper.MessageProtos1.ReadResponse.KeyValue> kvs_;
@@ -1276,14 +1285,62 @@ public final class MessageProtos1 {
       return kvs_.get(index);
     }
     
+    // required bool error = 5;
+    public static final int ERROR_FIELD_NUMBER = 5;
+    private boolean error_;
+    public boolean hasError() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public boolean getError() {
+      return error_;
+    }
+    
+    // optional string message = 6;
+    public static final int MESSAGE_FIELD_NUMBER = 6;
+    private java.lang.Object message_;
+    public boolean hasMessage() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public String getMessage() {
+      java.lang.Object ref = message_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          message_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
     private void initFields() {
       kvs_ = java.util.Collections.emptyList();
+      error_ = false;
+      message_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
       
+      if (!hasError()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       for (int i = 0; i < getKvsCount(); i++) {
         if (!getKvs(i).isInitialized()) {
           memoizedIsInitialized = 0;
@@ -1300,6 +1357,12 @@ public final class MessageProtos1 {
       for (int i = 0; i < kvs_.size(); i++) {
         output.writeMessage(4, kvs_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBool(5, error_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(6, getMessageBytes());
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -1312,6 +1375,14 @@ public final class MessageProtos1 {
       for (int i = 0; i < kvs_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, kvs_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, error_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getMessageBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1444,6 +1515,10 @@ public final class MessageProtos1 {
         } else {
           kvsBuilder_.clear();
         }
+        error_ = false;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        message_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       
@@ -1481,6 +1556,7 @@ public final class MessageProtos1 {
       public com.dirlt.java.peeper.MessageProtos1.ReadResponse buildPartial() {
         com.dirlt.java.peeper.MessageProtos1.ReadResponse result = new com.dirlt.java.peeper.MessageProtos1.ReadResponse(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (kvsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             kvs_ = java.util.Collections.unmodifiableList(kvs_);
@@ -1490,6 +1566,15 @@ public final class MessageProtos1 {
         } else {
           result.kvs_ = kvsBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.error_ = error_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.message_ = message_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1531,11 +1616,21 @@ public final class MessageProtos1 {
             }
           }
         }
+        if (other.hasError()) {
+          setError(other.getError());
+        }
+        if (other.hasMessage()) {
+          setMessage(other.getMessage());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
       
       public final boolean isInitialized() {
+        if (!hasError()) {
+          
+          return false;
+        }
         for (int i = 0; i < getKvsCount(); i++) {
           if (!getKvs(i).isInitialized()) {
             
@@ -1572,6 +1667,16 @@ public final class MessageProtos1 {
               com.dirlt.java.peeper.MessageProtos1.ReadResponse.KeyValue.Builder subBuilder = com.dirlt.java.peeper.MessageProtos1.ReadResponse.KeyValue.newBuilder();
               input.readMessage(subBuilder, extensionRegistry);
               addKvs(subBuilder.buildPartial());
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000002;
+              error_ = input.readBool();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000004;
+              message_ = input.readBytes();
               break;
             }
           }
@@ -1764,6 +1869,63 @@ public final class MessageProtos1 {
           kvs_ = null;
         }
         return kvsBuilder_;
+      }
+      
+      // required bool error = 5;
+      private boolean error_ ;
+      public boolean hasError() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public boolean getError() {
+        return error_;
+      }
+      public Builder setError(boolean value) {
+        bitField0_ |= 0x00000002;
+        error_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearError() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        error_ = false;
+        onChanged();
+        return this;
+      }
+      
+      // optional string message = 6;
+      private java.lang.Object message_ = "";
+      public boolean hasMessage() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public String getMessage() {
+        java.lang.Object ref = message_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          message_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setMessage(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        message_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearMessage() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        message_ = getDefaultInstance().getMessage();
+        onChanged();
+        return this;
+      }
+      void setMessage(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000004;
+        message_ = value;
+        onChanged();
       }
       
       // @@protoc_insertion_point(builder_scope:com.dirlt.java.peeper.ReadResponse)
@@ -4345,6 +4507,14 @@ public final class MessageProtos1 {
   
   public interface WriteResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
+    
+    // required bool error = 1;
+    boolean hasError();
+    boolean getError();
+    
+    // optional string message = 2;
+    boolean hasMessage();
+    String getMessage();
   }
   public static final class WriteResponse extends
       com.google.protobuf.GeneratedMessage
@@ -4374,13 +4544,62 @@ public final class MessageProtos1 {
       return com.dirlt.java.peeper.MessageProtos1.internal_static_com_dirlt_java_peeper_WriteResponse_fieldAccessorTable;
     }
     
+    private int bitField0_;
+    // required bool error = 1;
+    public static final int ERROR_FIELD_NUMBER = 1;
+    private boolean error_;
+    public boolean hasError() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public boolean getError() {
+      return error_;
+    }
+    
+    // optional string message = 2;
+    public static final int MESSAGE_FIELD_NUMBER = 2;
+    private java.lang.Object message_;
+    public boolean hasMessage() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public String getMessage() {
+      java.lang.Object ref = message_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          message_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
     private void initFields() {
+      error_ = false;
+      message_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
       
+      if (!hasError()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4388,6 +4607,12 @@ public final class MessageProtos1 {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBool(1, error_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getMessageBytes());
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -4397,6 +4622,14 @@ public final class MessageProtos1 {
       if (size != -1) return size;
     
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, error_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getMessageBytes());
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -4521,6 +4754,10 @@ public final class MessageProtos1 {
       
       public Builder clear() {
         super.clear();
+        error_ = false;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        message_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
       
@@ -4557,6 +4794,17 @@ public final class MessageProtos1 {
       
       public com.dirlt.java.peeper.MessageProtos1.WriteResponse buildPartial() {
         com.dirlt.java.peeper.MessageProtos1.WriteResponse result = new com.dirlt.java.peeper.MessageProtos1.WriteResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.error_ = error_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.message_ = message_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -4572,11 +4820,21 @@ public final class MessageProtos1 {
       
       public Builder mergeFrom(com.dirlt.java.peeper.MessageProtos1.WriteResponse other) {
         if (other == com.dirlt.java.peeper.MessageProtos1.WriteResponse.getDefaultInstance()) return this;
+        if (other.hasError()) {
+          setError(other.getError());
+        }
+        if (other.hasMessage()) {
+          setMessage(other.getMessage());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
       
       public final boolean isInitialized() {
+        if (!hasError()) {
+          
+          return false;
+        }
         return true;
       }
       
@@ -4603,10 +4861,78 @@ public final class MessageProtos1 {
               }
               break;
             }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              error_ = input.readBool();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              message_ = input.readBytes();
+              break;
+            }
           }
         }
       }
       
+      private int bitField0_;
+      
+      // required bool error = 1;
+      private boolean error_ ;
+      public boolean hasError() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public boolean getError() {
+        return error_;
+      }
+      public Builder setError(boolean value) {
+        bitField0_ |= 0x00000001;
+        error_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearError() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        error_ = false;
+        onChanged();
+        return this;
+      }
+      
+      // optional string message = 2;
+      private java.lang.Object message_ = "";
+      public boolean hasMessage() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public String getMessage() {
+        java.lang.Object ref = message_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          message_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setMessage(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        message_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearMessage() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        message_ = getDefaultInstance().getMessage();
+        onChanged();
+        return this;
+      }
+      void setMessage(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000002;
+        message_ = value;
+        onChanged();
+      }
       
       // @@protoc_insertion_point(builder_scope:com.dirlt.java.peeper.WriteResponse)
     }
@@ -5312,6 +5638,12 @@ public final class MessageProtos1 {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
       
+      for (int i = 0; i < getResponsesCount(); i++) {
+        if (!getResponses(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -5558,6 +5890,12 @@ public final class MessageProtos1 {
       }
       
       public final boolean isInitialized() {
+        for (int i = 0; i < getResponsesCount(); i++) {
+          if (!getResponses(i).isInitialized()) {
+            
+            return false;
+          }
+        }
         return true;
       }
       
@@ -5856,24 +6194,26 @@ public final class MessageProtos1 {
       "t.java.peeper\"n\n\013ReadRequest\022\022\n\ntable_na" +
       "me\030\001 \002(\t\022\017\n\007row_key\030\002 \002(\t\022\025\n\rcolumn_fami" +
       "ly\030\003 \002(\t\022\022\n\nqualifiers\030\004 \003(\t\022\017\n\007timeout\030" +
-      "\005 \001(\005\"y\n\014ReadResponse\0229\n\003kvs\030\004 \003(\0132,.com" +
-      ".dirlt.java.peeper.ReadResponse.KeyValue" +
-      "\032.\n\010KeyValue\022\021\n\tqualifier\030\001 \002(\t\022\017\n\007conte" +
-      "nt\030\002 \002(\014\"Y\n\020MultiReadRequest\0224\n\010requests" +
-      "\030\001 \003(\0132\".com.dirlt.java.peeper.ReadReque" +
-      "st\022\017\n\007timeout\030\002 \001(\005\"K\n\021MultiReadResponse",
-      "\0226\n\tresponses\030\001 \003(\0132#.com.dirlt.java.pee" +
-      "per.ReadResponse\"\306\001\n\014WriteRequest\022\022\n\ntab" +
-      "le_name\030\001 \002(\t\022\017\n\007row_key\030\002 \002(\t\022\025\n\rcolumn" +
-      "_family\030\003 \002(\t\0229\n\003kvs\030\004 \003(\0132,.com.dirlt.j" +
-      "ava.peeper.WriteRequest.KeyValue\022\017\n\007time" +
-      "out\030\005 \001(\005\032.\n\010KeyValue\022\021\n\tqualifier\030\001 \002(\t" +
-      "\022\017\n\007content\030\002 \002(\014\"\017\n\rWriteResponse\"[\n\021Mu" +
-      "ltiWriteRequest\0225\n\010requests\030\001 \003(\0132#.com." +
-      "dirlt.java.peeper.WriteRequest\022\017\n\007timeou" +
-      "t\030\002 \001(\005\"M\n\022MultiWriteResponse\0227\n\trespons",
-      "es\030\001 \003(\0132$.com.dirlt.java.peeper.WriteRe" +
-      "sponseB\020B\016MessageProtos1"
+      "\005 \001(\005\"\231\001\n\014ReadResponse\0229\n\003kvs\030\004 \003(\0132,.co" +
+      "m.dirlt.java.peeper.ReadResponse.KeyValu" +
+      "e\022\r\n\005error\030\005 \002(\010\022\017\n\007message\030\006 \001(\t\032.\n\010Key" +
+      "Value\022\021\n\tqualifier\030\001 \002(\t\022\017\n\007content\030\002 \002(" +
+      "\014\"Y\n\020MultiReadRequest\0224\n\010requests\030\001 \003(\0132" +
+      "\".com.dirlt.java.peeper.ReadRequest\022\017\n\007t",
+      "imeout\030\002 \001(\005\"K\n\021MultiReadResponse\0226\n\tres" +
+      "ponses\030\001 \003(\0132#.com.dirlt.java.peeper.Rea" +
+      "dResponse\"\306\001\n\014WriteRequest\022\022\n\ntable_name" +
+      "\030\001 \002(\t\022\017\n\007row_key\030\002 \002(\t\022\025\n\rcolumn_family" +
+      "\030\003 \002(\t\0229\n\003kvs\030\004 \003(\0132,.com.dirlt.java.pee" +
+      "per.WriteRequest.KeyValue\022\017\n\007timeout\030\005 \001" +
+      "(\005\032.\n\010KeyValue\022\021\n\tqualifier\030\001 \002(\t\022\017\n\007con" +
+      "tent\030\002 \002(\014\"/\n\rWriteResponse\022\r\n\005error\030\001 \002" +
+      "(\010\022\017\n\007message\030\002 \001(\t\"[\n\021MultiWriteRequest" +
+      "\0225\n\010requests\030\001 \003(\0132#.com.dirlt.java.peep",
+      "er.WriteRequest\022\017\n\007timeout\030\002 \001(\005\"M\n\022Mult" +
+      "iWriteResponse\0227\n\tresponses\030\001 \003(\0132$.com." +
+      "dirlt.java.peeper.WriteResponseB\020B\016Messa" +
+      "geProtos1"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5893,7 +6233,7 @@ public final class MessageProtos1 {
           internal_static_com_dirlt_java_peeper_ReadResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_dirlt_java_peeper_ReadResponse_descriptor,
-              new java.lang.String[] { "Kvs", },
+              new java.lang.String[] { "Kvs", "Error", "Message", },
               com.dirlt.java.peeper.MessageProtos1.ReadResponse.class,
               com.dirlt.java.peeper.MessageProtos1.ReadResponse.Builder.class);
           internal_static_com_dirlt_java_peeper_ReadResponse_KeyValue_descriptor =
@@ -5941,7 +6281,7 @@ public final class MessageProtos1 {
           internal_static_com_dirlt_java_peeper_WriteResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_dirlt_java_peeper_WriteResponse_descriptor,
-              new java.lang.String[] { },
+              new java.lang.String[] { "Error", "Message", },
               com.dirlt.java.peeper.MessageProtos1.WriteResponse.class,
               com.dirlt.java.peeper.MessageProtos1.WriteResponse.Builder.class);
           internal_static_com_dirlt_java_peeper_MultiWriteRequest_descriptor =

@@ -61,12 +61,12 @@ public class AsyncClient implements Runnable {
     enum RequestStatus {
         kOK,
         kException,
-        kTimeout,
     }
 
     public boolean subRequest = false; // whether is sub request.
     public Status code = Status.kStat; // default value.
     public RequestStatus requestStatus = RequestStatus.kOK;
+    public String requestMessage;
     public Channel channel;
 
     // for multi interface.
@@ -199,6 +199,28 @@ public class AsyncClient implements Runnable {
         }
     }
 
+    public void raiseReadException(String message) {
+        code = Status.kReadResponse;
+        requestStatus = RequestStatus.kException;
+        requestMessage = message;
+        run();
+    }
+
+    public void raiseWriteException(String message) {
+        code = Status.kWriteResponse;
+        requestStatus = RequestStatus.kException;
+        requestMessage = message;
+        run();
+    }
+
+    public void raiseReadException(Exception e) {
+        raiseReadException(e.toString());
+    }
+
+    public void raiseWriteException(Exception e) {
+        raiseWriteException(e.toString());
+    }
+
     public void readRequest() {
         RestServer.logger.debug("read request");
         if (!subRequest) {
@@ -210,7 +232,7 @@ public class AsyncClient implements Runnable {
                 // just close channel.
                 RestServer.logger.debug("parse message exception");
                 StatStore.getInstance().addCounter("rpc.in.count.invalid", 1);
-                channel.close();
+                raiseReadException(e);
                 return;
             }
             rdReq = rdReqBuilder.build();
@@ -226,9 +248,7 @@ public class AsyncClient implements Runnable {
             // just close channel.
             RestServer.logger.debug("request proxy exception");
             StatStore.getInstance().addCounter("request.proxy.exception", 1);
-            requestStatus = RequestStatus.kException;
-            code = Status.kReadResponse;
-            run();
+            raiseReadException(e);
             return;
         }
 
@@ -239,6 +259,7 @@ public class AsyncClient implements Runnable {
         columnFamily = rdReq.getColumnFamily();
 
         rdRes = MessageProtos1.ReadResponse.newBuilder();
+        rdRes.setError(false);
 
         prefix = makeCacheKeyPrefix(tableName, rowKey, columnFamily);
 
@@ -262,14 +283,14 @@ public class AsyncClient implements Runnable {
             // just close channel.
             RestServer.logger.debug("parse message exception");
             StatStore.getInstance().addCounter("rpc.in.count.invalid", 1);
-            channel.close();
+            raiseReadException(e);
             return;
         }
         multiReadRequest = mRdReqBuilder.build();
         if (multiReadRequest.getRequestsCount() == 0) {
             RestServer.logger.debug("multi read no sub request");
             StatStore.getInstance().addCounter("rpc.multi-read.error.count", 1);
-            channel.close();
+            raiseReadException("multi read without any request");
             return;
         }
         StatStore.getInstance().addCounter("rpc.multi-read.count", 1);
@@ -312,7 +333,7 @@ public class AsyncClient implements Runnable {
                 // just close channel.
                 RestServer.logger.debug("parse message exception");
                 StatStore.getInstance().addCounter("rpc.in.count.invalid", 1);
-                channel.close();
+                raiseWriteException(e);
                 return;
             }
             wrReq = wrReqBuilder.build();
@@ -328,9 +349,7 @@ public class AsyncClient implements Runnable {
             // just close channel.
             RestServer.logger.debug("request proxy exception");
             StatStore.getInstance().addCounter("request.proxy.exception", 1);
-            requestStatus = RequestStatus.kException;
-            code = Status.kWriteResponse;
-            run();
+            raiseWriteException(e);
             return;
         }
 
@@ -340,6 +359,7 @@ public class AsyncClient implements Runnable {
 
         // prepare the result.
         wrRes = MessageProtos1.WriteResponse.newBuilder();
+        wrRes.setError(false);
 
         code = Status.kWriteHBaseService;
         run();
@@ -354,14 +374,14 @@ public class AsyncClient implements Runnable {
             // just close channel.
             RestServer.logger.debug("parse message exception");
             StatStore.getInstance().addCounter("rpc.in.count.invalid", 1);
-            channel.close();
+            raiseWriteException(e);
             return;
         }
         multiWriteRequest = mWrReqBuilder.build();
         if (multiWriteRequest.getRequestsCount() == 0) {
             RestServer.logger.debug("multi write no sub request");
             StatStore.getInstance().addCounter("rpc.multi-write.error.count", 1);
-            channel.close();
+            raiseWriteException("multi write without any request");
             return;
         }
         StatStore.getInstance().addCounter("rpc.multi-write.count", 1);
@@ -448,9 +468,7 @@ public class AsyncClient implements Runnable {
         if ((System.currentTimeMillis() - requestTimestamp) > requestTimeout) {
             RestServer.logger.debug("detect timeout before read request hbase");
             StatStore.getInstance().addCounter("read.count.timeout.before-request-hbase", 1);
-            client.requestStatus = RequestStatus.kTimeout;
-            // run in the same thread.
-            client.run();
+            raiseReadException("timeout before read hbase");
             return;
         }
 
@@ -529,7 +547,8 @@ public class AsyncClient implements Runnable {
                 if ((System.currentTimeMillis() - client.requestTimestamp) > client.requestTimeout) {
                     RestServer.logger.debug("detect timeout after read request hbase");
                     StatStore.getInstance().addCounter("read.count.timeout.after-request-hbase", 1);
-                    client.requestStatus = RequestStatus.kTimeout;
+                    client.requestStatus = RequestStatus.kException;
+                    client.requestMessage = "timeout after read hbase";
                 }
 
                 // put back to CPU worker pool.
@@ -543,6 +562,7 @@ public class AsyncClient implements Runnable {
                 o.printStackTrace();
                 StatStore.getInstance().addCounter("read.count.error", 1);
                 client.requestStatus = RequestStatus.kException;
+                client.requestMessage = o.toString();
                 CpuWorkerPool.getInstance().submit(client);
                 return null;
             }
@@ -559,9 +579,7 @@ public class AsyncClient implements Runnable {
         if ((System.currentTimeMillis() - requestTimestamp) > requestTimeout) {
             RestServer.logger.debug("detect timeout before write request hbase");
             StatStore.getInstance().addCounter("write.count.timeout.before-request-hbase", 1);
-            client.requestStatus = RequestStatus.kTimeout;
-            // run in the same thread.
-            client.run();
+            raiseWriteException("timeout before write hbase");
             return;
         }
 
@@ -586,7 +604,8 @@ public class AsyncClient implements Runnable {
                 if ((System.currentTimeMillis() - client.requestTimestamp) > client.requestTimeout) {
                     RestServer.logger.debug("detect timeout after write request hbase");
                     StatStore.getInstance().addCounter("write.count.timeout.after-request-hbase", 1);
-                    client.requestStatus = RequestStatus.kTimeout;
+                    client.requestStatus = RequestStatus.kException;
+                    client.requestMessage = "timeout after write hbase";
                 }
 
                 // we don't return because we put into CpuWorkerPool.
@@ -601,6 +620,7 @@ public class AsyncClient implements Runnable {
                 o.printStackTrace();
                 StatStore.getInstance().addCounter("write.count.error", 1);
                 client.requestStatus = RequestStatus.kException;
+                client.requestMessage = o.toString();
                 CpuWorkerPool.getInstance().submit(client);
                 return null;
             }
@@ -614,8 +634,13 @@ public class AsyncClient implements Runnable {
         }
         if (!subRequest) {
             if (requestStatus != RequestStatus.kOK) {
-                channel.close();
-                return;
+                if (configuration.isCloseOnFailure()) {
+                    channel.close();
+                    return;
+                }
+                rdRes = MessageProtos1.ReadResponse.newBuilder();
+                rdRes.setError(true);
+                rdRes.setMessage(requestMessage);
             }
             msg = rdRes.build();
             code = Status.kHttpResponse;
@@ -627,9 +652,13 @@ public class AsyncClient implements Runnable {
                 for (AsyncClient client : parent.clients) {
                     // if any one fails, then it fails.
                     if (client.requestStatus != RequestStatus.kOK) {
-                        RestServer.logger.debug("read client status = " + client.requestStatus);
-                        parent.channel.close();
-                        return;
+                        if (configuration.isCloseOnFailure()) {
+                            parent.channel.close();
+                            return;
+                        }
+                        client.rdRes = MessageProtos1.ReadResponse.newBuilder();
+                        client.rdRes.setError(true);
+                        client.rdRes.setMessage(client.requestMessage);
                     }
                     parent.mRdRes.addResponses(client.rdRes);
                 }
@@ -648,8 +677,13 @@ public class AsyncClient implements Runnable {
         }
         if (!subRequest) {
             if (requestStatus != RequestStatus.kOK) {
-                channel.close();
-                return;
+                if (configuration.isCloseOnFailure()) {
+                    channel.close();
+                    return;
+                }
+                wrRes = MessageProtos1.WriteResponse.newBuilder();
+                wrRes.setError(true);
+                wrRes.setMessage(requestMessage);
             }
             msg = wrRes.build();
             code = Status.kHttpResponse;
@@ -660,9 +694,13 @@ public class AsyncClient implements Runnable {
                 parent.mWrRes = MessageProtos1.MultiWriteResponse.newBuilder();
                 for (AsyncClient client : parent.clients) {
                     if (client.requestStatus != RequestStatus.kOK) {
-                        RestServer.logger.debug("write client status = " + client.requestStatus);
-                        parent.channel.close();
-                        return;
+                        if (configuration.isCloseOnFailure()) {
+                            parent.channel.close();
+                            return;
+                        }
+                        client.wrRes = MessageProtos1.WriteResponse.newBuilder();
+                        client.wrRes.setError(true);
+                        client.wrRes.setMessage(client.requestMessage);
                     }
                     parent.mWrRes.addResponses(client.wrRes);
                 }

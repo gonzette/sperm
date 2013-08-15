@@ -7,10 +7,11 @@ from google.protobuf import descriptor_pb2
 # @@protoc_insertion_point(imports)
 
 
+
 DESCRIPTOR = descriptor.FileDescriptor(
   name='message.proto',
   package='com.dirlt.java.FastHbaseRest',
-  serialized_pb='\n\rmessage.proto\x12\x1c\x63om.dirlt.java.FastHbaseRest\"n\n\x0bReadRequest\x12\x12\n\ntable_name\x18\x01 \x02(\t\x12\x0f\n\x07row_key\x18\x02 \x02(\t\x12\x15\n\rcolumn_family\x18\x03 \x02(\t\x12\x12\n\nqualifiers\x18\x04 \x03(\t\x12\x0f\n\x07timeout\x18\x05 \x01(\x05\"\x80\x01\n\x0cReadResponse\x12@\n\x03kvs\x18\x04 \x03(\x0b\x32\x33.com.dirlt.java.FastHbaseRest.ReadResponse.KeyValue\x1a.\n\x08KeyValue\x12\x11\n\tqualifier\x18\x01 \x02(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x02(\x0c\"`\n\x10MultiReadRequest\x12;\n\x08requests\x18\x01 \x03(\x0b\x32).com.dirlt.java.FastHbaseRest.ReadRequest\x12\x0f\n\x07timeout\x18\x02 \x01(\x05\"R\n\x11MultiReadResponse\x12=\n\tresponses\x18\x01 \x03(\x0b\x32*.com.dirlt.java.FastHbaseRest.ReadResponse\"\xcd\x01\n\x0cWriteRequest\x12\x12\n\ntable_name\x18\x01 \x02(\t\x12\x0f\n\x07row_key\x18\x02 \x02(\t\x12\x15\n\rcolumn_family\x18\x03 \x02(\t\x12@\n\x03kvs\x18\x04 \x03(\x0b\x32\x33.com.dirlt.java.FastHbaseRest.WriteRequest.KeyValue\x12\x0f\n\x07timeout\x18\x05 \x01(\x05\x1a.\n\x08KeyValue\x12\x11\n\tqualifier\x18\x01 \x02(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x02(\x0c\"\x0f\n\rWriteResponse\"b\n\x11MultiWriteRequest\x12<\n\x08requests\x18\x01 \x03(\x0b\x32*.com.dirlt.java.FastHbaseRest.WriteRequest\x12\x0f\n\x07timeout\x18\x02 \x01(\x05\"T\n\x12MultiWriteResponse\x12>\n\tresponses\x18\x01 \x03(\x0b\x32+.com.dirlt.java.FastHbaseRest.WriteResponseB\x10\x42\x0eMessageProtos1')
+  serialized_pb='\n\rmessage.proto\x12\x1c\x63om.dirlt.java.FastHbaseRest\"n\n\x0bReadRequest\x12\x12\n\ntable_name\x18\x01 \x02(\t\x12\x0f\n\x07row_key\x18\x02 \x02(\t\x12\x15\n\rcolumn_family\x18\x03 \x02(\t\x12\x12\n\nqualifiers\x18\x04 \x03(\t\x12\x0f\n\x07timeout\x18\x05 \x01(\x05\"\xa0\x01\n\x0cReadResponse\x12@\n\x03kvs\x18\x04 \x03(\x0b\x32\x33.com.dirlt.java.FastHbaseRest.ReadResponse.KeyValue\x12\r\n\x05\x65rror\x18\x05 \x02(\x08\x12\x0f\n\x07message\x18\x06 \x01(\t\x1a.\n\x08KeyValue\x12\x11\n\tqualifier\x18\x01 \x02(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x02(\x0c\"`\n\x10MultiReadRequest\x12;\n\x08requests\x18\x01 \x03(\x0b\x32).com.dirlt.java.FastHbaseRest.ReadRequest\x12\x0f\n\x07timeout\x18\x02 \x01(\x05\"R\n\x11MultiReadResponse\x12=\n\tresponses\x18\x01 \x03(\x0b\x32*.com.dirlt.java.FastHbaseRest.ReadResponse\"\xcd\x01\n\x0cWriteRequest\x12\x12\n\ntable_name\x18\x01 \x02(\t\x12\x0f\n\x07row_key\x18\x02 \x02(\t\x12\x15\n\rcolumn_family\x18\x03 \x02(\t\x12@\n\x03kvs\x18\x04 \x03(\x0b\x32\x33.com.dirlt.java.FastHbaseRest.WriteRequest.KeyValue\x12\x0f\n\x07timeout\x18\x05 \x01(\x05\x1a.\n\x08KeyValue\x12\x11\n\tqualifier\x18\x01 \x02(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x02(\x0c\"/\n\rWriteResponse\x12\r\n\x05\x65rror\x18\x01 \x02(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"b\n\x11MultiWriteRequest\x12<\n\x08requests\x18\x01 \x03(\x0b\x32*.com.dirlt.java.FastHbaseRest.WriteRequest\x12\x0f\n\x07timeout\x18\x02 \x01(\x05\"T\n\x12MultiWriteResponse\x12>\n\tresponses\x18\x01 \x03(\x0b\x32+.com.dirlt.java.FastHbaseRest.WriteResponseB\x10\x42\x0eMessageProtos1')
 
 
 
@@ -101,8 +102,8 @@ _READRESPONSE_KEYVALUE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=242,
-  serialized_end=288,
+  serialized_start=274,
+  serialized_end=320,
 )
 
 _READRESPONSE = descriptor.Descriptor(
@@ -119,6 +120,20 @@ _READRESPONSE = descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
+    descriptor.FieldDescriptor(
+      name='error', full_name='com.dirlt.java.FastHbaseRest.ReadResponse.error', index=1,
+      number=5, type=8, cpp_type=7, label=2,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='message', full_name='com.dirlt.java.FastHbaseRest.ReadResponse.message', index=2,
+      number=6, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -129,7 +144,7 @@ _READRESPONSE = descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=160,
-  serialized_end=288,
+  serialized_end=320,
 )
 
 
@@ -163,8 +178,8 @@ _MULTIREADREQUEST = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=290,
-  serialized_end=386,
+  serialized_start=322,
+  serialized_end=418,
 )
 
 
@@ -191,8 +206,8 @@ _MULTIREADRESPONSE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=388,
-  serialized_end=470,
+  serialized_start=420,
+  serialized_end=502,
 )
 
 
@@ -226,8 +241,8 @@ _WRITEREQUEST_KEYVALUE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=242,
-  serialized_end=288,
+  serialized_start=274,
+  serialized_end=320,
 )
 
 _WRITEREQUEST = descriptor.Descriptor(
@@ -281,8 +296,8 @@ _WRITEREQUEST = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=473,
-  serialized_end=678,
+  serialized_start=505,
+  serialized_end=710,
 )
 
 
@@ -293,6 +308,20 @@ _WRITERESPONSE = descriptor.Descriptor(
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
+    descriptor.FieldDescriptor(
+      name='error', full_name='com.dirlt.java.FastHbaseRest.WriteResponse.error', index=0,
+      number=1, type=8, cpp_type=7, label=2,
+      has_default_value=False, default_value=False,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    descriptor.FieldDescriptor(
+      name='message', full_name='com.dirlt.java.FastHbaseRest.WriteResponse.message', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=unicode("", "utf-8"),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
   ],
   extensions=[
   ],
@@ -302,8 +331,8 @@ _WRITERESPONSE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=680,
-  serialized_end=695,
+  serialized_start=712,
+  serialized_end=759,
 )
 
 
@@ -337,8 +366,8 @@ _MULTIWRITEREQUEST = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=697,
-  serialized_end=795,
+  serialized_start=761,
+  serialized_end=859,
 )
 
 
@@ -365,10 +394,9 @@ _MULTIWRITERESPONSE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=797,
-  serialized_end=881,
+  serialized_start=861,
+  serialized_end=945,
 )
-
 
 _READRESPONSE_KEYVALUE.containing_type = _READRESPONSE;
 _READRESPONSE.fields_by_name['kvs'].message_type = _READRESPONSE_KEYVALUE
@@ -378,6 +406,14 @@ _WRITEREQUEST_KEYVALUE.containing_type = _WRITEREQUEST;
 _WRITEREQUEST.fields_by_name['kvs'].message_type = _WRITEREQUEST_KEYVALUE
 _MULTIWRITEREQUEST.fields_by_name['requests'].message_type = _WRITEREQUEST
 _MULTIWRITERESPONSE.fields_by_name['responses'].message_type = _WRITERESPONSE
+DESCRIPTOR.message_types_by_name['ReadRequest'] = _READREQUEST
+DESCRIPTOR.message_types_by_name['ReadResponse'] = _READRESPONSE
+DESCRIPTOR.message_types_by_name['MultiReadRequest'] = _MULTIREADREQUEST
+DESCRIPTOR.message_types_by_name['MultiReadResponse'] = _MULTIREADRESPONSE
+DESCRIPTOR.message_types_by_name['WriteRequest'] = _WRITEREQUEST
+DESCRIPTOR.message_types_by_name['WriteResponse'] = _WRITERESPONSE
+DESCRIPTOR.message_types_by_name['MultiWriteRequest'] = _MULTIWRITEREQUEST
+DESCRIPTOR.message_types_by_name['MultiWriteResponse'] = _MULTIWRITERESPONSE
 
 class ReadRequest(message.Message):
   __metaclass__ = reflection.GeneratedProtocolMessageType

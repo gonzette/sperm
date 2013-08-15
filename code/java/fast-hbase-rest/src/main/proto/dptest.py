@@ -26,38 +26,7 @@ def queryColumn():
 
     response = message_pb2.ReadResponse()
     response.ParseFromString(data2)
-    #print response
-
-def queryColumn2():
-    print '----------queryColumn2----------'
-    request = message_pb2.ReadRequest()
-
-    request.table_name='appuserstat'
-    request.row_key='2013-03-08_4db949a2112cf75caa00002a'
-    request.column_family='stat'
-    request.qualifiers.append('provinces_7_lanCnt')
-
-    data = request.SerializeToString()
-    data2 = raiseHTTPRequest('http://dp0:12345/read',data,timeout=20)
-
-    response = message_pb2.ReadResponse()
-    response.ParseFromString(data2)
     print response
-
-def queryColumnNone():
-    print '----------queryColumnNone----------'
-    request = message_pb2.ReadRequest()
-
-    request.table_name='appretentionstat'
-    request.row_key='2013-03-12_4db949a2112cf75caa00002a'
-    request.column_family='stat'
-    request.qualifiers.append('provinces_7_lanCnt')
-
-    data = request.SerializeToString()
-    try:
-        data2 = raiseHTTPRequest('http://dp0:12345/read',data,timeout=20)
-    except Exception,e:
-        pass
 
 def queryColumnFamily():
     print '----------queryColumnFamily----------'
@@ -72,7 +41,7 @@ def queryColumnFamily():
 
     response = message_pb2.ReadResponse()
     response.ParseFromString(data2)
-    #print response
+    print response
 
 def multiQuery():
     print '----------multiQuery----------'
@@ -96,8 +65,7 @@ def multiQuery():
     
     mResponse = message_pb2.MultiReadResponse()
     mResponse.ParseFromString(data2)
-    #print mResponse
-
+    print mResponse
 
 def queryColumnLarge():
     print '----------queryColumnLarge----------'
@@ -141,9 +109,9 @@ def queryModels():
     for x in xs[:100]:
         ss = x.split("\f")
         print ss
-    #print response
-
+        
 def doUVEstimator():
+    print '----------UVEstimator----------'
     mRequest = message_pb2.MultiReadRequest()
 
     dates = [
@@ -155,9 +123,8 @@ def doUVEstimator():
         # '20130706',
         # '20130707'
         ]
-    # appkey = '51a577cc56240b76d8006bef'
     appkey = '4d707f5e112cf75410007470'
-
+    
     for date in dates:
         rowkey = date + '_' + appkey
         print rowkey
@@ -169,27 +136,31 @@ def doUVEstimator():
         mRequest.requests.extend([request])
 
     data = mRequest.SerializeToString()
-    data2 = raiseHTTPRequest('http://dp0:12345/multi-read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://dp4:12345/multi-read',data,timeout=20)
     
     mResponse = message_pb2.MultiReadResponse()
     mResponse.ParseFromString(data2)
 
+    ok = True
     bucket = [0] * (1 << 8)
     for response in mResponse.responses:
+        if response.error :
+            print "Error : ", response.message
+            ok = False
+            break
         vs  = response.kvs[0].content.split(',')
         for i in range(0,len(vs)):
             v = int(vs[i])            
             bucket[i] = max(bucket[i],v)
 
-    print bucket
-            
-    print 2 ** (float(sum(bucket)) / len(bucket)) * len(bucket) * 0.79402
+    if ok:
+        print bucket            
+        print 2 ** (float(sum(bucket)) / len(bucket)) * len(bucket) * 0.79402
     
 if __name__=='__main__':
     # queryColumn()
     # queryColumnFamily()
     # multiQuery()
-    # queryColumnNone()
     # queryColumnLarge()
     # queryModels()
     doUVEstimator()

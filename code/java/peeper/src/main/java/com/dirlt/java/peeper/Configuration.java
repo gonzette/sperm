@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Configuration {
     private String ip = "0.0.0.0";
-    private int port = 8001;
+    private int port = 12346;
     private int backlog = 128;
     private String backendNodes = "localhost:12345";
     private int cpuThreadNumber = 16;
@@ -99,7 +99,7 @@ public class Configuration {
     public static void usage() {
         System.out.println("peeper");
         System.out.println("\t--ip # default 0.0.0.0");
-        System.out.println("\t--port # default 8001");
+        System.out.println("\t--port # default 12346");
         System.out.println("\t--backlog # default 128");
         System.out.println("\t--backend-nodes # default localhost:12345");
         System.out.println("\t--cpu-thread-number # default 16");

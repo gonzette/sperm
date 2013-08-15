@@ -3,11 +3,8 @@ package com.dirlt.java.peeper;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.*;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
-import org.jboss.netty.handler.codec.http.HttpChunkAggregator;
-import org.jboss.netty.handler.codec.http.HttpRequestDecoder;
-import org.jboss.netty.handler.codec.http.HttpResponseEncoder;
-import org.jboss.netty.handler.timeout.ReadTimeoutHandler;
-import org.jboss.netty.handler.timeout.WriteTimeoutHandler;
+import org.jboss.netty.handler.codec.http.HttpRequestEncoder;
+import org.jboss.netty.handler.codec.http.HttpResponseDecoder;
 import org.jboss.netty.util.HashedWheelTimer;
 import org.jboss.netty.util.Timer;
 
@@ -36,21 +33,20 @@ public class Connector {
     private AtomicInteger connectionNumber = new AtomicInteger(0);
     private BlockingQueue<AsyncClient> requestQueue = null;
     private float avgRequestQueueSize = 0.0f;
-    private ClientBootstrap bootstrap = null;
+    private Map<String, Node> nodes = null;
 
     public static class Node {
-        public InetSocketAddress socketAddress;
-        public float staticWeight;
+        InetSocketAddress socketAddress;
+        float staticWeight;
+        ClientBootstrap bootstrap;
         // more fields.
-        public static final int kMaxFailureCount = 10;
-        // do not use atomic integer because we have threshold.
-        int connectFailureCount = 0;
-        int readWriteFailureCount = 0;
+        AtomicInteger connectFailureCount = new AtomicInteger(0);
+        AtomicInteger readWriteFailureCount = new AtomicInteger(0);
         AtomicInteger connectionNumber = new AtomicInteger(0);
-        float avgConnectionNumber = 0.0f;
+        float avgConnectFailureCount = 0.0f;
+        float avgReadWriteFailureCount = 0.0f;
 
         enum ClosedCause {
-            kActive,
             kConnectionFailed,
             kReadWriteFailed
         }
@@ -58,33 +54,28 @@ public class Connector {
         public float getWeight() {
             // less weight, more prefer.
             // here we don't consider failure count thread safe.
-            float dynWeight = connectFailureCount * 0.6f + readWriteFailureCount * 0.3f + connectionNumber.get() * 0.1f;
+            float dynWeight = avgConnectFailureCount * 0.6f + avgReadWriteFailureCount * 0.3f + connectionNumber.get() * 0.1f;
             return dynWeight * 1.0f / staticWeight;
         }
 
         public boolean isCreatable() {
-            // TODO(dirlt):also consider whether it's so idle that we don't need to create any connection.
-            return connectFailureCount < kMaxFailureCount && connectionNumber.get() < 8192;
+            return connectionNumber.get() < 8192;
         }
 
         public boolean isClosable() {
-            // at least 2 connections.
-            if (connectionNumber.get() <= 2) {
-                return false;
-            } else {
-                return true;
-            }
+            return connectionNumber.get() > 2;
         }
     }
-
-    private Map<String, Node> nodes = null;
 
     public String getStat() {
         StringBuffer sb = new StringBuffer();
         sb.append(String.format("average request queue size = %.2f\n", avgRequestQueueSize));
+        sb.append(String.format("connection number = %d\n", connectionNumber.get()));
         for (Map.Entry<String, Node> entry : nodes.entrySet()) {
-            sb.append(String.format("node: %s, average connection number = %.2f\n",
-                    entry.getKey(), entry.getValue().avgConnectionNumber));
+            sb.append(String.format("node: %s\n", entry.getKey()));
+            sb.append(String.format("\tconnection number = %d\n", entry.getValue().connectionNumber.get()));
+            sb.append(String.format("\taverage connect failure count = %.2f\n", entry.getValue().avgConnectFailureCount));
+            sb.append(String.format("\taverage read-write failure count = %.2f\n", entry.getValue().avgReadWriteFailureCount));
         }
         return sb.toString();
     }
@@ -105,6 +96,7 @@ public class Connector {
         AsyncClient client = null;
         while (true) {
             try {
+                // poll interval as 500ms.
                 client = requestQueue.poll(500, TimeUnit.MICROSECONDS);
             } catch (InterruptedException e) {
                 // ignore.
@@ -117,38 +109,27 @@ public class Connector {
     }
 
     public void onChannelClosed(Channel channel, Node.ClosedCause cause) {
+        PeepServer.logger.debug("connector on channel closed end");
         connectionNumber.decrementAndGet();
-        PeepServer.logger.debug("closed channel remote address = " + channel.getAttachment());
+        PeepServer.logger.debug("closed channel remote address = " + channel.getAttachment() + ", cause = " + cause);
         Node node = nodes.get(channel.getAttachment());
         node.connectionNumber.decrementAndGet();
-        if (cause == Node.ClosedCause.kConnectionFailed) {
-            synchronized (node) {
-                if (node.connectFailureCount < Node.kMaxFailureCount) {
-                    node.connectFailureCount += 1;
-                }
-            }
-        } else if (cause == Node.ClosedCause.kReadWriteFailed) {
-            synchronized (node) {
-                if (node.readWriteFailureCount < Node.kMaxFailureCount) {
-                    node.readWriteFailureCount += 1;
-                }
-            }
-        } else {
-            // cause == kActive;
-            // do nothing.
+        if (cause == Node.ClosedCause.kReadWriteFailed) {
+            node.readWriteFailureCount.incrementAndGet();
+        } else if (cause == Node.ClosedCause.kConnectionFailed) {
+            node.connectFailureCount.incrementAndGet();
         }
     }
 
     public void addConnection() {
-        PeepServer.logger.debug("add connection");
+        //PeepServer.logger.debug("add connection");
         // avg load is low and connection number is enough.
         if (avgRequestQueueSize < 1.5f && connectionNumber.get() >= configuration.getProxyMinConnectionNumber()) {
             return;
         }
-        PeepServer.logger.debug("actually add connection");
         // otherwise we have to make more connection.
         for (int i = 0; i < configuration.getProxyAddConnectionNumberStep(); i++) {
-            if (connectionNumber.get() > configuration.getProxyMaxConnectionNumber()) {
+            if (connectionNumber.get() >= configuration.getProxyMaxConnectionNumber()) {
                 break;
             }
             Node node = null;
@@ -169,8 +150,7 @@ public class Connector {
                 break;
             }
             connectionNumber.incrementAndGet();
-            node.connectionNumber.incrementAndGet();
-            bootstrap.connect(node.socketAddress).getChannel().setAttachment(node.socketAddress.toString());
+            node.bootstrap.connect(node.socketAddress);
         }
     }
 
@@ -183,20 +163,6 @@ public class Connector {
                 Executors.newCachedThreadPool(),
                 configuration.getProxyAcceptIOThreadNumber(),
                 configuration.getProxyIOThreadNumber());
-        bootstrap = new ClientBootstrap(channelFactory);
-        final Connector connector = this;
-        bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
-            public ChannelPipeline getPipeline() throws Exception {
-                ChannelPipeline pipeline = Channels.pipeline();
-                pipeline.addLast("decoder", new HttpRequestDecoder());
-                pipeline.addLast("aggregator", new HttpChunkAggregator(1024 * 1024 * 8));
-                pipeline.addLast("encoder", new HttpResponseEncoder());
-                pipeline.addLast("rto_handler", new ReadTimeoutHandler(timer, configuration.getProxyReadTimeout(), TimeUnit.MILLISECONDS));
-                pipeline.addLast("wto_handler", new WriteTimeoutHandler(timer, configuration.getProxyWriteTimeout(), TimeUnit.MILLISECONDS));
-                pipeline.addLast("handler", new ProxyHandler(configuration, connector));
-                return pipeline;
-            }
-        });
         // parse nodes.
         nodes = new HashMap<String, Node>();
         String backendNodes = configuration.getBackendNodes();
@@ -204,10 +170,9 @@ public class Connector {
             String[] ss = s.split(":");
             String host = ss[0];
             int port = Integer.valueOf(ss[1]).intValue();
-            Node node = new Node();
+            final Node node = new Node();
             node.socketAddress = new InetSocketAddress(host, port);
-            node.staticWeight = 1.0f; // TODO(dirlt): some preference?
-            // TODO(dirlt): by comparing local hostname
+            node.staticWeight = 1.0f;
             try {
                 String hostname = InetAddress.getLocalHost().getHostName();
                 if (hostname.equals(host)) {
@@ -216,37 +181,40 @@ public class Connector {
             } catch (Exception e) {
                 // ignore it.
             }
+            ClientBootstrap bootstrap = new ClientBootstrap(channelFactory);
+            final Connector connector = this;
+            bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
+                public ChannelPipeline getPipeline() throws Exception {
+                    ChannelPipeline pipeline = Channels.pipeline();
+                    pipeline.addLast("decoder", new HttpResponseDecoder());
+                    pipeline.addLast("encoder", new HttpRequestEncoder());
+//                pipeline.addLast("rto_handler", new ReadTimeoutHandler(timer, configuration.getProxyReadTimeout(), TimeUnit.MILLISECONDS));
+//                pipeline.addLast("wto_handler", new WriteTimeoutHandler(timer, configuration.getProxyWriteTimeout(), TimeUnit.MILLISECONDS));
+                    pipeline.addLast("handler", new ProxyHandler(configuration, connector, node));
+                    return pipeline;
+                }
+            });
+            node.bootstrap = bootstrap;
             nodes.put(node.socketAddress.toString(), node);
         }
         // timer to decrease failure count.
         java.util.Timer tickTimer = new java.util.Timer(true);
         tickTimer.scheduleAtFixedRate(new TimerTask() {
-            private int recoveryTickCount = configuration.getProxyRecoveryTickNumber();
+            private int recoveryTickNumber = configuration.getProxyRecoveryTickNumber();
 
             @Override
             public void run() {
-                // every some rounds
-                recoveryTickCount -= 1;
-                if (recoveryTickCount == 0) {
+                recoveryTickNumber -= 1;
+                if (recoveryTickNumber == 0) {
                     for (Map.Entry<String, Node> entry : nodes.entrySet()) {
                         Node node = entry.getValue();
-                        synchronized (node) {
-                            if (node.connectFailureCount > 0) {
-                                node.connectFailureCount -= 1;
-                            }
-                            if (node.readWriteFailureCount > 0) {
-                                node.readWriteFailureCount -= 1;
-                            }
-                        }
+                        node.avgConnectFailureCount = node.avgConnectFailureCount * 0.4f + node.connectFailureCount.get() * 0.6f;
+                        node.avgReadWriteFailureCount = node.avgReadWriteFailureCount * 0.6f + node.readWriteFailureCount.get() * 0.6f;
+                        node.connectFailureCount.set(0);
+                        node.readWriteFailureCount.set(0);
                     }
-                    recoveryTickCount = configuration.getProxyRecoveryTickNumber();
                 }
-                // every one round.
-                for (Map.Entry<String, Node> entry : nodes.entrySet()) {
-                    Node node = entry.getValue();
-                    node.avgConnectionNumber = node.avgConnectionNumber * 0.6f + node.connectionNumber.get() * 0.4f;
-                }
-                avgRequestQueueSize = avgRequestQueueSize * 0.6f + requestQueue.size() * 0.4f;
+                avgRequestQueueSize = avgRequestQueueSize * 0.4f + requestQueue.size() * 0.6f;
                 addConnection();
             }
         }, 0, configuration.getProxyTimerTickInterval());

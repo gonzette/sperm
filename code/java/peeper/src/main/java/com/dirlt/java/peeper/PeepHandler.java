@@ -66,7 +66,7 @@ public class PeepHandler extends SimpleChannelHandler {
         // as stat, we can easily handle it.
         if (path.equals("/stat")) {
             String content = StatStore.getStat();
-            AsyncClient.writeContent("peeper", channel, content);
+            AsyncClient.writeContent(channel, content);
             return;
         }
 
@@ -98,6 +98,7 @@ public class PeepHandler extends SimpleChannelHandler {
     @Override
     public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         PeepServer.logger.debug("peeper connection closed");
+        client.peeperChannelClosed = true;
         e.getChannel().close();
     }
 
@@ -106,8 +107,9 @@ public class PeepHandler extends SimpleChannelHandler {
         // e.getCause() instanceof ReadTimeoutException
         // e.getCause() instanceof WriteTimeoutException
 
-        PeepServer.logger.debug("peeper exception caught");
+        PeepServer.logger.debug("peeper exception caught : " + e.getCause());
         StatStore.getInstance().addCounter("peeper.exception.count", 1);
+        client.peeperChannelClosed = true;
         e.getChannel().close();
     }
 }

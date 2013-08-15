@@ -236,6 +236,15 @@ fusion iomemory 是类似 ssd的东西， *操作速度接近DRAM，成本更低
    - The higher physical density of ioMemory can reduce unnecessary scale-out. *密度更低*
 
 ** 使用问题
+*** 单节点搭建
+修改conf/hbase-site.xml,增加选项
+#+BEGIN_SRC XML
+ <property>
+   <name>hbase.rootdir</name>
+   <value>hdfs://localhost:9000/home/dirlt/hbase</value>
+ </property>
+#+END_SRC
+
 *** hbase shell
    - scan 'test' 
      - STARTROW=>'xyz' 

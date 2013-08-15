@@ -26,6 +26,8 @@ message ReadResponse {
     required bytes content = 2;
   }
   repeated KeyValue kvs = 4;
+  required bool error = 5;
+  optional string message = 6;
 }
 
 // --------------------
@@ -52,7 +54,9 @@ message WriteRequest {
 }
 
 // empty message.
-message WriteResponse {    
+message WriteResponse {
+   required bool error = 1;
+   optional string message = 2;
 }
 
 // --------------------

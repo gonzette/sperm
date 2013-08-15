@@ -1,7 +1,7 @@
 package com.dirlt.java.peeper;
 
 import org.jboss.netty.channel.*;
-import org.jboss.netty.handler.codec.http.HttpRequest;
+import org.jboss.netty.handler.codec.http.HttpResponse;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,16 +13,19 @@ import org.jboss.netty.handler.codec.http.HttpRequest;
 public class ProxyHandler extends SimpleChannelHandler {
     private Configuration configuration;
     private Connector connector;
-    private AsyncClient client = null;
+    private Connector.Node node;
     private boolean connected = false;
+    private AsyncClient client = null;
 
-    public ProxyHandler(Configuration configuration, Connector connector) {
+    public ProxyHandler(Configuration configuration, Connector connector, Connector.Node node) {
         this.configuration = configuration;
         this.connector = connector;
+        this.node = node;
     }
 
     private void driveAsyncClient(Channel channel) {
         client = Connector.getInstance().popRequest();
+        channel.setAttachment(node.socketAddress.toString());
         client.proxyChannel = channel;
         client.code = AsyncClient.Status.kProxyRequestId;
         client.run();
@@ -32,17 +35,24 @@ public class ProxyHandler extends SimpleChannelHandler {
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         PeepServer.logger.debug("proxy channel connected");
         connected = true;
+        node.connectionNumber.incrementAndGet();
         driveAsyncClient(ctx.getChannel());
+    }
+
+    @Override
+    public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
+        PeepServer.logger.debug("proxy connection closed");
     }
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, final MessageEvent e) throws Exception {
         PeepServer.logger.debug("proxy message received");
-        HttpRequest request = (HttpRequest) e.getMessage();
+        HttpResponse httpResponse = (HttpResponse) e.getMessage();
         StatStore.getInstance().addCounter("proxy.rpc.in.count", 1);
-        client.proxyBuffer = request.getContent();
+        client.proxyBuffer = httpResponse.getContent();
         client.run();
-        if (client.code == AsyncClient.Status.kResponse) {
+        if (client.code == AsyncClient.Status.kHttpResponse) {
+            PeepServer.logger.debug("proxy handler try to fetch one async client");
             driveAsyncClient(ctx.getChannel());
         }
     }
@@ -58,9 +68,14 @@ public class ProxyHandler extends SimpleChannelHandler {
         // e.getCause() instanceof ReadTimeoutException
         // e.getCause() instanceof WriteTimeoutException
 
-        PeepServer.logger.debug("proxy exception caught");
+        PeepServer.logger.debug("proxy exception caught : " + e.getCause());
         StatStore.getInstance().addCounter("proxy.exception.count", 1);
 
+        if (client != null) {
+            client.proxyChannelClosed = true;
+            client.run();
+        }
+        e.getChannel().setAttachment(node.socketAddress.toString());
         connector.onChannelClosed(e.getChannel(),
                 connected ? Connector.Node.ClosedCause.kReadWriteFailed : Connector.Node.ClosedCause.kConnectionFailed);
         e.getChannel().close();

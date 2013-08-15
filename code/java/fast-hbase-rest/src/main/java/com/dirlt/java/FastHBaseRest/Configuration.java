@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Configuration {
     private String ip = "0.0.0.0";
-    private int port = 8000;
+    private int port = 12345;
     private String quorumSpec = "localhost:2181";
     private int backlog = 128;
     private int cpuThreadNumber = 16;
@@ -27,6 +27,7 @@ public class Configuration {
     private int readTimeout = 10; // 10s.
     private int writeTimeout = 10; // 10s.
     private String serviceName = "FastHBaseRest";
+    private boolean closeOnFailure = true;
     private boolean stat = true;
     private boolean cache = true;
     private boolean debug = true;
@@ -65,6 +66,8 @@ public class Configuration {
                 writeTimeout = Integer.valueOf(arg.substring("--write-timeout=".length()));
             } else if (arg.startsWith("--service-name=")) {
                 serviceName = arg.substring("--service-name=".length());
+            } else if (arg.startsWith("--no-close-on-failure")) {
+                closeOnFailure = false;
             } else if (arg.startsWith("--no-stat")) {
                 stat = false;
             } else if (arg.startsWith("--no-cache")) {
@@ -87,7 +90,7 @@ public class Configuration {
     public static void usage() {
         System.out.println("Fast HBase Rest");
         System.out.println("\t--ip # default 0.0.0.0");
-        System.out.println("\t--port # default 8000");
+        System.out.println("\t--port # default 12345");
         System.out.println("\t--backlog # default 128");
         System.out.println("\t--hbase-quorum-spec # zookeeper address list. eg. \"host1,host2,host3\". default \"localhost\"");
         System.out.println("\t--cpu-thread-number # default 16");
@@ -101,6 +104,7 @@ public class Configuration {
         System.out.println("\t--read-timeout # default 10(s)");
         System.out.println("\t--write-timeout # default 10(s)");
         System.out.println("\t--service-name # set service name");
+        System.out.println("\t--no-close-on-failure # turn off close on failure");
         System.out.println("\t--no-stat # turn off statistics");
         System.out.println("\t--no-cache # turn off cache");
         System.out.println("\t--no-async # turn off async");
@@ -119,6 +123,7 @@ public class Configuration {
         sb.append(String.format("read-timeout=%d(s), write-timeout=%d(s)\n", getReadTimeout(), getWriteTimeout()));
         sb.append(String.format("hbase-quorum-spec=%s\n", getQuorumSpec()));
         sb.append(String.format("cache-expire-time=%d(s), cache-max-capacity=%d\n", getCacheExpireTime(), getCacheMaxCapacity()));
+        sb.append(String.format("close-on-failure=%s\n", isCloseOnFailure()));
         for (String key : kv.keySet()) {
             sb.append(String.format("kv = %s:%s\n", key, kv.get(key)));
         }
@@ -135,6 +140,10 @@ public class Configuration {
 
     public int getBacklog() {
         return backlog;
+    }
+
+    public boolean isCloseOnFailure() {
+        return closeOnFailure;
     }
 
     public String getQuorumSpec() {
