@@ -139,7 +139,7 @@ public class RestHandler extends SimpleChannelHandler {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
-        RestServer.logger.debug("exception caught");
+        RestServer.logger.debug("exception caught : " + e.getCause());
 
         StatStore.getInstance().addCounter("exception.count", 1);
         // seems there is no particular request takes a lot time.

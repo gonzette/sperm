@@ -7,8 +7,6 @@ import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.handler.codec.http.HttpChunkAggregator;
 import org.jboss.netty.handler.codec.http.HttpRequestDecoder;
 import org.jboss.netty.handler.codec.http.HttpResponseEncoder;
-import org.jboss.netty.handler.timeout.ReadTimeoutHandler;
-import org.jboss.netty.handler.timeout.WriteTimeoutHandler;
 import org.jboss.netty.util.HashedWheelTimer;
 import org.jboss.netty.util.Timer;
 
@@ -67,8 +65,8 @@ public class RestServer {
                 pipeline.addLast("decoder", new HttpRequestDecoder());
                 pipeline.addLast("aggregator", new HttpChunkAggregator(1024 * 1024 * 8));
                 pipeline.addLast("encoder", new HttpResponseEncoder());
-                pipeline.addLast("rto_handler", new ReadTimeoutHandler(timer, configuration.getReadTimeout()));
-                pipeline.addLast("wto_handler", new WriteTimeoutHandler(timer, configuration.getWriteTimeout()));
+//                pipeline.addLast("rto_handler", new ReadTimeoutHandler(timer, configuration.getReadTimeout()));
+//                pipeline.addLast("wto_handler", new WriteTimeoutHandler(timer, configuration.getWriteTimeout()));
                 pipeline.addLast("handler", new RestHandler(configuration));
                 return pipeline;
             }

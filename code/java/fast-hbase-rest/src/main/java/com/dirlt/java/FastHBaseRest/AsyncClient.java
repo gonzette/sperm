@@ -68,6 +68,7 @@ public class AsyncClient implements Runnable {
     public RequestStatus requestStatus = RequestStatus.kOK;
     public String requestMessage;
     public Channel channel;
+    public volatile boolean channelClosed;
 
     // for multi interface.
     public AsyncClient parent;
@@ -129,9 +130,16 @@ public class AsyncClient implements Runnable {
         requestTimeout = kDefaultTimeout;
     }
 
+    public boolean isChannelClosed() {
+        RestServer.logger.debug("check channel closed");
+        return subRequest ? parent.channelClosed : channelClosed;
+    }
 
     @Override
     public void run() {
+        if(isChannelClosed()) {
+            return ;
+        }
         switch (code) {
             case kHttpRequest:
                 handleHttpRequest();

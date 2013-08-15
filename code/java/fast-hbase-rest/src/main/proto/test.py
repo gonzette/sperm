@@ -79,6 +79,22 @@ def queryColumnFamily():
     response.ParseFromString(data2)
     print response
 
+def queryException():
+    print '----------queryException----------'
+    request = message_pb2.ReadRequest()
+
+    request.table_name='t1-not-exist'
+    request.row_key='r1'
+    request.column_family='cf'
+    request.qualifiers.append('c1')
+    request.qualifiers.append('c2')
+
+    data = request.SerializeToString()
+    data2 = raiseHTTPRequest('http://localhost:12345/read',data,timeout=20)
+    response = message_pb2.ReadResponse()
+    response.ParseFromString(data2)
+    print response
+
 def multiQuery():
     print '----------multiQuery----------'
     mRequest = message_pb2.MultiReadRequest()
@@ -197,18 +213,20 @@ def multiWriteNone():
     mRequest.requests.extend([request])
 
     data = mRequest.SerializeToString()
-    try:
-        data2 = raiseHTTPRequest('http://localhost:12345/multi-write',data,timeout=20)
-    except Exception,e:
-        pass
+    data2 = raiseHTTPRequest('http://localhost:12345/multi-write',data,timeout=20)
+    
+    mResponse = message_pb2.MultiWriteResponse()
+    mResponse.ParseFromString(data2)
+    print mResponse 
 
 if __name__=='__main__':
-    queryColumnSameConnection()
-    queryColumn()
-    queryEmptyColumn()
-    queryColumnFamily()
-    multiQuery()
-    multiQueryNone()
-    write()
-    multiWrite()
-    multiWriteNone()
+    # queryColumnSameConnection()
+    # queryColumn()
+    # queryEmptyColumn()
+    # queryColumnFamily()
+    queryException()
+    # multiQuery()
+    # multiQueryNone()
+    # write()
+    # multiWrite()
+    # multiWriteNone()

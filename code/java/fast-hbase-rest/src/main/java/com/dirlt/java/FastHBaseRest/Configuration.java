@@ -27,7 +27,7 @@ public class Configuration {
     private int readTimeout = 10; // 10s.
     private int writeTimeout = 10; // 10s.
     private String serviceName = "FastHBaseRest";
-    private boolean closeOnFailure = true;
+    private boolean closeOnFailure = false;
     private boolean stat = true;
     private boolean cache = true;
     private boolean debug = true;
@@ -66,8 +66,8 @@ public class Configuration {
                 writeTimeout = Integer.valueOf(arg.substring("--write-timeout=".length()));
             } else if (arg.startsWith("--service-name=")) {
                 serviceName = arg.substring("--service-name=".length());
-            } else if (arg.startsWith("--no-close-on-failure")) {
-                closeOnFailure = false;
+            } else if (arg.startsWith("--close-on-failure")) {
+                closeOnFailure = true;
             } else if (arg.startsWith("--no-stat")) {
                 stat = false;
             } else if (arg.startsWith("--no-cache")) {
@@ -104,7 +104,7 @@ public class Configuration {
         System.out.println("\t--read-timeout # default 10(s)");
         System.out.println("\t--write-timeout # default 10(s)");
         System.out.println("\t--service-name # set service name");
-        System.out.println("\t--no-close-on-failure # turn off close on failure");
+        System.out.println("\t--close-on-failure # turn on close on failure");
         System.out.println("\t--no-stat # turn off statistics");
         System.out.println("\t--no-cache # turn off cache");
         System.out.println("\t--no-async # turn off async");
