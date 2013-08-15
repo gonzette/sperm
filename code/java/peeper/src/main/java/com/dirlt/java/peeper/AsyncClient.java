@@ -156,7 +156,15 @@ public class AsyncClient implements Runnable {
         }
     }
 
+    public boolean isPeeperChannelClosed() {
+        PeepServer.logger.debug("check peeper channel closed");
+        return subRequest ? parent.peeperChannelClosed : peeperChannelClosed;
+    }
+
     public void run() {
+        if(isPeeperChannelClosed()) {
+            return ;
+        }
         switch (code) {
             case kHttpRequest:
                 handleHttpRequest();
