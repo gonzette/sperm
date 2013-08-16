@@ -65,14 +65,14 @@ public class Configuration {
                 writeTimeout = Integer.valueOf(arg.substring("--write-timeout=".length()));
             } else if (arg.startsWith("--service-name=")) {
                 serviceName = arg.substring("--service-name=".length());
-            } else if (arg.startsWith("--close-on-failure")) {
-                closeOnFailure = true;
-            } else if (arg.startsWith("--no-stat")) {
-                stat = false;
-            } else if (arg.startsWith("--no-cache")) {
-                cache = false;
-            } else if (arg.startsWith("--no-debug")) {
-                debug = false;
+            } else if (arg.startsWith("--close-on-failure=")) {
+                closeOnFailure = Boolean.valueOf(arg.substring("--close-on-failure=".length()));
+            } else if (arg.startsWith("--stat=")) {
+                stat = Boolean.valueOf(arg.substring("--stat=".length()));
+            } else if (arg.startsWith("--cache=")) {
+                cache = Boolean.valueOf(arg.substring("--cache=".length()));
+            } else if (arg.startsWith("--debug=")) {
+                debug = Boolean.valueOf(arg.substring("--debug=".length()));
             } else if (arg.startsWith("--kv=")) {
                 String s = arg.substring("--kv=".length());
                 String[] ss = s.split(":");
@@ -101,10 +101,10 @@ public class Configuration {
         System.out.println("\t--read-timeout # default 10(s)");
         System.out.println("\t--write-timeout # default 10(s)");
         System.out.println("\t--service-name # set service name");
-        System.out.println("\t--close-on-failure # turn on close on failure");
-        System.out.println("\t--no-stat # turn off statistics");
-        System.out.println("\t--no-cache # turn off cache");
-        System.out.println("\t--no-debug # turn off debug mode");
+        System.out.println("\t--close-on-failure # default false");
+        System.out.println("\t--stat # default true");
+        System.out.println("\t--cache # default true");
+        System.out.println("\t--debug # default true");
         System.out.println("\t--kv=<key>:<value> # key value pair");
     }
 

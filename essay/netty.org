@@ -9,18 +9,25 @@ file:./images/netty-components.png
 *** Channel 
 可以认为是一个connection，这个connection上面有socket fd可以所以进行读写。
 
+*** ChannelFactory
+创建Channel并且对Channel进行管理包括事件检测以及回调处理。涉及到管理那么就需要有线程池，这个线程池需要外部进行指定。
+
 *** ChannelHandler
 在这个connection上面的处理逻辑对象。总的来说有下面两种类型的handler
    - ChannelUpstreamHandler 从net layer到app layer的数据流动处理逻辑
    - ChannelDownstreamHandler 从app layer到net layer的数据流动处理逻辑
 
 然后在这两种类型的handler上面派生很多其他的handler，比如
-   - SimpleChannelHandler 可以同时处理upstream和downstream
+   - SimpleChannelHandler 可以同时处理upstream和downstream     
    - Encoder/Decoder 协议的编码和解码
 
 *** ChannelPipeline
 1 Channel  + N ChannelHandler，连接和这个连接上所有的处理逻辑对象。
+
 所有的Handler组成为了链表，不管是upstream还是downstream都会流过所有的handler.netty框架会判断这个handler是否需要处理某个事件
+
+*** ChannelPipelineFactory
+创建ChannelPipeline，主要是说明需要在这个Channel上面绑定哪些ChannelHandler.
 
 *** ChannelEvent
 连接上所有触发的事件，可以是但是不仅限于下面几种类型
@@ -29,8 +36,13 @@ file:./images/netty-components.png
    - WriteCompletionEvent 数据写完
    - ExceptionEvent 异常事件，可能是IO线程问题也可能是ChannelHandler处理异常
 
+*NOTE(dirlt):对于某一个Channel来说，它的事件发生检测以及回调处理都是一个IO线程里面完成的*
+
 *** ChannelBuffer
 这个和Channel倒是没有太大关系，比较偏向buffer的管理，主要针对网络通信这种read/write交互场景进行优化。
+
+*** ChannelGroup
+线程安全的Channel集合，如果Channel关闭的话那么会自动从group里面移除，能够对Channel进行批量操作。 
 
 ** 使用问题
 *** boss/worker executor

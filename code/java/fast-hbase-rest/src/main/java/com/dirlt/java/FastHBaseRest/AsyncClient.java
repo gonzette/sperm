@@ -68,7 +68,7 @@ public class AsyncClient implements Runnable {
     public RequestStatus requestStatus = RequestStatus.kOK;
     public String requestMessage;
     public Channel channel;
-    public volatile boolean channelClosed;
+    public volatile boolean channelClosed = false;
 
     // for multi interface.
     public AsyncClient parent;
@@ -128,6 +128,7 @@ public class AsyncClient implements Runnable {
         multiWriteRequest = null;
         requestStatus = RequestStatus.kOK;
         requestTimeout = kDefaultTimeout;
+        channelClosed = false;
     }
 
     public boolean isChannelClosed() {

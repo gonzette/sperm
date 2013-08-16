@@ -22,7 +22,7 @@ def queryColumn():
     request.qualifiers.append('14_day_active_count_avg')
 
     data = request.SerializeToString()
-    data2 = raiseHTTPRequest('http://dp0:12345/read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://dp5:12345/read',data,timeout=20)
 
     response = message_pb2.ReadResponse()
     response.ParseFromString(data2)
@@ -37,7 +37,7 @@ def queryColumnFamily():
     request.column_family='stat'
 
     data = request.SerializeToString()
-    data2 = raiseHTTPRequest('http://dp0:12345/read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://dp5:12345/read',data,timeout=20)
 
     response = message_pb2.ReadResponse()
     response.ParseFromString(data2)
@@ -61,7 +61,7 @@ def multiQuery():
     mRequest.requests.extend([request])
 
     data = mRequest.SerializeToString()
-    data2 = raiseHTTPRequest('http://dp0:12345/multi-read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://dp5:12345/multi-read',data,timeout=20)
     
     mResponse = message_pb2.MultiReadResponse()
     mResponse.ParseFromString(data2)
@@ -78,7 +78,7 @@ def queryColumnLarge():
 
     data = request.SerializeToString()
     s = time.time()
-    data2 = raiseHTTPRequest('http://dp0:12345/read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://dp5:12345/read',data,timeout=20)
     print "data size = %d bytes"%(len(data2))
     e = time.time()
     print 'time spent %.2lfs'%((e-s))
@@ -100,7 +100,7 @@ def queryModels():
     request.qualifiers.append('models_1_day_installCnt_values')
 
     data = request.SerializeToString()
-    data2 = raiseHTTPRequest('http://dp0:12345/read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://dp5:12345/read',data,timeout=20)
 
     response = message_pb2.ReadResponse()
     response.ParseFromString(data2)
@@ -136,7 +136,7 @@ def doUVEstimator():
         mRequest.requests.extend([request])
 
     data = mRequest.SerializeToString()
-    data2 = raiseHTTPRequest('http://dp4:12345/multi-read',data,timeout=20)
+    data2 = raiseHTTPRequest('http://dp5:12345/multi-read',data,timeout=20)
     
     mResponse = message_pb2.MultiReadResponse()
     mResponse.ParseFromString(data2)
@@ -158,11 +158,11 @@ def doUVEstimator():
         print 2 ** (float(sum(bucket)) / len(bucket)) * len(bucket) * 0.79402
     
 if __name__=='__main__':
-    # queryColumn()
+    queryColumn()
     # queryColumnFamily()
     # multiQuery()
     # queryColumnLarge()
     # queryModels()
-    doUVEstimator()
+    #doUVEstimator()
     
     
