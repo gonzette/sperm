@@ -12,23 +12,22 @@ import org.jboss.netty.handler.codec.http.HttpResponse;
  */
 public class ProxyHandler extends SimpleChannelHandler {
     private Configuration configuration;
-    private Connector connector;
-    private Connector.Node node;
+    private ProxyConnector proxyConnector;
+    private ProxyConnector.Node node;
     private boolean connected = false;
     private AsyncClient client = null;
 
-    public ProxyHandler(Configuration configuration, Connector connector, Connector.Node node) {
+    public ProxyHandler(Configuration configuration, ProxyConnector proxyConnector, ProxyConnector.Node node) {
         this.configuration = configuration;
-        this.connector = connector;
+        this.proxyConnector = proxyConnector;
         this.node = node;
     }
 
     private void driveAsyncClient(Channel channel) {
-        client = Connector.getInstance().popRequest();
+        client = ProxyConnector.getInstance().popRequest();
         channel.setAttachment(node.socketAddress.toString());
         client.proxyChannel = channel;
-        client.code = AsyncClient.Status.kProxyRequestId;
-        client.run();
+        CpuWorkerPool.getInstance().submit(client);
     }
 
     @Override
@@ -50,11 +49,10 @@ public class ProxyHandler extends SimpleChannelHandler {
         HttpResponse httpResponse = (HttpResponse) e.getMessage();
         StatStore.getInstance().addCounter("proxy.rpc.in.count", 1);
         client.proxyBuffer = httpResponse.getContent();
-        client.run();
-        if (client.code == AsyncClient.Status.kHttpResponse) {
-            PeepServer.logger.debug("proxy handler try to fetch one async client");
-            driveAsyncClient(ctx.getChannel());
-        }
+        CpuWorkerPool.getInstance().submit(client);
+
+        PeepServer.logger.debug("proxy handler try to fetch one async client");
+        driveAsyncClient(ctx.getChannel());
     }
 
     @Override
@@ -71,13 +69,14 @@ public class ProxyHandler extends SimpleChannelHandler {
         PeepServer.logger.debug("proxy exception caught : " + e.getCause());
         StatStore.getInstance().addCounter("proxy.exception.count", 1);
 
+        // client maybe == null because connect failed.
         if (client != null) {
             client.proxyChannelClosed = true;
-            client.run();
         }
         e.getChannel().setAttachment(node.socketAddress.toString());
-        connector.onChannelClosed(e.getChannel(),
-                connected ? Connector.Node.ClosedCause.kReadWriteFailed : Connector.Node.ClosedCause.kConnectionFailed);
+        proxyConnector.onChannelClosed(e.getChannel(),
+                connected ? ProxyConnector.Node.ClosedCause.kReadWriteFailed :
+                        ProxyConnector.Node.ClosedCause.kConnectionFailed);
         e.getChannel().close();
     }
 }

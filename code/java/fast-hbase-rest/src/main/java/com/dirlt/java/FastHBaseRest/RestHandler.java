@@ -141,6 +141,7 @@ public class RestHandler extends SimpleChannelHandler {
         StatStore.getInstance().addCounter("exception.count", 1);
         // seems there is no particular request takes a lot time.
 //        e.getCause().printStackTrace();
+        client.channelClosed = true;
         e.getChannel().close();
     }
 }

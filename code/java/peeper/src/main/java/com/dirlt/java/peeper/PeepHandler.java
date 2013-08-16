@@ -63,6 +63,8 @@ public class PeepHandler extends SimpleChannelHandler {
             return;
         }
 
+        stat.addCounter("peeper.rpc.in.count", 1);
+
         // as stat, we can easily handle it.
         if (path.equals("/stat")) {
             String content = StatStore.getStat();
@@ -70,7 +72,6 @@ public class PeepHandler extends SimpleChannelHandler {
             return;
         }
 
-        stat.addCounter("peeper.rpc.in.count", 1);
         client.init();
         client.code = AsyncClient.Status.kHttpRequest;
         client.path = path;
@@ -78,16 +79,13 @@ public class PeepHandler extends SimpleChannelHandler {
         client.peeperChannel = channel;
         client.peeperBuffer = request.getContent();
         client.requestTimestamp = System.currentTimeMillis();
-        client.run();
+        CpuWorkerPool.getInstance().submit(client);
     }
 
     @Override
     public void writeComplete(ChannelHandlerContext ctx, WriteCompletionEvent e) throws Exception {
         PeepServer.logger.debug("peeper write completed");
-
-        if (client.code != AsyncClient.Status.kStat) {
-            StatStore.getInstance().addCounter("peeper.rpc.out.count", 1);
-        }
+        StatStore.getInstance().addCounter("peeper.rpc.out.count", 1);
     }
 
     @Override
@@ -98,8 +96,6 @@ public class PeepHandler extends SimpleChannelHandler {
     @Override
     public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         PeepServer.logger.debug("peeper connection closed");
-        client.peeperChannelClosed = true;
-        e.getChannel().close();
     }
 
     @Override

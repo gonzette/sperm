@@ -91,7 +91,7 @@ public class PeepServer {
         }
         System.out.print(configuration);
         StatStore.init(configuration);
-        Connector.init(configuration);
+        ProxyConnector.init(configuration);
         CpuWorkerPool.init(configuration);
         runHttpServer(configuration);
     }

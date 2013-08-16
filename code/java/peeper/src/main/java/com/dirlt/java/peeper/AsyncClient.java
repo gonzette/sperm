@@ -107,7 +107,7 @@ public class AsyncClient implements Runnable {
 
     public void raiseException(String message) {
         if (proxyChannel != null) {
-            Connector.getInstance().onChannelClosed(proxyChannel, Connector.Node.ClosedCause.kReadWriteFailed);
+            ProxyConnector.getInstance().onChannelClosed(proxyChannel, ProxyConnector.Node.ClosedCause.kReadWriteFailed);
             proxyChannel.close();
         }
         requestStatus = RequestStatus.kException;
@@ -299,7 +299,7 @@ public class AsyncClient implements Runnable {
         proxyIdRequest = builder.build();
         code = Status.kProxyRequestId;
         PeepServer.logger.debug("peeper push request into connector");
-        Connector.getInstance().pushRequest(this);
+        ProxyConnector.getInstance().pushRequest(this);
         PeepServer.logger.debug("peeper push request into connector OK!");
     }
 

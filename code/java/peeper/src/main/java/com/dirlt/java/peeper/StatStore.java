@@ -33,7 +33,7 @@ public class StatStore {
             StringBuffer sb = new StringBuffer();
             sb.append(String.format("Service : %s\n", gConfiguration.getServiceName()));
             sb.append(String.format("=====configuration=====\n%s\n", gConfiguration.toString()));
-            sb.append(String.format("=====connector=====\n%s\n", Connector.getInstance().getStat()));
+            sb.append(String.format("=====connector=====\n%s\n", ProxyConnector.getInstance().getStat()));
             for (int i = 0; i < kReservedSize; i++) {
                 int index = (current - i + kReservedSize) % kReservedSize;
                 sb.append(String.format("=====last %d minutes=====\n", i));

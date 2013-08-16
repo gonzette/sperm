@@ -26,8 +26,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Time: 2:01 PM
  * To change this template use File | Settings | File Templates.
  */
-public class Connector {
-    private static Connector instance = null;
+public class ProxyConnector {
+    private static ProxyConnector instance = null;
 
     private Configuration configuration;
     private AtomicInteger connectionNumber = new AtomicInteger(0);
@@ -81,10 +81,10 @@ public class Connector {
     }
 
     public static void init(Configuration configuration) {
-        instance = new Connector(configuration);
+        instance = new ProxyConnector(configuration);
     }
 
-    public static Connector getInstance() {
+    public static ProxyConnector getInstance() {
         return instance;
     }
 
@@ -154,7 +154,7 @@ public class Connector {
         }
     }
 
-    public Connector(final Configuration configuration) {
+    public ProxyConnector(final Configuration configuration) {
         this.configuration = configuration;
         requestQueue = new LinkedBlockingQueue<AsyncClient>(configuration.getProxyQueueSize());
         final Timer timer = new HashedWheelTimer();
@@ -182,7 +182,7 @@ public class Connector {
                 // ignore it.
             }
             ClientBootstrap bootstrap = new ClientBootstrap(channelFactory);
-            final Connector connector = this;
+            final ProxyConnector proxyConnector = this;
             bootstrap.setPipelineFactory(new ChannelPipelineFactory() {
                 public ChannelPipeline getPipeline() throws Exception {
                     ChannelPipeline pipeline = Channels.pipeline();
@@ -190,7 +190,7 @@ public class Connector {
                     pipeline.addLast("encoder", new HttpRequestEncoder());
 //                    pipeline.addLast("rto_handler", new ReadTimeoutHandler(timer, configuration.getProxyReadTimeout(), TimeUnit.MILLISECONDS));
 //                    pipeline.addLast("wto_handler", new WriteTimeoutHandler(timer, configuration.getProxyWriteTimeout(), TimeUnit.MILLISECONDS));
-                    pipeline.addLast("handler", new ProxyHandler(configuration, connector, node));
+                    pipeline.addLast("handler", new ProxyHandler(configuration, proxyConnector, node));
                     return pipeline;
                 }
             });

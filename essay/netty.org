@@ -2,6 +2,9 @@
    - Netty: Home (Main.WebHome) https://netty.io/
    - The Netty Project 3.x User Guide http://static.netty.io/3.5/guide/
 
+** architecture
+file:./images/netty-components.png
+
 ** concept
 *** Channel 
 可以认为是一个connection，这个connection上面有socket fd可以所以进行读写。
