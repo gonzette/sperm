@@ -1,6 +1,7 @@
 * netty
    - Netty: Home (Main.WebHome) https://netty.io/
    - The Netty Project 3.x User Guide http://static.netty.io/3.5/guide/
+   - All documentation pages http://netty.io/wiki/all-documents.html
 
 ** architecture
 file:./images/netty-components.png
@@ -21,10 +22,15 @@ file:./images/netty-components.png
    - SimpleChannelHandler 可以同时处理upstream和downstream     
    - Encoder/Decoder 协议的编码和解码
 
+*** ChannelHandlerContext
+这个ChannelHandler对应的context. 实际上是这个context是包含了handler. context内部有prev,next字段能够将pipeline里面的context组成链表。 
+
+实际上pipeline是将context组织成为链表结构，如果需要senndUpStream或者是sendDownStream的话，得到对应的context，从中取出handler，然后决定是否需要处理。 
+
 *** ChannelPipeline
 1 Channel  + N ChannelHandler，连接和这个连接上所有的处理逻辑对象。
 
-所有的Handler组成为了链表，不管是upstream还是downstream都会流过所有的handler.netty框架会判断这个handler是否需要处理某个事件
+所有的Handler组成为了链表，不管是upstream还是downstream都会流过所有的handler.netty框架会判断这个handler是否需要处理某个事件。
 
 *** ChannelPipelineFactory
 创建ChannelPipeline，主要是说明需要在这个Channel上面绑定哪些ChannelHandler.

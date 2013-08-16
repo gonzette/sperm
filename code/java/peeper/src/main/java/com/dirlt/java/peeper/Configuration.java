@@ -81,10 +81,10 @@ public class Configuration {
                 proxyRecoveryTickNumber = Integer.valueOf(arg.substring("--proxy-recovery-tick-number=".length())).intValue();
             } else if (arg.startsWith("--service-name=")) {
                 serviceName = arg.substring("--service-name=".length());
-            } else if (arg.startsWith("--no-debug")) {
-                debug = false;
-            } else if (arg.startsWith("--no-stat")) {
-                stat = false;
+            } else if (arg.startsWith("--debug=")) {
+                debug = Boolean.valueOf(arg.substring("--debug=".length()));
+            } else if (arg.startsWith("--stat=")) {
+                stat = Boolean.valueOf(arg.substring("--stat=".length()));
             } else if (arg.startsWith("--kv=")) {
                 String s = arg.substring("--kv=".length());
                 String[] ss = s.split(":");
@@ -119,8 +119,8 @@ public class Configuration {
         System.out.println("\t--proxy-timer-tick-interval # default 1000(ms)");
         System.out.println("\t--proxy-recovery-tick-number # default 6");
         System.out.println("\t--service-name # set service name");
-        System.out.println("\t--no-debug # turn off debug mode");
-        System.out.println("\t--no-stat # turn off statistics");
+        System.out.println("\t--debug # default true");
+        System.out.println("\t--stat # default true");
         System.out.println("\t--kv=<key>:<value> # key value pair");
     }
 
