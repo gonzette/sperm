@@ -47,7 +47,6 @@ public class AsyncClient implements Runnable {
     }
 
     enum Status {
-        kStat,
         kHttpRequest,
         kSingleRequest,
         kMultiRequest,
@@ -75,7 +74,6 @@ public class AsyncClient implements Runnable {
     public List<AsyncClient> clients;
 
     public Channel peeperChannel;
-    public volatile boolean peeperChannelClosed;
     public Channel proxyChannel;
     public volatile boolean proxyChannelClosed;
     public ChannelBuffer peeperBuffer;
@@ -97,19 +95,13 @@ public class AsyncClient implements Runnable {
     public void init() {
         subRequest = false;
         requestStatus = RequestStatus.kOK;
-        clients = null;
         peeperChannel = null;
-        peeperChannelClosed = false;
         proxyChannel = null;
         proxyChannelClosed = false;
         umengId = null;
     }
 
     public void raiseException(String message) {
-        if (proxyChannel != null) {
-            ProxyConnector.getInstance().onChannelClosed(proxyChannel, ProxyConnector.Node.ClosedCause.kReadWriteFailed);
-            proxyChannel.close();
-        }
         requestStatus = RequestStatus.kException;
         requestMessage = message;
         code = Status.kResponse;
@@ -156,15 +148,7 @@ public class AsyncClient implements Runnable {
         }
     }
 
-    public boolean isPeeperChannelClosed() {
-        PeepServer.logger.debug("check peeper channel closed");
-        return subRequest ? parent.peeperChannelClosed : peeperChannelClosed;
-    }
-
     public void run() {
-        if(isPeeperChannelClosed()) {
-            return ;
-        }
         switch (code) {
             case kHttpRequest:
                 handleHttpRequest();
@@ -181,6 +165,8 @@ public class AsyncClient implements Runnable {
             case kProxyResponseId:
                 handleProxyResponseId();
                 break;
+            case kProxyRequestInfo:
+                handleProxyRequestInfo();
             case kProxyResponseInfo:
                 handleProxyResponseInfo();
                 break;
@@ -298,9 +284,7 @@ public class AsyncClient implements Runnable {
         }
         proxyIdRequest = builder.build();
         code = Status.kProxyRequestId;
-        PeepServer.logger.debug("peeper push request into connector");
-        ProxyConnector.getInstance().pushRequest(this);
-        PeepServer.logger.debug("peeper push request into connector OK!");
+        run();
     }
 
     public void handleMultiRequest() {
@@ -315,8 +299,16 @@ public class AsyncClient implements Runnable {
                 return;
             }
         }
-        clients = new LinkedList<AsyncClient>();
-        refCounter = new AtomicInteger(array.size());
+        if (clients == null) {
+            clients = new LinkedList<AsyncClient>();
+        } else {
+            clients.clear();
+        }
+        if (refCounter == null) {
+            refCounter = new AtomicInteger(array.size());
+        } else {
+            refCounter.set(array.size());
+        }
         for (int i = 0; i < array.size(); i++) {
             JSONObject sub = (JSONObject) array.get(i);
             AsyncClient client = new AsyncClient(configuration);
@@ -339,7 +331,11 @@ public class AsyncClient implements Runnable {
             return;
         }
         code = Status.kProxyResponseId;
-        writeMessage("/multi-read", proxyChannel, proxyIdRequest);
+        ProxyHandler handler = ProxyConnector.getInstance().popConnection();
+        handler.client = this;
+        writeMessage("/multi-read", handler.channel, proxyIdRequest);
+        handler.channel.setReadable(true);
+        return;
     }
 
     public void handleProxyResponseId() {
@@ -407,7 +403,11 @@ public class AsyncClient implements Runnable {
             }
         }
         proxyInfoRequest = rdBuilder.build();
+        code = Status.kProxyRequestInfo;
+        run();
+    }
 
+    public void handleProxyRequestInfo() {
         // proxy request info.
         PeepServer.logger.debug("peeper handle proxy request info");
         int to = detectTimeout("before-request-proxy-info");
@@ -416,7 +416,11 @@ public class AsyncClient implements Runnable {
             return;
         }
         code = Status.kProxyResponseInfo;
-        writeMessage("/read", proxyChannel, proxyInfoRequest);
+        ProxyHandler handler = ProxyConnector.getInstance().popConnection();
+        handler.client = this;
+        writeMessage("/read", handler.channel, proxyInfoRequest);
+        handler.channel.setReadable(true);
+        return;
     }
 
     public void handleProxyResponseInfo() {
@@ -509,5 +513,6 @@ public class AsyncClient implements Runnable {
             JSONArray array = (JSONArray) peeperResponse;
             writeContent(peeperChannel, array.toJSONString());
         }
+        peeperChannel.setReadable(true);
     }
 }

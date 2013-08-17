@@ -15,7 +15,8 @@ public class ProxyHandler extends SimpleChannelHandler {
     private ProxyConnector proxyConnector;
     private ProxyConnector.Node node;
     private boolean connected = false;
-    private AsyncClient client = null;
+    public Channel channel;
+    public AsyncClient client;
 
     public ProxyHandler(Configuration configuration, ProxyConnector proxyConnector, ProxyConnector.Node node) {
         this.configuration = configuration;
@@ -23,19 +24,14 @@ public class ProxyHandler extends SimpleChannelHandler {
         this.node = node;
     }
 
-    private void driveAsyncClient(Channel channel) {
-        client = ProxyConnector.getInstance().popRequest();
-        channel.setAttachment(node.socketAddress.toString());
-        client.proxyChannel = channel;
-        CpuWorkerPool.getInstance().submit(client);
-    }
-
     @Override
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         PeepServer.logger.debug("proxy channel connected");
         connected = true;
         node.connectionNumber.incrementAndGet();
-        driveAsyncClient(ctx.getChannel());
+        channel = e.getChannel();
+        channel.setReadable(false);
+        proxyConnector.pushConnection(this);
     }
 
     @Override
@@ -46,13 +42,14 @@ public class ProxyHandler extends SimpleChannelHandler {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, final MessageEvent e) throws Exception {
         PeepServer.logger.debug("proxy message received");
-        HttpResponse httpResponse = (HttpResponse) e.getMessage();
         StatStore.getInstance().addCounter("proxy.rpc.in.count", 1);
-        client.proxyBuffer = httpResponse.getContent();
-        CpuWorkerPool.getInstance().submit(client);
-
-        PeepServer.logger.debug("proxy handler try to fetch one async client");
-        driveAsyncClient(ctx.getChannel());
+        channel.setReadable(false);
+        proxyConnector.pushConnection(this);
+        HttpResponse httpResponse = (HttpResponse) e.getMessage();
+        AsyncClient now = client;
+        client = null;
+        now.proxyBuffer = httpResponse.getContent();
+        CpuWorkerPool.getInstance().submit(now);
     }
 
     @Override
@@ -69,14 +66,16 @@ public class ProxyHandler extends SimpleChannelHandler {
         PeepServer.logger.debug("proxy exception caught : " + e.getCause());
         StatStore.getInstance().addCounter("proxy.exception.count", 1);
 
-        // client maybe == null because connect failed.
-        if (client != null) {
-            client.proxyChannelClosed = true;
-        }
         e.getChannel().setAttachment(node.socketAddress.toString());
         proxyConnector.onChannelClosed(e.getChannel(),
                 connected ? ProxyConnector.Node.ClosedCause.kReadWriteFailed :
                         ProxyConnector.Node.ClosedCause.kConnectionFailed);
         e.getChannel().close();
+
+        // client maybe stuck.
+        if (client != null) {
+            client.proxyChannelClosed = true;
+            CpuWorkerPool.getInstance().submit(client);
+        }
     }
 }

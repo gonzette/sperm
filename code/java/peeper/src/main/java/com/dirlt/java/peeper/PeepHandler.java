@@ -79,6 +79,7 @@ public class PeepHandler extends SimpleChannelHandler {
         client.peeperChannel = channel;
         client.peeperBuffer = request.getContent();
         client.requestTimestamp = System.currentTimeMillis();
+        channel.setReadable(false);
         CpuWorkerPool.getInstance().submit(client);
     }
 
@@ -105,7 +106,6 @@ public class PeepHandler extends SimpleChannelHandler {
 
         PeepServer.logger.debug("peeper exception caught : " + e.getCause());
         StatStore.getInstance().addCounter("peeper.exception.count", 1);
-        client.peeperChannelClosed = true;
         e.getChannel().close();
     }
 }

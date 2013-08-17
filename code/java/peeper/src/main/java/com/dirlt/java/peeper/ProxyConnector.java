@@ -30,9 +30,11 @@ public class ProxyConnector {
     private static ProxyConnector instance = null;
 
     private Configuration configuration;
+    // how many connection overall.
     private AtomicInteger connectionNumber = new AtomicInteger(0);
-    private BlockingQueue<AsyncClient> requestQueue = null;
-    private float avgRequestQueueSize = 0.0f;
+    // how many connection available.
+    private BlockingQueue<ProxyHandler> availableConnectionPool = null;
+    private float avgAvailableConnectionPoolSize = 0.0f;
     private Map<String, Node> nodes = null;
 
     public static class Node {
@@ -69,7 +71,7 @@ public class ProxyConnector {
 
     public String getStat() {
         StringBuffer sb = new StringBuffer();
-        sb.append(String.format("average request queue size = %.2f\n", avgRequestQueueSize));
+        sb.append(String.format("average available connection pool size = %.2f\n", avgAvailableConnectionPoolSize));
         sb.append(String.format("connection number = %d\n", connectionNumber.get()));
         for (Map.Entry<String, Node> entry : nodes.entrySet()) {
             sb.append(String.format("node = %s\n", entry.getKey()));
@@ -88,24 +90,21 @@ public class ProxyConnector {
         return instance;
     }
 
-    public void pushRequest(AsyncClient client) {
-        requestQueue.add(client);
+    public ProxyHandler popConnection() {
+        try {
+            return availableConnectionPool.take();
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public AsyncClient popRequest() {
-        AsyncClient client = null;
-        while (true) {
-            try {
-                // poll interval as 500ms.
-                client = requestQueue.poll(500, TimeUnit.MICROSECONDS);
-            } catch (InterruptedException e) {
-                // ignore.
-            }
-            if (client != null) {
-                break;
-            }
+    public void pushConnection(ProxyHandler handler) {
+        try {
+            availableConnectionPool.put(handler);
+        } catch(InterruptedException e) {
+            e.printStackTrace();
         }
-        return client;
     }
 
     public void onChannelClosed(Channel channel, Node.ClosedCause cause) {
@@ -124,7 +123,7 @@ public class ProxyConnector {
     public void addConnection() {
         //PeepServer.logger.debug("add connection");
         // avg load is low and connection number is enough.
-        if (avgRequestQueueSize < 1.5f && connectionNumber.get() >= configuration.getProxyMinConnectionNumber()) {
+        if (avgAvailableConnectionPoolSize < 2.5f && connectionNumber.get() >= configuration.getProxyMinConnectionNumber()) {
             return;
         }
         // otherwise we have to make more connection.
@@ -156,7 +155,7 @@ public class ProxyConnector {
 
     public ProxyConnector(final Configuration configuration) {
         this.configuration = configuration;
-        requestQueue = new LinkedBlockingQueue<AsyncClient>(configuration.getProxyQueueSize());
+        availableConnectionPool = new LinkedBlockingQueue<ProxyHandler>(configuration.getProxyQueueSize());
         final Timer timer = new HashedWheelTimer();
         ChannelFactory channelFactory = new NioClientSocketChannelFactory(
                 Executors.newCachedThreadPool(),
@@ -214,7 +213,7 @@ public class ProxyConnector {
                         node.readWriteFailureCount.set(0);
                     }
                 }
-                avgRequestQueueSize = avgRequestQueueSize * 0.4f + requestQueue.size() * 0.6f;
+                avgAvailableConnectionPoolSize = avgAvailableConnectionPoolSize * 0.4f + availableConnectionPool.size() * 0.6f;
                 addConnection();
             }
         }, 0, configuration.getProxyTimerTickInterval());

@@ -68,7 +68,6 @@ public class AsyncClient implements Runnable {
     public RequestStatus requestStatus = RequestStatus.kOK;
     public String requestMessage;
     public Channel channel;
-    public volatile boolean channelClosed = false;
 
     // for multi interface.
     public AsyncClient parent;
@@ -128,19 +127,10 @@ public class AsyncClient implements Runnable {
         multiWriteRequest = null;
         requestStatus = RequestStatus.kOK;
         requestTimeout = kDefaultTimeout;
-        channelClosed = false;
-    }
-
-    public boolean isChannelClosed() {
-        RestServer.logger.debug("check channel closed");
-        return subRequest ? parent.channelClosed : channelClosed;
     }
 
     @Override
     public void run() {
-        if (isChannelClosed()) {
-            return;
-        }
         switch (code) {
             case kHttpRequest:
                 handleHttpRequest();
@@ -667,7 +657,7 @@ public class AsyncClient implements Runnable {
                 }
                 parent.msg = parent.mRdRes.build();
                 parent.code = Status.kHttpResponse;
-                CpuWorkerPool.getInstance().submit(parent);
+                parent.run();
             }
         }
     }
@@ -709,7 +699,7 @@ public class AsyncClient implements Runnable {
                 }
                 parent.msg = parent.mWrRes.build();
                 parent.code = Status.kHttpResponse;
-                CpuWorkerPool.getInstance().submit(parent);
+                parent.run();
             }
         }
     }
@@ -730,6 +720,8 @@ public class AsyncClient implements Runnable {
             StatStore.getInstance().addCounter("rpc.out.bytes", size);
         } catch (Exception e) {
             // just ignore it.
+        } finally {
+            channel.setReadable(true);
         }
     }
 }

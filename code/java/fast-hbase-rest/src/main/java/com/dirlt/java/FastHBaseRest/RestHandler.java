@@ -100,6 +100,7 @@ public class RestHandler extends SimpleChannelHandler {
         client.path = path;
         client.buffer = request.getContent();
         client.requestTimestamp = System.currentTimeMillis();
+        channel.setReadable(false);
         // put into cpu work pool.
         CpuWorkerPool.getInstance().submit(client);
     }
@@ -141,7 +142,6 @@ public class RestHandler extends SimpleChannelHandler {
         StatStore.getInstance().addCounter("exception.count", 1);
         // seems there is no particular request takes a lot time.
 //        e.getCause().printStackTrace();
-        client.channelClosed = true;
         e.getChannel().close();
     }
 }
