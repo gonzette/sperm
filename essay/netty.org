@@ -7,8 +7,10 @@
 file:./images/netty-components.png
 
 ** concept
-*** Channel 
+*** Channel
 可以认为是一个connection，这个connection上面有socket fd可以所以进行读写。
+
+*TODO(dirlt):只能够控制是否可读而不能够控制是否可写，事实上socket永远是可写的。所以需要非常注意的就是，一旦如果在非IO线程发起写操作的话，那么在IO线程随时都会有writeComplete等事件发生，这点对于顺序的控制至关重要。*
 
 *** ChannelFactory
 创建Channel并且对Channel进行管理包括事件检测以及回调处理。涉及到管理那么就需要有线程池，这个线程池需要外部进行指定。
@@ -131,3 +133,51 @@ Got this error - Syahreza Pahlevi Ginting
 这个同学的建议还是说和file-max/file limits有关。
 
 *NOTE（dirlt）：之后我调整了file limits之后便没有遇到这个问题了，所以可能确实和文件句柄数目限制有关*
+
+*** control timeout
+网络上并没有太多如何关于netty读写超时信息的控制。下面是一篇相对来说比较有启发性的回答：
+   - Setting socket timeout on netty channel - Stack Overflow : http://stackoverflow.com/questions/3726696/setting-socket-timeout-on-netty-channel
+但是这种方式在现实中意义却不大。分析ReadTimeoutHandler代码实现会发现， *我们没有办法将超时计算reset, 也没有办法将超时计算停止。而且一旦完成一次timeout计算之后，又会和触发下一轮的timeout计算。* 对于WriteTimeoutHandler也是如此。
+
+事实上我们是可以通过使用ReadTimeoutHandler/WriteTimeoutHandler来完成读写超时控制的，只不过不能够像在SO回答的那样写在PipelineFactory里面，而必须动态创建，而Pipeline和ChannelHandlerContext的设计为这种方法提供了可能。
+
+以ReadTimeoutHandler为例
+   - 在发起读之前，我们可以通过channel.setReadable(false)来关闭读取
+   - 如果需要发起读的话，假设我们处理逻辑的ChannelHandlerContext为ctx
+     - 首先在ctx之前创建一个ReadTimeoutHandler ctx.getPipeline().addBefore(ctx.getName(),"rto", new ReadTimeoutHandler(timer, 10));
+     - 然后允许channel读数据 channel.setReadable(true)
+   - 如果10s之内没有数据的话，那么会触发一个ReadTimeoutException, 这样我们可以做后续处理。 *NOTE(dirlt):这个ReadTimeoutException是timer内部线程触发的，但是无须担心多线程问题，因为timer会将这个Exception事件交给IO线程来触发*
+#+BEGIN_SRC Java
+private void fireReadTimedOut(final ChannelHandlerContext ctx) throws Exception {
+            ctx.getPipeline().execute(new Runnable() {
+
+                public void run() {
+                    try {
+                        readTimedOut(ctx);
+                    } catch (Throwable t) {
+                        fireExceptionCaught(ctx, t);
+                    }
+                }
+            });
+        }
+
+@Override
+    public ChannelFuture execute(ChannelPipeline pipeline, final Runnable task) {
+        Channel ch = pipeline.getChannel();
+        if (ch instanceof AbstractNioChannel<?>) {
+            AbstractNioChannel<?> channel = (AbstractNioChannel<?>) ch;
+            ChannelRunnableWrapper wrapper = new ChannelRunnableWrapper(pipeline.getChannel(), task);
+            channel.worker.executeInIoThread(wrapper);
+            return wrapper;
+        }
+        return super.execute(pipeline, task);
+    }
+#+END_SRC
+   - 如果在10s内有数据被处理的话，那么就会调用messageReceived回调，在回调里面我们可以删除这个handler ctx.getPipeline().remove("rto"); 这样便不会触发ReadTimeoutException
+
+
+对WriteTimeoutHandler同理，因为我们不能够setWritable，所以必须在write之前就安装好handler
+   - ctx.getPipeline().addBefore(ctx.getName(),"wto",new WriteTimeoutHandler(timer,10));
+   - ctx.getChannel.write()
+   - 如果在10s内没有写完的话，那么就会触发一个WriteTimeoutException
+   - 如果在10s内写完的话，那么就会触发writeComplete回调，在回调里面我们可以删除这个handler ctx.getPipeline().remove("wto");
