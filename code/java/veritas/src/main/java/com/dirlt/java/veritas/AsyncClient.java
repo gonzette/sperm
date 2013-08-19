@@ -8,9 +8,13 @@ import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.handler.codec.http.*;
+import org.jboss.netty.handler.timeout.WriteTimeoutHandler;
+import org.jboss.netty.util.HashedWheelTimer;
+import org.jboss.netty.util.Timer;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,6 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -30,20 +35,29 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class AsyncClient implements Runnable {
     private static JSONParser parser = new JSONParser();
+    public static Timer timer = new HashedWheelTimer();
     private Configuration configuration;
+
     private static final long kDefaultTimeout = 100 * 1000; // 100s.(that's long enough).
     private static final String kDeviceIdMappingTable = "device_id_mapping";
     private static final String kDeviceIdMappingColumnFamily = "mapping";
     private static final String kDeviceIdMappingQualifier = "umid";
     private static final String kUserInfoTable = "user_info";
     private static final String kUserInfoColumnFamily = "info";
+    private static final String kRequestIdKey = "reqid";
+    private static final String kRequestTypeKey = "reqtype";
+    private static final String kTimeoutKey = "timeout";
+    private static final String kUmengIdKey = "umid";
+    private static final String kContentKey = "content";
+    private static final String kErrorCodeKey = "ecode";
+    private static final String kRequiredKeys[] = "account,reqtype".split(",");
     private static final String kDeviceIdKeys[] = "imei,udid,mac,idfa,openudid,idfv,utdid".split(",");
-    private static final Set<String> reqTypeKeys = new TreeSet<String>();
+    private static final Set<String> kRequestTypes = new TreeSet<String>();
 
     static {
-        reqTypeKeys.add("demographic");
-        reqTypeKeys.add("geographic");
-        reqTypeKeys.add("tcate");
+        kRequestTypes.add("demographic");
+        kRequestTypes.add("geographic");
+        kRequestTypes.add("tcate");
     }
 
     enum Status {
@@ -74,7 +88,6 @@ public class AsyncClient implements Runnable {
     public List<AsyncClient> clients;
 
     public Channel veritasChannel;
-    public Channel proxyChannel;
     public volatile boolean proxyChannelClosed;
     public ChannelBuffer veritasBuffer;
     public Object veritasRequest;
@@ -96,7 +109,6 @@ public class AsyncClient implements Runnable {
         subRequest = false;
         requestStatus = RequestStatus.kOK;
         veritasChannel = null;
-        proxyChannel = null;
         proxyChannelClosed = false;
         umengId = null;
     }
@@ -198,11 +210,17 @@ public class AsyncClient implements Runnable {
                 raiseException(e);
                 return;
             }
-        } else {
+        } else if (!query.isEmpty()) {
+            VeritasServer.logger.debug("handle get request");
             QueryStringDecoder decoder = new QueryStringDecoder(query, false);
             JSONObject object = new JSONObject();
-            object.putAll(decoder.getParameters());
+            for (String key : decoder.getParameters().keySet()) {
+                object.put(key, decoder.getParameters().get(key).get(0));
+            }
             request = object;
+        } else {
+            raiseException("unknown request type");
+            return;
         }
 
         if (request instanceof JSONObject) {
@@ -226,27 +244,20 @@ public class AsyncClient implements Runnable {
         // parse json.
         JSONObject object = (JSONObject) veritasRequest;
         boolean ok = true;
-        Object account = object.get("account");
-        if (account == null || !(account instanceof String)) {
-            VeritasServer.logger.debug("veritas invalid json at field 'account'");
-            ok = false;
-        }
-        Object reqtype = object.get("reqtype");
-        if (reqtype == null || !(reqtype instanceof String)) {
-            VeritasServer.logger.debug("veritas invalid json at field 'reqtype'");
-            ok = false;
-        }
-        Object device = object.get("device");
-        if (device == null || !(device instanceof JSONObject)) {
-            VeritasServer.logger.debug("veritas invalid json, at field 'device'");
-            ok = false;
+        for (String k : kRequiredKeys) {
+            Object v = object.get(k);
+            if (v == null) {
+                VeritasServer.logger.debug("veritas invalid json at field '" + k + "'");
+                ok = false;
+                break;
+            }
         }
         if (!ok) {
             raiseException("invalid json without require fields");
             return;
         }
         requestTimeout = kDefaultTimeout;
-        Object timeout = object.get("timeout");
+        Object timeout = object.get(kTimeoutKey);
         if (timeout != null && timeout instanceof Integer) {
             requestTimeout = ((Integer) timeout).intValue();
         }
@@ -262,10 +273,9 @@ public class AsyncClient implements Runnable {
         MessageProtos1.MultiReadRequest.Builder builder = MessageProtos1.MultiReadRequest.newBuilder();
         builder.setTimeout(to);
 
-        JSONObject dev = (JSONObject) device;
         ok = false;
         for (String key : kDeviceIdKeys) {
-            Object v = dev.get(key);
+            Object v = object.get(key);
             if (!(v instanceof String)) {
                 continue;
             }
@@ -333,8 +343,11 @@ public class AsyncClient implements Runnable {
         code = Status.kProxyResponseId;
         ProxyHandler handler = ProxyConnector.getInstance().popConnection();
         handler.client = this;
+        // write timeout exception.
+        VeritasServer.logger.debug("proxy request id add wto handler");
+        handler.context.getPipeline().addBefore(handler.context.getName(), "wto_handler",
+                new WriteTimeoutHandler(timer, configuration.getProxyWriteTimeout(), TimeUnit.MILLISECONDS));
         writeMessage("/multi-read", handler.channel, proxyIdRequest);
-        handler.channel.setReadable(true);
         return;
     }
 
@@ -396,9 +409,9 @@ public class AsyncClient implements Runnable {
         rdBuilder.setTableName(kUserInfoTable);
         rdBuilder.setColumnFamily(kUserInfoColumnFamily);
         rdBuilder.setRowKey(umid);
-        String xs[] = ((String) ((JSONObject) veritasRequest).get("reqtype")).split(",");
+        String xs[] = ((String) ((JSONObject) veritasRequest).get(kRequestTypeKey)).split(",");
         for (String x : xs) {
-            if (reqTypeKeys.contains(x)) {
+            if (kRequestTypes.contains(x)) {
                 rdBuilder.addQualifiers(x);
             }
         }
@@ -418,8 +431,11 @@ public class AsyncClient implements Runnable {
         code = Status.kProxyResponseInfo;
         ProxyHandler handler = ProxyConnector.getInstance().popConnection();
         handler.client = this;
+        // write timeout exception.
+        VeritasServer.logger.debug("proxy request info add wto handler");
+        handler.context.getPipeline().addBefore(handler.context.getName(), "wto_handler",
+                new WriteTimeoutHandler(timer, configuration.getProxyWriteTimeout(), TimeUnit.MILLISECONDS));
         writeMessage("/read", handler.channel, proxyInfoRequest);
-        handler.channel.setReadable(true);
         return;
     }
 
@@ -445,23 +461,34 @@ public class AsyncClient implements Runnable {
         proxyInfoResponse = builder.build();
         JSONObject object = new JSONObject();
         JSONObject origin = (JSONObject) veritasRequest;
-        if (origin.containsKey("reqid")) {
-            object.put("reqid", origin.get("reqid"));
+        if (origin.containsKey(kRequestIdKey)) {
+            object.put(kRequestIdKey, origin.get(kRequestIdKey));
         }
         if (!proxyInfoResponse.getError()) {
             JSONObject content = new JSONObject();
+            boolean ok = true;
             for (MessageProtos1.ReadResponse.KeyValue keyValue : proxyInfoResponse.getKvsList()) {
                 if (keyValue.getContent().isEmpty()) {
                     continue;
                 }
-                content.put(keyValue.getQualifier(), keyValue.getContent().toStringUtf8());
+                try {
+                    Object v = parser.parse(keyValue.getContent().toStringUtf8());
+                    content.put(keyValue.getQualifier(), v);
+                } catch (ParseException e) {
+                    VeritasServer.logger.debug("proxy hbase qualifier " + keyValue.getQualifier() + ", content = " + keyValue.getContent().toStringUtf8());
+                    object.put(kErrorCodeKey, "proxy hbase content = " + e.toString());
+                    ok = false;
+                    break;
+                }
             }
-            object.put("content", content);
-            object.put("ecode", "OK");
+            if (ok) {
+                object.put(kContentKey, content);
+                object.put(kErrorCodeKey, "OK");
+            }
         } else {
-            object.put("ecode", proxyInfoResponse.getMessage());
+            object.put(kErrorCodeKey, proxyInfoResponse.getMessage());
         }
-        object.put("umid", umengId);
+        object.put(kUmengIdKey, umengId);
         veritasResponse = object;
         code = Status.kResponse;
         run();
@@ -470,12 +497,12 @@ public class AsyncClient implements Runnable {
     public static void handleExceptionResponse(AsyncClient client) {
         JSONObject object = new JSONObject();
         JSONObject origin = (JSONObject) client.veritasRequest;
-        if (origin.containsKey("reqid")) {
-            object.put("reqid", origin.get("reqid"));
+        if (origin.containsKey(kRequestIdKey)) {
+            object.put(kRequestIdKey, origin.get(kRequestIdKey));
         }
-        object.put("ecode", client.requestMessage);
+        object.put(kErrorCodeKey, client.requestMessage);
         if (client.umengId != null) {
-            object.put("umid", client.umengId);
+            object.put(kUmengIdKey, client.umengId);
         }
         client.veritasResponse = object;
     }

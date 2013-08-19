@@ -19,13 +19,13 @@ public class Configuration {
     private int cpuQueueSize = 4096;
     private int acceptIOThreadNumber = 4;
     private int ioThreadNumber = 16;
-    private int readTimeout = 500; // 500ms.
-    private int writeTimeout = 500; // 500ms.
+//    private int readTimeout = 500; // 500ms.
+//    private int writeTimeout = 500; // 500ms.
     private int proxyQueueSize = 256;
     private int proxyAcceptIOThreadNumber = 4;
     private int proxyIOThreadNumber = 16;
-    private int proxyReadTimeout = 100; // 100 ms
-    private int proxyWriteTimeout = 100; // 100 ms
+    private int proxyReadTimeout = 200; // 100 ms
+    private int proxyWriteTimeout = 200; // 100 ms
     private int proxyMaxConnectionNumber = 32;
     private int proxyMinConnectionNumber = 4;
     private int proxyAddConnectionNumberStep = 4;
@@ -55,10 +55,10 @@ public class Configuration {
                 acceptIOThreadNumber = Integer.valueOf(arg.substring("--accept-io-thread-number=".length()));
             } else if (arg.startsWith("--io-thread-number=")) {
                 ioThreadNumber = Integer.valueOf(arg.substring("--io-thread-number=".length())).intValue();
-            } else if (arg.startsWith("--read-timeout=")) {
-                readTimeout = Integer.valueOf(arg.substring("--read-timeout=".length())).intValue();
-            } else if (arg.startsWith("--write-timeout=")) {
-                writeTimeout = Integer.valueOf(arg.substring("--write-timeout=".length())).intValue();
+//            } else if (arg.startsWith("--read-timeout=")) {
+//                readTimeout = Integer.valueOf(arg.substring("--read-timeout=".length())).intValue();
+//            } else if (arg.startsWith("--write-timeout=")) {
+//                writeTimeout = Integer.valueOf(arg.substring("--write-timeout=".length())).intValue();
             } else if (arg.startsWith("--proxy-queue-size=")) {
                 proxyQueueSize = Integer.valueOf(arg.substring("--proxy-queue-size=".length())).intValue();
             } else if (arg.startsWith("--proxy-accept-io-thread-number=")) {
@@ -106,8 +106,8 @@ public class Configuration {
         System.out.println("\t--cpu-queue-size # default 4096");
         System.out.println("\t--accept-io-thread-number # default 4");
         System.out.println("\t--io-thread-number # default 16");
-        System.out.println("\t--read-timeout # default 500(ms)");
-        System.out.println("\t--write-timeout # default 500(ms)");
+//        System.out.println("\t--read-timeout # default 500(ms)");
+//        System.out.println("\t--write-timeout # default 500(ms)");
         System.out.println("\t--proxy-queue-size # default 256");
         System.out.println("\t--proxy-accept-io-thread-number # default 4");
         System.out.println("\t--proxy-io-thread-number # default 16");
@@ -134,7 +134,7 @@ public class Configuration {
         sb.append(String.format("service-name=%s\n", getServiceName()));
         sb.append(String.format("accept-io-thread-number=%d, io-thread-number=%d\n",
                 getAcceptIOThreadNumber(), getIoThreadNumber()));
-        sb.append(String.format("read-timeout=%d(ms), write-timeout=%d(ms)\n", getReadTimeout(), getWriteTimeout()));
+//        sb.append(String.format("read-timeout=%d(ms), write-timeout=%d(ms)\n", getReadTimeout(), getWriteTimeout()));
         sb.append(String.format("proxy-queue-size=%d\n", getProxyQueueSize()));
         sb.append(String.format("proxy-accept-io-thread-number=%d, proxy-io-thread-number=%d\n",
                 getProxyAcceptIOThreadNumber(), getProxyIOThreadNumber()));
@@ -182,13 +182,13 @@ public class Configuration {
         return ioThreadNumber;
     }
 
-    public int getReadTimeout() {
-        return readTimeout;
-    }
-
-    public int getWriteTimeout() {
-        return writeTimeout;
-    }
+//    public int getReadTimeout() {
+//        return readTimeout;
+//    }
+//
+//    public int getWriteTimeout() {
+//        return writeTimeout;
+//    }
 
     public int getProxyQueueSize() {
         return proxyQueueSize;

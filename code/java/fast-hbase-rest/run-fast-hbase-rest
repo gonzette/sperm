@@ -17,8 +17,6 @@ java -cp FastHBaseRest.jar \
     --cpu-queue-size=4096 \
     --io-thread-number=32 \
     --io-queue-size=4096 \
-    --read-timeout=10 \
-    --write-timeout=10 \
     --debug=false \
     --close-on-failure=true \
     --kv=appuserstat.date.addHashCodeAsRowKeyPrefix:2013-07-02 \
