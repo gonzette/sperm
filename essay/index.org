@@ -67,6 +67,7 @@ file:./images/valve-logo.jpg 放眼未来，自由想象(Open your mind, Open yo
    - [[file:recommender-system.org][recommender-system]] 推荐系统
      - [[file:./deconstructing-recommender-systems.org][Deconstructing Recommender Systems]]
    - [[file:./computational-advertising.org][computational-advertising]] 计算广告学
+     - [[file:./ctr.org][ctr]]
    - [[file:systemtap.org][systemtap]] 通过将观察语句编译成为内核驱动，和linux内核提供的接口匹配，来深度地观察linux操作系统。
    - [[file:gperftools.org][gperftools]] google的性能分析工具，[[file:tcmalloc.org][tcmalloc]] 实现也在里面。用来观察应用程序似乎是个不错的选择。
    - [[file:perf.org][perf]] linux系统自带的性能分析工具，支持硬件以及软件事件计数器，支持profile kernel以及user code.
