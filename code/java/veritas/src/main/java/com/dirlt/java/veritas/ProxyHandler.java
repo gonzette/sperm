@@ -37,6 +37,17 @@ public class ProxyHandler extends SimpleChannelHandler {
     @Override
     public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         VeritasServer.logger.debug("proxy connection closed");
+
+        e.getChannel().setAttachment(node.socketAddress.toString());
+        proxyConnector.onChannelClosed(e.getChannel(),
+                connected ? ProxyConnector.Node.ClosedCause.kReadWriteFailed :
+                        ProxyConnector.Node.ClosedCause.kConnectionFailed);
+
+        // client maybe stuck.
+        if (client != null) {
+            client.proxyChannelClosed = true;
+            CpuWorkerPool.getInstance().submit(client);
+        }
     }
 
     @Override
@@ -65,17 +76,6 @@ public class ProxyHandler extends SimpleChannelHandler {
 
         VeritasServer.logger.debug("proxy exception caught : " + e.getCause());
         StatStore.getInstance().addCounter("proxy.exception.count", 1);
-
-        e.getChannel().setAttachment(node.socketAddress.toString());
-        proxyConnector.onChannelClosed(e.getChannel(),
-                connected ? ProxyConnector.Node.ClosedCause.kReadWriteFailed :
-                        ProxyConnector.Node.ClosedCause.kConnectionFailed);
         e.getChannel().close();
-
-        // client maybe stuck.
-        if (client != null) {
-            client.proxyChannelClosed = true;
-            CpuWorkerPool.getInstance().submit(client);
-        }
     }
 }

@@ -92,7 +92,7 @@ public class ProxyConnector {
     public ProxyHandler popConnection() {
         try {
             return availableConnectionPool.take();
-        } catch(InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return null;
@@ -101,7 +101,7 @@ public class ProxyConnector {
     public void pushConnection(ProxyHandler handler) {
         try {
             availableConnectionPool.put(handler);
-        } catch(InterruptedException e) {
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -111,18 +111,20 @@ public class ProxyConnector {
         connectionNumber.decrementAndGet();
         VeritasServer.logger.debug("closed channel remote address = " + channel.getAttachment() + ", cause = " + cause);
         Node node = nodes.get(channel.getAttachment());
-        node.connectionNumber.decrementAndGet();
-        if (cause == Node.ClosedCause.kReadWriteFailed) {
-            node.readWriteFailureCount.incrementAndGet();
-        } else if (cause == Node.ClosedCause.kConnectionFailed) {
+        if (cause == Node.ClosedCause.kConnectionFailed) {
             node.connectFailureCount.incrementAndGet();
+        } else {
+            node.connectionNumber.decrementAndGet();
+            if (cause == Node.ClosedCause.kReadWriteFailed) {
+                node.readWriteFailureCount.incrementAndGet();
+            }
         }
     }
 
     public void addConnection() {
         //VeritasServer.logger.debug("add connection");
         // avg load is low and connection number is enough.
-        if (avgAvailableConnectionPoolSize < 2.5f && connectionNumber.get() >= configuration.getProxyMinConnectionNumber()) {
+        if (avgAvailableConnectionPoolSize > 1.5f && connectionNumber.get() >= configuration.getProxyMinConnectionNumber()) {
             return;
         }
         // otherwise we have to make more connection.

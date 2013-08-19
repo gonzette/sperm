@@ -448,15 +448,19 @@ public class AsyncClient implements Runnable {
         if (origin.containsKey("reqid")) {
             object.put("reqid", origin.get("reqid"));
         }
-        JSONObject content = new JSONObject();
-        for (MessageProtos1.ReadResponse.KeyValue keyValue : proxyInfoResponse.getKvsList()) {
-            if (keyValue.getContent().isEmpty()) {
-                continue;
+        if (!proxyInfoResponse.getError()) {
+            JSONObject content = new JSONObject();
+            for (MessageProtos1.ReadResponse.KeyValue keyValue : proxyInfoResponse.getKvsList()) {
+                if (keyValue.getContent().isEmpty()) {
+                    continue;
+                }
+                content.put(keyValue.getQualifier(), keyValue.getContent().toStringUtf8());
             }
-            content.put(keyValue.getQualifier(), keyValue.getContent().toStringUtf8());
+            object.put("content", content);
+            object.put("ecode", "OK");
+        } else {
+            object.put("ecode", proxyInfoResponse.getMessage());
         }
-        object.put("content", content);
-        object.put("ecode", "OK");
         object.put("umid", umengId);
         veritasResponse = object;
         code = Status.kResponse;

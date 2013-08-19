@@ -5,4 +5,8 @@ echo "patching fast-hbase-rest ..."
 rsync -avrz $HOME/github/fast-hbase-rest/src/main/ $HOME/github/sperm/code/java/fast-hbase-rest/src/main/
 rsync -vz $HOME/github/fast-hbase-rest/pom.xml $HOME/github/sperm/code/java/fast-hbase-rest/pom.xml
 
+echo "patching veritas ..."
+rsync -avrz $HOME/github/veritas/src/main/ $HOME/github/sperm/code/java/veritas/src/main/
+rsync -vz $HOME/github/veritas/test $HOME/github/sperm/code/java/veritas/test
+rsync -vz $HOME/github/veritas/pom.xml $HOME/github/sperm/code/java/veritas/pom.xml
 
