@@ -7,12 +7,19 @@ java -cp FastHBaseRest.jar \
     -Dcom.sun.management.jmxremote.authenticate=false \
     com.dirlt.java.FastHBaseRest.RestServer \
     --port=12345 \
+    --backlog=128 \
     --hbase-quorum-spec=dp30:2181,dp20:2181,dp10:2181,dp5:2181,dp40:2181 \
     --cache-expire-time=1200 \
     --cache-max-capacity=2097152 \
+    --accept-io-thread-number=4 \
+    --accept-io-queue-size=16 \
     --cpu-thread-number=128 \
     --cpu-queue-size=4096 \
     --io-thread-number=32 \
     --io-queue-size=4096 \
-    --no-debug \
-    --kv=appuserstat.date.addHashCodeAsRowKeyPrefix:2013-07-02
+    --read-timeout=10 \
+    --write-timeout=10 \
+    --debug=false \
+    --close-on-failure=true \
+    --kv=appuserstat.date.addHashCodeAsRowKeyPrefix:2013-07-02 \
+    $@
