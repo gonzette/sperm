@@ -1,4 +1,4 @@
-package com.dirlt.java.peeper;
+package com.dirlt.java.veritas;
 
 import org.jboss.netty.channel.*;
 import org.jboss.netty.handler.codec.http.HttpResponse;
@@ -26,7 +26,7 @@ public class ProxyHandler extends SimpleChannelHandler {
 
     @Override
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
-        PeepServer.logger.debug("proxy channel connected");
+        VeritasServer.logger.debug("proxy channel connected");
         connected = true;
         node.connectionNumber.incrementAndGet();
         channel = e.getChannel();
@@ -36,12 +36,12 @@ public class ProxyHandler extends SimpleChannelHandler {
 
     @Override
     public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
-        PeepServer.logger.debug("proxy connection closed");
+        VeritasServer.logger.debug("proxy connection closed");
     }
 
     @Override
     public void messageReceived(ChannelHandlerContext ctx, final MessageEvent e) throws Exception {
-        PeepServer.logger.debug("proxy message received");
+        VeritasServer.logger.debug("proxy message received");
         StatStore.getInstance().addCounter("proxy.rpc.in.count", 1);
         channel.setReadable(false);
         proxyConnector.pushConnection(this);
@@ -54,7 +54,7 @@ public class ProxyHandler extends SimpleChannelHandler {
 
     @Override
     public void writeComplete(ChannelHandlerContext ctx, WriteCompletionEvent e) throws Exception {
-        PeepServer.logger.debug("proxy write completed");
+        VeritasServer.logger.debug("proxy write completed");
         StatStore.getInstance().addCounter("proxy.rpc.out.count", 1);
     }
 
@@ -63,7 +63,7 @@ public class ProxyHandler extends SimpleChannelHandler {
         // e.getCause() instanceof ReadTimeoutException
         // e.getCause() instanceof WriteTimeoutException
 
-        PeepServer.logger.debug("proxy exception caught : " + e.getCause());
+        VeritasServer.logger.debug("proxy exception caught : " + e.getCause());
         StatStore.getInstance().addCounter("proxy.exception.count", 1);
 
         e.getChannel().setAttachment(node.socketAddress.toString());

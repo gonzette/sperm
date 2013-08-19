@@ -1,4 +1,4 @@
-package com.dirlt.java.peeper;
+package com.dirlt.java.veritas;
 
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.*;
@@ -16,7 +16,6 @@ import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -108,9 +107,9 @@ public class ProxyConnector {
     }
 
     public void onChannelClosed(Channel channel, Node.ClosedCause cause) {
-        PeepServer.logger.debug("connector on channel closed end");
+        VeritasServer.logger.debug("connector on channel closed end");
         connectionNumber.decrementAndGet();
-        PeepServer.logger.debug("closed channel remote address = " + channel.getAttachment() + ", cause = " + cause);
+        VeritasServer.logger.debug("closed channel remote address = " + channel.getAttachment() + ", cause = " + cause);
         Node node = nodes.get(channel.getAttachment());
         node.connectionNumber.decrementAndGet();
         if (cause == Node.ClosedCause.kReadWriteFailed) {
@@ -121,7 +120,7 @@ public class ProxyConnector {
     }
 
     public void addConnection() {
-        //PeepServer.logger.debug("add connection");
+        //VeritasServer.logger.debug("add connection");
         // avg load is low and connection number is enough.
         if (avgAvailableConnectionPoolSize < 2.5f && connectionNumber.get() >= configuration.getProxyMinConnectionNumber()) {
             return;

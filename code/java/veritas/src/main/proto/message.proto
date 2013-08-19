@@ -2,7 +2,7 @@
  * Copyright (C) dirlt
  */
 
-package com.dirlt.java.peeper;
+package com.dirlt.java.veritas;
 
 option java_outer_classname = "MessageProtos1";
 

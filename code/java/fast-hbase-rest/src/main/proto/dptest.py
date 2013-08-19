@@ -158,11 +158,11 @@ def doUVEstimator():
         print 2 ** (float(sum(bucket)) / len(bucket)) * len(bucket) * 0.79402
     
 if __name__=='__main__':
-    queryColumn()
-    # queryColumnFamily()
+    # queryColumn()
+    queryColumnFamily()
     # multiQuery()
     # queryColumnLarge()
     # queryModels()
-    #doUVEstimator()
+    # doUVEstimator()
     
     

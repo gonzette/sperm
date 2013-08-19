@@ -1,4 +1,4 @@
-package com.dirlt.java.peeper;
+package com.dirlt.java.veritas;
 
 
 import com.google.protobuf.ByteString;
@@ -73,12 +73,12 @@ public class AsyncClient implements Runnable {
     public AtomicInteger refCounter;
     public List<AsyncClient> clients;
 
-    public Channel peeperChannel;
+    public Channel veritasChannel;
     public Channel proxyChannel;
     public volatile boolean proxyChannelClosed;
-    public ChannelBuffer peeperBuffer;
-    public Object peeperRequest;
-    public Object peeperResponse;
+    public ChannelBuffer veritasBuffer;
+    public Object veritasRequest;
+    public Object veritasResponse;
     public ChannelBuffer proxyBuffer;
     public MessageProtos1.MultiReadRequest proxyIdRequest;
     public MessageProtos1.MultiReadResponse proxyIdResponse;
@@ -95,7 +95,7 @@ public class AsyncClient implements Runnable {
     public void init() {
         subRequest = false;
         requestStatus = RequestStatus.kOK;
-        peeperChannel = null;
+        veritasChannel = null;
         proxyChannel = null;
         proxyChannelClosed = false;
         umengId = null;
@@ -115,7 +115,7 @@ public class AsyncClient implements Runnable {
     public int detectTimeout(String stage) {
         int rest = (int) (requestTimeout + requestTimestamp - System.currentTimeMillis());
         if (rest < 0) {
-            PeepServer.logger.debug("detect timeout at stage '" + stage + "'");
+            VeritasServer.logger.debug("detect timeout at stage '" + stage + "'");
             StatStore.getInstance().addCounter("rpc.timeout.count." + stage, 1);
         }
         return rest;
@@ -129,7 +129,7 @@ public class AsyncClient implements Runnable {
         buffer.writeBytes(content.getBytes());
         response.setContent(buffer);
         channel.write(response);
-        StatStore.getInstance().addCounter("peeper.rpc.out.bytes", content.length());
+        StatStore.getInstance().addCounter("veritas.rpc.out.bytes", content.length());
     }
 
     public static void writeMessage(String path, Channel channel, Message message) {
@@ -180,21 +180,21 @@ public class AsyncClient implements Runnable {
     }
 
     public void handleHttpRequest() {
-        PeepServer.logger.debug("peeper http request");
-        int size = peeperBuffer.readableBytes();
+        VeritasServer.logger.debug("veritas http request");
+        int size = veritasBuffer.readableBytes();
         Object request = null;
         if (size != 0) {
-            StatStore.getInstance().addCounter("peeper.rpc.in.bytes", size);
+            StatStore.getInstance().addCounter("veritas.rpc.in.bytes", size);
             byte[] bs = new byte[size];
-            peeperBuffer.readBytes(bs);
+            veritasBuffer.readBytes(bs);
             try {
                 request = parser.parse(new InputStreamReader(new ByteArrayInputStream(bs)));
             } catch (Exception e) {
-                PeepServer.logger.debug("peeper parse json exception");
+                VeritasServer.logger.debug("veritas parse json exception");
                 if (configuration.isDebug()) {
                     e.printStackTrace();
                 }
-                StatStore.getInstance().addCounter("peeper.rpc.in.count.invalid", 1);
+                StatStore.getInstance().addCounter("veritas.rpc.in.count.invalid", 1);
                 raiseException(e);
                 return;
             }
@@ -210,35 +210,35 @@ public class AsyncClient implements Runnable {
         } else if (request instanceof JSONArray) {
             code = Status.kMultiRequest;
         } else {
-            PeepServer.logger.debug("peeper invalid json type");
-            StatStore.getInstance().addCounter("peeper.rpc.in.count.invalid", 1);
+            VeritasServer.logger.debug("veritas invalid json type");
+            StatStore.getInstance().addCounter("veritas.rpc.in.count.invalid", 1);
             raiseException("invalid json");
             return;
         }
 
-        peeperRequest = request;
+        veritasRequest = request;
         // same thread.
         run();
     }
 
     public void handleSingleRequest() {
-        PeepServer.logger.debug("peeper handle single request");
+        VeritasServer.logger.debug("veritas handle single request");
         // parse json.
-        JSONObject object = (JSONObject) peeperRequest;
+        JSONObject object = (JSONObject) veritasRequest;
         boolean ok = true;
         Object account = object.get("account");
         if (account == null || !(account instanceof String)) {
-            PeepServer.logger.debug("peeper invalid json at field 'account'");
+            VeritasServer.logger.debug("veritas invalid json at field 'account'");
             ok = false;
         }
         Object reqtype = object.get("reqtype");
         if (reqtype == null || !(reqtype instanceof String)) {
-            PeepServer.logger.debug("peeper invalid json at field 'reqtype'");
+            VeritasServer.logger.debug("veritas invalid json at field 'reqtype'");
             ok = false;
         }
         Object device = object.get("device");
         if (device == null || !(device instanceof JSONObject)) {
-            PeepServer.logger.debug("peeper invalid json, at field 'device'");
+            VeritasServer.logger.debug("veritas invalid json, at field 'device'");
             ok = false;
         }
         if (!ok) {
@@ -251,7 +251,7 @@ public class AsyncClient implements Runnable {
             requestTimeout = ((Integer) timeout).intValue();
         }
 
-        PeepServer.logger.debug("peeper make pb proxy id");
+        VeritasServer.logger.debug("veritas make pb proxy id");
         // make protocol buffer object.
         // use multi read.
         int to = detectTimeout("before-makepb-proxy-id");
@@ -278,7 +278,7 @@ public class AsyncClient implements Runnable {
             builder.addRequests(sub);
         }
         if (!ok) {
-            PeepServer.logger.debug("peeper invalid json, no field in 'device'");
+            VeritasServer.logger.debug("veritas invalid json, no field in 'device'");
             raiseException("invalid json without any field in 'device'");
             return;
         }
@@ -288,13 +288,13 @@ public class AsyncClient implements Runnable {
     }
 
     public void handleMultiRequest() {
-        PeepServer.logger.debug("peeper handle multi request");
-        JSONArray array = (JSONArray) peeperRequest;
+        VeritasServer.logger.debug("veritas handle multi request");
+        JSONArray array = (JSONArray) veritasRequest;
         for (int i = 0; i < array.size(); i++) {
             Object sub = array.get(i);
             if (!(sub instanceof JSONObject)) {
-                PeepServer.logger.debug("peeper invalid json array");
-                StatStore.getInstance().addCounter("peeper.rpc.in.count.invalid", 1);
+                VeritasServer.logger.debug("veritas invalid json array");
+                StatStore.getInstance().addCounter("veritas.rpc.in.count.invalid", 1);
                 raiseException("invalid json");
                 return;
             }
@@ -316,7 +316,7 @@ public class AsyncClient implements Runnable {
             client.code = Status.kSingleRequest;
             client.subRequest = true;
             client.parent = this;
-            client.peeperRequest = sub;
+            client.veritasRequest = sub;
             client.requestTimestamp = requestTimestamp;
             clients.add(client);
             CpuWorkerPool.getInstance().submit(client);
@@ -324,7 +324,7 @@ public class AsyncClient implements Runnable {
     }
 
     public void handleProxyRequestId() {
-        PeepServer.logger.debug("peeper handle proxy request id");
+        VeritasServer.logger.debug("veritas handle proxy request id");
         int to = detectTimeout("before-request-proxy-id");
         if (to < 0) {
             raiseException("timeout before request proxy id");
@@ -339,7 +339,7 @@ public class AsyncClient implements Runnable {
     }
 
     public void handleProxyResponseId() {
-        PeepServer.logger.debug("peeper handle proxy response id");
+        VeritasServer.logger.debug("veritas handle proxy response id");
         if (proxyChannelClosed) {
             raiseException("proxy id channel closed");
             return;
@@ -352,7 +352,7 @@ public class AsyncClient implements Runnable {
         try {
             builder.mergeFrom(bs);
         } catch (InvalidProtocolBufferException e) {
-            PeepServer.logger.debug("proxy id parse message exception");
+            VeritasServer.logger.debug("proxy id parse message exception");
             StatStore.getInstance().addCounter("proxy.rpc.in.count.invalid", 1);
             raiseException(e);
             return;
@@ -373,13 +373,13 @@ public class AsyncClient implements Runnable {
             umid = content.toStringUtf8();
         }
         if (emesg != null) {
-            PeepServer.logger.debug("proxy request id but with error : " + emesg);
+            VeritasServer.logger.debug("proxy request id but with error : " + emesg);
             StatStore.getInstance().addCounter("proxy.rpc.in.count.invalid", 1);
             raiseException(emesg);
             return;
         }
         if (umid == null) {
-            PeepServer.logger.debug("proxy request id, umid == null");
+            VeritasServer.logger.debug("proxy request id, umid == null");
             StatStore.getInstance().addCounter("rpc.null-umid.count", 1);
             raiseException("null umid");
             return;
@@ -396,7 +396,7 @@ public class AsyncClient implements Runnable {
         rdBuilder.setTableName(kUserInfoTable);
         rdBuilder.setColumnFamily(kUserInfoColumnFamily);
         rdBuilder.setRowKey(umid);
-        String xs[] = ((String) ((JSONObject) peeperRequest).get("reqtype")).split(",");
+        String xs[] = ((String) ((JSONObject) veritasRequest).get("reqtype")).split(",");
         for (String x : xs) {
             if (reqTypeKeys.contains(x)) {
                 rdBuilder.addQualifiers(x);
@@ -409,7 +409,7 @@ public class AsyncClient implements Runnable {
 
     public void handleProxyRequestInfo() {
         // proxy request info.
-        PeepServer.logger.debug("peeper handle proxy request info");
+        VeritasServer.logger.debug("veritas handle proxy request info");
         int to = detectTimeout("before-request-proxy-info");
         if (to < 0) {
             raiseException("timeout before request proxy info");
@@ -424,7 +424,7 @@ public class AsyncClient implements Runnable {
     }
 
     public void handleProxyResponseInfo() {
-        PeepServer.logger.debug("peeper handle proxy response info");
+        VeritasServer.logger.debug("veritas handle proxy response info");
         if (proxyChannelClosed) {
             raiseException("proxy info channel closed");
             return;
@@ -437,14 +437,14 @@ public class AsyncClient implements Runnable {
         try {
             builder.mergeFrom(bs);
         } catch (InvalidProtocolBufferException e) {
-            PeepServer.logger.debug("proxy info parse message exception");
+            VeritasServer.logger.debug("proxy info parse message exception");
             StatStore.getInstance().addCounter("proxy.rpc.in.count.invalid", 1);
             raiseException(e);
             return;
         }
         proxyInfoResponse = builder.build();
         JSONObject object = new JSONObject();
-        JSONObject origin = (JSONObject) peeperRequest;
+        JSONObject origin = (JSONObject) veritasRequest;
         if (origin.containsKey("reqid")) {
             object.put("reqid", origin.get("reqid"));
         }
@@ -458,14 +458,14 @@ public class AsyncClient implements Runnable {
         object.put("content", content);
         object.put("ecode", "OK");
         object.put("umid", umengId);
-        peeperResponse = object;
+        veritasResponse = object;
         code = Status.kResponse;
         run();
     }
 
     public static void handleExceptionResponse(AsyncClient client) {
         JSONObject object = new JSONObject();
-        JSONObject origin = (JSONObject) client.peeperRequest;
+        JSONObject origin = (JSONObject) client.veritasRequest;
         if (origin.containsKey("reqid")) {
             object.put("reqid", origin.get("reqid"));
         }
@@ -473,13 +473,13 @@ public class AsyncClient implements Runnable {
         if (client.umengId != null) {
             object.put("umid", client.umengId);
         }
-        client.peeperResponse = object;
+        client.veritasResponse = object;
     }
 
     public void handleResponse() {
-        PeepServer.logger.debug("peeper handle response");
+        VeritasServer.logger.debug("veritas handle response");
         if (requestStatus == RequestStatus.kOK) {
-            StatStore.getInstance().addCounter("peeper.rpc.duration", System.currentTimeMillis() - requestTimestamp);
+            StatStore.getInstance().addCounter("veritas.rpc.duration", System.currentTimeMillis() - requestTimestamp);
         }
         if (!subRequest) {
             if (requestStatus != RequestStatus.kOK) {
@@ -495,9 +495,9 @@ public class AsyncClient implements Runnable {
                     if (client.requestStatus != RequestStatus.kOK) {
                         handleExceptionResponse(client);
                     }
-                    result.add(client.peeperRequest);
+                    result.add(client.veritasRequest);
                 }
-                parent.peeperResponse = result;
+                parent.veritasResponse = result;
                 parent.code = Status.kHttpResponse;
                 parent.run();
             }
@@ -505,14 +505,14 @@ public class AsyncClient implements Runnable {
     }
 
     public void handleHttpResponse() {
-        PeepServer.logger.debug("peeper handle http response");
-        if (peeperResponse instanceof JSONObject) {
-            JSONObject object = (JSONObject) peeperResponse;
-            writeContent(peeperChannel, object.toJSONString());
-        } else if (peeperResponse instanceof JSONArray) {
-            JSONArray array = (JSONArray) peeperResponse;
-            writeContent(peeperChannel, array.toJSONString());
+        VeritasServer.logger.debug("veritas handle http response");
+        if (veritasResponse instanceof JSONObject) {
+            JSONObject object = (JSONObject) veritasResponse;
+            writeContent(veritasChannel, object.toJSONString());
+        } else if (veritasResponse instanceof JSONArray) {
+            JSONArray array = (JSONArray) veritasResponse;
+            writeContent(veritasChannel, array.toJSONString());
         }
-        peeperChannel.setReadable(true);
+        veritasChannel.setReadable(true);
     }
 }

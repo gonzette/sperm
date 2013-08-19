@@ -111,7 +111,7 @@ public class Configuration {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append(String.format("stat=%s, cache=%s\n", isStat(), isCache()));
+        sb.append(String.format("stat=%s, cache=%s, debug=%s\n", isStat(), isCache(), isDebug()));
         sb.append(String.format("ip=%s, port=%d, backlog=%d\n", getIp(), getPort(), getBacklog()));
         sb.append(String.format("accept-io-thread-number=%d, accept-io-queue-size=%d\n", getAcceptIOThreadNumber(), getAcceptIOQueueSize()));
         sb.append(String.format("io-thread-number=%d, io-queue-size=%d\n", getIOThreadNumber(), getIOQueueSize()));

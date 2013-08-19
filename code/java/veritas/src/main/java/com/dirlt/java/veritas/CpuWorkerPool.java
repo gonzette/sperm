@@ -1,4 +1,4 @@
-package com.dirlt.java.peeper;
+package com.dirlt.java.veritas;
 
 import java.util.concurrent.*;
 

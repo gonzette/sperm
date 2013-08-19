@@ -1,4 +1,4 @@
-package com.dirlt.java.peeper;
+package com.dirlt.java.veritas;
 
 import org.jboss.netty.bootstrap.ServerBootstrap;
 import org.jboss.netty.channel.ChannelFactory;
@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
  * Time: 11:14 AM
  * To change this template use File | Settings | File Templates.
  */
-public class PeepServer {
+public class VeritasServer {
     public static class Logger {
         public boolean xdebug = true;
         public boolean xinfo = true;
@@ -65,7 +65,7 @@ public class PeepServer {
                 pipeline.addLast("encoder", new HttpResponseEncoder());
 //                pipeline.addLast("rto_handler", new ReadTimeoutHandler(timer, configuration.getReadTimeout(), TimeUnit.MILLISECONDS));
 //                pipeline.addLast("wto_handler", new WriteTimeoutHandler(timer, configuration.getWriteTimeout(), TimeUnit.MILLISECONDS));
-                pipeline.addLast("handler", new PeepHandler(configuration));
+                pipeline.addLast("handler", new VeritasHandler(configuration));
                 return pipeline;
             }
         });

@@ -1,4 +1,4 @@
-package com.dirlt.java.peeper;
+package com.dirlt.java.veritas;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class Configuration {
     private int proxyTimerTickInterval = 1000; // 1000ms
     private int proxyRecoveryTickNumber = 6; // 6 * 1000ms = 6s.
 
-    private String serviceName = "peeper";
+    private String serviceName = "veritas";
     private boolean debug = true;
     private boolean stat = true;
     private Map<String, String> kv = new HashMap<String, String>();
@@ -97,7 +97,7 @@ public class Configuration {
     }
 
     public static void usage() {
-        System.out.println("peeper");
+        System.out.println("veritas");
         System.out.println("\t--ip # default 0.0.0.0");
         System.out.println("\t--port # default 12346");
         System.out.println("\t--backlog # default 128");
