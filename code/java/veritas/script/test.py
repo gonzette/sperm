@@ -2,6 +2,7 @@
 #coding:utf-8
 #Copyright (C) dirlt
 
+import socket
 import urllib2
 def raiseHTTPRequest(url,data=None,timeout=3):
     # if we do post, we have to provide data.
@@ -20,15 +21,20 @@ def test1():
             "account":'dirlt',
             'timeout':1000,
             'reqtype':'geographic',
-            'device':{
-                'imei':'123'
-                }
+            'imei':'123'
             }
     data = raiseHTTPRequest(URL,jsonToString(json))
     print data
 
+def test2():
+    url = URL + '?reqid=3&account=dirlt&timeout=1000&reqtype=geographic&imei=123'    
+    data = raiseHTTPRequest(url)
+    print data
+    
+
 if __name__ == '__main__':
     test1()
+    # test2()
     
             
             
