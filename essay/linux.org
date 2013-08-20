@@ -1118,6 +1118,9 @@ Allow  to  reuse  TIME_WAIT sockets for new connections when it is safe from pro
 
 Enable fast recycling of TIME_WAIT sockets.
 
+**** /proc/sys/net/ipv4/tcp_max_syn_backlog
+等待client做ack的连接数目上限
+
 **** /proc/sys/net/core/somaxconn
 每个端口监听队列的最大长度。
 
