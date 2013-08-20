@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#Copyright (C) dirlt
+
+java -cp veritas.jar \
+    -Dcom.sun.management.jmxremote.port=12348 \
+    -Dcom.sun.management.jmxremote.ssl=false \
+    -Dcom.sun.management.jmxremote.authenticate=false \
+    com.dirlt.java.veritas.VeritasServer \
+    --port=12347 \
+    --backlog=128 \
+    --backend-nodes=dp0:12345,dp4:12345 \
+    --cpu-thread-number=128 \
+    --cpu-queue-size=4096 \
+    --accept-io-thread-number=4 \
+    --io-thread-number=32 \
+    --proxy-queue-size=256 \
+    --proxy-accept-io-thread-number=4 \
+    --proxy-io-thread-number=32 \
+    --proxy-read-timeout=200 \
+    --proxy-write-timeout=200 \
+    --proxy-max-connection-number=1024 \
+    --proxy-min-connection-number=32 \
+    --proxy-add-connection-number-step=8 \
+    --proxy-timer-tick-interval=1000 \
+    --proxy-recovery-tick-number=6 \
+    --debug=false \
+    $@
+
+
