@@ -15,7 +15,7 @@ def jsonToString(dict):
 def jsonFromString(s):
     return json.loads(s)
 
-URL = 'http://localhost:12346/tell'
+URL = 'http://localhost:12347/tell'
 def test1():
     json = {"reqid":"3",
             "account":'dirlt',

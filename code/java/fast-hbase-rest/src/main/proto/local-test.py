@@ -220,13 +220,13 @@ def multiWriteNone():
     print mResponse 
 
 if __name__=='__main__':
-    # queryColumnSameConnection()
-    # queryColumn()
-    # queryEmptyColumn()
-    # queryColumnFamily()
+    queryColumnSameConnection()
+    queryColumn()
+    queryEmptyColumn()
+    queryColumnFamily()
     queryException()
-    # multiQuery()
-    # multiQueryNone()
-    # write()
-    # multiWrite()
-    # multiWriteNone()
+    multiQuery()
+    multiQueryNone()
+    write()
+    multiWrite()
+    multiWriteNone()
