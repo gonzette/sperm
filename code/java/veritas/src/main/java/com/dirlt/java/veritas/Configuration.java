@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Configuration {
     private String ip = "0.0.0.0";
-    private int port = 12346;
+    private int port = 12347;
     private int backlog = 128;
     private String backendNodes = "localhost:12345";
     private int cpuThreadNumber = 16;
@@ -24,8 +24,8 @@ public class Configuration {
     private int proxyQueueSize = 256;
     private int proxyAcceptIOThreadNumber = 4;
     private int proxyIOThreadNumber = 16;
-    private int proxyReadTimeout = 200; // 100 ms
-    private int proxyWriteTimeout = 200; // 100 ms
+    private int proxyReadTimeout = 200; // 200 ms
+    private int proxyWriteTimeout = 200; // 200 ms
     private int proxyMaxConnectionNumber = 32;
     private int proxyMinConnectionNumber = 4;
     private int proxyAddConnectionNumberStep = 4;
@@ -99,7 +99,7 @@ public class Configuration {
     public static void usage() {
         System.out.println("veritas");
         System.out.println("\t--ip # default 0.0.0.0");
-        System.out.println("\t--port # default 12346");
+        System.out.println("\t--port # default 12347");
         System.out.println("\t--backlog # default 128");
         System.out.println("\t--backend-nodes # default localhost:12345");
         System.out.println("\t--cpu-thread-number # default 16");
@@ -111,8 +111,8 @@ public class Configuration {
         System.out.println("\t--proxy-queue-size # default 256");
         System.out.println("\t--proxy-accept-io-thread-number # default 4");
         System.out.println("\t--proxy-io-thread-number # default 16");
-        System.out.println("\t--proxy-read-timeout # default 100(ms)");
-        System.out.println("\t--proxy-write-timeout # default 100(ms)");
+        System.out.println("\t--proxy-read-timeout # default 200(ms)");
+        System.out.println("\t--proxy-write-timeout # default 200(ms)");
         System.out.println("\t--proxy-max-connection-number # default 32");
         System.out.println("\t--proxy-min-connection-number # default 4");
         System.out.println("\t--proxy-add-connection-number-step # default 4");

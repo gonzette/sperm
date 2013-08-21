@@ -4,10 +4,13 @@
 echo "patching fast-hbase-rest ..."
 rsync -avrz $HOME/github/fast-hbase-rest/src/main/ $HOME/github/sperm/code/java/fast-hbase-rest/src/main/
 rsync -vz $HOME/github/fast-hbase-rest/pom.xml $HOME/github/sperm/code/java/fast-hbase-rest/pom.xml
+rsync -vz $HOME/github/fast-hbase-rest/.gitignore $HOME/github/sperm/code/java/fast-hbase-rest/.gitignore
 rsync -vz $HOME/github/fast-hbase-rest/run-fast-hbase-rest $HOME/github/sperm/code/java/fast-hbase-rest/run-fast-hbase-rest
 
 echo "patching veritas ..."
 rsync -avrz $HOME/github/veritas/src/main/ $HOME/github/sperm/code/java/veritas/src/main/
-rsync -avrz $HOME/github/veritas/script $HOME/github/sperm/code/java/veritas/script
+rsync -avrz $HOME/github/veritas/script/ $HOME/github/sperm/code/java/veritas/script/
 rsync -vz $HOME/github/veritas/pom.xml $HOME/github/sperm/code/java/veritas/pom.xml
+rsync -vz $HOME/github/veritas/.gitignore $HOME/github/sperm/code/java/veritas/.gitignore
+rsync -vz $HOME/github/veritas/run-veritas $HOME/github/sperm/code/java/veritas/run-veritas
 

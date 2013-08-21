@@ -128,6 +128,8 @@ ff02::3	ip6-allhosts
 10.11.0.95	dp88.umops.us	dp88.umeng.com	dp88
 10.11.0.96	dp89.umops.us	dp89.umeng.com	dp89
 
+10.18.10.60	umid1
+10.18.10.61 	umid2
 10.18.20.18	umid3.umops.us	umid3.umeng.com	umid3
 10.18.20.19	umid4.umops.us	umid4.umeng.com	umid4
 10.11.0.72	umid5.umops.us	umid5.umeng.com	umid5
