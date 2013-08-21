@@ -476,9 +476,17 @@
   (setq mac-command-modifier 'meta)
   (global-set-key [kp-delete] 'delete-char) ;; sets fn-delete to be right-delete
   )
+
 ;;; systemtap.
 (require 'systemtap-mode)
 (add-to-list 'auto-mode-alist '("\\.stp$" . systemtap-mode))
+
+;;; scala-mode.
+(setq load-path (cons "~/.emacs.d/scala-mode2/" load-path))
+(require 'scala-mode2)
+(add-to-list 'auto-mode-alist
+	     '("\\.scala$" . scala-mode)
+	     '("\\.sbt$" . scala-mode))
 
 ;;; rainbow-delimiters
 ;; (require 'rainbow-delimiters)

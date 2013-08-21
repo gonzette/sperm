@@ -144,6 +144,11 @@ export GOROOT=$HOME/utils/go
 export GOPATH=$HOME/go/
 PATH=$GOROOT/bin:$PATH
 
+# scala
+export SCALA_HOME=$HOME/utils/scala-2.10.2
+PATH=$SCALA_HOME/bin:$PATH
+MANPATH=$SCALA_HOME/man:$PATH
+
 # export path and manpath.
 export PATH
 export MANPATH
