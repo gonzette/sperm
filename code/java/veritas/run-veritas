@@ -24,6 +24,6 @@ java -cp veritas.jar \
     --proxy-timer-tick-interval=1000 \
     --proxy-recovery-tick-number=6 \
     --debug=false \
+    --response-with-best-effort=true \
     $@
-
 

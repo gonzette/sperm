@@ -19,7 +19,7 @@ public class Configuration {
     private int cpuQueueSize = 4096;
     private int acceptIOThreadNumber = 4;
     private int ioThreadNumber = 16;
-//    private int readTimeout = 500; // 500ms.
+    //    private int readTimeout = 500; // 500ms.
 //    private int writeTimeout = 500; // 500ms.
     private int proxyQueueSize = 256;
     private int proxyAcceptIOThreadNumber = 4;
@@ -31,10 +31,18 @@ public class Configuration {
     private int proxyAddConnectionNumberStep = 4;
     private int proxyTimerTickInterval = 1000; // 1000ms
     private int proxyRecoveryTickNumber = 6; // 6 * 1000ms = 6s.
-
     private String serviceName = "veritas";
     private boolean debug = true;
     private boolean stat = true;
+    private boolean responseWithBestEffort = true;
+
+    // table info.
+    private String deviceIdMappingTable = "device_id_mapping";
+    private String deviceIdMappingColumnFamily = "mapping";
+    private String userInfoTable = "userinfo";
+    private String userInfoColumnFamily = "info";
+
+    // kv.
     private Map<String, String> kv = new HashMap<String, String>();
 
     public boolean parse(String[] args) {
@@ -81,10 +89,20 @@ public class Configuration {
                 proxyRecoveryTickNumber = Integer.valueOf(arg.substring("--proxy-recovery-tick-number=".length())).intValue();
             } else if (arg.startsWith("--service-name=")) {
                 serviceName = arg.substring("--service-name=".length());
+            } else if (arg.startsWith("--device-id-mapping-table=")) {
+                deviceIdMappingTable = arg.substring("--device-id-mapping-table=".length());
+            } else if (arg.startsWith("--device-id-mapping-column-family=")) {
+                deviceIdMappingColumnFamily = arg.substring("--device-id-mapping-column-family=".length());
+            } else if (arg.startsWith("--user-info-table=")) {
+                userInfoTable = arg.substring("--user-info-table=".length());
+            } else if (arg.startsWith("--user-info-column-family=")) {
+                userInfoColumnFamily = arg.substring("--user-info-column-family=".length());
             } else if (arg.startsWith("--debug=")) {
                 debug = Boolean.valueOf(arg.substring("--debug=".length()));
             } else if (arg.startsWith("--stat=")) {
                 stat = Boolean.valueOf(arg.substring("--stat=".length()));
+            } else if (arg.startsWith("--response-with-best-effort=")) {
+                responseWithBestEffort = Boolean.valueOf(arg.substring("--response-with-best-effort=".length()));
             } else if (arg.startsWith("--kv=")) {
                 String s = arg.substring("--kv=".length());
                 String[] ss = s.split(":");
@@ -119,6 +137,11 @@ public class Configuration {
         System.out.println("\t--proxy-timer-tick-interval # default 1000(ms)");
         System.out.println("\t--proxy-recovery-tick-number # default 6");
         System.out.println("\t--service-name # set service name");
+        System.out.println("\t--device-id-mapping-table # default device_id_mapping");
+        System.out.println("\t--device-id-mapping-column-family # default mapping");
+        System.out.println("\t--user-info-table # default userinfo");
+        System.out.println("\t--user-info-column-family # default info");
+        System.out.println("\t--response-with-best-effort # default true");
         System.out.println("\t--debug # default true");
         System.out.println("\t--stat # default true");
         System.out.println("\t--kv=<key>:<value> # key value pair");
@@ -144,6 +167,11 @@ public class Configuration {
                 getProxyMinConnectionNumber(), getProxyMaxConnectionNumber(), getProxyAddConnectionNumberStep()));
         sb.append(String.format("proxy-timer-tick-interval=%d(ms), proxy-recovery-tick-number=%d\n",
                 getProxyTimerTickInterval(), getProxyRecoveryTickNumber()));
+        sb.append(String.format("device-id-mapping-table=%s, device-id-mapping-column-family=%s\n",
+                getDeviceIdMappingTable(), getDeviceIdMappingColumnFamily()));
+        sb.append(String.format("user-info-table=%s, user-info-column-family=%s\n",
+                getUserInfoTable(), getUserInfoColumnFamily()));
+        sb.append(String.format("return-with-best-effort=%s\n", isResponseWithBestEffort()));
         for (String key : kv.keySet()) {
             sb.append(String.format("kv = %s:%s\n", key, kv.get(key)));
         }
@@ -232,6 +260,26 @@ public class Configuration {
 
     public String getServiceName() {
         return serviceName;
+    }
+
+    public String getDeviceIdMappingTable() {
+        return deviceIdMappingTable;
+    }
+
+    public String getDeviceIdMappingColumnFamily() {
+        return deviceIdMappingColumnFamily;
+    }
+
+    public String getUserInfoTable() {
+        return userInfoTable;
+    }
+
+    public String getUserInfoColumnFamily() {
+        return userInfoColumnFamily;
+    }
+
+    public boolean isResponseWithBestEffort() {
+        return responseWithBestEffort;
     }
 
     public boolean isDebug() {

@@ -43,12 +43,18 @@ def testGET():
     url = URL + '?reqid=3&account=dirlt&timeout=1000&reqtype=geographic&imei=123'    
     data = raiseHTTPRequest(url)
     print data
-    
+
+def testGETUmid():
+    url = URL + '?reqid=3&account=dirlt&timeout=1000&reqtype=geographic&umid=1'    
+    data = raiseHTTPRequest(url)
+    print data
+
 
 if __name__ == '__main__':
     testPOST()
     testMultiPOST()
     testGET()
+    testGETUmid()
 
     
             
