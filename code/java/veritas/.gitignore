@@ -1,0 +1,16 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+target
+*.pyc
+.idea
+
+scratch.py
+
+*.iml
+
+script/batch_pressure.out
