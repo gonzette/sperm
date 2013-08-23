@@ -2107,17 +2107,34 @@ NOTE(dirlt):不过httperf采用select模型，导致最大连接数存在上限�
               Errors: total 3 client-timo 0 socket-timo 0 connrefused 3 connreset 0
               Errors: fd-unavail 0 addrunavail 0 ftab-full 0 other 0
 #+END_EXAMPLE
-我们可能最需要关心的就是Request和Reply部分了，但是大部分字段还是很好理解的。其中repsonse表示从发出第一个字节到接收到第一个字节时间，而transfer表示接收reply的时间。Connection部分的话，connection rate表示发起connection频率，concurrent connections表示并发数最高达到14个连接。connection time表示从connection发起到断开间隔，connection connect表示建立连接时间。connection length表示reply和connection数目比。
+Connection部分
+   - connection rate表示发起connection频率
+   - concurrent connections表示并发数最高达到14个连接
+   - onnection time表示从connection发起到断开间隔
+   - connection connect表示建立连接时间
+   - connection length表示reply和connection数目比
+
+Request部分
+   - rate表示在 *单个连接上每个请求* 处理速率和时间
+   - size表示每个request平均大小
+
+Reply部分
+   - repsonse表示从发出第一个请求字节到接收到第一个响应字节时间
+   - transfer表示接收响应的传输时间
 
 如果使用session模式的话，那么结果会有
 #+BEGIN_EXAMPLE
-Session rate [sess/s]:min 0.00 avg 0.59 max 2.40 stddev0.37 (240/450)
-Session:avg6.45 connections/session
-Session lifetime [s]:123.9
-Session failtime [s]:58.5
-Session length histogram:4 7 4... 3 3 240
+Session rate [sess/s]: min 0.00 avg 0.59 max 2.40 stddev 0.37 (240/450)
+Session: avg 6.45 connections/session
+Session lifetime [s]: 123.9
+Session failtime [s]: 58.5
+Session length histogram: 4 7 4... 3 3 240
 #+END_EXAMPLE
-session rate表示session完成频率。240/250表示发起250个但是完成240个。session length表示每个session包含多少个连接。lifetime平均每个session完成占用时间，failtime平均每个session要是失败的话在失败之前占用时间。length historagm表示每个session得到的reply个数，4个没有接收到任何reply,7个接受到1个。
+   - session rate表示session完成频率。240/250表示发起250个但是完成240个
+   - 表示每个session包含多少个连接
+   - lifetime表示平均每个成功session完成占用时间
+   - failtime表示平均每个失败session在失败之前占用时间
+   - length historagm表示每个session得到的reply个数，4个没有接收到任何reply,7个接受到1个。
 
 *** ab
 ab(apache benchmarking)是apache httpd自带的一个HTTP Server个的工具。下面是这个工具命令行参数
