@@ -12,5 +12,3 @@ target
 scratch.py
 
 *.iml
-
-script/batch_pressure.out

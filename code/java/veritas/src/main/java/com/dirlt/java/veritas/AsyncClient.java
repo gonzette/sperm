@@ -486,7 +486,6 @@ public class AsyncClient implements Runnable {
         StatStore.getInstance().addCounter("proxy.rpc.in.bytes", size);
         byte[] bs = new byte[size];
         proxyBuffer.readBytes(bs);
-        debug("veritas proxy response info : newBuilder");
         MessageProtos1.ReadResponse.Builder builder = MessageProtos1.ReadResponse.newBuilder();
         try {
             builder.mergeFrom(bs);
@@ -498,7 +497,6 @@ public class AsyncClient implements Runnable {
         }
         proxyInfoResponse = builder.build();
 //        System.out.println(proxyInfoResponse.toString());
-        debug("veritas proxy response info : new JSONObject");
         JSONObject object = new JSONObject();
         JSONObject origin = (JSONObject) veritasRequest;
         if (origin.containsKey(kRequestIdKey)) {
