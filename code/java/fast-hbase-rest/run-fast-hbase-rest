@@ -13,10 +13,12 @@ java -cp FastHBaseRest.jar \
     --cache-max-capacity=2097152 \
     --accept-io-thread-number=4 \
     --accept-io-queue-size=16 \
-    --cpu-thread-number=128 \
+    --cpu-thread-number=1024 \
     --cpu-queue-size=4096 \
     --io-thread-number=32 \
     --io-queue-size=4096 \
+    --read-hbase-timeout=5000 \
+    --write-hbase-timeout=5000 \
     --debug=false \
     --close-on-failure=true \
     --kv=appuserstat.date.addHashCodeAsRowKeyPrefix:2013-07-02 \

@@ -24,25 +24,11 @@ import java.util.concurrent.TimeUnit;
  */
 public class RestServer {
     public static class Logger {
-        public boolean xdebug = true;
-        public boolean xinfo = true;
-        public boolean xwarn = true;
+        public boolean fDebug = true;
 
         public void debug(String s) {
-            if (xdebug) {
+            if (fDebug) {
                 System.out.println("[DEBUG]" + s);
-            }
-        }
-
-        public void info(String s) {
-            if (xinfo) {
-                System.out.println("[INFO]" + s);
-            }
-        }
-
-        public void warn(String s) {
-            if (xwarn) {
-                System.out.println("[WARN]" + s);
             }
         }
     }
@@ -90,7 +76,7 @@ public class RestServer {
         }
         // easy way!!
         if (!configuration.isDebug()) {
-            logger.xdebug = false;
+            logger.fDebug = false;
         }
         System.out.print(configuration);
         LocalCache.init(configuration);

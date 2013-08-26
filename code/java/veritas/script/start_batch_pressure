@@ -1,7 +1,0 @@
-#!/bin/bash
-rm batch_pressure.out
-for((i=0;i<200;i++))
-do
-    ./pressure.py $@ >> batch_pressure.out &
-done
-

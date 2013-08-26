@@ -93,9 +93,7 @@ public class RestHandler extends SimpleChannelHandler {
             return;
         }
 
-        client.init();
-        client.code = AsyncClient.Status.kHttpRequest;
-        client.subRequest = false;
+        client.init(AsyncClient.Status.kHttpRequest, false);
         client.channel = channel;
         client.path = path;
         client.buffer = request.getContent();
@@ -141,7 +139,7 @@ public class RestHandler extends SimpleChannelHandler {
 
         StatStore.getInstance().addCounter("exception.count", 1);
         // seems there is no particular request takes a lot time.
-//        e.getCause().printStackTrace();
+        e.getCause().printStackTrace();
         e.getChannel().close();
     }
 }

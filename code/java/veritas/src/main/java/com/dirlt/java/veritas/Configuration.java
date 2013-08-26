@@ -171,7 +171,7 @@ public class Configuration {
                 getDeviceIdMappingTable(), getDeviceIdMappingColumnFamily()));
         sb.append(String.format("user-info-table=%s, user-info-column-family=%s\n",
                 getUserInfoTable(), getUserInfoColumnFamily()));
-        sb.append(String.format("return-with-best-effort=%s", isResponseWithBestEffort()));
+        sb.append(String.format("return-with-best-effort=%s\n", isResponseWithBestEffort()));
         for (String key : kv.keySet()) {
             sb.append(String.format("kv = %s:%s\n", key, kv.get(key)));
         }

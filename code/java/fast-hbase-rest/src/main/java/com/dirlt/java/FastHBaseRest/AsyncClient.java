@@ -4,8 +4,8 @@ import com.dirlt.java.FastHbaseRest.MessageProtos1;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
-import com.stumbleupon.async.Callback;
 import com.stumbleupon.async.Deferred;
+import com.stumbleupon.async.TimeoutException;
 import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
 import org.hbase.async.PutRequest;
@@ -31,13 +31,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AsyncClient implements Runnable {
     public static final String kSep = String.format("%c", 0x0);
-    public static final long kDefaultTimeout = 100 * 1000; // 100s.(that's long enough).
     public static final byte[] kEmptyBytes = new byte[0];
 
     public Configuration configuration;
 
     public AsyncClient(Configuration configuration) {
         this.configuration = configuration;
+        preAllocate();
     }
 
     // state of each step.
@@ -52,6 +52,8 @@ public class AsyncClient implements Runnable {
         kReadLocalCache,
         kReadHBaseService,
         kWriteHBaseService,
+        kReadHBaseOver,
+        kWriteHBaseOver,
         kReadResponse,
         kWriteResponse,
         kHttpResponse,
@@ -85,7 +87,9 @@ public class AsyncClient implements Runnable {
     public MessageProtos1.MultiReadRequest multiReadRequest;
     public MessageProtos1.MultiWriteRequest.Builder mWrReqBuilder;
     public MessageProtos1.MultiWriteRequest multiWriteRequest;
+    public ArrayList<KeyValue> keyValues; // key values from async hbase.
     public MessageProtos1.ReadResponse.Builder rdRes;
+    public MessageProtos1.ReadResponse.KeyValue.Builder rdResKeyValue;
     public MessageProtos1.WriteResponse.Builder wrRes;
     public MessageProtos1.MultiReadResponse.Builder mRdRes;
     public MessageProtos1.MultiWriteResponse.Builder mWrRes;
@@ -120,13 +124,44 @@ public class AsyncClient implements Runnable {
     private List<String> readHBaseQualifiers; // qualifiers that to be queried from hbase.
     // if == null, then read column family.
 
-    public void init() {
+    public void preAllocate() {
+        refCounter = new AtomicInteger();
+        clients = new LinkedList<AsyncClient>();
+        rdReqBuilder = MessageProtos1.ReadRequest.newBuilder();
+        wrReqBuilder = MessageProtos1.WriteRequest.newBuilder();
+        mRdReqBuilder = MessageProtos1.MultiReadRequest.newBuilder();
+        mWrReqBuilder = MessageProtos1.MultiWriteRequest.newBuilder();
+        rdRes = MessageProtos1.ReadResponse.newBuilder();
+        rdResKeyValue = MessageProtos1.ReadResponse.KeyValue.newBuilder();
+        wrRes = MessageProtos1.WriteResponse.newBuilder();
+        mRdRes = MessageProtos1.MultiReadResponse.newBuilder();
+        mWrRes = MessageProtos1.MultiWriteResponse.newBuilder();
+        readCacheQualifiers = new LinkedList<String>();
+    }
+
+    public void reset() {
+        clients.clear();
+        rdReqBuilder.clear();
+        wrReqBuilder.clear();
+        mRdReqBuilder.clear();
+        mWrReqBuilder.clear();
+        rdRes.clear();
+        rdResKeyValue.clear();
+        wrRes.clear();
+        mRdRes.clear();
+        mWrRes.clear();
+        readCacheQualifiers.clear();
+    }
+
+    public void init(Status code, boolean subRequest) {
+        this.code = code;
+        this.subRequest = subRequest;
+        requestStatus = RequestStatus.kOK;
         rdReq = null;
         wrReq = null;
         multiReadRequest = null;
         multiWriteRequest = null;
-        requestStatus = RequestStatus.kOK;
-        requestTimeout = kDefaultTimeout;
+        reset();
     }
 
     @Override
@@ -155,6 +190,12 @@ public class AsyncClient implements Runnable {
                 break;
             case kWriteHBaseService:
                 writeHBaseService();
+                break;
+            case kReadHBaseOver:
+                readHBaseOver();
+                break;
+            case kWriteHBaseOver:
+                writeHBaseOver();
                 break;
             case kReadResponse:
                 readResponse();
@@ -218,7 +259,6 @@ public class AsyncClient implements Runnable {
         RestServer.logger.debug("read request");
         if (!subRequest) {
             // parse request.
-            rdReqBuilder = MessageProtos1.ReadRequest.newBuilder();
             try {
                 rdReqBuilder.mergeFrom(bs);
             } catch (InvalidProtocolBufferException e) {
@@ -230,6 +270,7 @@ public class AsyncClient implements Runnable {
             }
             rdReq = rdReqBuilder.build();
             StatStore.getInstance().addCounter("rpc.read.count", 1);
+            requestTimeout = configuration.getReadHBaseTimeout();
             if (rdReq.hasTimeout()) {
                 requestTimeout = rdReq.getTimeout();
             }
@@ -251,7 +292,6 @@ public class AsyncClient implements Runnable {
         rowKey = rdReq.getRowKey();
         columnFamily = rdReq.getColumnFamily();
 
-        rdRes = MessageProtos1.ReadResponse.newBuilder();
         rdRes.setError(false);
 
         prefix = makeCacheKeyPrefix(tableName, rowKey, columnFamily);
@@ -269,7 +309,6 @@ public class AsyncClient implements Runnable {
 
     public void multiRead() {
         RestServer.logger.debug("multi read request");
-        mRdReqBuilder = MessageProtos1.MultiReadRequest.newBuilder();
         try {
             mRdReqBuilder.mergeFrom(bs);
         } catch (InvalidProtocolBufferException e) {
@@ -287,24 +326,14 @@ public class AsyncClient implements Runnable {
             return;
         }
         StatStore.getInstance().addCounter("rpc.multi-read.count", 1);
-        if (refCounter == null) {
-            refCounter = new AtomicInteger(multiReadRequest.getRequestsCount());
-        } else {
-            refCounter.set(multiReadRequest.getRequestsCount());
-        }
-        if (clients == null) {
-            clients = new LinkedList<AsyncClient>();
-        } else {
-            clients.clear();
-        }
+        refCounter.set(multiReadRequest.getRequestsCount());
+        requestTimeout = configuration.getReadHBaseTimeout();
         if (multiReadRequest.hasTimeout()) {
             requestTimeout = multiReadRequest.getTimeout();
         }
         for (MessageProtos1.ReadRequest request : multiReadRequest.getRequestsList()) {
             AsyncClient client = new AsyncClient(configuration);
-            client.init();
-            client.code = Status.kReadRequest;
-            client.subRequest = true;
+            client.init(Status.kReadRequest, true);
             client.rdReq = request;
             client.parent = this;
             // sub request inherits from parent request.
@@ -318,7 +347,6 @@ public class AsyncClient implements Runnable {
     public void writeRequest() {
         RestServer.logger.debug("write request");
         if (!subRequest) {
-            wrReqBuilder = MessageProtos1.WriteRequest.newBuilder();
             // parse request.
             try {
                 wrReqBuilder.mergeFrom(bs);
@@ -331,6 +359,7 @@ public class AsyncClient implements Runnable {
             }
             wrReq = wrReqBuilder.build();
             StatStore.getInstance().addCounter("rpc.write.count", 1);
+            requestTimeout = configuration.getWriteHBaseTimeout();
             if (wrReq.hasTimeout()) {
                 requestTimeout = wrReq.getTimeout();
             }
@@ -350,8 +379,6 @@ public class AsyncClient implements Runnable {
         rowKey = wrReq.getRowKey();
         columnFamily = wrReq.getColumnFamily();
 
-        // prepare the result.
-        wrRes = MessageProtos1.WriteResponse.newBuilder();
         wrRes.setError(false);
 
         code = Status.kWriteHBaseService;
@@ -360,7 +387,6 @@ public class AsyncClient implements Runnable {
 
     public void multiWrite() {
         RestServer.logger.debug("multi write request");
-        mWrReqBuilder = MessageProtos1.MultiWriteRequest.newBuilder();
         try {
             mWrReqBuilder.mergeFrom(bs);
         } catch (InvalidProtocolBufferException e) {
@@ -378,24 +404,14 @@ public class AsyncClient implements Runnable {
             return;
         }
         StatStore.getInstance().addCounter("rpc.multi-write.count", 1);
-        if (refCounter == null) {
-            refCounter = new AtomicInteger(multiWriteRequest.getRequestsCount());
-        } else {
-            refCounter.set(multiWriteRequest.getRequestsCount());
-        }
-        if (clients == null) {
-            clients = new LinkedList<AsyncClient>();
-        } else {
-            clients.clear();
-        }
+        refCounter.set(multiWriteRequest.getRequestsCount());
+        requestTimeout = configuration.getWriteHBaseTimeout();
         if (multiWriteRequest.hasTimeout()) {
             requestTimeout = multiWriteRequest.getTimeout();
         }
         for (MessageProtos1.WriteRequest request : multiWriteRequest.getRequestsList()) {
             AsyncClient client = new AsyncClient(configuration);
-            client.init();
-            client.code = Status.kWriteRequest;
-            client.subRequest = true;
+            client.init(Status.kWriteRequest, true);
             client.wrReq = request;
             client.parent = this;
             // sub request inherits from parent request.
@@ -408,12 +424,6 @@ public class AsyncClient implements Runnable {
 
     public void readLocalCache() {
         RestServer.logger.debug("read local cache");
-
-        if (readCacheQualifiers == null) {
-            readCacheQualifiers = new ArrayList<String>();
-        } else {
-            readCacheQualifiers.clear();
-        }
 
         // check local cache mean while fill the cache request.
         int readCount = 0;
@@ -430,10 +440,10 @@ public class AsyncClient implements Runnable {
             if (b != null) {
                 RestServer.logger.debug("cache hit!");
                 cacheCount += 1;
-                MessageProtos1.ReadResponse.KeyValue.Builder bd = MessageProtos1.ReadResponse.KeyValue.newBuilder();
-                bd.setQualifier(q);
-                bd.setContent(ByteString.copyFrom(b));
-                rdRes.addKvs(bd);
+                rdResKeyValue.setQualifier(q);
+                rdResKeyValue.setContent(ByteString.copyFrom(b));
+                rdRes.addKvs(rdResKeyValue.build());
+                rdResKeyValue.clear();
             } else {
                 RestServer.logger.debug("read hbase qualifier: " + q);
                 readCacheQualifiers.add(q);
@@ -454,9 +464,6 @@ public class AsyncClient implements Runnable {
     public void readHBaseService() {
         RestServer.logger.debug("read hbase service");
 
-        final AsyncClient client = this;
-        client.code = Status.kReadResponse;
-
         // already timeout, don't request hbase.
         if ((System.currentTimeMillis() - requestTimestamp) > requestTimeout) {
             RestServer.logger.debug("detect timeout before read request hbase");
@@ -466,6 +473,7 @@ public class AsyncClient implements Runnable {
         }
 
         RestServer.logger.debug("tableName = " + tableName + ", rowKey = " + rowKey + ", columnFamily = " + columnFamily);
+
         GetRequest getRequest = new GetRequest(tableName, rowKey);
         getRequest.family(columnFamily);
         if (rdReq.getQualifiersCount() != 0) {
@@ -483,90 +491,115 @@ public class AsyncClient implements Runnable {
             StatStore.getInstance().addCounter("read.count.hbase.column-family", 1);
         }
 
+        final AsyncClient client = this;
         client.readHBaseServiceStartTimestamp = System.currentTimeMillis();
         Deferred<ArrayList<KeyValue>> deferred = HBaseService.getInstance().get(getRequest);
-        // if failed, we don't return.
-        deferred.addCallback(new Callback<Object, ArrayList<KeyValue>>() {
-            @Override
-            public Object call(ArrayList<KeyValue> keyValues) throws Exception {
-                // we don't return because we put into CpuWorkerPool.
-                client.readHBaseServiceEndTimestamp = System.currentTimeMillis();
-                if (client.rdReq.getQualifiersCount() != 0) {
-                    // reorder qualifier according request qualifier order.
-                    // then builder and the cache.
-                    Map<String, KeyValue> mapping = new HashMap<String, KeyValue>();
-                    for (KeyValue kv : keyValues) {
-                        mapping.put(new String(kv.qualifier()), kv);
-                    }
-                    int missingCount = 0;
-                    for (String k : rdReq.getQualifiersList()) {
-                        KeyValue kv = mapping.get(k);
-                        MessageProtos1.ReadResponse.KeyValue.Builder sub = MessageProtos1.ReadResponse.KeyValue.newBuilder();
-                        sub.setQualifier(k);
-                        byte[] v = kEmptyBytes;
-                        if (kv == null) {
-                            sub.setContent(ByteString.EMPTY);
-                            missingCount++;
-                        } else {
-                            v = kv.value();
-                            sub.setContent(ByteString.copyFrom(kv.value()));
-                        }
-                        rdRes.addKvs(sub.build());
-                        // fill cache.
-                        if (client.configuration.isCache()) {
-                            String cacheKey = makeCacheKey(prefix, k);
-                            RestServer.logger.debug("fill cache with key = " + cacheKey);
-                            LocalCache.getInstance().set(cacheKey, v);
-                        }
-                    }
-                    StatStore.getInstance().addCounter("read.count.field-not-exist", missingCount);
-                    StatStore.getInstance().addCounter("read.duration.hbase.column",
-                            client.readHBaseServiceEndTimestamp - client.readHBaseServiceStartTimestamp);
-                } else {
-                    // just fill the builder. don't save them to cache.
-                    for (KeyValue kv : keyValues) {
-                        String k = new String(kv.qualifier());
-                        byte[] value = kv.value();
-                        MessageProtos1.ReadResponse.KeyValue.Builder bd = MessageProtos1.ReadResponse.KeyValue.newBuilder();
-                        bd.setQualifier(k);
-                        bd.setContent(ByteString.copyFrom(value));
-                        client.rdRes.addKvs(bd);
-                    }
-                    StatStore.getInstance().addCounter("read.duration.hbase.column-family",
-                            client.readHBaseServiceEndTimestamp - client.readHBaseServiceStartTimestamp);
-                }
-
-                // already timeout
-                if ((System.currentTimeMillis() - client.requestTimestamp) > client.requestTimeout) {
-                    RestServer.logger.debug("detect timeout after read request hbase");
-                    StatStore.getInstance().addCounter("read.count.timeout.after-request-hbase", 1);
-                    client.requestStatus = RequestStatus.kException;
-                    client.requestMessage = "timeout after read hbase";
-                }
-
-                // put back to CPU worker pool.
-                CpuWorkerPool.getInstance().submit(client);
-                return null;
-            }
-        });
-        deferred.addErrback(new Callback<Object, Exception>() {
-            @Override
-            public Object call(Exception o) throws Exception {
-                o.printStackTrace();
+//        // if failed, we don't return.
+//        deferred.addCallback(new Callback<Object, ArrayList<KeyValue>>() {
+//            @Override
+//            public Object call(ArrayList<KeyValue> keyValues) throws Exception {
+//                client.readHBaseServiceEndTimestamp = System.currentTimeMillis();
+//                client.code = Status.kReadHBaseOver;
+//                client.keyValues = keyValues;
+//                // put back to CPU worker pool.
+//                CpuWorkerPool.getInstance().submit(client);
+//                return null;
+//            }
+//        });
+//        deferred.addErrback(new Callback<Object, Exception>() {
+//            @Override
+//            public Object call(Exception o) throws Exception {
+//                o.printStackTrace();
+//                StatStore.getInstance().addCounter("read.count.error", 1);
+//                client.code = Status.kReadResponse;
+//                client.requestStatus = RequestStatus.kException;
+//                client.requestMessage = o.toString();
+//                CpuWorkerPool.getInstance().submit(client);
+//                return null;
+//            }
+//        });
+        // we don't use callback because of it's lack of controlling timeout.
+        long restTimeout = Math.max(0L, requestTimeout - (System.currentTimeMillis() - requestTimestamp));
+        try {
+            client.keyValues = deferred.joinUninterruptibly(restTimeout);
+            client.readHBaseServiceEndTimestamp = System.currentTimeMillis();
+            client.code = Status.kReadHBaseOver;
+            run();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e instanceof TimeoutException) {
+                StatStore.getInstance().addCounter("read.count.timeout.in-request-hbase", 1);
+            } else {
                 StatStore.getInstance().addCounter("read.count.error", 1);
-                client.requestStatus = RequestStatus.kException;
-                client.requestMessage = o.toString();
-                CpuWorkerPool.getInstance().submit(client);
-                return null;
             }
-        });
+            client.code = Status.kReadResponse;
+            client.requestStatus = RequestStatus.kException;
+            client.requestMessage = e.toString();
+            run();
+        }
+    }
+
+    public void readHBaseOver() {
+        RestServer.logger.debug("read hbase over");
+        if (rdReq.getQualifiersCount() != 0) {
+            // reorder qualifier according request qualifier order.
+            // then builder and the cache.
+            Map<String, KeyValue> mapping = new HashMap<String, KeyValue>();
+            for (KeyValue kv : keyValues) {
+                mapping.put(new String(kv.qualifier()), kv);
+            }
+            int missingCount = 0;
+            for (String k : rdReq.getQualifiersList()) {
+                KeyValue kv = mapping.get(k);
+                rdResKeyValue.setQualifier(k);
+                byte[] v = kEmptyBytes;
+                if (kv == null) {
+                    rdResKeyValue.setContent(ByteString.EMPTY);
+                    missingCount++;
+                } else {
+                    v = kv.value();
+                    rdResKeyValue.setContent(ByteString.copyFrom(kv.value()));
+                }
+                rdRes.addKvs(rdResKeyValue.build());
+                rdResKeyValue.clear();
+                // fill cache.
+                if (configuration.isCache()) {
+                    String cacheKey = makeCacheKey(prefix, k);
+                    RestServer.logger.debug("fill cache with key = " + cacheKey);
+                    LocalCache.getInstance().set(cacheKey, v);
+                }
+            }
+            StatStore.getInstance().addCounter("read.count.field-not-exist", missingCount);
+            StatStore.getInstance().addCounter("read.duration.hbase.column",
+                    readHBaseServiceEndTimestamp - readHBaseServiceStartTimestamp);
+        } else {
+            // just fill the builder. don't save them to cache.
+            for (KeyValue kv : keyValues) {
+                String k = new String(kv.qualifier());
+                byte[] value = kv.value();
+                rdResKeyValue.setQualifier(k);
+                rdResKeyValue.setContent(ByteString.copyFrom(value));
+                rdRes.addKvs(rdResKeyValue.build());
+                rdResKeyValue.clear();
+            }
+            StatStore.getInstance().addCounter("read.duration.hbase.column-family",
+                    readHBaseServiceEndTimestamp - readHBaseServiceStartTimestamp);
+        }
+
+        // already timeout
+        if ((System.currentTimeMillis() - requestTimestamp) > requestTimeout) {
+            RestServer.logger.debug("detect timeout after read request hbase");
+            StatStore.getInstance().addCounter("read.count.timeout.after-request-hbase", 1);
+            raiseReadException("timeout after read hbase");
+            return;
+        }
+
+        code = Status.kReadResponse;
+        run();
     }
 
     public void writeHBaseService() {
         RestServer.logger.debug("write hbase service");
-
-        final AsyncClient client = this;
-        client.code = Status.kWriteResponse;
 
         // already timeout, don't request hbase.
         if ((System.currentTimeMillis() - requestTimestamp) > requestTimeout) {
@@ -587,40 +620,67 @@ public class AsyncClient implements Runnable {
         StatStore.getInstance().addCounter("write.count", wrReq.getKvsCount());
         PutRequest putRequest = new PutRequest(tableName.getBytes(), rowKey.getBytes(), columnFamily.getBytes(), qualifiers, values);
 
+        final AsyncClient client = this;
         client.writeHBaseServiceStartTimestamp = System.currentTimeMillis();
         Deferred<Object> deferred = HBaseService.getInstance().put(putRequest);
-        // if failed, we don't return.
-        deferred.addCallback(new Callback<Object, Object>() {
-            @Override
-            public Object call(Object obj) throws Exception {
-                // already timeout
-                if ((System.currentTimeMillis() - client.requestTimestamp) > client.requestTimeout) {
-                    RestServer.logger.debug("detect timeout after write request hbase");
-                    StatStore.getInstance().addCounter("write.count.timeout.after-request-hbase", 1);
-                    client.requestStatus = RequestStatus.kException;
-                    client.requestMessage = "timeout after write hbase";
-                }
-
-                // we don't return because we put into CpuWorkerPool.
-                CpuWorkerPool.getInstance().submit(client);
-                return null;
-            }
-        });
-        deferred.addErrback(new Callback<Object, Exception>() {
-            @Override
-            public Object call(Exception o) throws Exception {
-                // we don't care.
-                o.printStackTrace();
+//        // if failed, we don't return.
+//        deferred.addCallback(new Callback<Object, Object>() {
+//            @Override
+//            public Object call(Object obj) throws Exception {
+//                client.code = Status.kWriteHBaseOver;
+//                // we don't return because we put into CpuWorkerPool.
+//                CpuWorkerPool.getInstance().submit(client);
+//                return null;
+//            }
+//        });
+//        deferred.addErrback(new Callback<Object, Exception>() {
+//            @Override
+//            public Object call(Exception o) throws Exception {
+//                // we don't care.
+//                o.printStackTrace();
+//                StatStore.getInstance().addCounter("write.count.error", 1);
+//                client.code = Status.kWriteResponse;
+//                client.requestStatus = RequestStatus.kException;
+//                client.requestMessage = o.toString();
+//                CpuWorkerPool.getInstance().submit(client);
+//                return null;
+//            }
+//        });
+        // we don't use callback because of it's lack of controlling timeout.
+        long restTimeout = Math.max(0L, requestTimeout - (System.currentTimeMillis() - requestTimestamp));
+        try {
+            deferred.joinUninterruptibly(restTimeout);
+            client.code = Status.kWriteHBaseOver;
+            run();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (e instanceof TimeoutException) {
+                StatStore.getInstance().addCounter("write.count.timeout.in-request-hbase", 1);
+            } else {
                 StatStore.getInstance().addCounter("write.count.error", 1);
-                client.requestStatus = RequestStatus.kException;
-                client.requestMessage = o.toString();
-                CpuWorkerPool.getInstance().submit(client);
-                return null;
             }
-        });
+            client.code = Status.kWriteResponse;
+            client.requestStatus = RequestStatus.kException;
+            client.requestMessage = e.toString();
+            run();
+        }
+    }
+
+    public void writeHBaseOver() {
+        RestServer.logger.debug("write hbase over");
+        if ((System.currentTimeMillis() - requestTimestamp) > requestTimeout) {
+            RestServer.logger.debug("detect timeout after write request hbase");
+            StatStore.getInstance().addCounter("write.count.timeout.after-request-hbase", 1);
+            raiseWriteException("timeout after write hbase");
+            return;
+        }
+
+        code = Status.kWriteResponse;
+        run();
     }
 
     public void readResponse() {
+        RestServer.logger.debug("read response");
         if (requestStatus == RequestStatus.kOK) {
             readEndTimestamp = System.currentTimeMillis();
             StatStore.getInstance().addCounter("read.duration", readEndTimestamp - readStartTimestamp);
@@ -631,7 +691,6 @@ public class AsyncClient implements Runnable {
                     channel.close();
                     return;
                 }
-                rdRes = MessageProtos1.ReadResponse.newBuilder();
                 rdRes.setError(true);
                 rdRes.setMessage(requestMessage);
             }
@@ -641,7 +700,6 @@ public class AsyncClient implements Runnable {
         } else {
             int count = parent.refCounter.decrementAndGet();
             if (count == 0) {
-                parent.mRdRes = MessageProtos1.MultiReadResponse.newBuilder();
                 for (AsyncClient client : parent.clients) {
                     // if any one fails, then it fails.
                     if (client.requestStatus != RequestStatus.kOK) {
@@ -649,11 +707,10 @@ public class AsyncClient implements Runnable {
                             parent.channel.close();
                             return;
                         }
-                        client.rdRes = MessageProtos1.ReadResponse.newBuilder();
                         client.rdRes.setError(true);
                         client.rdRes.setMessage(client.requestMessage);
                     }
-                    parent.mRdRes.addResponses(client.rdRes);
+                    parent.mRdRes.addResponses(client.rdRes.build());
                 }
                 parent.msg = parent.mRdRes.build();
                 parent.code = Status.kHttpResponse;
@@ -663,6 +720,7 @@ public class AsyncClient implements Runnable {
     }
 
     public void writeResponse() {
+        RestServer.logger.debug("write response");
         if (requestStatus == RequestStatus.kOK) {
             writeHBaseServiceEndTimestamp = System.currentTimeMillis();
             StatStore.getInstance().addCounter("write.duration",
@@ -674,7 +732,6 @@ public class AsyncClient implements Runnable {
                     channel.close();
                     return;
                 }
-                wrRes = MessageProtos1.WriteResponse.newBuilder();
                 wrRes.setError(true);
                 wrRes.setMessage(requestMessage);
             }
@@ -691,11 +748,10 @@ public class AsyncClient implements Runnable {
                             parent.channel.close();
                             return;
                         }
-                        client.wrRes = MessageProtos1.WriteResponse.newBuilder();
                         client.wrRes.setError(true);
                         client.wrRes.setMessage(client.requestMessage);
                     }
-                    parent.mWrRes.addResponses(client.wrRes);
+                    parent.mWrRes.addResponses(client.wrRes.build());
                 }
                 parent.msg = parent.mWrRes.build();
                 parent.code = Status.kHttpResponse;

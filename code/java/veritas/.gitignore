@@ -10,5 +10,7 @@ target
 .idea
 
 scratch.py
+p.out
 
 *.iml
+

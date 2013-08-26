@@ -1,0 +1,4 @@
+#!/bin/bash
+ps aux | grep p.py | awk '{print $2;}' | xargs kill
+
+

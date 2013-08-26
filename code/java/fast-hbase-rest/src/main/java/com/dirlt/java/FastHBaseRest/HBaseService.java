@@ -26,6 +26,8 @@ public class HBaseService {
 
     private HBaseService(Configuration configuration) {
         client = new HBaseClient(configuration.getQuorumSpec());
+        client.setFlushInterval((short) 0);
+
     }
 
     public static HBaseService getInstance() {

@@ -1,0 +1,7 @@
+#!/bin/bash
+rm p.out
+for((i=0;i<100;i++))
+do
+    ./p.py $@ >> p.out &
+done
+
