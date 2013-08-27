@@ -212,7 +212,7 @@ public class AsyncClient implements Runnable {
     public void handleHttpRequest() {
         RestServer.logger.debug("http request");
         int size = buffer.readableBytes();
-        StatStore.getInstance().addCounter("rpc.in.bytes", size);
+        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCInBytes, size);
         bs = new byte[size];
         buffer.readBytes(bs);
 
@@ -267,12 +267,13 @@ public class AsyncClient implements Runnable {
                 return;
             }
             rdReq = rdReqBuilder.build();
-            StatStore.getInstance().addCounter("rpc.read.count", 1);
+            StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCReadCount, 1);
             requestTimeout = configuration.getReadHBaseTimeout();
             if (rdReq.hasTimeout()) {
                 requestTimeout = rdReq.getTimeout();
             }
         }
+        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadRequestCount, 1);
         // proxy.
         try {
             rdReq = RequestProxy.getInstance().handleReadRequest(rdReq);
@@ -298,9 +299,11 @@ public class AsyncClient implements Runnable {
             // read column family
             // then we can't do cache.
             code = Status.kReadHBaseService;
+            StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadRequestOfColumnFamilyCount, 1);
         } else {
             // raise local cache request.
             code = Status.kReadLocalCache;
+            StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadRequestOfColumnCount, 1);
         }
         run();
     }
@@ -323,7 +326,7 @@ public class AsyncClient implements Runnable {
             raiseReadException("multi read without any request");
             return;
         }
-        StatStore.getInstance().addCounter("rpc.multi-read.count", 1);
+        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCMultiReadCount, 1);
         refCounter.set(multiReadRequest.getRequestsCount());
         requestTimeout = configuration.getReadHBaseTimeout();
         if (multiReadRequest.hasTimeout()) {
@@ -356,12 +359,13 @@ public class AsyncClient implements Runnable {
                 return;
             }
             wrReq = wrReqBuilder.build();
-            StatStore.getInstance().addCounter("rpc.write.count", 1);
+            StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCWriteCount, 1);
             requestTimeout = configuration.getWriteHBaseTimeout();
             if (wrReq.hasTimeout()) {
                 requestTimeout = wrReq.getTimeout();
             }
         }
+        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kWriteRequestCount, 1);
         // proxy.
         try {
             wrReq = RequestProxy.getInstance().handleWriteRequest(wrReq);
@@ -401,7 +405,7 @@ public class AsyncClient implements Runnable {
             raiseWriteException("multi write without any request");
             return;
         }
-        StatStore.getInstance().addCounter("rpc.multi-write.count", 1);
+        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCMultiWriteCount, 1);
         refCounter.set(multiWriteRequest.getRequestsCount());
         requestTimeout = configuration.getWriteHBaseTimeout();
         if (multiWriteRequest.hasTimeout()) {
@@ -447,8 +451,9 @@ public class AsyncClient implements Runnable {
                 readCacheQualifiers.add(q);
             }
         }
-        StatStore.getInstance().addCounter("read.count", readCount);
-        StatStore.getInstance().addCounter("read.count.local-cache", cacheCount);
+        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadQualifierCount, readCount);
+        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadQualifierFromCacheCount, cacheCount);
+        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadQualifierFromHBaseCount, readCount - cacheCount);
 
         if (!readCacheQualifiers.isEmpty()) {
             code = Status.kReadHBaseService; // read cache service.
@@ -484,9 +489,7 @@ public class AsyncClient implements Runnable {
                 idx += 1;
             }
             getRequest.qualifiers(qualifiers);
-            StatStore.getInstance().addCounter("read.count.hbase.column", qualifiers.length);
         } else {
-            StatStore.getInstance().addCounter("read.count.hbase.column-family", 1);
         }
 
         final AsyncClient client = this;
@@ -567,7 +570,6 @@ public class AsyncClient implements Runnable {
                     LocalCache.getInstance().set(cacheKey, v);
                 }
             }
-            StatStore.getInstance().addCounter("read.count.field-not-exist", missingCount);
             StatStore.getInstance().addCounter("read.duration.hbase.column",
                     readHBaseServiceEndTimestamp - readHBaseServiceStartTimestamp);
         } else {
@@ -615,7 +617,7 @@ public class AsyncClient implements Runnable {
             qualifiers[i] = wrReq.getKvs(i).getQualifier().getBytes();
             values[i] = wrReq.getKvs(i).getContent().toByteArray();
         }
-        StatStore.getInstance().addCounter("write.count", wrReq.getKvsCount());
+        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kWriteQualifierCount, wrReq.getKvsCount());
         PutRequest putRequest = new PutRequest(tableName.getBytes(), rowKey.getBytes(), columnFamily.getBytes(), qualifiers, values);
 
         final AsyncClient client = this;
@@ -771,7 +773,7 @@ public class AsyncClient implements Runnable {
             ChannelBuffer buffer = ChannelBuffers.copiedBuffer(os.toByteArray());
             response.setContent(buffer);
             channel.write(response); // write over.
-            StatStore.getInstance().addCounter("rpc.out.bytes", size);
+            StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCOutBytes, size);
         } catch (Exception e) {
             // just ignore it.
         } finally {

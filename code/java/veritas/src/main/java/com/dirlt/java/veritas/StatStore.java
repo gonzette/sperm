@@ -19,6 +19,12 @@ public class StatStore {
     private static Configuration gConfiguration;
     private static StatStore[] pool = new StatStore[kReservedSize];
     private static volatile int current = 0;
+    private static final int kDistribution[] = {2, 4, 8, 16, 32, 64};
+
+    // TODO(dirlt):
+    class TimeSummary {
+
+    }
 
     public static StatStore getInstance() {
         return pool[current];

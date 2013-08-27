@@ -1,6 +1,7 @@
 package com.dirlt.java.FastHBaseRest;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,9 +12,50 @@ import java.util.*;
  */
 
 public class StatStore {
-    // singleton.
-    private Map<String, Long> counter = new TreeMap<String, Long>();
+    // private fields.
+    // lock contention.
+    private Map<String, Long> counter = new HashMap<String, Long>();
+
+    // some basic fields.
+    class Metric {
+        AtomicInteger value = new AtomicInteger();
+
+        public void clear() {
+            value.set(0);
+        }
+
+        public void add(int delta) {
+            value.addAndGet(delta);
+        }
+
+        public int get() {
+            return value.get();
+        }
+    }
+
+    enum MetricFieldName {
+        kRPCInBytes,
+        kRPCOutBytes,
+        kRPCReadCount,
+        kRPCMultiReadCount,
+        kReadRequestCount,
+        kReadRequestOfColumnCount,
+        kReadRequestOfColumnFamilyCount,
+        kReadQualifierCount,
+        kReadQualifierFromCacheCount,
+        kReadQualifierFromHBaseCount,
+        kRPCWriteCount,
+        kRPCMultiWriteCount,
+        kWriteRequestCount,
+        kWriteQualifierCount,
+        kEnd,
+    }
+
+    Metric metric[];
+
     private Configuration configuration;
+
+    // global singleton.
     private static final int kReservedSize = 10;
     private static final int kTickInterval = 60 * 1000;
     private static Configuration gConfiguration;
@@ -29,24 +71,27 @@ public class StatStore {
     }
 
     public static String getStat() {
-        if (gConfiguration.isStat()) {
-            StringBuffer sb = new StringBuffer();
-            sb.append(String.format("Service : %s\n", gConfiguration.getServiceName()));
-            sb.append(String.format("=====configuration=====\n%s\n", gConfiguration.toString()));
-            for (int i = 0; i < kReservedSize; i++) {
-                int index = (current - i + kReservedSize) % kReservedSize;
-                sb.append(String.format("=====last %d minutes=====\n", i));
-                getInstance(index).getStat(sb);
-                sb.append("\n");
-            }
-            return sb.toString();
-        } else {
-            return "statistics off";
+        StringBuffer sb = new StringBuffer();
+        sb.append(String.format("Service : %s\n", gConfiguration.getServiceName()));
+        sb.append(String.format("=====configuration=====\n%s\n", gConfiguration.toString()));
+        for (int i = 0; i < kReservedSize; i++) {
+            int index = (current - i + kReservedSize) % kReservedSize;
+            sb.append(String.format("=====last %d minutes=====\n", i));
+            getInstance(index).getStat(sb);
+            sb.append("\n");
         }
+        return sb.toString();
     }
 
     public StatStore(Configuration configuration) {
         this.configuration = configuration;
+        metric = new Metric[MetricFieldName.kEnd.ordinal()];
+        for (MetricFieldName name : MetricFieldName.values()) {
+            if (name == MetricFieldName.kEnd) {
+                break;
+            }
+            metric[name.ordinal()] = new Metric();
+        }
     }
 
     public static void init(Configuration configuration) {
@@ -59,7 +104,7 @@ public class StatStore {
             @Override
             public void run() {
                 int next = (current + 1) % kReservedSize;
-                pool[next].counter.clear();
+                pool[next].clear();
                 current = next;
             }
         }, 0, kTickInterval);
@@ -78,13 +123,37 @@ public class StatStore {
         }
     }
 
+    public void addCounter(MetricFieldName name, int value) {
+        metric[name.ordinal()].add(value);
+    }
+
+    public void clear() {
+        if (configuration.isStat()) {
+            synchronized (counter) {
+                counter.clear();
+            }
+        }
+        for (int i = 0; i < MetricFieldName.kEnd.ordinal(); i++) {
+            metric[i].clear();
+        }
+    }
+
     // well a little too simple.:).
     private void getStat(StringBuffer sb) {
-        synchronized (counter) {
-            Set<Map.Entry<String, Long>> entries = counter.entrySet();
-            for (Map.Entry<String, Long> entry : entries) {
-                sb.append(String.format("%s = %s\n", entry.getKey(), entry.getValue().toString()));
+        if (configuration.isStat()) {
+            synchronized (counter) {
+                Set<Map.Entry<String, Long>> entries = counter.entrySet();
+                for (Map.Entry<String, Long> entry : entries) {
+                    sb.append(String.format("%s = %s\n", entry.getKey(), entry.getValue().toString()));
+                }
             }
+            sb.append("----------\n");
+        }
+        for (MetricFieldName name : MetricFieldName.values()) {
+            if (name == MetricFieldName.kEnd) {
+                break;
+            }
+            sb.append(String.format("%s = %d\n", name.name(), metric[name.ordinal()].get()));
         }
     }
 }
