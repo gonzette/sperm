@@ -5,6 +5,13 @@
 千万不要抱有一朝一兮就可以搞定的想法。最好的话身边有一个群体，大家都使用Ubuntu这个东西。
 这样如果有什么问题的话，大家就比较容易找到解决办法，直到自己完全适应为止。推荐安装下面这些软件：
 
+#+BEGIN_EXAMPLE
+sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu hardy main multiverse"
+sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu hardy-updates main multiverse"
+sudo add-apt-repository "deb http://archive.canonical.com/ lucid partner"
+sudo apt-get update
+#+END_EXAMPLE
+
    - sudo apt-get install vlc # 视频
    - sudo apt-get install pidgin # 聊天
    - sudo apt-get install stardict # 词典
@@ -77,6 +84,7 @@
    - sudo apt-get install latex-cjk-all
    - sudo apt-get install texlive-fonts-recommended
    - sudo apt-get install texinfo
+   - sudo apt-get install sun-java6-jdk
 
 ** 察看ubuntu内部版本
 lsb_release -a

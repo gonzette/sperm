@@ -19,18 +19,14 @@ public class Configuration {
     private int cpuQueueSize = 4096;
     private int acceptIOThreadNumber = 4;
     private int ioThreadNumber = 16;
-    //    private int readTimeout = 500; // 500ms.
-//    private int writeTimeout = 500; // 500ms.
+    //    private int readTimeout = 500; // ms
+//    private int writeTimeout = 500; // ms
+    private int timeout = 10 * 1000; // ms.
     private int proxyQueueSize = 256;
     private int proxyAcceptIOThreadNumber = 4;
     private int proxyIOThreadNumber = 16;
-    private int proxyReadTimeout = 200; // 200 ms
-    private int proxyWriteTimeout = 200; // 200 ms
     private int proxyMaxConnectionNumber = 32;
-    private int proxyMinConnectionNumber = 4;
-    private int proxyAddConnectionNumberStep = 4;
-    private int proxyTimerTickInterval = 1000; // 1000ms
-    private int proxyRecoveryTickNumber = 6; // 6 * 1000ms = 6s.
+    private int proxyTimerTickInterval = 1000; // ms
     private String serviceName = "veritas";
     private boolean debug = true;
     private boolean stat = true;
@@ -67,26 +63,18 @@ public class Configuration {
 //                readTimeout = Integer.valueOf(arg.substring("--read-timeout=".length())).intValue();
 //            } else if (arg.startsWith("--write-timeout=")) {
 //                writeTimeout = Integer.valueOf(arg.substring("--write-timeout=".length())).intValue();
+            } else if (arg.startsWith("--timeout=")) {
+                timeout = Integer.valueOf(arg.substring("--timeout=".length())).intValue();
             } else if (arg.startsWith("--proxy-queue-size=")) {
                 proxyQueueSize = Integer.valueOf(arg.substring("--proxy-queue-size=".length())).intValue();
             } else if (arg.startsWith("--proxy-accept-io-thread-number=")) {
                 proxyAcceptIOThreadNumber = Integer.valueOf(arg.substring("--proxy-accept-io-thread-number=".length())).intValue();
             } else if (arg.startsWith("--proxy-io-thread-number=")) {
                 proxyIOThreadNumber = Integer.valueOf(arg.substring("--proxy-io-thread-number=".length())).intValue();
-            } else if (arg.startsWith("--proxy-read-timeout=")) {
-                proxyReadTimeout = Integer.valueOf(arg.substring("--proxy-read-timeout=".length())).intValue();
-            } else if (arg.startsWith("--proxy-write-timeout=")) {
-                proxyWriteTimeout = Integer.valueOf(arg.substring("--proxy-write-timeout=".length())).intValue();
             } else if (arg.startsWith("--proxy-max-connection-number=")) {
                 proxyMaxConnectionNumber = Integer.valueOf(arg.substring("--proxy-max-connection-number=".length())).intValue();
-            } else if (arg.startsWith("--proxy-min-connection-number=")) {
-                proxyMinConnectionNumber = Integer.valueOf(arg.substring("--proxy-min-connection-number=".length())).intValue();
-            } else if (arg.startsWith("--proxy-add-connection-number-step=")) {
-                proxyAddConnectionNumberStep = Integer.valueOf(arg.substring("--proxy-add-connection-number-step=".length())).intValue();
             } else if (arg.startsWith("--proxy-timer-tick-interval=")) {
                 proxyTimerTickInterval = Integer.valueOf(arg.substring("--proxy-timer-tick-interval=".length())).intValue();
-            } else if (arg.startsWith("--proxy-recovery-tick-number=")) {
-                proxyRecoveryTickNumber = Integer.valueOf(arg.substring("--proxy-recovery-tick-number=".length())).intValue();
             } else if (arg.startsWith("--service-name=")) {
                 serviceName = arg.substring("--service-name=".length());
             } else if (arg.startsWith("--device-id-mapping-table=")) {
@@ -126,16 +114,14 @@ public class Configuration {
         System.out.println("\t--io-thread-number # default 16");
 //        System.out.println("\t--read-timeout # default 500(ms)");
 //        System.out.println("\t--write-timeout # default 500(ms)");
+        System.out.println("\t--timeout # default 10 * 1000(ms)");
         System.out.println("\t--proxy-queue-size # default 256");
         System.out.println("\t--proxy-accept-io-thread-number # default 4");
         System.out.println("\t--proxy-io-thread-number # default 16");
         System.out.println("\t--proxy-read-timeout # default 200(ms)");
         System.out.println("\t--proxy-write-timeout # default 200(ms)");
         System.out.println("\t--proxy-max-connection-number # default 32");
-        System.out.println("\t--proxy-min-connection-number # default 4");
-        System.out.println("\t--proxy-add-connection-number-step # default 4");
         System.out.println("\t--proxy-timer-tick-interval # default 1000(ms)");
-        System.out.println("\t--proxy-recovery-tick-number # default 6");
         System.out.println("\t--service-name # set service name");
         System.out.println("\t--device-id-mapping-table # default device_id_mapping");
         System.out.println("\t--device-id-mapping-column-family # default mapping");
@@ -158,15 +144,12 @@ public class Configuration {
         sb.append(String.format("accept-io-thread-number=%d, io-thread-number=%d\n",
                 getAcceptIOThreadNumber(), getIoThreadNumber()));
 //        sb.append(String.format("read-timeout=%d(ms), write-timeout=%d(ms)\n", getReadTimeout(), getWriteTimeout()));
+        sb.append(String.format("timeout=%d(ms)\n", getTimeout()));
         sb.append(String.format("proxy-queue-size=%d\n", getProxyQueueSize()));
         sb.append(String.format("proxy-accept-io-thread-number=%d, proxy-io-thread-number=%d\n",
                 getProxyAcceptIOThreadNumber(), getProxyIOThreadNumber()));
-        sb.append(String.format("proxy-read-timeout=%d(ms), proxy-write-timeout=%d(ms)\n",
-                getProxyReadTimeout(), getProxyWriteTimeout()));
-        sb.append(String.format("proxy-min-connection-number=%d proxy-max-connection-number=%d proxy-add-connection-step=%d\n",
-                getProxyMinConnectionNumber(), getProxyMaxConnectionNumber(), getProxyAddConnectionNumberStep()));
-        sb.append(String.format("proxy-timer-tick-interval=%d(ms), proxy-recovery-tick-number=%d\n",
-                getProxyTimerTickInterval(), getProxyRecoveryTickNumber()));
+        sb.append(String.format("proxy-max-connection-number=%d\n", getProxyMaxConnectionNumber()));
+        sb.append(String.format("proxy-timer-tick-interval=%d(ms)\n", getProxyTimerTickInterval()));
         sb.append(String.format("device-id-mapping-table=%s, device-id-mapping-column-family=%s\n",
                 getDeviceIdMappingTable(), getDeviceIdMappingColumnFamily()));
         sb.append(String.format("user-info-table=%s, user-info-column-family=%s\n",
@@ -218,6 +201,10 @@ public class Configuration {
 //        return writeTimeout;
 //    }
 
+    public int getTimeout() {
+        return timeout;
+    }
+
     public int getProxyQueueSize() {
         return proxyQueueSize;
     }
@@ -230,32 +217,12 @@ public class Configuration {
         return proxyIOThreadNumber;
     }
 
-    public int getProxyReadTimeout() {
-        return proxyReadTimeout;
-    }
-
-    public int getProxyWriteTimeout() {
-        return proxyWriteTimeout;
-    }
-
-    public int getProxyMinConnectionNumber() {
-        return proxyMinConnectionNumber;
-    }
-
     public int getProxyMaxConnectionNumber() {
         return proxyMaxConnectionNumber;
     }
 
     public int getProxyTimerTickInterval() {
         return proxyTimerTickInterval;
-    }
-
-    public int getProxyRecoveryTickNumber() {
-        return proxyRecoveryTickNumber;
-    }
-
-    public int getProxyAddConnectionNumberStep() {
-        return proxyAddConnectionNumberStep;
     }
 
     public String getServiceName() {

@@ -72,8 +72,7 @@ public class VeritasHandler extends SimpleChannelHandler {
             return;
         }
 
-        client.init();
-        client.code = AsyncClient.Status.kHttpRequest;
+        client.init(AsyncClient.Status.kHttpRequest, false);
         client.path = path;
         client.query = query;
         client.veritasChannel = channel;
@@ -105,6 +104,7 @@ public class VeritasHandler extends SimpleChannelHandler {
         // e.getCause() instanceof WriteTimeoutException
 
         VeritasServer.logger.debug("veritas exception caught : " + e.getCause());
+        e.getCause().printStackTrace();
         StatStore.getInstance().addCounter("veritas.exception.count", 1);
         e.getChannel().close();
     }

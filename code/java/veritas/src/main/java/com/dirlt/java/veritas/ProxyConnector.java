@@ -5,8 +5,6 @@ import org.jboss.netty.channel.*;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 import org.jboss.netty.handler.codec.http.HttpRequestEncoder;
 import org.jboss.netty.handler.codec.http.HttpResponseDecoder;
-import org.jboss.netty.util.HashedWheelTimer;
-import org.jboss.netty.util.Timer;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -16,6 +14,7 @@ import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -89,17 +88,31 @@ public class ProxyConnector {
         return instance;
     }
 
-    public ProxyHandler popConnection() {
+    public ProxyHandler acquireConnection() {
         try {
-            return availableConnectionPool.take();
+            ProxyHandler handler = null;
+            int retry = 3;
+            while (retry > 0) {
+                handler = availableConnectionPool.poll(50, TimeUnit.MILLISECONDS);
+                if (handler == null) {
+                    VeritasServer.logger.debug("proxy connector acquire connection timeout");
+                    addConnection(1);
+                } else {
+                    VeritasServer.logger.debug("proxy connector acquire connection OK!");
+                    break;
+                }
+                retry--;
+            }
+            return handler;
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public void pushConnection(ProxyHandler handler) {
+    public void releaseConnection(ProxyHandler handler) {
         try {
+            VeritasServer.logger.debug("proxy connector release connection");
             availableConnectionPool.put(handler);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -121,43 +134,43 @@ public class ProxyConnector {
         }
     }
 
-    public void addConnection() {
-        //VeritasServer.logger.debug("add connection");
-        // avg load is low and connection number is enough.
-        if (avgAvailableConnectionPoolSize > 1.5f && connectionNumber.get() >= configuration.getProxyMinConnectionNumber()) {
-            return;
+    public Node selectNode() {
+        Node node = null;
+        float minWeight = Float.MAX_VALUE;
+        for (Map.Entry<String, Node> entry : nodes.entrySet()) {
+            Node x = entry.getValue();
+            if (!x.isCreatable()) {
+                continue;
+            }
+            float weight = x.getWeight();
+            if (weight < minWeight) {
+                minWeight = weight;
+                node = x;
+            }
         }
-        // otherwise we have to make more connection.
-        for (int i = 0; i < configuration.getProxyAddConnectionNumberStep(); i++) {
+        // may return null.
+        return node;
+    }
+
+    public void addConnection(int count) {
+        while (count > 0) {
             if (connectionNumber.get() >= configuration.getProxyMaxConnectionNumber()) {
-                break;
+                VeritasServer.logger.debug("connection number get max");
+                return;
             }
-            Node node = null;
-            float minWeight = Float.MAX_VALUE;
-            for (Map.Entry<String, Node> entry : nodes.entrySet()) {
-                Node x = entry.getValue();
-                if (!x.isCreatable()) {
-                    continue;
-                }
-                float weight = x.getWeight();
-                if (weight < minWeight) {
-                    minWeight = weight;
-                    node = x;
-                }
-            }
-            // if node can be selected to be connected.
+            Node node = selectNode();
             if (node == null) {
-                break;
+                return;
             }
             connectionNumber.incrementAndGet();
             node.bootstrap.connect(node.socketAddress);
+            count--;
         }
     }
 
     public ProxyConnector(final Configuration configuration) {
         this.configuration = configuration;
         availableConnectionPool = new LinkedBlockingQueue<ProxyHandler>(configuration.getProxyQueueSize());
-        final Timer timer = new HashedWheelTimer();
         ChannelFactory channelFactory = new NioClientSocketChannelFactory(
                 Executors.newCachedThreadPool(),
                 Executors.newCachedThreadPool(),
@@ -194,28 +207,25 @@ public class ProxyConnector {
                     return pipeline;
                 }
             });
+            // control connect timeout
+            // maybe specify by another option.
+            bootstrap.setOption("connectTimeoutMillis", 50);
             node.bootstrap = bootstrap;
             nodes.put(node.socketAddress.toString(), node);
         }
         // timer to decrease failure count.
         java.util.Timer tickTimer = new java.util.Timer(true);
         tickTimer.scheduleAtFixedRate(new TimerTask() {
-            private int recoveryTickNumber = configuration.getProxyRecoveryTickNumber();
-
             @Override
             public void run() {
-                recoveryTickNumber -= 1;
-                if (recoveryTickNumber == 0) {
-                    for (Map.Entry<String, Node> entry : nodes.entrySet()) {
-                        Node node = entry.getValue();
-                        node.avgConnectFailureCount = node.avgConnectFailureCount * 0.4f + node.connectFailureCount.get() * 0.6f;
-                        node.avgReadWriteFailureCount = node.avgReadWriteFailureCount * 0.6f + node.readWriteFailureCount.get() * 0.6f;
-                        node.connectFailureCount.set(0);
-                        node.readWriteFailureCount.set(0);
-                    }
+                for (Map.Entry<String, Node> entry : nodes.entrySet()) {
+                    Node node = entry.getValue();
+                    node.avgConnectFailureCount = node.avgConnectFailureCount * 0.4f + node.connectFailureCount.get() * 0.6f;
+                    node.avgReadWriteFailureCount = node.avgReadWriteFailureCount * 0.6f + node.readWriteFailureCount.get() * 0.6f;
+                    node.connectFailureCount.set(0);
+                    node.readWriteFailureCount.set(0);
                 }
                 avgAvailableConnectionPoolSize = avgAvailableConnectionPoolSize * 0.4f + availableConnectionPool.size() * 0.6f;
-                addConnection();
             }
         }, 0, configuration.getProxyTimerTickInterval());
     }

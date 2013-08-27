@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #Copyright (C) dirlt
 
-java -cp FastHBaseRest.jar \
+java -server -cp FastHBaseRest.jar \
     -Dcom.sun.management.jmxremote.port=12346 \
     -Dcom.sun.management.jmxremote.ssl=false \
     -Dcom.sun.management.jmxremote.authenticate=false \
@@ -17,8 +17,8 @@ java -cp FastHBaseRest.jar \
     --cpu-queue-size=4096 \
     --io-thread-number=32 \
     --io-queue-size=4096 \
-    --read-hbase-timeout=5000 \
-    --write-hbase-timeout=5000 \
+    --read-hbase-timeout=10000 \
+    --write-hbase-timeout=10000 \
     --debug=false \
     --close-on-failure=true \
     --kv=appuserstat.date.addHashCodeAsRowKeyPrefix:2013-07-02 \

@@ -36,7 +36,7 @@ public class ProxyHandler extends SimpleChannelHandler {
         channel = e.getChannel();
         channel.setReadable(false);
         context = ctx;
-        proxyConnector.pushConnection(this);
+        proxyConnector.releaseConnection(this);
     }
 
     @Override
@@ -63,11 +63,12 @@ public class ProxyHandler extends SimpleChannelHandler {
         channel.setReadable(false);
         context.getPipeline().remove("rto_handler");
         // make connection available again.
-        proxyConnector.pushConnection(this);
-        // client handle it.
-        HttpResponse httpResponse = (HttpResponse) e.getMessage();
+        // clear stat first.
         AsyncClient now = client;
-        client = null; // so handler don't own client any more.
+        client = null;
+        proxyConnector.releaseConnection(this);
+        // handle content.
+        HttpResponse httpResponse = (HttpResponse) e.getMessage();
         now.proxyBuffer = httpResponse.getContent();
         CpuWorkerPool.getInstance().submit(now);
     }
@@ -79,10 +80,9 @@ public class ProxyHandler extends SimpleChannelHandler {
         // remove write exception
         context.getPipeline().remove("wto_handler");
         // add read exception.
+        int to = (int) Math.max(1, client.requestTimeout + client.requestTimestamp - System.currentTimeMillis());
         context.getPipeline().addBefore(ctx.getName(), "rto_handler",
-                new ReadTimeoutHandler(AsyncClient.timer,
-                        configuration.getProxyReadTimeout(),
-                        TimeUnit.MILLISECONDS));
+                new ReadTimeoutHandler(AsyncClient.timer, to, TimeUnit.MILLISECONDS));
         context.getChannel().setReadable(true);
     }
 
@@ -92,9 +92,7 @@ public class ProxyHandler extends SimpleChannelHandler {
         // e.getCause() instanceof WriteTimeoutException
 
         VeritasServer.logger.debug("proxy exception caught : " + e.getCause());
-        if (configuration.isDebug()) {
-            e.getCause().printStackTrace();
-        }
+        e.getCause().printStackTrace();
         StatStore.getInstance().addCounter("proxy.exception.count", 1);
         e.getChannel().close();
     }
