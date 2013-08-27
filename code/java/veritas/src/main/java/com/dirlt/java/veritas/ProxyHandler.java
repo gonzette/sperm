@@ -92,8 +92,8 @@ public class ProxyHandler extends SimpleChannelHandler {
         // e.getCause() instanceof WriteTimeoutException
 
         VeritasServer.logger.debug("proxy exception caught : " + e.getCause());
-        e.getCause().printStackTrace();
-        StatStore.getInstance().addCounter("proxy.exception.count", 1);
+        //e.getCause().printStackTrace();
+        StatStore.getInstance().addCounter("proxy.exception." + e.getCause().getClass().getSimpleName() + ".count", 1);
         e.getChannel().close();
     }
 }

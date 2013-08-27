@@ -397,9 +397,9 @@ public class AsyncClient implements Runnable {
         // write it out.
         code = Status.kProxyResponseId;
         ProxyHandler handler = ProxyConnector.getInstance().acquireConnection();
-        if(handler == null) {
+        if (handler == null) {
             raiseException("proxy connector id acquire connection failed");
-            return ;
+            return;
         }
         handler.client = this;
         // write timeout exception.
@@ -490,9 +490,9 @@ public class AsyncClient implements Runnable {
         // write it out.
         code = Status.kProxyResponseInfo;
         ProxyHandler handler = ProxyConnector.getInstance().acquireConnection();
-        if(handler == null) {
+        if (handler == null) {
             raiseException("proxy connector info acquire connection failed");
-            return ;
+            return;
         }
         handler.client = this;
         // write timeout exception.

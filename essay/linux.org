@@ -2180,7 +2180,7 @@ NOTE(dirlt):ab和httperf工作模型不同。httperf是指定建立多少个链�
    - -X proxy[:port] 设置proxy服务器
    - -y <tr>-attributes 设置HTML文件的tr属性
    - -z <td>-attributes 设置HTML文件的td属性
-   - Z ciphersuite 指定SSL/TLS cipher suite
+   - -Z ciphersuite 指定SSL/TLS cipher suite
 
 我们可以这样使用ab -c 100 -n 10000 -r localhost/ 输出还是很好理解的。对于最后面百分比时间，注意是包含100个concurrency的结果。
 #+BEGIN_EXAMPLE

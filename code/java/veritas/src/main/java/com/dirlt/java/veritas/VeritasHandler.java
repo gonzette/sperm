@@ -104,8 +104,8 @@ public class VeritasHandler extends SimpleChannelHandler {
         // e.getCause() instanceof WriteTimeoutException
 
         VeritasServer.logger.debug("veritas exception caught : " + e.getCause());
-        e.getCause().printStackTrace();
-        StatStore.getInstance().addCounter("veritas.exception.count", 1);
+        //e.getCause().printStackTrace();
+        StatStore.getInstance().addCounter("veritas.exception." + e.getCause().getClass().getSimpleName() + ".count", 1);
         e.getChannel().close();
     }
 }
