@@ -4,5 +4,8 @@
 target
 scratch.py
 p.out
+fast-hbase-rest-deploy*
+
+
 
 

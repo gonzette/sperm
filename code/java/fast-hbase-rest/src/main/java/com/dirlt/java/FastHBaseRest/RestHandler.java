@@ -114,9 +114,6 @@ public class RestHandler extends SimpleChannelHandler {
     public void channelOpen(ChannelHandlerContext ctx, ChannelStateEvent e) {
         RestServer.logger.debug("connection open");
 
-        StatStore.getInstance().addCounter("session.in.count", 1);
-        client.sessionStartTimestamp = System.currentTimeMillis();
-
         Channel channel = ctx.getChannel();
         SocketChannelConfig config = (SocketChannelConfig) channel.getConfig();
         config.setKeepAlive(true);
@@ -126,20 +123,14 @@ public class RestHandler extends SimpleChannelHandler {
     @Override
     public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) {
         RestServer.logger.debug("connection closed");
-
-        StatStore.getInstance().addCounter("session.out.count", 1);
-        client.sessionEndTimestamp = System.currentTimeMillis();
-        StatStore.getInstance().addCounter("session.duration",
-                client.sessionEndTimestamp - client.sessionStartTimestamp);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
         RestServer.logger.debug("exception caught : " + e.getCause());
-
-        StatStore.getInstance().addCounter("exception.count", 1);
+        StatStore.getInstance().addCounter("exception." + e.getCause().getClass().getSimpleName() + ".count", 1);
         // seems there is no particular request takes a lot time.
-        e.getCause().printStackTrace();
+//        e.getCause().printStackTrace();
         e.getChannel().close();
     }
 }

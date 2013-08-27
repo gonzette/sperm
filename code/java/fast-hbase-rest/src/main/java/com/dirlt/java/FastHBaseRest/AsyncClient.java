@@ -97,8 +97,6 @@ public class AsyncClient implements Runnable {
 
     public long requestTimestamp;
     public long requestTimeout;
-    public long sessionStartTimestamp;
-    public long sessionEndTimestamp;
     public long readStartTimestamp;
     public long readEndTimestamp;
     public long readHBaseServiceStartTimestamp;
