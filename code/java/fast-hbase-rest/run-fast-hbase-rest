@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 #Copyright (C) dirlt
 
-java -server -cp FastHBaseRest.jar \
+java -server \
+    -Xms8192m -Xmx8192m -XX:NewSize=1024m \
+    -XX:+UseConcMarkSweepGC -XX:+UseParNewGC \
+    -cp FastHBaseRest.jar \
     -Dcom.sun.management.jmxremote.port=12346 \
     -Dcom.sun.management.jmxremote.ssl=false \
     -Dcom.sun.management.jmxremote.authenticate=false \

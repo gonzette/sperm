@@ -16,9 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -33,12 +31,9 @@ import java.util.concurrent.atomic.AtomicLong;
  * To change this template use File | Settings | File Templates.
  */
 public class AsyncClient implements Runnable {
-    private static JSONParser parser = new JSONParser();
     // for detecting timeout.
     public static Timer timer = new HashedWheelTimer();
     private static AtomicLong incrementId = new AtomicLong(0);
-    private Configuration configuration;
-
     private static final String kRequestIdKey = "reqid";
     private static final String kRequestTypeKey = "reqtype";
     private static final String kTimeoutKey = "timeout";
@@ -47,6 +42,7 @@ public class AsyncClient implements Runnable {
     private static final String kErrorCodeKey = "ecode";
     private static final List<String> kRequiredKeys = new LinkedList<String>();
     private static final List<String> kDeviceIdKeys = new LinkedList<String>();
+
 //    private static final Set<String> kRequestTypes = new TreeSet<String>();
 
     static {
@@ -84,6 +80,8 @@ public class AsyncClient implements Runnable {
         kException,
     }
 
+    private Configuration configuration;
+    private JSONParser parser = new JSONParser();
     public Status code;
     public String path; // url path.
     public String query; // url query;
@@ -112,6 +110,8 @@ public class AsyncClient implements Runnable {
     public MessageProtos1.ReadResponse.Builder proxyInfoResponseBuilder;
     public String umengId;
     public long requestTimestamp;
+    public long requestProxyIdTimestamp;
+    public long requestProxyInfoTimestamp;
     public long requestTimeout;
 
     public AsyncClient(Configuration configuration) {
@@ -157,6 +157,7 @@ public class AsyncClient implements Runnable {
     }
 
     public void raiseException(String message) {
+        debug("raise exception with " + message);
         requestStatus = RequestStatus.kException;
         requestMessage = message;
         code = Status.kResponse;
@@ -194,10 +195,10 @@ public class AsyncClient implements Runnable {
 //        VeritasServer.logger.debug("write content...write channel");
         channel.write(response);
 //        VeritasServer.logger.debug("write content...write stat store");
-        StatStore.getInstance().addCounter("veritas.rpc.out.bytes", size);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCOutBytes, size);
     }
 
-    public static void writeMessage(String path, Channel channel, Message message) {
+    public static void writeMessage(String path, Channel channel, Message message, StatStore.MetricFieldName name) {
         HttpRequest httpRequest = new DefaultHttpRequest(HttpVersion.HTTP_1_1, HttpMethod.POST, path);
         int size = message.getSerializedSize();
         httpRequest.setHeader("Content-Length", size);
@@ -207,7 +208,7 @@ public class AsyncClient implements Runnable {
             ChannelBuffer buffer = ChannelBuffers.copiedBuffer(os.toByteArray());
             httpRequest.setContent(buffer);
             channel.write(httpRequest); // write over.
-            StatStore.getInstance().addCounter("proxy.rpc.out.bytes", size);
+            StatStore.getInstance().addMetric(name, size);
         } catch (Exception e) {
             // just ignore it.
         }
@@ -232,6 +233,7 @@ public class AsyncClient implements Runnable {
                 break;
             case kProxyRequestInfo:
                 handleProxyRequestInfo();
+                break;
             case kProxyResponseInfo:
                 handleProxyResponseInfo();
                 break;
@@ -246,18 +248,21 @@ public class AsyncClient implements Runnable {
 
     public void handleHttpRequest() {
         debug("veritas handle http request");
+        StatStore.getInstance().updateClock(StatStore.ClockFieldName.kCPUQueue, System.currentTimeMillis() - requestTimestamp);
         int size = veritasBuffer.readableBytes();
         Object request = null;
         if (size != 0) {
-            StatStore.getInstance().addCounter("veritas.rpc.in.bytes", size);
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCInBytes, size);
             byte[] bs = new byte[size];
             veritasBuffer.readBytes(bs);
+            String json = new String(bs);
             try {
-                request = parser.parse(new InputStreamReader(new ByteArrayInputStream(bs)));
+                request = parser.parse(json);
             } catch (Exception e) {
                 debug("veritas parse json exception");
                 if (configuration.isDebug()) {
                     e.printStackTrace();
+                    System.err.println("JSON String = " + json);
                 }
                 StatStore.getInstance().addCounter("veritas.rpc.in.count.invalid", 1);
                 raiseException(e);
@@ -270,6 +275,7 @@ public class AsyncClient implements Runnable {
             for (String key : decoder.getParameters().keySet()) {
                 object.put(key, decoder.getParameters().get(key).get(0));
             }
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCInBytes, query.length());
             request = object;
         } else {
             raiseException("unknown request type");
@@ -278,8 +284,11 @@ public class AsyncClient implements Runnable {
 
         if (request instanceof JSONObject) {
             code = Status.kSingleRequest;
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCSingleRequestCount, 1);
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRequestCount, 1);
         } else if (request instanceof JSONArray) {
             code = Status.kMultiRequest;
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCMultiRequestCount, 1);
         } else {
             debug("veritas invalid json type");
             StatStore.getInstance().addCounter("veritas.rpc.in.count.invalid", 1);
@@ -354,6 +363,7 @@ public class AsyncClient implements Runnable {
             }
         }
         refCounter.set(array.size());
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRequestCount, array.size());
         for (int i = 0; i < array.size(); i++) {
             JSONObject sub = (JSONObject) array.get(i);
             AsyncClient client = new AsyncClient(configuration);
@@ -396,6 +406,7 @@ public class AsyncClient implements Runnable {
         proxyIdRequest = proxyIdRequestBuilder.build();
         // write it out.
         code = Status.kProxyResponseId;
+        requestProxyIdTimestamp = System.currentTimeMillis();
         ProxyHandler handler = ProxyConnector.getInstance().acquireConnection();
         if (handler == null) {
             raiseException("proxy connector id acquire connection failed");
@@ -406,7 +417,8 @@ public class AsyncClient implements Runnable {
         debug("proxy request id add wto handler");
         handler.context.getPipeline().addBefore(handler.context.getName(), "wto_handler",
                 new WriteTimeoutHandler(timer, to, TimeUnit.MILLISECONDS));
-        writeMessage("/multi-read", handler.channel, proxyIdRequest);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyIdRequestCount, 1);
+        writeMessage("/multi-read", handler.channel, proxyIdRequest, StatStore.MetricFieldName.kProxyIdRequestBytes);
         return;
     }
 
@@ -417,9 +429,10 @@ public class AsyncClient implements Runnable {
             raiseException("proxy id channel closed");
             return;
         }
+        StatStore.getInstance().updateClock(StatStore.ClockFieldName.kProxyId, System.currentTimeMillis() - requestProxyIdTimestamp);
         // parse response.
         int size = proxyBuffer.readableBytes();
-        StatStore.getInstance().addCounter("proxy.rpc.in.bytes", size);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyIdResponseBytes, size);
         byte[] bs = new byte[size];
         proxyBuffer.readBytes(bs);
         try {
@@ -489,6 +502,7 @@ public class AsyncClient implements Runnable {
 //        System.out.println(proxyInfoRequest.toString());
         // write it out.
         code = Status.kProxyResponseInfo;
+        requestProxyInfoTimestamp = System.currentTimeMillis();
         ProxyHandler handler = ProxyConnector.getInstance().acquireConnection();
         if (handler == null) {
             raiseException("proxy connector info acquire connection failed");
@@ -499,7 +513,8 @@ public class AsyncClient implements Runnable {
         debug("proxy request info add wto handler");
         handler.context.getPipeline().addBefore(handler.context.getName(), "wto_handler",
                 new WriteTimeoutHandler(timer, to, TimeUnit.MILLISECONDS));
-        writeMessage("/read", handler.channel, proxyInfoRequest);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyInfoRequestCount, 1);
+        writeMessage("/read", handler.channel, proxyInfoRequest, StatStore.MetricFieldName.kProxyInfoRequestBytes);
         return;
     }
 
@@ -509,8 +524,9 @@ public class AsyncClient implements Runnable {
             raiseException("proxy info channel closed");
             return;
         }
+        StatStore.getInstance().updateClock(StatStore.ClockFieldName.kProxyInfo, System.currentTimeMillis() - requestProxyInfoTimestamp);
         int size = proxyBuffer.readableBytes();
-        StatStore.getInstance().addCounter("proxy.rpc.in.bytes", size);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyInfoResponseBytes, size);
         byte[] bs = new byte[size];
         proxyBuffer.readBytes(bs);
         try {
@@ -582,9 +598,6 @@ public class AsyncClient implements Runnable {
 
     public void handleResponse() {
         debug("veritas handle response");
-        if (requestStatus == RequestStatus.kOK) {
-            StatStore.getInstance().addCounter("veritas.rpc.duration", System.currentTimeMillis() - requestTimestamp);
-        }
         if (!subRequest) {
             if (requestStatus != RequestStatus.kOK) {
                 handleExceptionResponse(this);
@@ -610,6 +623,7 @@ public class AsyncClient implements Runnable {
 
     public void handleHttpResponse() {
         debug("veritas handle http response");
+        StatStore.getInstance().updateClock(StatStore.ClockFieldName.kRequest, System.currentTimeMillis() - requestTimestamp);
         if (veritasResponse instanceof JSONObject) {
             JSONObject object = (JSONObject) veritasResponse;
             writeContent(veritasChannel, object.toJSONString());
@@ -618,6 +632,7 @@ public class AsyncClient implements Runnable {
             writeContent(veritasChannel, array.toJSONString());
         }
         debug("veritas set readable true");
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCResponseCount, 1);
         veritasChannel.setReadable(true);
     }
 }

@@ -5,12 +5,13 @@ import org.jboss.netty.channel.*;
 import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 import org.jboss.netty.handler.codec.http.HttpRequestEncoder;
 import org.jboss.netty.handler.codec.http.HttpResponseDecoder;
+import org.jboss.netty.util.Timeout;
+import org.jboss.netty.util.TimerTask;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimerTask;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -28,54 +29,30 @@ public class ProxyConnector {
     private static ProxyConnector instance = null;
 
     private Configuration configuration;
+    private int rrId = 0;
     // how many connection overall.
     private AtomicInteger connectionNumber = new AtomicInteger(0);
     // how many connection available.
-    private BlockingQueue<ProxyHandler> availableConnectionPool = null;
-    private float avgAvailableConnectionPoolSize = 0.0f;
-    private Map<String, Node> nodes = null;
+    private Map<String, Node> nodes;
+    private Node[] aNodes;
 
     public static class Node {
         InetSocketAddress socketAddress;
         float staticWeight;
         ClientBootstrap bootstrap;
-        // more fields.
-        AtomicInteger connectFailureCount = new AtomicInteger(0);
-        AtomicInteger readWriteFailureCount = new AtomicInteger(0);
+        BlockingQueue<ProxyHandler> pool;
         AtomicInteger connectionNumber = new AtomicInteger(0);
-        float avgConnectFailureCount = 0.0f;
-        float avgReadWriteFailureCount = 0.0f;
-
-        enum ClosedCause {
-            kConnectionFailed,
-            kReadWriteFailed
-        }
-
-        public float getWeight() {
-            // less weight, more prefer.
-            // here we don't consider failure count thread safe.
-            float dynWeight = avgConnectFailureCount * 0.6f + avgReadWriteFailureCount * 0.3f + connectionNumber.get() * 0.1f;
-            return dynWeight * 1.0f / staticWeight;
-        }
-
-        public boolean isCreatable() {
-            return connectionNumber.get() < 8192;
-        }
-
-        public boolean isClosable() {
-            return connectionNumber.get() > 2;
-        }
+        int punishCount;
+        static final int kPunishThreshold = 10;
     }
 
     public String getStat() {
         StringBuffer sb = new StringBuffer();
-        sb.append(String.format("average available connection pool size = %.2f\n", avgAvailableConnectionPoolSize));
         sb.append(String.format("connection number = %d\n", connectionNumber.get()));
         for (Map.Entry<String, Node> entry : nodes.entrySet()) {
             sb.append(String.format("node = %s\n", entry.getKey()));
             sb.append(String.format("\tconnection number = %d\n", entry.getValue().connectionNumber.get()));
-            sb.append(String.format("\taverage connect failure count = %.2f\n", entry.getValue().avgConnectFailureCount));
-            sb.append(String.format("\taverage read-write failure count = %.2f\n", entry.getValue().avgReadWriteFailureCount));
+            sb.append(String.format("\tavailable connection = %d\n", entry.getValue().pool.size()));
         }
         return sb.toString();
     }
@@ -89,23 +66,30 @@ public class ProxyConnector {
     }
 
     public ProxyHandler acquireConnection() {
-        try {
-            ProxyHandler handler = null;
-            int retry = 3;
-            while (retry > 0) {
-                handler = availableConnectionPool.poll(50, TimeUnit.MILLISECONDS);
-                if (handler == null) {
-                    VeritasServer.logger.debug("proxy connector acquire connection timeout");
-                    addConnection(1);
-                } else {
-                    VeritasServer.logger.debug("proxy connector acquire connection OK!");
-                    break;
-                }
-                retry--;
+        int id = rrId;
+        rrId += 1;
+        for (int i = 0; i < Math.min(aNodes.length, 3); i++) {
+            int idx = (id + i) % aNodes.length;
+            Node node = aNodes[idx];
+            if (node.punishCount >= (Node.kPunishThreshold - 2)) {
+                continue;
             }
-            return handler;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                int retry = 2;
+                while (retry > 0) {
+                    ProxyHandler handler = node.pool.poll(configuration.getProxyConnectionTimeout(), TimeUnit.MILLISECONDS);
+                    if (handler == null) {
+                        VeritasServer.logger.debug("proxy connector acquire connection timeout");
+                        connect(node);
+                    } else {
+                        VeritasServer.logger.debug("proxy connector acquire connection OK!");
+                        return handler;
+                    }
+                    retry--;
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
@@ -113,64 +97,40 @@ public class ProxyConnector {
     public void releaseConnection(ProxyHandler handler) {
         try {
             VeritasServer.logger.debug("proxy connector release connection");
-            availableConnectionPool.put(handler);
+            handler.node.pool.put(handler);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public void onChannelClosed(Channel channel, Node.ClosedCause cause) {
+    public void onChannelClosed(Channel channel, final Node node) {
+        // connection closed.
         VeritasServer.logger.debug("connector on channel closed end");
         connectionNumber.decrementAndGet();
-        VeritasServer.logger.debug("closed channel remote address = " + channel.getAttachment() + ", cause = " + cause);
-        Node node = nodes.get(channel.getAttachment());
-        if (cause == Node.ClosedCause.kConnectionFailed) {
-            node.connectFailureCount.incrementAndGet();
-        } else {
-            node.connectionNumber.decrementAndGet();
-            if (cause == Node.ClosedCause.kReadWriteFailed) {
-                node.readWriteFailureCount.incrementAndGet();
-            }
+        node.connectionNumber.decrementAndGet();
+        node.punishCount += 1;
+        if (node.punishCount >= Node.kPunishThreshold) {
+            node.punishCount = Node.kPunishThreshold;
         }
+        AsyncClient.timer.newTimeout(new TimerTask() {
+            @Override
+            public void run(Timeout timeout) throws Exception {
+                ProxyConnector.getInstance().connect(node);
+            }
+        }, configuration.getProxyConnectionTimeout() * (1 << node.punishCount), TimeUnit.MILLISECONDS);
     }
 
-    public Node selectNode() {
-        Node node = null;
-        float minWeight = Float.MAX_VALUE;
-        for (Map.Entry<String, Node> entry : nodes.entrySet()) {
-            Node x = entry.getValue();
-            if (!x.isCreatable()) {
-                continue;
-            }
-            float weight = x.getWeight();
-            if (weight < minWeight) {
-                minWeight = weight;
-                node = x;
-            }
-        }
-        // may return null.
-        return node;
-    }
-
-    public void addConnection(int count) {
-        while (count > 0) {
-            if (connectionNumber.get() >= configuration.getProxyMaxConnectionNumber()) {
-                VeritasServer.logger.debug("connection number get max");
-                return;
-            }
-            Node node = selectNode();
-            if (node == null) {
-                return;
-            }
+    public void connect(Node node) {
+        // if connection number on this node got threshold.
+        if (node.connectionNumber.get() < configuration.getProxyConnectionNumberPerNode()) {
             connectionNumber.incrementAndGet();
+            node.connectionNumber.incrementAndGet();
             node.bootstrap.connect(node.socketAddress);
-            count--;
         }
     }
 
     public ProxyConnector(final Configuration configuration) {
         this.configuration = configuration;
-        availableConnectionPool = new LinkedBlockingQueue<ProxyHandler>(configuration.getProxyQueueSize());
         ChannelFactory channelFactory = new NioClientSocketChannelFactory(
                 Executors.newCachedThreadPool(),
                 Executors.newCachedThreadPool(),
@@ -209,24 +169,16 @@ public class ProxyConnector {
             });
             // control connect timeout
             // maybe specify by another option.
-            bootstrap.setOption("connectTimeoutMillis", 50);
+            bootstrap.setOption("connectTimeoutMillis", configuration.getProxyConnectionTimeout());
             node.bootstrap = bootstrap;
+            node.pool = new LinkedBlockingQueue<ProxyHandler>(configuration.getProxyConnectionNumberPerNode() * 2 + 16);
             nodes.put(node.socketAddress.toString(), node);
         }
-        // timer to decrease failure count.
-        java.util.Timer tickTimer = new java.util.Timer(true);
-        tickTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                for (Map.Entry<String, Node> entry : nodes.entrySet()) {
-                    Node node = entry.getValue();
-                    node.avgConnectFailureCount = node.avgConnectFailureCount * 0.4f + node.connectFailureCount.get() * 0.6f;
-                    node.avgReadWriteFailureCount = node.avgReadWriteFailureCount * 0.6f + node.readWriteFailureCount.get() * 0.6f;
-                    node.connectFailureCount.set(0);
-                    node.readWriteFailureCount.set(0);
-                }
-                avgAvailableConnectionPoolSize = avgAvailableConnectionPoolSize * 0.4f + availableConnectionPool.size() * 0.6f;
-            }
-        }, 0, configuration.getProxyTimerTickInterval());
+        aNodes = new Node[nodes.size()];
+        int index = 0;
+        for (Map.Entry<String, Node> entry : nodes.entrySet()) {
+            aNodes[index] = entry.getValue();
+            index += 1;
+        }
     }
 }

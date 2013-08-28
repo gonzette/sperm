@@ -16,8 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class ProxyHandler extends SimpleChannelHandler {
     private Configuration configuration;
     private ProxyConnector proxyConnector;
-    private ProxyConnector.Node node;
-    private boolean connected = false;
+    public ProxyConnector.Node node;
     public Channel channel;
     public ChannelHandlerContext context;
     public AsyncClient client;
@@ -31,23 +30,17 @@ public class ProxyHandler extends SimpleChannelHandler {
     @Override
     public void channelConnected(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         VeritasServer.logger.debug("proxy channel connected");
-        connected = true;
-        node.connectionNumber.incrementAndGet();
         channel = e.getChannel();
         channel.setReadable(false);
         context = ctx;
+        node.punishCount -= 1;
         proxyConnector.releaseConnection(this);
     }
 
     @Override
     public void channelClosed(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
         VeritasServer.logger.debug("proxy connection closed");
-
-        e.getChannel().setAttachment(node.socketAddress.toString());
-        proxyConnector.onChannelClosed(e.getChannel(),
-                connected ? ProxyConnector.Node.ClosedCause.kReadWriteFailed :
-                        ProxyConnector.Node.ClosedCause.kConnectionFailed);
-
+        proxyConnector.onChannelClosed(e.getChannel(), node);
         // client maybe stuck.
         if (client != null) {
             client.proxyChannelClosed = true;
@@ -58,7 +51,6 @@ public class ProxyHandler extends SimpleChannelHandler {
     @Override
     public void messageReceived(ChannelHandlerContext ctx, final MessageEvent e) throws Exception {
         VeritasServer.logger.debug("proxy message received");
-        StatStore.getInstance().addCounter("proxy.rpc.in.count", 1);
         // remove read exception.
         channel.setReadable(false);
         context.getPipeline().remove("rto_handler");
@@ -76,7 +68,6 @@ public class ProxyHandler extends SimpleChannelHandler {
     @Override
     public void writeComplete(ChannelHandlerContext ctx, WriteCompletionEvent e) throws Exception {
         VeritasServer.logger.debug("proxy write completed");
-        StatStore.getInstance().addCounter("proxy.rpc.out.count", 1);
         // remove write exception
         context.getPipeline().remove("wto_handler");
         // add read exception.
