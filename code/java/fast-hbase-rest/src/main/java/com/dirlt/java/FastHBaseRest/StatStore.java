@@ -1,7 +1,6 @@
 package com.dirlt.java.FastHBaseRest;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,20 +15,20 @@ public class StatStore {
     // lock contention.
     private Map<String, Long> counter = new HashMap<String, Long>();
 
-    // some basic fields.
+    // metric.
     class Metric {
-        AtomicInteger value = new AtomicInteger();
+        int value = 0;
 
         public void clear() {
-            value.set(0);
+            value = 0;
         }
 
         public void add(int delta) {
-            value.addAndGet(delta);
+            value += delta;
         }
 
         public int get() {
-            return value.get();
+            return value;
         }
     }
 
@@ -40,7 +39,8 @@ public class StatStore {
         kRPCMultiReadCount,
         kReadRequestCount,
         kReadRequestOfColumnCount,
-        kReadRequestOfColumnFamilyCount,
+        kReadRequestOfColumnFromHBaseCount, // maybe from cache.
+        kReadRequestOfColumnFamilyCount, // must read from hbase.
         kReadQualifierCount,
         kReadQualifierFromCacheCount,
         kReadQualifierFromHBaseCount,
@@ -48,15 +48,88 @@ public class StatStore {
         kRPCMultiWriteCount,
         kWriteRequestCount,
         kWriteQualifierCount,
-        kEnd,
+        kMetricEnd,
     }
 
     Metric metric[];
 
+    // clock
+    private static final int[] kTimeDistribution = {2, 4, 8, 16, 32, 64};
+
+    class Clock {
+        long time = 0L;
+        int count = 0;
+        int disCount[] = new int[kTimeDistribution.length + 1];
+
+        public void clear() {
+            time = 0L;
+            count = 0;
+            for (int i = 0; i < disCount.length; i++) {
+                disCount[i] = 0;
+            }
+        }
+
+        public void update(long t) {
+            time += t;
+            if (kTimeDistribution[kTimeDistribution.length - 1] < t) {
+                disCount[disCount.length - 1] += 1;
+            } else {
+                for (int i = 0; i < kTimeDistribution.length; i++) {
+                    if (kTimeDistribution[i] >= t) {
+                        disCount[i] += 1;
+                        break;
+                    }
+                }
+            }
+            count += 1;
+        }
+
+        public String get() {
+            StringBuffer sb = new StringBuffer();
+            int all = count;
+            if (all == 0) {
+                all += 1;
+            }
+            sb.append(String.format("time = %s(ms), count = %d, avg = %.2f(ms)\n", String.valueOf(time), count, time * 1.0 / all));
+            if (disCount[0] != 0) {
+                sb.append(String.format("  (0, %d] = %d(%.2f)\n",
+                        kTimeDistribution[0],
+                        disCount[0],
+                        disCount[0] * 1.0 / all));
+            }
+            for (int i = 1; i < kTimeDistribution.length; i++) {
+                if (disCount[i] != 0) {
+                    sb.append(String.format("  (%d, %d] = %d(%.2f)\n",
+                            kTimeDistribution[i - 1],
+                            kTimeDistribution[i], disCount[i],
+                            disCount[i] * 1.0 / all));
+                }
+            }
+            if (disCount[disCount.length - 1] != 0) {
+                sb.append(String.format("  (%d, ...) = %d(%.2f)\n",
+                        kTimeDistribution[kTimeDistribution.length - 1],
+                        disCount[disCount.length - 1],
+                        disCount[disCount.length - 1] * 1.0 / all));
+            }
+            return sb.toString();
+        }
+    }
+
+    enum ClockFieldName {
+        kReadRequest,
+        kReadHBaseColumn,
+        kReadHBaseColumnFamily,
+        kWriteRequest,
+        kClockEnd
+    }
+
+    Clock clock[];
+
+
     private Configuration configuration;
 
     // global singleton.
-    private static final int kReservedSize = 10;
+    private static final int kReservedSize = 5;
     private static final int kTickInterval = 60 * 1000;
     private static Configuration gConfiguration;
     private static StatStore[] pool = new StatStore[kReservedSize];
@@ -85,12 +158,19 @@ public class StatStore {
 
     public StatStore(Configuration configuration) {
         this.configuration = configuration;
-        metric = new Metric[MetricFieldName.kEnd.ordinal()];
+        metric = new Metric[MetricFieldName.kMetricEnd.ordinal()];
         for (MetricFieldName name : MetricFieldName.values()) {
-            if (name == MetricFieldName.kEnd) {
+            if (name == MetricFieldName.kMetricEnd) {
                 break;
             }
             metric[name.ordinal()] = new Metric();
+        }
+        clock = new Clock[ClockFieldName.kClockEnd.ordinal()];
+        for (ClockFieldName name : ClockFieldName.values()) {
+            if (name == ClockFieldName.kClockEnd) {
+                break;
+            }
+            clock[name.ordinal()] = new Clock();
         }
     }
 
@@ -111,49 +191,65 @@ public class StatStore {
     }
 
     public void addCounter(String name, long value) {
-        if (!configuration.isStat()) {
-            return;
-        }
-        synchronized (counter) {
-            if (counter.containsKey(name)) {
-                counter.put(name, counter.get(name) + value);
-            } else {
-                counter.put(name, value);
+        if (configuration.isDebug()) {
+            synchronized (counter) {
+                if (counter.containsKey(name)) {
+                    counter.put(name, counter.get(name) + value);
+                } else {
+                    counter.put(name, value);
+                }
             }
         }
     }
 
-    public void addCounter(MetricFieldName name, int value) {
+    public void addMetric(MetricFieldName name, int value) {
         metric[name.ordinal()].add(value);
     }
 
+    public void updateClock(ClockFieldName name, long time) {
+        clock[name.ordinal()].update(time);
+    }
+
     public void clear() {
-        if (configuration.isStat()) {
+        if (configuration.isDebug()) {
             synchronized (counter) {
                 counter.clear();
             }
         }
-        for (int i = 0; i < MetricFieldName.kEnd.ordinal(); i++) {
+        for (int i = 0; i < metric.length; i++) {
             metric[i].clear();
+        }
+
+        for (int i = 0; i < clock.length; i++) {
+            clock[i].clear();
         }
     }
 
     // well a little too simple.:).
     private void getStat(StringBuffer sb) {
-        if (configuration.isStat()) {
+        if (configuration.isDebug()) {
+            sb.append(">>>>>counter<<<<<\n");
             synchronized (counter) {
                 Set<Map.Entry<String, Long>> entries = counter.entrySet();
                 for (Map.Entry<String, Long> entry : entries) {
                     sb.append(String.format("%s = %s\n", entry.getKey(), entry.getValue().toString()));
                 }
             }
-            sb.append("----------\n");
+
         }
+        sb.append(">>>>>metric<<<<<\n");
         for (MetricFieldName name : MetricFieldName.values()) {
-            if (name == MetricFieldName.kEnd) {
+            if (name == MetricFieldName.kMetricEnd) {
                 break;
             }
             sb.append(String.format("%s = %d\n", name.name(), metric[name.ordinal()].get()));
+        }
+        sb.append(">>>>>clock<<<<<\n");
+        for (ClockFieldName name : ClockFieldName.values()) {
+            if (name == ClockFieldName.kClockEnd) {
+                break;
+            }
+            sb.append(String.format("%s : %s", name.name(), clock[name.ordinal()].get()));
         }
     }
 }

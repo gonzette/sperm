@@ -85,6 +85,7 @@ sudo apt-get update
    - sudo apt-get install texlive-fonts-recommended
    - sudo apt-get install texinfo
    - sudo apt-get install sun-java6-jdk
+   - sudo apt-get install openjdk-6-jdk
 
 ** 察看ubuntu内部版本
 lsb_release -a

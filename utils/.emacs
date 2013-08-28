@@ -482,8 +482,8 @@
 (add-to-list 'auto-mode-alist '("\\.stp$" . systemtap-mode))
 
 ;;; scala-mode.
-(setq load-path (cons "~/.emacs.d/scala-mode2/" load-path))
-(require 'scala-mode2)
+(setq load-path (cons "~/.emacs.d/scala-mode/" load-path))
+(require 'scala-mode)
 (add-to-list 'auto-mode-alist
 	     '("\\.scala$" . scala-mode)
 	     '("\\.sbt$" . scala-mode))

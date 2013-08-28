@@ -10,6 +10,14 @@
   - The Principles of Java Application Performance Tuning | CUBRID Blog : http://www.cubrid.org/blog/dev-platform/the-principles-of-java-application-performance-tuning/
   - Understanding JVM Internals, from Basic Structure to Java SE 7 Features | Architects Zone http://architects.dzone.com/articles/understanding-jvm-internals
 
+** 经验参数
+服务器JVM
+#+BEGIN_EXAMPLE
+ -server \
+ -Xms8192m -Xmx8192m -XX:NewSize=1024m \
+ -XX:+UseConcMarkSweepGC -XX:+UseParNewGC \
+#+END_EXAMPLE
+
 ** 基本语法
 *** 标签跳转
 label break/continue似乎非常必要，这种情况尤其见于多重循环，如果想直接调到最外层循环(break),或者是从外层循环继续执行(continue).缺少这种机制的话，外层循环只能够使用蹩脚的标记，一层层地逐层跳出。

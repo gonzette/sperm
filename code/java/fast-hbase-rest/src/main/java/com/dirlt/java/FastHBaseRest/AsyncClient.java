@@ -212,7 +212,7 @@ public class AsyncClient implements Runnable {
     public void handleHttpRequest() {
         RestServer.logger.debug("http request");
         int size = buffer.readableBytes();
-        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCInBytes, size);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCInBytes, size);
         bs = new byte[size];
         buffer.readBytes(bs);
 
@@ -267,13 +267,13 @@ public class AsyncClient implements Runnable {
                 return;
             }
             rdReq = rdReqBuilder.build();
-            StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCReadCount, 1);
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCReadCount, 1);
             requestTimeout = configuration.getReadHBaseTimeout();
             if (rdReq.hasTimeout()) {
                 requestTimeout = rdReq.getTimeout();
             }
         }
-        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadRequestCount, 1);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestCount, 1);
         // proxy.
         try {
             rdReq = RequestProxy.getInstance().handleReadRequest(rdReq);
@@ -299,11 +299,11 @@ public class AsyncClient implements Runnable {
             // read column family
             // then we can't do cache.
             code = Status.kReadHBaseService;
-            StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadRequestOfColumnFamilyCount, 1);
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestOfColumnFamilyCount, 1);
         } else {
             // raise local cache request.
             code = Status.kReadLocalCache;
-            StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadRequestOfColumnCount, 1);
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestOfColumnCount, 1);
         }
         run();
     }
@@ -326,7 +326,7 @@ public class AsyncClient implements Runnable {
             raiseReadException("multi read without any request");
             return;
         }
-        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCMultiReadCount, 1);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCMultiReadCount, 1);
         refCounter.set(multiReadRequest.getRequestsCount());
         requestTimeout = configuration.getReadHBaseTimeout();
         if (multiReadRequest.hasTimeout()) {
@@ -359,13 +359,13 @@ public class AsyncClient implements Runnable {
                 return;
             }
             wrReq = wrReqBuilder.build();
-            StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCWriteCount, 1);
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCWriteCount, 1);
             requestTimeout = configuration.getWriteHBaseTimeout();
             if (wrReq.hasTimeout()) {
                 requestTimeout = wrReq.getTimeout();
             }
         }
-        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kWriteRequestCount, 1);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteRequestCount, 1);
         // proxy.
         try {
             wrReq = RequestProxy.getInstance().handleWriteRequest(wrReq);
@@ -405,7 +405,7 @@ public class AsyncClient implements Runnable {
             raiseWriteException("multi write without any request");
             return;
         }
-        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCMultiWriteCount, 1);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCMultiWriteCount, 1);
         refCounter.set(multiWriteRequest.getRequestsCount());
         requestTimeout = configuration.getWriteHBaseTimeout();
         if (multiWriteRequest.hasTimeout()) {
@@ -451,13 +451,14 @@ public class AsyncClient implements Runnable {
                 readCacheQualifiers.add(q);
             }
         }
-        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadQualifierCount, readCount);
-        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadQualifierFromCacheCount, cacheCount);
-        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kReadQualifierFromHBaseCount, readCount - cacheCount);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadQualifierCount, readCount);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadQualifierFromCacheCount, cacheCount);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadQualifierFromHBaseCount, readCount - cacheCount);
 
         if (!readCacheQualifiers.isEmpty()) {
             code = Status.kReadHBaseService; // read cache service.
             readHBaseQualifiers = readCacheQualifiers;
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestOfColumnFromHBaseCount, 1);
         } else {
             code = Status.kReadResponse; // return directly.
         }
@@ -511,7 +512,7 @@ public class AsyncClient implements Runnable {
 //            @Override
 //            public Object call(Exception o) throws Exception {
 //                o.printStackTrace();
-//                StatStore.getInstance().addCounter("read.count.error", 1);
+//                StatStore.getInstance().addMetric("read.count.error", 1);
 //                client.code = Status.kReadResponse;
 //                client.requestStatus = RequestStatus.kException;
 //                client.requestMessage = o.toString();
@@ -570,7 +571,7 @@ public class AsyncClient implements Runnable {
                     LocalCache.getInstance().set(cacheKey, v);
                 }
             }
-            StatStore.getInstance().addCounter("read.duration.hbase.column",
+            StatStore.getInstance().updateClock(StatStore.ClockFieldName.kReadHBaseColumn,
                     readHBaseServiceEndTimestamp - readHBaseServiceStartTimestamp);
         } else {
             // just fill the builder. don't save them to cache.
@@ -582,7 +583,7 @@ public class AsyncClient implements Runnable {
                 rdRes.addKvs(rdResKeyValue.build());
                 rdResKeyValue.clear();
             }
-            StatStore.getInstance().addCounter("read.duration.hbase.column-family",
+            StatStore.getInstance().updateClock(StatStore.ClockFieldName.kReadHBaseColumnFamily,
                     readHBaseServiceEndTimestamp - readHBaseServiceStartTimestamp);
         }
 
@@ -617,7 +618,7 @@ public class AsyncClient implements Runnable {
             qualifiers[i] = wrReq.getKvs(i).getQualifier().getBytes();
             values[i] = wrReq.getKvs(i).getContent().toByteArray();
         }
-        StatStore.getInstance().addCounter(StatStore.MetricFieldName.kWriteQualifierCount, wrReq.getKvsCount());
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteQualifierCount, wrReq.getKvsCount());
         PutRequest putRequest = new PutRequest(tableName.getBytes(), rowKey.getBytes(), columnFamily.getBytes(), qualifiers, values);
 
         final AsyncClient client = this;
@@ -638,7 +639,7 @@ public class AsyncClient implements Runnable {
 //            public Object call(Exception o) throws Exception {
 //                // we don't care.
 //                o.printStackTrace();
-//                StatStore.getInstance().addCounter("write.count.error", 1);
+//                StatStore.getInstance().addMetric("write.count.error", 1);
 //                client.code = Status.kWriteResponse;
 //                client.requestStatus = RequestStatus.kException;
 //                client.requestMessage = o.toString();
@@ -683,7 +684,8 @@ public class AsyncClient implements Runnable {
         RestServer.logger.debug("read response");
         if (requestStatus == RequestStatus.kOK) {
             readEndTimestamp = System.currentTimeMillis();
-            StatStore.getInstance().addCounter("read.duration", readEndTimestamp - readStartTimestamp);
+            StatStore.getInstance().updateClock(StatStore.ClockFieldName.kReadRequest,
+                    readEndTimestamp - readStartTimestamp);
         }
         if (!subRequest) {
             if (requestStatus != RequestStatus.kOK) {
@@ -723,7 +725,7 @@ public class AsyncClient implements Runnable {
         RestServer.logger.debug("write response");
         if (requestStatus == RequestStatus.kOK) {
             writeHBaseServiceEndTimestamp = System.currentTimeMillis();
-            StatStore.getInstance().addCounter("write.duration",
+            StatStore.getInstance().updateClock(StatStore.ClockFieldName.kWriteRequest,
                     writeHBaseServiceEndTimestamp - writeHBaseServiceStartTimestamp);
         }
         if (!subRequest) {
@@ -773,7 +775,7 @@ public class AsyncClient implements Runnable {
             ChannelBuffer buffer = ChannelBuffers.copiedBuffer(os.toByteArray());
             response.setContent(buffer);
             channel.write(response); // write over.
-            StatStore.getInstance().addCounter(StatStore.MetricFieldName.kRPCOutBytes, size);
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCOutBytes, size);
         } catch (Exception e) {
             // just ignore it.
         } finally {
