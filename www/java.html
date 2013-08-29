@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="java"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-08-29 12:21:24 CST"/>
+<meta name="generated" content="2013-08-29 12:23:53 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -120,15 +120,16 @@
 <li><a href="#sec-1-5">1.5 泛型陷阱</a></li>
 <li><a href="#sec-1-6">1.6 JDK</a>
 <ul>
-<li><a href="#sec-1-6-1">1.6.1 Date &amp; Calendar</a></li>
-<li><a href="#sec-1-6-2">1.6.2 Exception</a></li>
-<li><a href="#sec-1-6-3">1.6.3 StackTrace</a></li>
-<li><a href="#sec-1-6-4">1.6.4 Proxy</a></li>
-<li><a href="#sec-1-6-5">1.6.5 Class</a></li>
-<li><a href="#sec-1-6-6">1.6.6 Reflection</a></li>
-<li><a href="#sec-1-6-7">1.6.7 Runnable &amp; Thread</a></li>
-<li><a href="#sec-1-6-8">1.6.8 Collection</a></li>
-<li><a href="#sec-1-6-9">1.6.9 JMX</a></li>
+<li><a href="#sec-1-6-1">1.6.1 浮点运算</a></li>
+<li><a href="#sec-1-6-2">1.6.2 Date &amp; Calendar</a></li>
+<li><a href="#sec-1-6-3">1.6.3 Exception</a></li>
+<li><a href="#sec-1-6-4">1.6.4 StackTrace</a></li>
+<li><a href="#sec-1-6-5">1.6.5 Proxy</a></li>
+<li><a href="#sec-1-6-6">1.6.6 Class</a></li>
+<li><a href="#sec-1-6-7">1.6.7 Reflection</a></li>
+<li><a href="#sec-1-6-8">1.6.8 Runnable &amp; Thread</a></li>
+<li><a href="#sec-1-6-9">1.6.9 Collection</a></li>
+<li><a href="#sec-1-6-10">1.6.10 JMX</a></li>
 </ul>
 </li>
 <li><a href="#sec-1-7">1.7 Tool</a>
@@ -676,8 +677,31 @@ location: class com.dirlt.X
 </div>
 
 <div id="outline-container-1-6-1" class="outline-4">
-<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Date &amp; Calendar</h4>
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> 浮点运算</h4>
 <div class="outline-text-4" id="text-1-6-1">
+
+<p>float类型数值常量后面加上F比如3.042F,而double类型数值常量后面加上D比如3.402D.所有浮点数值计算都遵循IEEE 752规范。java提供了三种表示溢出或者计算错误的三种特殊浮点数值：
+</p><ol>
+<li>正无穷大 Double.POSITIVE_INFINITY
+</li>
+<li>负无穷大 Double.NEGATIVE_INFINITY
+</li>
+<li>NaN(不是数字) Double.NaN. 浮点数/0的话就会得到NaN.判断是否为NaN不应该使用==因为和一个NaN比较始终都是false,而应该使用Double.isNaN(x)
+</li>
+</ol>
+
+<p>对于较大浮点数应该使用BigDecimal来进行计算。
+</p>
+<p>
+java虚拟机规范强调可移植性，对于在任何机器上来说相同的程序得到的结果应该是相同的。但是对于浮点计算的话，比如Intel CPU针对于浮点数计算所有中间结果都使用bit 80表示，而最后截取bit 64,造成和其他CPU计算结果不同。为了达到可移植性，java规范所有中间结果必须使用bit 64截断，但是遭反对，因此java提供了strictfp关键字标记某个方法，对于这个方法里面所有浮点数计算，所有中间结果使用64 bit截断，否则使用适合native方式计算。另外一些浮点数计算比如pow2,pow3,sqrt的话，一方面依赖于CPU浮点计算方式，另外一方面依赖于本身算法（如果CPU本身提供这种指令的话就可以使用CPU指令），也会造成不可移植性，比如Math.sqrt.如果希望在这方面也达到同样效果的话，可以使用StrictMath类，底层使用fdlibm，以确保所有平台上得到相同的结果。
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2"><span class="section-number-4">1.6.2</span> Date &amp; Calendar</h4>
+<div class="outline-text-4" id="text-1-6-2">
 
 <p>其实一开始Date是想做成日历的。所谓日历就是说能够处理年月日这些信息。但是Date本身处理比较差，没有考虑闰秒这种东西，另外因为日历仅仅是历法其中的一种，虽然广泛使用。因此有必要将历法单独形成一个类称为Calendar,而日历是历法的一种实现在Java里面是GregorianCalendar.而现在Date仅仅用于保存一个绝对的时间点就是时刻，保存的方法就是相对于某一固定时间点的毫秒数，而这个时间点就称为纪元(epoch),它是UTC 1970.1.1 00:00:00。
 </p>
@@ -688,9 +712,9 @@ location: class com.dirlt.X
 
 </div>
 
-<div id="outline-container-1-6-2" class="outline-4">
-<h4 id="sec-1-6-2"><span class="section-number-4">1.6.2</span> Exception</h4>
-<div class="outline-text-4" id="text-1-6-2">
+<div id="outline-container-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3"><span class="section-number-4">1.6.3</span> Exception</h4>
+<div class="outline-text-4" id="text-1-6-3">
 
 <p>java里面异常都是派生于Throwable，但是分解成为两个分支：
 </p><ol>
@@ -730,9 +754,9 @@ java语言规范将派生于Error或者是RuntimeException的所有异常称为�
 
 </div>
 
-<div id="outline-container-1-6-3" class="outline-4">
-<h4 id="sec-1-6-3"><span class="section-number-4">1.6.3</span> StackTrace</h4>
-<div class="outline-text-4" id="text-1-6-3">
+<div id="outline-container-1-6-4" class="outline-4">
+<h4 id="sec-1-6-4"><span class="section-number-4">1.6.4</span> StackTrace</h4>
+<div class="outline-text-4" id="text-1-6-4">
 
 <ul>
 <li>使用Thread.getStackTrace获得某个线程的堆栈信息
@@ -748,9 +772,9 @@ java语言规范将派生于Error或者是RuntimeException的所有异常称为�
 
 </div>
 
-<div id="outline-container-1-6-4" class="outline-4">
-<h4 id="sec-1-6-4"><span class="section-number-4">1.6.4</span> Proxy</h4>
-<div class="outline-text-4" id="text-1-6-4">
+<div id="outline-container-1-6-5" class="outline-4">
+<h4 id="sec-1-6-5"><span class="section-number-4">1.6.5</span> Proxy</h4>
+<div class="outline-text-4" id="text-1-6-5">
 
 <p>使用代理可以动态地生成一些类或者是接口（但是不是动态生成代码）。创建一个代理对象，使用Proxy类的newProxyInstance方法，有下面三个参数：
 </p><ol>
@@ -809,9 +833,9 @@ class X{
 
 </div>
 
-<div id="outline-container-1-6-5" class="outline-4">
-<h4 id="sec-1-6-5"><span class="section-number-4">1.6.5</span> Class</h4>
-<div class="outline-text-4" id="text-1-6-5">
+<div id="outline-container-1-6-6" class="outline-4">
+<h4 id="sec-1-6-6"><span class="section-number-4">1.6.6</span> Class</h4>
+<div class="outline-text-4" id="text-1-6-6">
 
 <p>Class类本身表示这个类的一些元信息。通常拿到这个类的元信息之后，就可以完成一些动态事情比如反射。java有三种方式可以获得Class类：
 </p><ol>
@@ -839,17 +863,17 @@ class X{
 
 </div>
 
-<div id="outline-container-1-6-6" class="outline-4">
-<h4 id="sec-1-6-6"><span class="section-number-4">1.6.6</span> Reflection</h4>
-<div class="outline-text-4" id="text-1-6-6">
-
-</div>
-
-</div>
-
 <div id="outline-container-1-6-7" class="outline-4">
-<h4 id="sec-1-6-7"><span class="section-number-4">1.6.7</span> Runnable &amp; Thread</h4>
+<h4 id="sec-1-6-7"><span class="section-number-4">1.6.7</span> Reflection</h4>
 <div class="outline-text-4" id="text-1-6-7">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-8" class="outline-4">
+<h4 id="sec-1-6-8"><span class="section-number-4">1.6.8</span> Runnable &amp; Thread</h4>
+<div class="outline-text-4" id="text-1-6-8">
 
 <p>线程包括下面6种状态，并且切换关系如下：
 </p><ol>
@@ -923,9 +947,9 @@ volatile关键字为 <b>实例字段</b> 的同步访问提供了一种免锁机
 
 </div>
 
-<div id="outline-container-1-6-8" class="outline-4">
-<h4 id="sec-1-6-8"><span class="section-number-4">1.6.8</span> Collection</h4>
-<div class="outline-text-4" id="text-1-6-8">
+<div id="outline-container-1-6-9" class="outline-4">
+<h4 id="sec-1-6-9"><span class="section-number-4">1.6.9</span> Collection</h4>
+<div class="outline-text-4" id="text-1-6-9">
 
 <p>TODO（dirlt）：
 </p>
@@ -933,9 +957,9 @@ volatile关键字为 <b>实例字段</b> 的同步访问提供了一种免锁机
 
 </div>
 
-<div id="outline-container-1-6-9" class="outline-4">
-<h4 id="sec-1-6-9"><span class="section-number-4">1.6.9</span> JMX</h4>
-<div class="outline-text-4" id="text-1-6-9">
+<div id="outline-container-1-6-10" class="outline-4">
+<h4 id="sec-1-6-10"><span class="section-number-4">1.6.10</span> JMX</h4>
+<div class="outline-text-4" id="text-1-6-10">
 
 <ul>
 <li>jmxtrans/jmxtrans · GitHub <a href="https://github.com/jmxtrans/jmxtrans">https://github.com/jmxtrans/jmxtrans</a>

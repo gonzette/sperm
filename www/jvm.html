@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="iso-8859-1"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>jvm</title>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
 <meta name="title" content="jvm"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-08-29 12:21:23 CST"/>
+<meta name="generated" content="2013-08-29 12:23:52 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -97,12 +97,7 @@
 <ul>
 <li><a href="#sec-1">1 jvm</a>
 <ul>
-<li><a href="#sec-1-1">1.1 Spec</a>
-<ul>
-<li><a href="#sec-1-1-1">1.1.1 浮点运算</a></li>
-</ul>
-</li>
-<li><a href="#sec-1-2">1.2 GC</a></li>
+<li><a href="#sec-1-1">1.1 GC</a></li>
 </ul>
 </li>
 </ul>
@@ -117,39 +112,8 @@
 </div>
 
 <div id="outline-container-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Spec</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> GC</h3>
 <div class="outline-text-3" id="text-1-1">
-
-
-</div>
-
-<div id="outline-container-1-1-1" class="outline-4">
-<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> 浮点运算</h4>
-<div class="outline-text-4" id="text-1-1-1">
-
-<p>float类型数值常量后面加上F比如3.042F,而double类型数值常量后面加上D比如3.402D.所有浮点数值计算都遵循IEEE 752规范。java提供了三种表示溢出或者计算错误的三种特殊浮点数值：
-</p><ol>
-<li>正无穷大 Double.POSITIVE_INFINITY
-</li>
-<li>负无穷大 Double.NEGATIVE_INFINITY
-</li>
-<li>NaN(不是数字) Double.NaN. 浮点数/0的话就会得到NaN.判断是否为NaN不应该使用==因为和一个NaN比较始终都是false,而应该使用Double.isNaN(x)
-</li>
-</ol>
-
-<p>对于较大浮点数应该使用BigDecimal来进行计算。
-</p>
-<p>
-java虚拟机规范强调可移植性，对于在任何机器上来说相同的程序得到的结果应该是相同的。但是对于浮点计算的话，比如Intel CPU针对于浮点数计算所有中间结果都使用bit 80表示，而最后截取bit 64,造成和其他CPU计算结果不同。为了达到可移植性，java规范所有中间结果必须使用bit 64截断，但是遭反对，因此java提供了strictfp关键字标记某个方法，对于这个方法里面所有浮点数计算，所有中间结果使用64 bit截断，否则使用适合native方式计算。另外一些浮点数计算比如pow2,pow3,sqrt的话，一方面依赖于CPU浮点计算方式，另外一方面依赖于本身算法（如果CPU本身提供这种指令的话就可以使用CPU指令），也会造成不可移植性，比如Math.sqrt.如果希望在这方面也达到同样效果的话，可以使用StrictMath类，底层使用fdlibm，以确保所有平台上得到相同的结果。
-</p>
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> GC</h3>
-<div class="outline-text-3" id="text-1-2">
 
 <ul>
 <li>Sun jdk 1.6 gc <a href="http://www.slideshare.net/BlueDavy/sun-jdk-16-gc">http://www.slideshare.net/BlueDavy/sun-jdk-16-gc</a>
