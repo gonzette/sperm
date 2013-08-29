@@ -37,6 +37,7 @@ file:./images/valve-logo.jpg 放眼未来，自由想象(Open your mind, Open yo
    - [[file:tcmalloc.org][tcmalloc]] google的开源线程缓存内存分配器，解决多线程下面内存分配效率问题。
    - [[file:snappy.org][snappy]] google的开源压缩解压库。在满足一定压缩比率的条件下着重提升压缩和解压速度。
    - [[file:./lzf.org][lzf]] redis使用的开源压缩解压库。轻量(两个文件)可以很容易地独立纳入项目。
+   - [[file:./lzma.org][lzma]] Lempel-Ziv-Markov chain algorithm ，压缩速度相对较慢但是压缩比超高。
    - [[file:build-system.org][build-system]] 在实现baidu in-house的构建工具comake2之前，做过构建系统的调研总结出来的。在语法表达上面(非常重要)借鉴了SCons,考虑了其他构建系统提供的功能。
      - [[file:maven.org][maven]] 主要针对Java开发的基于工程对象模型(POM, Project Object Model)构建系统，主要记录了一些使用方面的问题和解决办法。
    - [[file:oprofile.org][oprofile]] OProfile(系统级profiler)的原理和应用。不过说实话没有分析过源代码(或者是自己技术背景不行)终究觉得对这个东西理解不够深入，而且自己也仅仅是使用OProfile功能的子集。
