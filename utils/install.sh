@@ -44,7 +44,7 @@ oprof mysqldb syslog \
 local-install org2twiki \
  gc pom-create vpn-umeng-dp \
 vpn-dirlt-aws proc-netstat rhs go-doc-server pcrypt einstall uinstall clj lein
-patch-code"
+patch-code imei2umid"
 
 INSTALLDIR=$HOME/utils/bin
 if [ ! -d $INSTALLDIR ]
