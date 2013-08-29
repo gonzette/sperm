@@ -1,22 +1,6 @@
 * java
 ** 相关资料
    - Core Java Volume I: Fundamentals
-   - JVM performance optimization
-     - JVM performance optimization, Part 1: A JVM technology primer http://www.javaworld.com/javaworld/jw-08-2012/120821-jvm-performance-optimization-overview.html
-     - JVM performance optimization, Part 2: Compilers http://www.javaworld.com/javaworld/jw-09-2012/120905-jvm-performance-optimization-compilers.html
-     - JVM performance optimization, Part 3: Garbage collection http://www.javaworld.com/javaworld/jw-10-2012/121010-jvm-performance-optimization-garbage-collection.html
-     - JVM performance optimization, Part 4: C4 garbage collection for low-latency Java applications http://www.javaworld.com/javaworld/jw-11-2012/121107-jvm-performance-optimization-low-latency-garbage-collection.html
-   - Understanding JVM Internals | CUBRID Blog http://www.cubrid.org/blog/dev-platform/understanding-jvm-internals
-   - The Principles of Java Application Performance Tuning | CUBRID Blog : http://www.cubrid.org/blog/dev-platform/the-principles-of-java-application-performance-tuning/
-   - Understanding JVM Internals, from Basic Structure to Java SE 7 Features | Architects Zone http://architects.dzone.com/articles/understanding-jvm-internals
-
-** 经验参数
-服务器JVM
-#+BEGIN_EXAMPLE
- -server \
- -Xms8192m -Xmx8192m -XX:NewSize=1024m \
- -XX:+UseConcMarkSweepGC -XX:+UseParNewGC \
-#+END_EXAMPLE
 
 ** 基本语法
 *** 标签跳转

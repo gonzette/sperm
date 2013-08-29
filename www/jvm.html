@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>jvm</title>
-<meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="jvm"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-08-29 12:23:52 CST"/>
+<meta name="generated" content="2013-08-29 12:25:27 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -97,7 +97,8 @@
 <ul>
 <li><a href="#sec-1">1 jvm</a>
 <ul>
-<li><a href="#sec-1-1">1.1 GC</a></li>
+<li><a href="#sec-1-1">1.1 经验参数</a></li>
+<li><a href="#sec-1-2">1.2 GC</a></li>
 </ul>
 </li>
 </ul>
@@ -112,8 +113,26 @@
 </div>
 
 <div id="outline-container-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> GC</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 经验参数</h3>
 <div class="outline-text-3" id="text-1-1">
+
+<p>服务器JVM
+</p>
+
+
+<pre class="example">-server \
+-Xms8192m -Xmx8192m -XX:NewSize=1024m \
+-XX:+UseConcMarkSweepGC -XX:+UseParNewGC \
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> GC</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <ul>
 <li>Sun jdk 1.6 gc <a href="http://www.slideshare.net/BlueDavy/sun-jdk-16-gc">http://www.slideshare.net/BlueDavy/sun-jdk-16-gc</a>
