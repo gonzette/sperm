@@ -175,6 +175,7 @@ file:./images/valve-logo.jpg 放眼未来，自由想象(Open your mind, Open yo
      - [[file:./the-tyranny-of-the-clock.org][The Tyranny of the Clock]]
      - [[file:./system-programming-at-twitter.org][Systems Programming at Twitter]]
      - [[file:./writing-software-is-like-writing.org][Writing Software is Like ... Writing]]
+     - [[file:./programmer-dilemma.org][Programmer’s dilemma]]
    - [[file:./aosa.org][The Architecture of Open Source Applications]]
    - [[file:./producing-open-source-software.org][Producing Open Source Software]]
 

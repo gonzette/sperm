@@ -461,6 +461,7 @@ public class AsyncClient implements Runnable {
             StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestOfColumnFromHBaseCount, 1);
         } else {
             code = Status.kReadResponse; // return directly.
+            StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestOfColumnFromCacheCount, 1);
         }
         run();
     }
@@ -512,7 +513,6 @@ public class AsyncClient implements Runnable {
 //            @Override
 //            public Object call(Exception o) throws Exception {
 //                o.printStackTrace();
-//                StatStore.getInstance().addMetric("read.count.error", 1);
 //                client.code = Status.kReadResponse;
 //                client.requestStatus = RequestStatus.kException;
 //                client.requestMessage = o.toString();
@@ -530,9 +530,9 @@ public class AsyncClient implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
             if (e instanceof TimeoutException) {
-                StatStore.getInstance().addCounter("read.count.timeout.in-request-hbase", 1);
+                StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestTimeoutOfHBaseCount, 1);
             } else {
-                StatStore.getInstance().addCounter("read.count.error", 1);
+                StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestFailureOfHBaseCount, 1);
             }
             client.code = Status.kReadResponse;
             client.requestStatus = RequestStatus.kException;
@@ -639,7 +639,6 @@ public class AsyncClient implements Runnable {
 //            public Object call(Exception o) throws Exception {
 //                // we don't care.
 //                o.printStackTrace();
-//                StatStore.getInstance().addMetric("write.count.error", 1);
 //                client.code = Status.kWriteResponse;
 //                client.requestStatus = RequestStatus.kException;
 //                client.requestMessage = o.toString();
@@ -656,9 +655,9 @@ public class AsyncClient implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
             if (e instanceof TimeoutException) {
-                StatStore.getInstance().addCounter("write.count.timeout.in-request-hbase", 1);
+                StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteRequestTimeoutOfHBaseCount,1);
             } else {
-                StatStore.getInstance().addCounter("write.count.error", 1);
+                StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteRequestFailureOfHBaseCount,1);
             }
             client.code = Status.kWriteResponse;
             client.requestStatus = RequestStatus.kException;

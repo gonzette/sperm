@@ -57,6 +57,7 @@ public class StatStore {
         long time = 0L;
         int count = 0;
         int disCount[] = new int[kTimeDistribution.length + 1];
+        long sMax = 0L;
 
         public void clear() {
             time = 0L;
@@ -79,6 +80,9 @@ public class StatStore {
                 }
             }
             count += 1;
+            if (t > sMax) {
+                sMax = t;
+            }
         }
 
         public String get() {
@@ -87,7 +91,8 @@ public class StatStore {
             if (all == 0) {
                 all += 1;
             }
-            sb.append(String.format("time = %s(ms), count = %d, avg = %.2f(ms)\n", String.valueOf(time), count, time * 1.0 / all));
+            sb.append(String.format("time = %s(ms), count = %d, avg = %.2f(ms), max = %s(ms)\n",
+                    String.valueOf(time), count, time * 1.0 / all, sMax));
             if (disCount[0] != 0) {
                 sb.append(String.format("  (0, %d] = %d(%.2f)\n",
                         kTimeDistribution[0],
