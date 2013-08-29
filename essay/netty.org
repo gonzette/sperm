@@ -175,7 +175,6 @@ private void fireReadTimedOut(final ChannelHandlerContext ctx) throws Exception 
 #+END_SRC
    - 如果在10s内有数据被处理的话，那么就会调用messageReceived回调，在回调里面我们可以删除这个handler ctx.getPipeline().remove("rto"); 这样便不会触发ReadTimeoutException
 
-
 对WriteTimeoutHandler同理，因为我们不能够setWritable，所以必须在write之前就安装好handler
    - ctx.getPipeline().addBefore(ctx.getName(),"wto",new WriteTimeoutHandler(timer,10));
    - ctx.getChannel.write()

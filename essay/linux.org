@@ -2401,12 +2401,13 @@ file:./images/tcp-packet-reception.png
 
 整个流程大致如下：
    - linux里面使用sk_buff数据结构来描述packet.
-   - NIC检测到packet到达，分配sk_buffer数据结构，调用DMA Engine将packet放到sk_buff数据结构里面并且加入rx_ring这个ring_buffer里面
-   - 如果rx_ring满了的话那么将packet直接丢弃， *如果被上层处理的话直接引用而不会存在任何copy*
-   - 当DMA Engine完成处理之后NIC通过中断通知kernel进行处理。
-   - kernel将这个packet传递给IP层进行处理，IP层发现如果是tcp packet的话那么放到socket backlog里面。如果满了那么丢弃。
-   - tcp layer从socket backlog里面取出tcp packet， *copy到tcp recv buffer*
-   - tcp recv buffer交给application layer处理， *这里还存在一次copy*
+   - NIC检测到packet到达，从Kernel Memory(sk_buffs)分配sk_buff数据结构，调用DMA Engine将packet放到sk_buff数据结构里面 *NOTE（dirlt）：NIC检测有packet到达和有packet发送，都不是触发而是主动poll的方式来完成的*
+   - 将sk_buff并且加入rx_ring这个ring_buffer里面。如果rx_ring满了的话那么将packet丢弃。
+   - 当DMA Engine完成处理之后， *NIC通过向CPU发起中断* 通知kernel进行处理。
+   - kernel将这个packet传递给IP层进行处理。IP层需要将信息组装成为ip packet。如果ip packet是tcp的话那么放到socket backlog里面。如果socket backlog满了的话那么将ip packet丢弃。 *copy packet data to ip buffer to form ip packet*
+   - *NOTE(dirlt):这个步骤完成之后IP layer就可以释放sk_buffer结构*
+   - tcp layer从socket backlog里面取出tcp packet， *copy ip packet tcp recv buffer to form tcp packet*
+   - tcp recv buffer交给application layer处理， *copy tcp recv buffer to app buffer to form app packet*
 其中内核参数有
    - /proc/sys/net/ipv4/tcp_rmem tcp recv buffer大小
    - /proc/sys/net/core/netdev_max_backlog socket backlog大小
@@ -2417,11 +2418,11 @@ packet transmission
 file:./images/tcp-packet-transmission.png
 
 整个流程大致如下：
-   - application layer将数据copy到tcp layer的tcp send buffer里面，如果空间不够的话那么就会出现阻塞。
-   - tcp layer等发送数据准备好或者是需要确认ACK的时候，将对应的packet推送到IP layer
-   - 然后ip layer将packet推送到qdisc（output queue）里面 *NOTE（dirlt）：然后这里应该定期有一个任务从queue里面取出放到ring buffer里面）*
-     - 如果qdisc队列满的话那么就会出现阻塞，反馈到tcp layer.
-   - driver如果检测到ring buffer里面存在packet的话，那么就会调用NIC DMA Engine将packet发送出去 *NOTE（dirlt）：感觉这个部分还是有点模糊！*
+   - application layer将数据copy到tcp send buffer里面，如果空间不够的话那么就会出现阻塞。 *copy app buffer to tcp send buffer as app packet*
+   - tcp layer等待tcp send buffer存在数据或者是需要做ack的时候，组装ip packet推送到IP layer *copy tcp send buffer to ip send buffer as tcp packet*
+   - IP layer从kernel memory申请sk_buffer，将ip data包装成为packet data，然后塞到qdisc(txqueuelen控制队列长度）里面。如果队列满的话那么就会出现阻塞，反馈到tcp layer阻塞。 *copy ip send buffer to packet data as ip packet*
+   - NIC driver如果检测到qdisc有数据的话，那么会将packet data从qdisc放置到ring buffer里面，然后调用NIC DMA Engine将packet发送出去 *TODO（dirlt）：可能理解有误*
+   - 发送完成之后NIC向CPU发起中断释放packet data内存到Kernel Memory
 其中内核参数有：
    - /proc/sys/net/ipv4/tcp_wmem 这个和rmem非常类似
    - *NOTE（dirlt）：qdisc文章里面说是txqueuelen控制的，但是似乎找不到这个参数！*
