@@ -1,26 +1,31 @@
 Host hadoop1
+User yunbg
 Port 16021
 
 Host dp0
+User dp
 Port 16021
 
 Host nexus
+User yunbg
 Port 16021
 
-Host usocial
-Port 18021
-
-Host dirlt.com
-Port 12321
-
 Host umidtrap1
+User dp
 Port 18021
 
 Host umidtrap2
+User dp
 Port 18021
 
 Host dptest1
-Port 18021
+User dp
+Port 16021
 
 Host dplog1
+User dp
+Port 18021
+
+Host ad21
+User ad
 Port 18021

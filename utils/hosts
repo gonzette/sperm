@@ -26,7 +26,6 @@ ff02::3	ip6-allhosts
 122.11.52.226 hadoop1
 122.11.52.227 nexus
 10.18.103.251 hudson
-10.18.10.97 usocial
 10.18.20.1 dplog1
 
 54.241.35.194 dirlt-aws
@@ -153,6 +152,8 @@ ff02::3	ip6-allhosts
 10.18.20.3 unode76
 10.18.20.4 unode77
 10.18.10.55 unode67
+
+10.11.50.1 ad21
 
 207.97.227.239 github.com
 204.232.175.94 gist.github.com
