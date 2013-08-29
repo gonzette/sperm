@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="linux"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-08-29 17:22:25 CST"/>
+<meta name="generated" content="2013-08-29 17:31:48 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -4459,6 +4459,27 @@ packet transmission
 </ul>
 
 
+<p>
+<b>NOTE(dirlt):在wangyx的帮助下这个配置在ifconfig下面找到了</b>
+</p>
+
+
+<pre class="example">➜  ~  ifconfig
+eth0      Link encap:Ethernet  HWaddr 12:31:40:00:49:d1  
+          inet addr:10.170.78.31  Bcast:10.170.79.255  Mask:255.255.254.0
+          inet6 addr: fe80::1031:40ff:fe00:49d1/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:13028359 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:9504902 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:2464083770 (2.4 GB)  TX bytes:20165782073 (20.1 GB)
+          Interrupt:25
+</pre>
+
+<p>
+txqueuelen = 1000
+</p>
+
 </div>
 
 </div>
@@ -4620,7 +4641,7 @@ exit(code)
 </li>
 </ol>
 
-<p>我们的网线都是由世纪互联提供的，质量应该不错，有两种情况需要优先排除。
+<p>我们的网线都是由 <b>世xx联</b> 提供的，质量应该不错，有两种情况需要优先排除。
 </p><ol>
 <li>网线问题（测试方法：换根网线试试）
 </li>

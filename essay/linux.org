@@ -2427,6 +2427,22 @@ file:./images/tcp-packet-transmission.png
    - /proc/sys/net/ipv4/tcp_wmem 这个和rmem非常类似
    - *NOTE（dirlt）：qdisc文章里面说是txqueuelen控制的，但是似乎找不到这个参数！*
 
+*NOTE(dirlt):在wangyx的帮助下这个配置在ifconfig下面找到了*
+#+BEGIN_EXAMPLE
+➜  ~  ifconfig
+eth0      Link encap:Ethernet  HWaddr 12:31:40:00:49:d1  
+          inet addr:10.170.78.31  Bcast:10.170.79.255  Mask:255.255.254.0
+          inet6 addr: fe80::1031:40ff:fe00:49d1/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:13028359 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:9504902 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:2464083770 (2.4 GB)  TX bytes:20165782073 (20.1 GB)
+          Interrupt:25
+#+END_EXAMPLE
+txqueuelen = 1000
+
+
 *** tcp congestion control
 file:./images/tcp-congestion-control.png
 
@@ -2512,7 +2528,7 @@ dp@dp8:~$ dmesg | grep eth0
    2. 本地连接―右键―属性―配置―高级―速度和双工，这里设置错误，改为自动感应或1000Mbps全双工即可
    3. 网卡所接的交换机或路由器等硬件设备出现故障，或者这些设备是百兆的（千和百连在一起,千变百向下兼容）
    4. 电磁场干扰有时也会变百兆，所以说网线尽量别与电线一起穿管（论坛会员tchack友情提供）
-我们的网线都是由世纪互联提供的，质量应该不错，有两种情况需要优先排除。
+我们的网线都是由 *世xx联* 提供的，质量应该不错，有两种情况需要优先排除。
    1. 网线问题（测试方法：换根网线试试）
    2. 交换机dp8连接的口坏了（测试方法：把dp8的网线换一个交换机的口）
 
