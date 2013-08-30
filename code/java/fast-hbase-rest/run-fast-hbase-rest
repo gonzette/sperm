@@ -20,8 +20,8 @@ java -server \
     --cpu-queue-size=4096 \
     --io-thread-number=32 \
     --io-queue-size=4096 \
-    --read-hbase-timeout=8000 \
-    --write-hbase-timeout=8000 \
+    --read-timeout=2000 \
+    --write-timeout=2000 \
     --debug=false \
     --close-on-failure=true \
     --kv=appuserstat.date.addHashCodeAsRowKeyPrefix:2013-07-02 \

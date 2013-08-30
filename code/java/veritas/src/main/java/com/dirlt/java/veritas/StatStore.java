@@ -65,6 +65,7 @@ public class StatStore {
             for (int i = 0; i < disCount.length; i++) {
                 disCount[i] = 0;
             }
+            sMax = 0L;
         }
 
         public void update(long t) {

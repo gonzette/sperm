@@ -268,7 +268,7 @@ public class AsyncClient implements Runnable {
             }
             rdReq = rdReqBuilder.build();
             StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCReadCount, 1);
-            requestTimeout = configuration.getReadHBaseTimeout();
+            requestTimeout = configuration.getReadTimeout();
             if (rdReq.hasTimeout()) {
                 requestTimeout = rdReq.getTimeout();
             }
@@ -328,7 +328,7 @@ public class AsyncClient implements Runnable {
         }
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCMultiReadCount, 1);
         refCounter.set(multiReadRequest.getRequestsCount());
-        requestTimeout = configuration.getReadHBaseTimeout();
+        requestTimeout = configuration.getReadTimeout();
         if (multiReadRequest.hasTimeout()) {
             requestTimeout = multiReadRequest.getTimeout();
         }
@@ -360,7 +360,7 @@ public class AsyncClient implements Runnable {
             }
             wrReq = wrReqBuilder.build();
             StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCWriteCount, 1);
-            requestTimeout = configuration.getWriteHBaseTimeout();
+            requestTimeout = configuration.getWriteTimeout();
             if (wrReq.hasTimeout()) {
                 requestTimeout = wrReq.getTimeout();
             }
@@ -407,7 +407,7 @@ public class AsyncClient implements Runnable {
         }
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCMultiWriteCount, 1);
         refCounter.set(multiWriteRequest.getRequestsCount());
-        requestTimeout = configuration.getWriteHBaseTimeout();
+        requestTimeout = configuration.getWriteTimeout();
         if (multiWriteRequest.hasTimeout()) {
             requestTimeout = multiWriteRequest.getTimeout();
         }
@@ -655,9 +655,9 @@ public class AsyncClient implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
             if (e instanceof TimeoutException) {
-                StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteRequestTimeoutOfHBaseCount,1);
+                StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteRequestTimeoutOfHBaseCount, 1);
             } else {
-                StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteRequestFailureOfHBaseCount,1);
+                StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteRequestFailureOfHBaseCount, 1);
             }
             client.code = Status.kWriteResponse;
             client.requestStatus = RequestStatus.kException;

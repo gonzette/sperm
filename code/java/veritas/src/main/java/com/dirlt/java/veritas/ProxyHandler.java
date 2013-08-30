@@ -71,7 +71,7 @@ public class ProxyHandler extends SimpleChannelHandler {
         // remove write exception
         context.getPipeline().remove("wto_handler");
         // add read exception.
-        int to = (int) Math.max(1, client.requestTimeout + client.requestTimestamp - System.currentTimeMillis());
+        int to = (int) Math.max(0, client.requestTimeout + client.requestTimestamp - System.currentTimeMillis());
         context.getPipeline().addBefore(ctx.getName(), "rto_handler",
                 new ReadTimeoutHandler(AsyncClient.timer, to, TimeUnit.MILLISECONDS));
         context.getChannel().setReadable(true);
