@@ -362,6 +362,7 @@ public class AsyncClient implements Runnable {
             }
         }
         debug("request retry = " + retry);
+        // TODO(dirlt): how to use it.
         // control flow.
         code = Status.kProxyRequestId;
         run();

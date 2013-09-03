@@ -487,15 +487,6 @@ public class AsyncClient implements Runnable {
 
     public void readHBaseService() {
         RestServer.logger.debug("read hbase service");
-
-        // already timeout, don't request hbase.
-        if ((System.currentTimeMillis() - requestTimestamp) > requestTimeout) {
-            RestServer.logger.debug("detect timeout before read request hbase");
-            StatStore.getInstance().addCounter("read.count.timeout.before-request-hbase", 1);
-            raiseReadException("timeout before read hbase");
-            return;
-        }
-
         RestServer.logger.debug("tableName = " + tableName + ", rowKey = " + rowKey + ", columnFamily = " + columnFamily);
 
         GetRequest getRequest = new GetRequest(tableName, rowKey);
@@ -594,29 +585,12 @@ public class AsyncClient implements Runnable {
                     readHBaseServiceEndTimestamp - readHBaseServiceStartTimestamp);
         }
 
-        // already timeout
-        if ((System.currentTimeMillis() - requestTimestamp) > requestTimeout) {
-            RestServer.logger.debug("detect timeout after read request hbase");
-            StatStore.getInstance().addCounter("read.count.timeout.after-request-hbase", 1);
-            raiseReadException("timeout after read hbase");
-            return;
-        }
-
         code = Status.kReadResponse;
         run();
     }
 
     public void writeHBaseService() {
         RestServer.logger.debug("write hbase service");
-
-        // already timeout, don't request hbase.
-        if ((System.currentTimeMillis() - requestTimestamp) > requestTimeout) {
-            RestServer.logger.debug("detect timeout before write request hbase");
-            StatStore.getInstance().addCounter("write.count.timeout.before-request-hbase", 1);
-            raiseWriteException("timeout before write hbase");
-            return;
-        }
-
         RestServer.logger.debug("tableName = " + tableName + ", rowKey = " + rowKey + ", columnFamily = " + columnFamily);
 
         byte[][] qualifiers = new byte[wrReq.getKvsCount()][];
@@ -663,13 +637,6 @@ public class AsyncClient implements Runnable {
 
     public void writeHBaseOver() {
         RestServer.logger.debug("write hbase over");
-        if ((System.currentTimeMillis() - requestTimestamp) > requestTimeout) {
-            RestServer.logger.debug("detect timeout after write request hbase");
-            StatStore.getInstance().addCounter("write.count.timeout.after-request-hbase", 1);
-            raiseWriteException("timeout after write hbase");
-            return;
-        }
-
         code = Status.kWriteResponse;
         run();
     }
