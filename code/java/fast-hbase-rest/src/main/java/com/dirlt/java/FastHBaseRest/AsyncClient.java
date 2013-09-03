@@ -95,6 +95,7 @@ public class AsyncClient implements Runnable {
     public MessageProtos1.MultiWriteResponse.Builder mWrRes;
     public Message msg;
 
+    public int retry;
     public long requestTimestamp;
     public long requestTimeout;
     public long readStartTimestamp;
@@ -268,9 +269,13 @@ public class AsyncClient implements Runnable {
             }
             rdReq = rdReqBuilder.build();
             StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCReadCount, 1);
-            requestTimeout = configuration.getReadTimeout();
+            requestTimeout = configuration.getTimeout();
             if (rdReq.hasTimeout()) {
                 requestTimeout = rdReq.getTimeout();
+            }
+            retry = configuration.getRetry();
+            if (rdReq.hasRetry()) {
+                retry = rdReq.getRetry();
             }
         }
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestCount, 1);
@@ -328,9 +333,13 @@ public class AsyncClient implements Runnable {
         }
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCMultiReadCount, 1);
         refCounter.set(multiReadRequest.getRequestsCount());
-        requestTimeout = configuration.getReadTimeout();
+        requestTimeout = configuration.getTimeout();
         if (multiReadRequest.hasTimeout()) {
             requestTimeout = multiReadRequest.getTimeout();
+        }
+        retry = configuration.getRetry();
+        if (multiReadRequest.hasRetry()) {
+            retry = multiReadRequest.getRetry();
         }
         for (MessageProtos1.ReadRequest request : multiReadRequest.getRequestsList()) {
             AsyncClient client = new AsyncClient(configuration);
@@ -339,6 +348,7 @@ public class AsyncClient implements Runnable {
             client.parent = this;
             // sub request inherits from parent request.
             client.requestTimeout = requestTimeout;
+            client.retry = retry;
             client.requestTimestamp = requestTimestamp;
             clients.add(client);
             CpuWorkerPool.getInstance().submit(client);
@@ -360,9 +370,13 @@ public class AsyncClient implements Runnable {
             }
             wrReq = wrReqBuilder.build();
             StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCWriteCount, 1);
-            requestTimeout = configuration.getWriteTimeout();
+            requestTimeout = configuration.getTimeout();
             if (wrReq.hasTimeout()) {
                 requestTimeout = wrReq.getTimeout();
+            }
+            retry = configuration.getRetry();
+            if (wrReq.hasRetry()) {
+                retry = wrReq.getRetry();
             }
         }
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteRequestCount, 1);
@@ -407,9 +421,13 @@ public class AsyncClient implements Runnable {
         }
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCMultiWriteCount, 1);
         refCounter.set(multiWriteRequest.getRequestsCount());
-        requestTimeout = configuration.getWriteTimeout();
+        requestTimeout = configuration.getTimeout();
         if (multiWriteRequest.hasTimeout()) {
             requestTimeout = multiWriteRequest.getTimeout();
+        }
+        retry = configuration.getRetry();
+        if (multiWriteRequest.hasRetry()) {
+            retry = multiWriteRequest.getRetry();
         }
         for (MessageProtos1.WriteRequest request : multiWriteRequest.getRequestsList()) {
             AsyncClient client = new AsyncClient(configuration);
@@ -418,6 +436,7 @@ public class AsyncClient implements Runnable {
             client.parent = this;
             // sub request inherits from parent request.
             client.requestTimeout = requestTimeout;
+            client.retry = retry;
             client.requestTimestamp = requestTimestamp;
             clients.add(client);
             CpuWorkerPool.getInstance().submit(client);
@@ -492,53 +511,41 @@ public class AsyncClient implements Runnable {
             }
             getRequest.qualifiers(qualifiers);
         } else {
+            // nothing.
         }
 
         final AsyncClient client = this;
         client.readHBaseServiceStartTimestamp = System.currentTimeMillis();
-        Deferred<ArrayList<KeyValue>> deferred = HBaseService.getInstance().get(getRequest);
-//        // if failed, we don't return.
-//        deferred.addCallback(new Callback<Object, ArrayList<KeyValue>>() {
-//            @Override
-//            public Object call(ArrayList<KeyValue> keyValues) throws Exception {
-//                client.readHBaseServiceEndTimestamp = System.currentTimeMillis();
-//                client.code = Status.kReadHBaseOver;
-//                client.keyValues = keyValues;
-//                // put back to CPU worker pool.
-//                CpuWorkerPool.getInstance().submit(client);
-//                return null;
-//            }
-//        });
-//        deferred.addErrback(new Callback<Object, Exception>() {
-//            @Override
-//            public Object call(Exception o) throws Exception {
-//                o.printStackTrace();
-//                client.code = Status.kReadResponse;
-//                client.requestStatus = RequestStatus.kException;
-//                client.requestMessage = o.toString();
-//                CpuWorkerPool.getInstance().submit(client);
-//                return null;
-//            }
-//        });
-        // we don't use callback because of it's lack of controlling timeout.
         long restTimeout = Math.max(0L, requestTimeout - (System.currentTimeMillis() - requestTimestamp));
-        try {
-            client.keyValues = deferred.joinUninterruptibly(restTimeout);
-            client.readHBaseServiceEndTimestamp = System.currentTimeMillis();
-            client.code = Status.kReadHBaseOver;
-            run();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (e instanceof TimeoutException) {
+        Exception lastException = null;
+        for (int i = 0; i < client.retry; i++) {
+            Deferred<ArrayList<KeyValue>> deferred = HBaseService.getInstance().get(getRequest);
+            // we don't use callback because of it's lack of controlling timeout.
+            try {
+                client.keyValues = deferred.joinUninterruptibly(restTimeout);
+                client.readHBaseServiceEndTimestamp = System.currentTimeMillis();
+                client.code = Status.kReadHBaseOver;
+                break;
+            } catch (Exception e) {
+                e.printStackTrace();
+                lastException = e;
+                // if not timeout exception, we don't retry.
+                if (!(lastException instanceof TimeoutException)) {
+                    break;
+                }
+            }
+        }
+        if (lastException != null) {
+            if (lastException instanceof TimeoutException) {
                 StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestTimeoutOfHBaseCount, 1);
             } else {
                 StatStore.getInstance().addMetric(StatStore.MetricFieldName.kReadRequestFailureOfHBaseCount, 1);
             }
             client.code = Status.kReadResponse;
             client.requestStatus = RequestStatus.kException;
-            client.requestMessage = e.toString();
-            run();
+            client.requestMessage = lastException.toString();
         }
+        run();
     }
 
     public void readHBaseOver() {
@@ -623,47 +630,35 @@ public class AsyncClient implements Runnable {
 
         final AsyncClient client = this;
         client.writeHBaseServiceStartTimestamp = System.currentTimeMillis();
-        Deferred<Object> deferred = HBaseService.getInstance().put(putRequest);
-//        // if failed, we don't return.
-//        deferred.addCallback(new Callback<Object, Object>() {
-//            @Override
-//            public Object call(Object obj) throws Exception {
-//                client.code = Status.kWriteHBaseOver;
-//                // we don't return because we put into CpuWorkerPool.
-//                CpuWorkerPool.getInstance().submit(client);
-//                return null;
-//            }
-//        });
-//        deferred.addErrback(new Callback<Object, Exception>() {
-//            @Override
-//            public Object call(Exception o) throws Exception {
-//                // we don't care.
-//                o.printStackTrace();
-//                client.code = Status.kWriteResponse;
-//                client.requestStatus = RequestStatus.kException;
-//                client.requestMessage = o.toString();
-//                CpuWorkerPool.getInstance().submit(client);
-//                return null;
-//            }
-//        });
-        // we don't use callback because of it's lack of controlling timeout.
         long restTimeout = Math.max(0L, requestTimeout - (System.currentTimeMillis() - requestTimestamp));
-        try {
-            deferred.joinUninterruptibly(restTimeout);
-            client.code = Status.kWriteHBaseOver;
-            run();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (e instanceof TimeoutException) {
+        Exception lastException = null;
+        for (int i = 0; i < client.retry; i++) {
+            Deferred<Object> deferred = HBaseService.getInstance().put(putRequest);
+            // we don't use callback because of it's lack of controlling timeout.
+            try {
+                deferred.joinUninterruptibly(restTimeout);
+                client.code = Status.kWriteHBaseOver;
+                break;
+            } catch (Exception e) {
+                e.printStackTrace();
+                lastException = e;
+                // if not timeout exception, we don't retry.
+                if (!(lastException instanceof TimeoutException)) {
+                    break;
+                }
+            }
+        }
+        if (lastException != null) {
+            if (lastException instanceof TimeoutException) {
                 StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteRequestTimeoutOfHBaseCount, 1);
             } else {
                 StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteRequestFailureOfHBaseCount, 1);
             }
             client.code = Status.kWriteResponse;
             client.requestStatus = RequestStatus.kException;
-            client.requestMessage = e.toString();
-            run();
+            client.requestMessage = lastException.toString();
         }
+        run();
     }
 
     public void writeHBaseOver() {

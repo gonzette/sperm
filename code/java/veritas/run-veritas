@@ -16,6 +16,7 @@ java -server \
     --cpu-queue-size=4096 \
     --accept-io-thread-number=4 \
     --io-thread-number=32 \
+    --retry=3 \
     --timeout=300 \
     --proxy-accept-io-thread-number=4 \
     --proxy-io-thread-number=32 \

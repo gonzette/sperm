@@ -30,7 +30,10 @@ public class RequestProxy {
         if (readRequest.getTableName().equals("appuserstat")) {
             String rowKey = readRequest.getRowKey();
             String date = rowKey.split("_")[0];
-            if (date.matches("^\\d{4}-\\d{2}-\\d{2}$") && date.compareTo(configuration.getKv().get("appuserstat.date.addHashCodeAsRowKeyPrefix")) >= 0) {
+            String sKey = "appuserstat.date.addHashCodeAsRowKeyPrefix";
+            if (date.matches("^\\d{4}-\\d{2}-\\d{2}$") &&
+                    configuration.getKv().containsKey(sKey) &&
+                    date.compareTo(configuration.getKv().get(sKey)) >= 0) {
                 MessageProtos1.ReadRequest.Builder builder = MessageProtos1.ReadRequest.newBuilder(readRequest);
                 builder.setRowKey(Utility.addHashCodeAsPrefix(rowKey));
                 return builder.build();

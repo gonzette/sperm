@@ -112,6 +112,7 @@ public class AsyncClient implements Runnable {
     public long requestTimestamp;
     public long requestProxyIdTimestamp;
     public long requestProxyInfoTimestamp;
+    public int retry;
     public long requestTimeout;
 
     public AsyncClient(Configuration configuration) {
@@ -344,6 +345,9 @@ public class AsyncClient implements Runnable {
                 }
             }
         }
+        // checkout retry.
+        retry = configuration.getRetry();
+        // TODO(dirlt): how to use retry.
         debug("request timeout = " + requestTimeout);
         // control flow.
         code = Status.kProxyRequestId;

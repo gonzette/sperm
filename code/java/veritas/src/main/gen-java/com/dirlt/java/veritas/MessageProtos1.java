@@ -31,6 +31,10 @@ public final class MessageProtos1 {
     // optional int32 timeout = 5;
     boolean hasTimeout();
     int getTimeout();
+    
+    // optional int32 retry = 6;
+    boolean hasRetry();
+    int getRetry();
   }
   public static final class ReadRequest extends
       com.google.protobuf.GeneratedMessage
@@ -181,12 +185,23 @@ public final class MessageProtos1 {
       return timeout_;
     }
     
+    // optional int32 retry = 6;
+    public static final int RETRY_FIELD_NUMBER = 6;
+    private int retry_;
+    public boolean hasRetry() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    public int getRetry() {
+      return retry_;
+    }
+    
     private void initFields() {
       tableName_ = "";
       rowKey_ = "";
       columnFamily_ = "";
       qualifiers_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       timeout_ = 0;
+      retry_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -227,6 +242,9 @@ public final class MessageProtos1 {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(5, timeout_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(6, retry_);
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -260,6 +278,10 @@ public final class MessageProtos1 {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, timeout_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, retry_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -395,6 +417,8 @@ public final class MessageProtos1 {
         bitField0_ = (bitField0_ & ~0x00000008);
         timeout_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
+        retry_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
       
@@ -455,6 +479,10 @@ public final class MessageProtos1 {
           to_bitField0_ |= 0x00000008;
         }
         result.timeout_ = timeout_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.retry_ = retry_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -492,6 +520,9 @@ public final class MessageProtos1 {
         }
         if (other.hasTimeout()) {
           setTimeout(other.getTimeout());
+        }
+        if (other.hasRetry()) {
+          setRetry(other.getRetry());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -559,6 +590,11 @@ public final class MessageProtos1 {
             case 40: {
               bitField0_ |= 0x00000010;
               timeout_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              retry_ = input.readInt32();
               break;
             }
           }
@@ -748,6 +784,27 @@ public final class MessageProtos1 {
       public Builder clearTimeout() {
         bitField0_ = (bitField0_ & ~0x00000010);
         timeout_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional int32 retry = 6;
+      private int retry_ ;
+      public boolean hasRetry() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      public int getRetry() {
+        return retry_;
+      }
+      public Builder setRetry(int value) {
+        bitField0_ |= 0x00000020;
+        retry_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRetry() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        retry_ = 0;
         onChanged();
         return this;
       }
@@ -1955,6 +2012,10 @@ public final class MessageProtos1 {
     // optional int32 timeout = 2;
     boolean hasTimeout();
     int getTimeout();
+    
+    // optional int32 retry = 3;
+    boolean hasRetry();
+    int getRetry();
   }
   public static final class MultiReadRequest extends
       com.google.protobuf.GeneratedMessage
@@ -2016,9 +2077,20 @@ public final class MessageProtos1 {
       return timeout_;
     }
     
+    // optional int32 retry = 3;
+    public static final int RETRY_FIELD_NUMBER = 3;
+    private int retry_;
+    public boolean hasRetry() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public int getRetry() {
+      return retry_;
+    }
+    
     private void initFields() {
       requests_ = java.util.Collections.emptyList();
       timeout_ = 0;
+      retry_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2044,6 +2116,9 @@ public final class MessageProtos1 {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(2, timeout_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, retry_);
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -2060,6 +2135,10 @@ public final class MessageProtos1 {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, timeout_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, retry_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2194,6 +2273,8 @@ public final class MessageProtos1 {
         }
         timeout_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        retry_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       
@@ -2245,6 +2326,10 @@ public final class MessageProtos1 {
           to_bitField0_ |= 0x00000001;
         }
         result.timeout_ = timeout_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.retry_ = retry_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2289,6 +2374,9 @@ public final class MessageProtos1 {
         }
         if (other.hasTimeout()) {
           setTimeout(other.getTimeout());
+        }
+        if (other.hasRetry()) {
+          setRetry(other.getRetry());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2336,6 +2424,11 @@ public final class MessageProtos1 {
             case 16: {
               bitField0_ |= 0x00000002;
               timeout_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              retry_ = input.readInt32();
               break;
             }
           }
@@ -2547,6 +2640,27 @@ public final class MessageProtos1 {
       public Builder clearTimeout() {
         bitField0_ = (bitField0_ & ~0x00000002);
         timeout_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional int32 retry = 3;
+      private int retry_ ;
+      public boolean hasRetry() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public int getRetry() {
+        return retry_;
+      }
+      public Builder setRetry(int value) {
+        bitField0_ |= 0x00000004;
+        retry_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRetry() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        retry_ = 0;
         onChanged();
         return this;
       }
@@ -3153,6 +3267,10 @@ public final class MessageProtos1 {
     // optional int32 timeout = 5;
     boolean hasTimeout();
     int getTimeout();
+    
+    // optional int32 retry = 6;
+    boolean hasRetry();
+    int getRetry();
   }
   public static final class WriteRequest extends
       com.google.protobuf.GeneratedMessage
@@ -3761,12 +3879,23 @@ public final class MessageProtos1 {
       return timeout_;
     }
     
+    // optional int32 retry = 6;
+    public static final int RETRY_FIELD_NUMBER = 6;
+    private int retry_;
+    public boolean hasRetry() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    public int getRetry() {
+      return retry_;
+    }
+    
     private void initFields() {
       tableName_ = "";
       rowKey_ = "";
       columnFamily_ = "";
       kvs_ = java.util.Collections.emptyList();
       timeout_ = 0;
+      retry_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3813,6 +3942,9 @@ public final class MessageProtos1 {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(5, timeout_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(6, retry_);
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -3841,6 +3973,10 @@ public final class MessageProtos1 {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(5, timeout_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, retry_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3981,6 +4117,8 @@ public final class MessageProtos1 {
         }
         timeout_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
+        retry_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
       
@@ -4044,6 +4182,10 @@ public final class MessageProtos1 {
           to_bitField0_ |= 0x00000008;
         }
         result.timeout_ = timeout_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.retry_ = retry_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4097,6 +4239,9 @@ public final class MessageProtos1 {
         }
         if (other.hasTimeout()) {
           setTimeout(other.getTimeout());
+        }
+        if (other.hasRetry()) {
+          setRetry(other.getRetry());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4171,6 +4316,11 @@ public final class MessageProtos1 {
             case 40: {
               bitField0_ |= 0x00000010;
               timeout_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              retry_ = input.readInt32();
               break;
             }
           }
@@ -4490,6 +4640,27 @@ public final class MessageProtos1 {
       public Builder clearTimeout() {
         bitField0_ = (bitField0_ & ~0x00000010);
         timeout_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional int32 retry = 6;
+      private int retry_ ;
+      public boolean hasRetry() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      public int getRetry() {
+        return retry_;
+      }
+      public Builder setRetry(int value) {
+        bitField0_ |= 0x00000020;
+        retry_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRetry() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        retry_ = 0;
         onChanged();
         return this;
       }
@@ -4961,6 +5132,10 @@ public final class MessageProtos1 {
     // optional int32 timeout = 2;
     boolean hasTimeout();
     int getTimeout();
+    
+    // optional int32 retry = 3;
+    boolean hasRetry();
+    int getRetry();
   }
   public static final class MultiWriteRequest extends
       com.google.protobuf.GeneratedMessage
@@ -5022,9 +5197,20 @@ public final class MessageProtos1 {
       return timeout_;
     }
     
+    // optional int32 retry = 3;
+    public static final int RETRY_FIELD_NUMBER = 3;
+    private int retry_;
+    public boolean hasRetry() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public int getRetry() {
+      return retry_;
+    }
+    
     private void initFields() {
       requests_ = java.util.Collections.emptyList();
       timeout_ = 0;
+      retry_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5050,6 +5236,9 @@ public final class MessageProtos1 {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(2, timeout_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(3, retry_);
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -5066,6 +5255,10 @@ public final class MessageProtos1 {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, timeout_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, retry_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5200,6 +5393,8 @@ public final class MessageProtos1 {
         }
         timeout_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        retry_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       
@@ -5251,6 +5446,10 @@ public final class MessageProtos1 {
           to_bitField0_ |= 0x00000001;
         }
         result.timeout_ = timeout_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.retry_ = retry_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5295,6 +5494,9 @@ public final class MessageProtos1 {
         }
         if (other.hasTimeout()) {
           setTimeout(other.getTimeout());
+        }
+        if (other.hasRetry()) {
+          setRetry(other.getRetry());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5342,6 +5544,11 @@ public final class MessageProtos1 {
             case 16: {
               bitField0_ |= 0x00000002;
               timeout_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              retry_ = input.readInt32();
               break;
             }
           }
@@ -5553,6 +5760,27 @@ public final class MessageProtos1 {
       public Builder clearTimeout() {
         bitField0_ = (bitField0_ & ~0x00000002);
         timeout_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional int32 retry = 3;
+      private int retry_ ;
+      public boolean hasRetry() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public int getRetry() {
+        return retry_;
+      }
+      public Builder setRetry(int value) {
+        bitField0_ |= 0x00000004;
+        retry_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRetry() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        retry_ = 0;
         onChanged();
         return this;
       }
@@ -6191,29 +6419,30 @@ public final class MessageProtos1 {
   static {
     java.lang.String[] descriptorData = {
       "\n\034src/main/proto/message.proto\022\026com.dirl" +
-      "t.java.veritas\"n\n\013ReadRequest\022\022\n\ntable_n" +
+      "t.java.veritas\"}\n\013ReadRequest\022\022\n\ntable_n" +
       "ame\030\001 \002(\t\022\017\n\007row_key\030\002 \002(\t\022\025\n\rcolumn_fam" +
       "ily\030\003 \002(\t\022\022\n\nqualifiers\030\004 \003(\t\022\017\n\007timeout" +
-      "\030\005 \001(\005\"\232\001\n\014ReadResponse\022:\n\003kvs\030\004 \003(\0132-.c" +
-      "om.dirlt.java.veritas.ReadResponse.KeyVa" +
-      "lue\022\r\n\005error\030\005 \002(\010\022\017\n\007message\030\006 \001(\t\032.\n\010K" +
-      "eyValue\022\021\n\tqualifier\030\001 \002(\t\022\017\n\007content\030\002 " +
-      "\002(\014\"Z\n\020MultiReadRequest\0225\n\010requests\030\001 \003(" +
-      "\0132#.com.dirlt.java.veritas.ReadRequest\022\017",
-      "\n\007timeout\030\002 \001(\005\"L\n\021MultiReadResponse\0227\n\t" +
-      "responses\030\001 \003(\0132$.com.dirlt.java.veritas" +
-      ".ReadResponse\"\307\001\n\014WriteRequest\022\022\n\ntable_" +
-      "name\030\001 \002(\t\022\017\n\007row_key\030\002 \002(\t\022\025\n\rcolumn_fa" +
-      "mily\030\003 \002(\t\022:\n\003kvs\030\004 \003(\0132-.com.dirlt.java" +
-      ".veritas.WriteRequest.KeyValue\022\017\n\007timeou" +
-      "t\030\005 \001(\005\032.\n\010KeyValue\022\021\n\tqualifier\030\001 \002(\t\022\017" +
-      "\n\007content\030\002 \002(\014\"/\n\rWriteResponse\022\r\n\005erro" +
-      "r\030\001 \002(\010\022\017\n\007message\030\002 \001(\t\"\\\n\021MultiWriteRe" +
-      "quest\0226\n\010requests\030\001 \003(\0132$.com.dirlt.java",
-      ".veritas.WriteRequest\022\017\n\007timeout\030\002 \001(\005\"N" +
-      "\n\022MultiWriteResponse\0228\n\tresponses\030\001 \003(\0132" +
-      "%.com.dirlt.java.veritas.WriteResponseB\020" +
-      "B\016MessageProtos1"
+      "\030\005 \001(\005\022\r\n\005retry\030\006 \001(\005\"\232\001\n\014ReadResponse\022:" +
+      "\n\003kvs\030\004 \003(\0132-.com.dirlt.java.veritas.Rea" +
+      "dResponse.KeyValue\022\r\n\005error\030\005 \002(\010\022\017\n\007mes" +
+      "sage\030\006 \001(\t\032.\n\010KeyValue\022\021\n\tqualifier\030\001 \002(" +
+      "\t\022\017\n\007content\030\002 \002(\014\"i\n\020MultiReadRequest\0225" +
+      "\n\010requests\030\001 \003(\0132#.com.dirlt.java.verita",
+      "s.ReadRequest\022\017\n\007timeout\030\002 \001(\005\022\r\n\005retry\030" +
+      "\003 \001(\005\"L\n\021MultiReadResponse\0227\n\tresponses\030" +
+      "\001 \003(\0132$.com.dirlt.java.veritas.ReadRespo" +
+      "nse\"\326\001\n\014WriteRequest\022\022\n\ntable_name\030\001 \002(\t" +
+      "\022\017\n\007row_key\030\002 \002(\t\022\025\n\rcolumn_family\030\003 \002(\t" +
+      "\022:\n\003kvs\030\004 \003(\0132-.com.dirlt.java.veritas.W" +
+      "riteRequest.KeyValue\022\017\n\007timeout\030\005 \001(\005\022\r\n" +
+      "\005retry\030\006 \001(\005\032.\n\010KeyValue\022\021\n\tqualifier\030\001 " +
+      "\002(\t\022\017\n\007content\030\002 \002(\014\"/\n\rWriteResponse\022\r\n" +
+      "\005error\030\001 \002(\010\022\017\n\007message\030\002 \001(\t\"k\n\021MultiWr",
+      "iteRequest\0226\n\010requests\030\001 \003(\0132$.com.dirlt" +
+      ".java.veritas.WriteRequest\022\017\n\007timeout\030\002 " +
+      "\001(\005\022\r\n\005retry\030\003 \001(\005\"N\n\022MultiWriteResponse" +
+      "\0228\n\tresponses\030\001 \003(\0132%.com.dirlt.java.ver" +
+      "itas.WriteResponseB\020B\016MessageProtos1"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6225,7 +6454,7 @@ public final class MessageProtos1 {
           internal_static_com_dirlt_java_veritas_ReadRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_dirlt_java_veritas_ReadRequest_descriptor,
-              new java.lang.String[] { "TableName", "RowKey", "ColumnFamily", "Qualifiers", "Timeout", },
+              new java.lang.String[] { "TableName", "RowKey", "ColumnFamily", "Qualifiers", "Timeout", "Retry", },
               com.dirlt.java.veritas.MessageProtos1.ReadRequest.class,
               com.dirlt.java.veritas.MessageProtos1.ReadRequest.Builder.class);
           internal_static_com_dirlt_java_veritas_ReadResponse_descriptor =
@@ -6249,7 +6478,7 @@ public final class MessageProtos1 {
           internal_static_com_dirlt_java_veritas_MultiReadRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_dirlt_java_veritas_MultiReadRequest_descriptor,
-              new java.lang.String[] { "Requests", "Timeout", },
+              new java.lang.String[] { "Requests", "Timeout", "Retry", },
               com.dirlt.java.veritas.MessageProtos1.MultiReadRequest.class,
               com.dirlt.java.veritas.MessageProtos1.MultiReadRequest.Builder.class);
           internal_static_com_dirlt_java_veritas_MultiReadResponse_descriptor =
@@ -6265,7 +6494,7 @@ public final class MessageProtos1 {
           internal_static_com_dirlt_java_veritas_WriteRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_dirlt_java_veritas_WriteRequest_descriptor,
-              new java.lang.String[] { "TableName", "RowKey", "ColumnFamily", "Kvs", "Timeout", },
+              new java.lang.String[] { "TableName", "RowKey", "ColumnFamily", "Kvs", "Timeout", "Retry", },
               com.dirlt.java.veritas.MessageProtos1.WriteRequest.class,
               com.dirlt.java.veritas.MessageProtos1.WriteRequest.Builder.class);
           internal_static_com_dirlt_java_veritas_WriteRequest_KeyValue_descriptor =
@@ -6289,7 +6518,7 @@ public final class MessageProtos1 {
           internal_static_com_dirlt_java_veritas_MultiWriteRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_dirlt_java_veritas_MultiWriteRequest_descriptor,
-              new java.lang.String[] { "Requests", "Timeout", },
+              new java.lang.String[] { "Requests", "Timeout", "Retry", },
               com.dirlt.java.veritas.MessageProtos1.MultiWriteRequest.class,
               com.dirlt.java.veritas.MessageProtos1.MultiWriteRequest.Builder.class);
           internal_static_com_dirlt_java_veritas_MultiWriteResponse_descriptor =

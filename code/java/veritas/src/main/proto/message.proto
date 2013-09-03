@@ -16,6 +16,7 @@ message ReadRequest {
   // but if you query column family, we don't do cache.
   repeated string qualifiers = 4;
   optional int32 timeout = 5;
+  optional int32 retry = 6;
 }
 
 message ReadResponse {
@@ -34,6 +35,7 @@ message ReadResponse {
 message MultiReadRequest {
   repeated ReadRequest requests = 1;
   optional int32 timeout = 2;
+  optional int32 retry = 3;
 }
 
 message MultiReadResponse {
@@ -51,6 +53,7 @@ message WriteRequest {
   }
   repeated KeyValue kvs = 4;
   optional int32 timeout = 5;
+  optional int32 retry = 6;
 }
 
 // empty message.
@@ -63,6 +66,7 @@ message WriteResponse {
 message MultiWriteRequest {
   repeated WriteRequest requests = 1;
   optional int32 timeout = 2;
+  optional int32 retry = 3;
 }
 
 message MultiWriteResponse {
