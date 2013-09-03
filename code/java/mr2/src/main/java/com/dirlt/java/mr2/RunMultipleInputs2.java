@@ -1,4 +1,4 @@
-package com.dirlt.java.mr;
+package com.dirlt.java.mr2;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
@@ -27,8 +27,8 @@ import java.io.IOException;
 // multiple table and multiple file
 public class RunMultipleInputs2 {
     public static final String CLASS_NAME = RunMultipleInputs2.class.getSimpleName();
-    public static final String kInTableName1 = "t1";
-    public static final String kInTableName2 = "t2";
+    public static final String kInTableName1 = "T1";
+    public static final String kInTableName2 = "T2";
     public static final String kInFileName1 = "/tmp/in1";
     public static final String kInFileName2 = "/tmp/in2";
     public static final String kOutFileName = "/tmp/tout";

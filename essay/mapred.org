@@ -965,6 +965,7 @@ public class MessageLzoProtobufWritable extends ProtobufWritable<MessageProtos1.
 
 **** MultipleTableInputFormat
    - 参考代码 com.dirlt.java.mr.RunMultipleInputs2
+   - *NOTE(dirlt):在cdh4.3.0下面运行的代码略有变动，存放在com.dirlt.java.mr2.RunMultipleInputs2*
      - 需要配合MultipleInputs使用
      - 使用这个InputFormat可以同时支持多文件输入和多表输入
      - 多表输入还支持在一个table上面使用多个scan.
