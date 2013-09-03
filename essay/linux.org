@@ -2442,7 +2442,6 @@ eth0      Link encap:Ethernet  HWaddr 12:31:40:00:49:d1
 #+END_EXAMPLE
 txqueuelen = 1000
 
-
 *** tcp congestion control
 file:./images/tcp-congestion-control.png
 
@@ -2450,6 +2449,11 @@ file:./images/tcp-congestion-control.png
    - cwnd(congestion window) 拥塞窗口，表示一次最多发送的数据包多少。
    - ssthresh(slow start threshold) 慢速启动阈值。
    - MSS(maximum segment size) 最大分节大小，和传输网络的MTU相关。
+
+*** kernel panic
+TODO(dirlt):
+
+file:./images/kernel-panic-not-syncing-attempted-to-kill-init.png
 
 ** application
 *** 返回值问题
