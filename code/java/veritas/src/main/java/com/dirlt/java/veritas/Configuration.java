@@ -136,7 +136,7 @@ public class Configuration {
         sb.append(String.format("service-name=%s\n", getServiceName()));
         sb.append(String.format("accept-io-thread-number=%d, io-thread-number=%d\n",
                 getAcceptIOThreadNumber(), getIoThreadNumber()));
-        sb.append(String.format("retry=%d, timeout=%d(ms)\n", getRetry(), getTimeout()));
+        sb.append(String.format("retry=%d, timeout=%d(ms)\n", getRetry(),getTimeout()));
         sb.append(String.format("proxy-accept-io-thread-number=%d, proxy-io-thread-number=%d\n",
                 getProxyAcceptIOThreadNumber(), getProxyIOThreadNumber()));
         sb.append(String.format("proxy-connection-per-node=%d\n", getProxyConnectionNumberPerNode()));

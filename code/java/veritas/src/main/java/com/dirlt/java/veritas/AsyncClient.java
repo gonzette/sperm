@@ -37,6 +37,7 @@ public class AsyncClient implements Runnable {
     private static final String kRequestIdKey = "reqid";
     private static final String kRequestTypeKey = "reqtype";
     private static final String kTimeoutKey = "timeout";
+    private static final String kRetryKey = "retry";
     private static final String kUmengIdKey = "umid";
     private static final String kContentKey = "content";
     private static final String kErrorCodeKey = "ecode";
@@ -341,14 +342,26 @@ public class AsyncClient implements Runnable {
                 try {
                     requestTimeout = Integer.valueOf((String) timeout);
                 } catch (Exception e) {
-                    timeout = configuration.getTimeout();
+                    requestTimeout = configuration.getTimeout();
                 }
             }
         }
+        debug("request timeout = " + requestTimeout);
         // checkout retry.
         retry = configuration.getRetry();
-        // TODO(dirlt): how to use retry.
-        debug("request timeout = " + requestTimeout);
+        Object xRetry = object.get(kRetryKey);
+        if (xRetry != null) {
+            if (xRetry instanceof Integer) {
+                retry = (Integer) xRetry;
+            } else if (xRetry instanceof String) {
+                try {
+                    retry = Integer.valueOf((String) xRetry);
+                } catch (Exception e) {
+                    retry = configuration.getRetry();
+                }
+            }
+        }
+        debug("request retry = " + retry);
         // control flow.
         code = Status.kProxyRequestId;
         run();
