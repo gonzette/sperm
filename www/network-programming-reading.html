@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="network-programming-reading"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-05 06:33:45 CST"/>
+<meta name="generated" content="2013-09-05 06:36:17 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -99,9 +99,9 @@
 <ul>
 <li><a href="#sec-1-1">1.1 network programming issue</a>
 <ul>
-<li><a href="#sec-1-1-1">1.1.1 timeout and retry.</a></li>
-<li><a href="#sec-1-1-2">1.1.2 connection pool implementation.</a></li>
-<li><a href="#sec-1-1-3">1.1.3 when async is better than sync.</a></li>
+<li><a href="#sec-1-1-1">1.1.1 timeout and retry</a></li>
+<li><a href="#sec-1-1-2">1.1.2 connection pool implementation</a></li>
+<li><a href="#sec-1-1-3">1.1.3 when async is better than sync</a></li>
 </ul>
 </li>
 </ul>
@@ -126,7 +126,7 @@
 </div>
 
 <div id="outline-container-1-1-1" class="outline-4">
-<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> timeout and retry.</h4>
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> timeout and retry</h4>
 <div class="outline-text-4" id="text-1-1-1">
 
 <p>超时(timeout)通常是client访问server提供的网络服务所能容忍的时间上限，因为网络服务可能存在诸多的可变性(variability), 而解决网络服务可变性一种常用办法就是重试(retry). 
@@ -245,7 +245,7 @@ retry可以是服务内部进行retry，也可以是由client发起retry，但�
 </div>
 
 <div id="outline-container-1-1-2" class="outline-4">
-<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> connection pool implementation.</h4>
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> connection pool implementation</h4>
 <div class="outline-text-4" id="text-1-1-2">
 
 <p>connection pool实现上有下面几点考虑
@@ -468,7 +468,7 @@ public void handleProxyResponseId() {
 </div>
 
 <div id="outline-container-1-1-3" class="outline-4">
-<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> when async is better than sync.</h4>
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> when async is better than sync</h4>
 <div class="outline-text-4" id="text-1-1-3">
 
 </div>
