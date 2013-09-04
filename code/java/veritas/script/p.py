@@ -11,7 +11,7 @@ import json
 def construct():
     j = {"reqid":"3",
          "account":'dirlt',
-         'timeout':500,
+         'timeout':100,
          'reqtype':'',
          'umid':'0006652a188a867cccff4a35a4967'
          }

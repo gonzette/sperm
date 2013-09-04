@@ -23,7 +23,6 @@ public class Configuration {
     private int acceptIOQueueSize = 16;
     private int ioThreadNumber = 16;
     private int ioQueueSize = 4096;
-    private int retry = 3;
     private int timeout = 10 * 1000; // ms.
     private String serviceName = "FastHBaseRest";
     private boolean closeOnFailure = false;
@@ -58,8 +57,6 @@ public class Configuration {
                 ioThreadNumber = Integer.valueOf(arg.substring("--io-thread-number=".length()));
             } else if (arg.startsWith("--io-queue-size=")) {
                 ioQueueSize = Integer.valueOf(arg.substring("--io-queue-size=".length()));
-            } else if (arg.startsWith("--retry=")) {
-                retry = Integer.valueOf(arg.substring("--retry=".length()));
             } else if (arg.startsWith("--timeout=")) {
                 timeout = Integer.valueOf(arg.substring("--timeout=".length()));
             } else if (arg.startsWith("--service-name=")) {
@@ -97,7 +94,6 @@ public class Configuration {
         System.out.println("\t--accept-io-queue-size # default 16");
         System.out.println("\t--io-thread-number # default 16");
         System.out.println("\t--io-queue-size # default 4096");
-        System.out.println("\t--retry # default 3");
         System.out.println("\t--timeout # default 10 * 1000(ms)");
         System.out.println("\t--service-name # set service name");
         System.out.println("\t--close-on-failure # default false");
@@ -115,7 +111,7 @@ public class Configuration {
         sb.append(String.format("accept-io-thread-number=%d, accept-io-queue-size=%d\n", getAcceptIOThreadNumber(), getAcceptIOQueueSize()));
         sb.append(String.format("io-thread-number=%d, io-queue-size=%d\n", getIOThreadNumber(), getIOQueueSize()));
         sb.append(String.format("cpu-thread-number=%d, cpu-queue-size=%d\n", getCpuThreadNumber(), getCpuQueueSize()));
-        sb.append(String.format("timeout=%d(ms), retry=%d\n", getTimeout(), getRetry()));
+        sb.append(String.format("timeout=%d(ms)\n", getTimeout()));
         sb.append(String.format("hbase-quorum-spec=%s\n", getQuorumSpec()));
         sb.append(String.format("cache-expire-time=%d(s), cache-max-capacity=%d\n", getCacheExpireTime(), getCacheMaxCapacity()));
         sb.append(String.format("close-on-failure=%s\n", isCloseOnFailure()));
@@ -180,10 +176,6 @@ public class Configuration {
 
     public String getServiceName() {
         return serviceName;
-    }
-
-    public int getRetry() {
-        return retry;
     }
 
     public int getTimeout() {

@@ -106,7 +106,7 @@ public class RestHandler extends SimpleChannelHandler {
     @Override
     public void writeComplete(ChannelHandlerContext ctx,
                               WriteCompletionEvent e) {
-        RestServer.logger.debug("write completed");
+        RestServer.logger.debug("write completed with amount " + e.getWrittenAmount());
         StatStore.getInstance().addCounter("rpc.out.count", 1);
     }
 

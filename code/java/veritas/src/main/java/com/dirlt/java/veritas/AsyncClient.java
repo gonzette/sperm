@@ -8,7 +8,7 @@ import org.jboss.netty.buffer.ChannelBuffer;
 import org.jboss.netty.buffer.ChannelBuffers;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.handler.codec.http.*;
-import org.jboss.netty.handler.timeout.WriteTimeoutHandler;
+import org.jboss.netty.handler.timeout.ReadTimeoutHandler;
 import org.jboss.netty.util.HashedWheelTimer;
 import org.jboss.netty.util.Timer;
 import org.json.simple.JSONArray;
@@ -37,7 +37,6 @@ public class AsyncClient implements Runnable {
     private static final String kRequestIdKey = "reqid";
     private static final String kRequestTypeKey = "reqtype";
     private static final String kTimeoutKey = "timeout";
-    private static final String kRetryKey = "retry";
     private static final String kUmengIdKey = "umid";
     private static final String kContentKey = "content";
     private static final String kErrorCodeKey = "ecode";
@@ -112,8 +111,9 @@ public class AsyncClient implements Runnable {
     public String umengId;
     public long requestTimestamp;
     public long requestProxyIdTimestamp;
+    public int retryProxyId;
     public long requestProxyInfoTimestamp;
-    public int retry;
+    public int retryProxyInfo;
     public long requestTimeout;
 
     public AsyncClient(Configuration configuration) {
@@ -151,6 +151,8 @@ public class AsyncClient implements Runnable {
         proxyChannelClosed = false;
         umengId = null;
         requestTimeout = configuration.getTimeout();
+        retryProxyId = 0;
+        retryProxyInfo = 0;
         reset();
     }
 
@@ -170,33 +172,16 @@ public class AsyncClient implements Runnable {
         raiseException(e.toString());
     }
 
-    public int detectTimeout(String stage) {
-        debug("detect timeout at stage '" + stage + "'");
-        int rest = (int) (requestTimeout + requestTimestamp - System.currentTimeMillis());
-        debug("rest timeout = " + rest + " at stage '" + stage + "'");
-        if (rest < 0) {
-            debug("timeout occurs at stage '" + stage + "'");
-            StatStore.getInstance().addCounter("rpc.timeout.count." + stage, 1);
-        }
-        return rest;
-    }
-
     public static void writeContent(Channel channel, String content) {
         // so simple.
         byte[] bs = content.getBytes();
         int size = bs.length;
-//        VeritasServer.logger.debug("write content...");
         HttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
-//        VeritasServer.logger.debug("write content...set header");
         response.setHeader("Content-Length", size);
-//        VeritasServer.logger.debug("write content...write bytes");
         ChannelBuffer buffer = ChannelBuffers.buffer(size);
         buffer.writeBytes(bs);
-//        VeritasServer.logger.debug("write content...set content");
         response.setContent(buffer);
-//        VeritasServer.logger.debug("write content...write channel");
         channel.write(response);
-//        VeritasServer.logger.debug("write content...write stat store");
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCOutBytes, size);
     }
 
@@ -323,7 +308,7 @@ public class AsyncClient implements Runnable {
         ok = false;
         for (String k : kDeviceIdKeys) {
             Object v = object.get(k);
-            if (!(v instanceof String)) {
+            if (v == null || !(v instanceof String)) {
                 continue;
             }
             ok = true;
@@ -347,24 +332,16 @@ public class AsyncClient implements Runnable {
             }
         }
         debug("request timeout = " + requestTimeout);
-        // checkout retry.
-        retry = configuration.getRetry();
-        Object xRetry = object.get(kRetryKey);
-        if (xRetry != null) {
-            if (xRetry instanceof Integer) {
-                retry = (Integer) xRetry;
-            } else if (xRetry instanceof String) {
-                try {
-                    retry = Integer.valueOf((String) xRetry);
-                } catch (Exception e) {
-                    retry = configuration.getRetry();
-                }
-            }
-        }
-        debug("request retry = " + retry);
-        // TODO(dirlt): how to use it.
         // control flow.
         code = Status.kProxyRequestId;
+        // if request contain 'umid' already,
+        JSONObject obj = (JSONObject) veritasRequest;
+        // if has umid field, we don't need to request id.
+        if (obj.containsKey(kUmengIdKey)) {
+            debug("veritas proxy request id shortcut");
+            umengId = (String) obj.get(kUmengIdKey);
+            code = Status.kProxyRequestInfo;
+        }
         run();
     }
 
@@ -394,27 +371,31 @@ public class AsyncClient implements Runnable {
         }
     }
 
+    public long calcRequestTimeout(int retryTime) {
+        final long kCPUReservedTimeSlice = 10; // allocate 10ms for CPU.
+        long timeout = requestTimeout - (System.currentTimeMillis() - requestTimestamp);
+        return timeout - kCPUReservedTimeSlice;
+    }
+
     public void handleProxyRequestId() {
         debug("veritas handle proxy request id");
-        // detect timeout.
-        int to = detectTimeout("before-request-proxy-id");
-        if (to < 0) {
-            raiseException("timeout before request proxy id");
+        if (retryProxyId == 0) {
+            requestProxyIdTimestamp = System.currentTimeMillis();
+        }
+        // check timeout.
+        long timeout = calcRequestTimeout(retryProxyId);
+        if (timeout < 0) {
+            raiseException("detect timeout in request proxy id");
             return;
         }
         // build request.
-        proxyIdRequestBuilder.setTimeout(to);
+        proxyIdRequestBuilder.setTimeout((int) timeout);
         JSONObject object = (JSONObject) veritasRequest;
-        // if has umid field, we don't need to request id.
-        if (object.containsKey(kUmengIdKey)) {
-            debug("veritas proxy request id shortcut");
-            umengId = (String) object.get(kUmengIdKey);
-            code = Status.kProxyRequestInfo;
-            run();
-            return;
-        }
         for (String key : kDeviceIdKeys) {
             Object v = object.get(key);
+            if (v == null) {
+                continue;
+            }
             subProxyIdRequestBuilder.setRowKey(key + "_" + v);
             subProxyIdRequestBuilder.setTableName(configuration.getDeviceIdMappingTable());
             subProxyIdRequestBuilder.setColumnFamily(configuration.getDeviceIdMappingColumnFamily());
@@ -422,21 +403,28 @@ public class AsyncClient implements Runnable {
             proxyIdRequestBuilder.addRequests(subProxyIdRequestBuilder.build());
         }
         proxyIdRequest = proxyIdRequestBuilder.build();
+        // obtain connection.
+        ProxyHandler handler = null;
+        while (true) {
+            handler = ProxyConnector.getInstance().acquireConnection();
+            if (handler == null) {
+                if (calcRequestTimeout(retryProxyId) < 0) {
+                    raiseException("detect timeout in request proxy id");
+                    return;
+                }
+            } else {
+                break;
+            }
+        }
         // write it out.
         code = Status.kProxyResponseId;
-        requestProxyIdTimestamp = System.currentTimeMillis();
-        ProxyHandler handler = ProxyConnector.getInstance().acquireConnection();
-        if (handler == null) {
-            raiseException("proxy connector id acquire connection failed");
-            return;
-        }
         handler.client = this;
-        // write timeout exception.
-        debug("proxy request id add wto handler");
-        handler.context.getPipeline().addBefore(handler.context.getName(), "wto_handler",
-                new WriteTimeoutHandler(timer, to, TimeUnit.MILLISECONDS));
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyIdRequestCount, 1);
         writeMessage("/multi-read", handler.channel, proxyIdRequest, StatStore.MetricFieldName.kProxyIdRequestBytes);
+        // add read exception.
+        handler.channel.getPipeline().addBefore(handler.context.getName(), "rto_handler",
+                new ReadTimeoutHandler(AsyncClient.timer, timeout, TimeUnit.MILLISECONDS));
+        handler.channel.setReadable(true);
         return;
     }
 
@@ -444,13 +432,14 @@ public class AsyncClient implements Runnable {
         debug("veritas handle proxy response id");
         // check proxy channel closed.
         if (proxyChannelClosed) {
-            raiseException("proxy id channel closed");
+            proxyChannelClosed = false;
+            retryProxyId += 1;
+            code = Status.kProxyRequestId;
+            run();
             return;
         }
-        StatStore.getInstance().updateClock(StatStore.ClockFieldName.kProxyId, System.currentTimeMillis() - requestProxyIdTimestamp);
         // parse response.
         int size = proxyBuffer.readableBytes();
-        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyIdResponseBytes, size);
         byte[] bs = new byte[size];
         proxyBuffer.readBytes(bs);
         try {
@@ -462,6 +451,7 @@ public class AsyncClient implements Runnable {
             return;
         }
         proxyIdResponse = proxyIdResponseBuilder.build();
+        proxyIdRequestBuilder.clear();
         // try to fetch umid and error message.
         String umid = null;
         String emesg = null;
@@ -489,20 +479,27 @@ public class AsyncClient implements Runnable {
             return;
         }
         umengId = umid;
+        // update metric.
+        StatStore.getInstance().updateClock(StatStore.ClockFieldName.kProxyId, System.currentTimeMillis() - requestProxyIdTimestamp);
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyIdResponseBytes, size);
+        // control flo.
         code = Status.kProxyRequestInfo;
         run();
     }
 
     public void handleProxyRequestInfo() {
-        // proxy request info.
         debug("veritas handle proxy request info");
-        int to = detectTimeout("before-request-proxy-info");
-        if (to < 0) {
-            raiseException("timeout before request proxy info");
+        if (retryProxyInfo == 0) {
+            requestProxyInfoTimestamp = System.currentTimeMillis();
+        }
+        // check timeout.
+        long timeout = calcRequestTimeout(retryProxyInfo);
+        if (timeout < 0) {
+            raiseException("detect timeout in request proxy info");
             return;
         }
-        // make protocol buffer.
-        proxyInfoRequestBuilder.setTimeout(to);
+        // build request.
+        proxyInfoRequestBuilder.setTimeout((int) timeout);
         proxyInfoRequestBuilder.setTableName(configuration.getUserInfoTable());
         proxyInfoRequestBuilder.setColumnFamily(configuration.getUserInfoColumnFamily());
         proxyInfoRequestBuilder.setRowKey(umengId);
@@ -517,34 +514,42 @@ public class AsyncClient implements Runnable {
             proxyInfoRequestBuilder.addQualifiers(x);
         }
         proxyInfoRequest = proxyInfoRequestBuilder.build();
-//        System.out.println(proxyInfoRequest.toString());
+        // obtain connection.
+        ProxyHandler handler = null;
+        while (true) {
+            handler = ProxyConnector.getInstance().acquireConnection();
+            if (handler == null) {
+                if (calcRequestTimeout(retryProxyInfo) < 0) {
+                    raiseException("detect timeout in request proxy info");
+                    return;
+                }
+            } else {
+                break;
+            }
+        }
         // write it out.
         code = Status.kProxyResponseInfo;
-        requestProxyInfoTimestamp = System.currentTimeMillis();
-        ProxyHandler handler = ProxyConnector.getInstance().acquireConnection();
-        if (handler == null) {
-            raiseException("proxy connector info acquire connection failed");
-            return;
-        }
         handler.client = this;
-        // write timeout exception.
-        debug("proxy request info add wto handler");
-        handler.context.getPipeline().addBefore(handler.context.getName(), "wto_handler",
-                new WriteTimeoutHandler(timer, to, TimeUnit.MILLISECONDS));
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyInfoRequestCount, 1);
         writeMessage("/read", handler.channel, proxyInfoRequest, StatStore.MetricFieldName.kProxyInfoRequestBytes);
+        // add read exception.
+        handler.channel.getPipeline().addBefore(handler.context.getName(), "rto_handler",
+                new ReadTimeoutHandler(AsyncClient.timer, timeout, TimeUnit.MILLISECONDS));
+        handler.channel.setReadable(true);
         return;
     }
 
     public void handleProxyResponseInfo() {
         debug("veritas handle proxy response info");
         if (proxyChannelClosed) {
-            raiseException("proxy info channel closed");
+            proxyChannelClosed = false;
+            retryProxyInfo += 1;
+            code = Status.kProxyRequestInfo;
+            run();
             return;
         }
-        StatStore.getInstance().updateClock(StatStore.ClockFieldName.kProxyInfo, System.currentTimeMillis() - requestProxyInfoTimestamp);
+        // parse proxy info response.
         int size = proxyBuffer.readableBytes();
-        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyInfoResponseBytes, size);
         byte[] bs = new byte[size];
         proxyBuffer.readBytes(bs);
         try {
@@ -556,13 +561,9 @@ public class AsyncClient implements Runnable {
             return;
         }
         proxyInfoResponse = proxyInfoResponseBuilder.build();
-//        System.out.println(proxyInfoResponse.toString());
-        debug("veritas proxy response info : new JSONObject");
+        proxyInfoResponseBuilder.clear();
+        // build response.
         JSONObject object = new JSONObject();
-        JSONObject origin = (JSONObject) veritasRequest;
-        if (origin.containsKey(kRequestIdKey)) {
-            object.put(kRequestIdKey, origin.get(kRequestIdKey));
-        }
         if (!proxyInfoResponse.getError()) {
             JSONObject content = new JSONObject();
             boolean ok = true;
@@ -596,7 +597,16 @@ public class AsyncClient implements Runnable {
             object.put(kErrorCodeKey, proxyInfoResponse.getMessage());
         }
         object.put(kUmengIdKey, umengId);
+        // fill request id.
+        JSONObject origin = (JSONObject) veritasRequest;
+        if (origin.containsKey(kRequestIdKey)) {
+            object.put(kRequestIdKey, origin.get(kRequestIdKey));
+        }
         veritasResponse = object;
+        // update metric.
+        StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyInfoResponseBytes, size);
+        StatStore.getInstance().updateClock(StatStore.ClockFieldName.kProxyInfo, System.currentTimeMillis() - requestProxyInfoTimestamp);
+        // control flow.
         code = Status.kResponse;
         run();
     }
@@ -616,6 +626,7 @@ public class AsyncClient implements Runnable {
 
     public void handleResponse() {
         debug("veritas handle response");
+        // assemble response.
         if (!subRequest) {
             if (requestStatus != RequestStatus.kOK) {
                 handleExceptionResponse(this);
@@ -641,7 +652,7 @@ public class AsyncClient implements Runnable {
 
     public void handleHttpResponse() {
         debug("veritas handle http response");
-        StatStore.getInstance().updateClock(StatStore.ClockFieldName.kRequest, System.currentTimeMillis() - requestTimestamp);
+        // write response.
         if (veritasResponse instanceof JSONObject) {
             JSONObject object = (JSONObject) veritasResponse;
             writeContent(veritasChannel, object.toJSONString());
@@ -649,8 +660,11 @@ public class AsyncClient implements Runnable {
             JSONArray array = (JSONArray) veritasResponse;
             writeContent(veritasChannel, array.toJSONString());
         }
-        debug("veritas set readable true");
+        // update metric.
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kRPCResponseCount, 1);
+        StatStore.getInstance().updateClock(StatStore.ClockFieldName.kRequest, System.currentTimeMillis() - requestTimestamp);
+        // open channel for reading.
+        debug("veritas set readable true");
         veritasChannel.setReadable(true);
     }
 }

@@ -67,17 +67,19 @@ public class ProxyConnector {
 
     public ProxyHandler acquireConnection() {
         int id = rrId;
-        rrId += 1;
-        for (int i = 0; i < Math.min(aNodes.length, 3); i++) {
+        rrId = (rrId + 1) % aNodes.length;
+        boolean sleep = false;
+        for (int i = 0; i < aNodes.length; i++) {
             int idx = (id + i) % aNodes.length;
             Node node = aNodes[idx];
             if (node.punishCount >= (Node.kPunishThreshold - 2)) {
                 continue;
             }
             try {
-                int retry = 2;
+                sleep = true;
+                int retry = 3;
                 while (retry > 0) {
-                    ProxyHandler handler = node.pool.poll(configuration.getProxyConnectionTimeout(), TimeUnit.MILLISECONDS);
+                    ProxyHandler handler = node.pool.poll(configuration.getProxyConnectTimeout(), TimeUnit.MILLISECONDS);
                     if (handler == null) {
                         VeritasServer.logger.debug("proxy connector acquire connection timeout");
                         connect(node);
@@ -89,6 +91,16 @@ public class ProxyConnector {
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                // pass.
+            }
+        }
+        if (!sleep) {
+            // if we turn around and find no connection available, we have to wait.
+            try {
+                Thread.sleep(configuration.getProxyConnectTimeout());
+            } catch (Exception e) {
+                e.printStackTrace();
+                // pass.
             }
         }
         return null;
@@ -117,7 +129,7 @@ public class ProxyConnector {
             public void run(Timeout timeout) throws Exception {
                 ProxyConnector.getInstance().connect(node);
             }
-        }, configuration.getProxyConnectionTimeout() * (1 << node.punishCount), TimeUnit.MILLISECONDS);
+        }, configuration.getProxyConnectTimeout() * (1 << node.punishCount), TimeUnit.MILLISECONDS);
     }
 
     public void connect(Node node) {
@@ -161,15 +173,13 @@ public class ProxyConnector {
                     ChannelPipeline pipeline = Channels.pipeline();
                     pipeline.addLast("decoder", new HttpResponseDecoder());
                     pipeline.addLast("encoder", new HttpRequestEncoder());
-//                    pipeline.addLast("rto_handler", new ReadTimeoutHandler(timer, configuration.getProxyReadTimeout(), TimeUnit.MILLISECONDS));
-//                    pipeline.addLast("wto_handler", new WriteTimeoutHandler(timer, configuration.getProxyWriteTimeout(), TimeUnit.MILLISECONDS));
                     pipeline.addLast("handler", new ProxyHandler(configuration, proxyConnector, node));
                     return pipeline;
                 }
             });
             // control connect timeout
             // maybe specify by another option.
-            bootstrap.setOption("connectTimeoutMillis", configuration.getProxyConnectionTimeout());
+            bootstrap.setOption("connectTimeoutMillis", configuration.getProxyConnectTimeout());
             node.bootstrap = bootstrap;
             node.pool = new LinkedBlockingQueue<ProxyHandler>(configuration.getProxyConnectionNumberPerNode() * 2 + 16);
             nodes.put(node.socketAddress.toString(), node);

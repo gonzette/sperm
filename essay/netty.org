@@ -41,7 +41,7 @@ file:./images/netty-components.png
 连接上所有触发的事件，可以是但是不仅限于下面几种类型
    - ChannelStateEvent 连接状态的变化事件
    - MessageEvent 消息可读（可以是ChannelBuffer读取字节流，也可以是已经成帧的消息）
-   - WriteCompletionEvent 数据写完
+   - WriteCompletionEvent +数据写完+ *NOTE(dirlt):这里并不是指数据已经完全写完，只是指部分数据写出。实验写出大数据量的时候这个事件被触发了多次*
    - ExceptionEvent 异常事件，可能是IO线程问题也可能是ChannelHandler处理异常
 
 *NOTE(dirlt):对于某一个Channel来说，它的事件发生检测以及回调处理都是一个IO线程里面完成的*
@@ -180,3 +180,7 @@ private void fireReadTimedOut(final ChannelHandlerContext ctx) throws Exception 
    - ctx.getChannel.write()
    - 如果在10s内没有写完的话，那么就会触发一个WriteTimeoutException
    - 如果在10s内写完的话，那么就会触发writeComplete回调，在回调里面我们可以删除这个handler ctx.getPipeline().remove("wto");
+   - *NOTE（dirlt）：writeComplete只要部分数据写成功的时候就会触发，所以一次write可能会触发多次writeComplete事件，所以这里remove需要注意只能够remove一次*
+
+*NOTE（dirlt）：有时候我在考虑，其实writeTimeout这个事件其实大部分时候是不需要的，对于server而言write之后就不care了，而对于client而言write之后直接使用read来触发readTimeout更加合适*
+

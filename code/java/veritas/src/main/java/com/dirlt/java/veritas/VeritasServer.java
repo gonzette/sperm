@@ -63,8 +63,6 @@ public class VeritasServer {
                 pipeline.addLast("decoder", new HttpRequestDecoder());
                 pipeline.addLast("aggregator", new HttpChunkAggregator(1024 * 1024 * 8));
                 pipeline.addLast("encoder", new HttpResponseEncoder());
-//                pipeline.addLast("rto_handler", new ReadTimeoutHandler(timer, configuration.getReadTimeout(), TimeUnit.MILLISECONDS));
-//                pipeline.addLast("wto_handler", new WriteTimeoutHandler(timer, configuration.getWriteTimeout(), TimeUnit.MILLISECONDS));
                 pipeline.addLast("handler", new VeritasHandler(configuration));
                 return pipeline;
             }

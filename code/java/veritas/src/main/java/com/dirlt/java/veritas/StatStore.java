@@ -51,7 +51,11 @@ public class StatStore {
     Metric metric[];
 
     // clock
-    private static final int[] kTimeDistribution = {2, 4, 8, 16, 32, 64};
+    // 1. excellent (0-4],(4-8]. we need to consider time precision.
+    // 2. good (8-16],(16-32]
+    // 4. acceptable (32,64],(64,128]
+    // 5. intolerable (128,256],(256,...)
+    private static final int[] kTimeDistribution = {4, 8, 16, 32, 64, 128, 256};
 
     class Clock {
         long time = 0L;
@@ -70,15 +74,15 @@ public class StatStore {
 
         public void update(long t) {
             time += t;
-            if (kTimeDistribution[kTimeDistribution.length - 1] < t) {
-                disCount[disCount.length - 1] += 1;
-            } else {
-                for (int i = 0; i < kTimeDistribution.length; i++) {
-                    if (kTimeDistribution[i] >= t) {
-                        disCount[i] += 1;
-                        break;
-                    }
+            int i = 0;
+            for (i = 0; i < kTimeDistribution.length; i++) {
+                if (kTimeDistribution[i] >= t) {
+                    disCount[i] += 1;
+                    break;
                 }
+            }
+            if (i == kTimeDistribution.length) {
+                disCount[disCount.length - 1] += 1;
             }
             count += 1;
             if (t > sMax) {

@@ -20,8 +20,7 @@ java -server \
     --cpu-queue-size=4096 \
     --io-thread-number=32 \
     --io-queue-size=4096 \
-    --retry=3 \
-    --timeout=500 \
+    --timeout=4000 \
     --debug=false \
     --close-on-failure=true \
     --kv=appuserstat.date.addHashCodeAsRowKeyPrefix:2013-07-02 \

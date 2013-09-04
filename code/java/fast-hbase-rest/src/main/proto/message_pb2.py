@@ -11,7 +11,7 @@ from google.protobuf import descriptor_pb2
 DESCRIPTOR = descriptor.FileDescriptor(
   name='message.proto',
   package='com.dirlt.java.FastHbaseRest',
-  serialized_pb='\n\rmessage.proto\x12\x1c\x63om.dirlt.java.FastHbaseRest\"}\n\x0bReadRequest\x12\x12\n\ntable_name\x18\x01 \x02(\t\x12\x0f\n\x07row_key\x18\x02 \x02(\t\x12\x15\n\rcolumn_family\x18\x03 \x02(\t\x12\x12\n\nqualifiers\x18\x04 \x03(\t\x12\x0f\n\x07timeout\x18\x05 \x01(\x05\x12\r\n\x05retry\x18\x06 \x01(\x05\"\xa0\x01\n\x0cReadResponse\x12@\n\x03kvs\x18\x04 \x03(\x0b\x32\x33.com.dirlt.java.FastHbaseRest.ReadResponse.KeyValue\x12\r\n\x05\x65rror\x18\x05 \x02(\x08\x12\x0f\n\x07message\x18\x06 \x01(\t\x1a.\n\x08KeyValue\x12\x11\n\tqualifier\x18\x01 \x02(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x02(\x0c\"o\n\x10MultiReadRequest\x12;\n\x08requests\x18\x01 \x03(\x0b\x32).com.dirlt.java.FastHbaseRest.ReadRequest\x12\x0f\n\x07timeout\x18\x02 \x01(\x05\x12\r\n\x05retry\x18\x03 \x01(\x05\"R\n\x11MultiReadResponse\x12=\n\tresponses\x18\x01 \x03(\x0b\x32*.com.dirlt.java.FastHbaseRest.ReadResponse\"\xdc\x01\n\x0cWriteRequest\x12\x12\n\ntable_name\x18\x01 \x02(\t\x12\x0f\n\x07row_key\x18\x02 \x02(\t\x12\x15\n\rcolumn_family\x18\x03 \x02(\t\x12@\n\x03kvs\x18\x04 \x03(\x0b\x32\x33.com.dirlt.java.FastHbaseRest.WriteRequest.KeyValue\x12\x0f\n\x07timeout\x18\x05 \x01(\x05\x12\r\n\x05retry\x18\x06 \x01(\x05\x1a.\n\x08KeyValue\x12\x11\n\tqualifier\x18\x01 \x02(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x02(\x0c\"/\n\rWriteResponse\x12\r\n\x05\x65rror\x18\x01 \x02(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"q\n\x11MultiWriteRequest\x12<\n\x08requests\x18\x01 \x03(\x0b\x32*.com.dirlt.java.FastHbaseRest.WriteRequest\x12\x0f\n\x07timeout\x18\x02 \x01(\x05\x12\r\n\x05retry\x18\x03 \x01(\x05\"T\n\x12MultiWriteResponse\x12>\n\tresponses\x18\x01 \x03(\x0b\x32+.com.dirlt.java.FastHbaseRest.WriteResponseB\x10\x42\x0eMessageProtos1')
+  serialized_pb='\n\rmessage.proto\x12\x1c\x63om.dirlt.java.FastHbaseRest\"n\n\x0bReadRequest\x12\x12\n\ntable_name\x18\x01 \x02(\t\x12\x0f\n\x07row_key\x18\x02 \x02(\t\x12\x15\n\rcolumn_family\x18\x03 \x02(\t\x12\x12\n\nqualifiers\x18\x04 \x03(\t\x12\x0f\n\x07timeout\x18\x05 \x01(\x05\"\xa0\x01\n\x0cReadResponse\x12@\n\x03kvs\x18\x04 \x03(\x0b\x32\x33.com.dirlt.java.FastHbaseRest.ReadResponse.KeyValue\x12\r\n\x05\x65rror\x18\x05 \x02(\x08\x12\x0f\n\x07message\x18\x06 \x01(\t\x1a.\n\x08KeyValue\x12\x11\n\tqualifier\x18\x01 \x02(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x02(\x0c\"`\n\x10MultiReadRequest\x12;\n\x08requests\x18\x01 \x03(\x0b\x32).com.dirlt.java.FastHbaseRest.ReadRequest\x12\x0f\n\x07timeout\x18\x02 \x01(\x05\"R\n\x11MultiReadResponse\x12=\n\tresponses\x18\x01 \x03(\x0b\x32*.com.dirlt.java.FastHbaseRest.ReadResponse\"\xcd\x01\n\x0cWriteRequest\x12\x12\n\ntable_name\x18\x01 \x02(\t\x12\x0f\n\x07row_key\x18\x02 \x02(\t\x12\x15\n\rcolumn_family\x18\x03 \x02(\t\x12@\n\x03kvs\x18\x04 \x03(\x0b\x32\x33.com.dirlt.java.FastHbaseRest.WriteRequest.KeyValue\x12\x0f\n\x07timeout\x18\x05 \x01(\x05\x1a.\n\x08KeyValue\x12\x11\n\tqualifier\x18\x01 \x02(\t\x12\x0f\n\x07\x63ontent\x18\x02 \x02(\x0c\"/\n\rWriteResponse\x12\r\n\x05\x65rror\x18\x01 \x02(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"b\n\x11MultiWriteRequest\x12<\n\x08requests\x18\x01 \x03(\x0b\x32*.com.dirlt.java.FastHbaseRest.WriteRequest\x12\x0f\n\x07timeout\x18\x02 \x01(\x05\"T\n\x12MultiWriteResponse\x12>\n\tresponses\x18\x01 \x03(\x0b\x32+.com.dirlt.java.FastHbaseRest.WriteResponseB\x10\x42\x0eMessageProtos1')
 
 
 
@@ -58,13 +58,6 @@ _READREQUEST = descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    descriptor.FieldDescriptor(
-      name='retry', full_name='com.dirlt.java.FastHbaseRest.ReadRequest.retry', index=5,
-      number=6, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -75,7 +68,7 @@ _READREQUEST = descriptor.Descriptor(
   is_extendable=False,
   extension_ranges=[],
   serialized_start=47,
-  serialized_end=172,
+  serialized_end=157,
 )
 
 
@@ -109,8 +102,8 @@ _READRESPONSE_KEYVALUE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=289,
-  serialized_end=335,
+  serialized_start=274,
+  serialized_end=320,
 )
 
 _READRESPONSE = descriptor.Descriptor(
@@ -150,8 +143,8 @@ _READRESPONSE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=175,
-  serialized_end=335,
+  serialized_start=160,
+  serialized_end=320,
 )
 
 
@@ -176,13 +169,6 @@ _MULTIREADREQUEST = descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    descriptor.FieldDescriptor(
-      name='retry', full_name='com.dirlt.java.FastHbaseRest.MultiReadRequest.retry', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -192,8 +178,8 @@ _MULTIREADREQUEST = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=337,
-  serialized_end=448,
+  serialized_start=322,
+  serialized_end=418,
 )
 
 
@@ -220,8 +206,8 @@ _MULTIREADRESPONSE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=450,
-  serialized_end=532,
+  serialized_start=420,
+  serialized_end=502,
 )
 
 
@@ -255,8 +241,8 @@ _WRITEREQUEST_KEYVALUE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=289,
-  serialized_end=335,
+  serialized_start=274,
+  serialized_end=320,
 )
 
 _WRITEREQUEST = descriptor.Descriptor(
@@ -301,13 +287,6 @@ _WRITEREQUEST = descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    descriptor.FieldDescriptor(
-      name='retry', full_name='com.dirlt.java.FastHbaseRest.WriteRequest.retry', index=5,
-      number=6, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -317,8 +296,8 @@ _WRITEREQUEST = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=535,
-  serialized_end=755,
+  serialized_start=505,
+  serialized_end=710,
 )
 
 
@@ -352,8 +331,8 @@ _WRITERESPONSE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=757,
-  serialized_end=804,
+  serialized_start=712,
+  serialized_end=759,
 )
 
 
@@ -378,13 +357,6 @@ _MULTIWRITEREQUEST = descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
-    descriptor.FieldDescriptor(
-      name='retry', full_name='com.dirlt.java.FastHbaseRest.MultiWriteRequest.retry', index=2,
-      number=3, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
   ],
   extensions=[
   ],
@@ -394,8 +366,8 @@ _MULTIWRITEREQUEST = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=806,
-  serialized_end=919,
+  serialized_start=761,
+  serialized_end=859,
 )
 
 
@@ -422,8 +394,8 @@ _MULTIWRITERESPONSE = descriptor.Descriptor(
   options=None,
   is_extendable=False,
   extension_ranges=[],
-  serialized_start=921,
-  serialized_end=1005,
+  serialized_start=861,
+  serialized_end=945,
 )
 
 _READRESPONSE_KEYVALUE.containing_type = _READRESPONSE;

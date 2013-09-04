@@ -2,9 +2,6 @@ package com.dirlt.java.veritas;
 
 import org.jboss.netty.channel.*;
 import org.jboss.netty.handler.codec.http.HttpResponse;
-import org.jboss.netty.handler.timeout.ReadTimeoutHandler;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -68,13 +65,6 @@ public class ProxyHandler extends SimpleChannelHandler {
     @Override
     public void writeComplete(ChannelHandlerContext ctx, WriteCompletionEvent e) throws Exception {
         VeritasServer.logger.debug("proxy write completed");
-        // remove write exception
-        context.getPipeline().remove("wto_handler");
-        // add read exception.
-        int to = (int) Math.max(0, client.requestTimeout + client.requestTimestamp - System.currentTimeMillis());
-        context.getPipeline().addBefore(ctx.getName(), "rto_handler",
-                new ReadTimeoutHandler(AsyncClient.timer, to, TimeUnit.MILLISECONDS));
-        context.getChannel().setReadable(true);
     }
 
     @Override

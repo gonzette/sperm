@@ -12,16 +12,15 @@ java -server \
     --port=12347 \
     --backlog=128 \
     --backend-nodes=dp0:12345,dp4:12345 \
-    --cpu-thread-number=128 \
+    --cpu-thread-number=1024 \
     --cpu-queue-size=4096 \
     --accept-io-thread-number=4 \
     --io-thread-number=32 \
-    --retry=3 \
     --timeout=300 \
     --proxy-accept-io-thread-number=4 \
     --proxy-io-thread-number=32 \
     --proxy-connection-per-node=256 \
-    --proxy-connection-timeout=10 \
+    --proxy-connect-timeout=10 \
     --debug=false \
     --response-with-best-effort=true \
     $@
