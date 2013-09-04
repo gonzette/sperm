@@ -160,3 +160,16 @@ for i in range(0,book.nsheets):
      - 对单个socket可以从过connection.sock.settimeout完成，但是必须首先connect才能够创建sock对象
      - *注意timeout单位是秒*
      - python - HTTP Request Timeout - Stack Overflow : http://stackoverflow.com/questions/265720/http-request-timeout
+
+*** date/time
+#+BEGIN_SRC Python
+def convertDateTimeToTimeStamp(s):
+    st = time.strptime(s,'%Y-%m-%d %H:%M:%S')
+    return int(time.mktime(st))
+
+def convertTimeStampToDateTime(ts):
+    # in seconds.
+    st = time.localtime(int(ts))
+    return time.strftime('%Y-%m-%d %H:%M:%S',st)
+#+END_SRC
+

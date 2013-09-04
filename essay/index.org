@@ -74,6 +74,7 @@ file:./images/valve-logo.jpg 放眼未来，自由想象(Open your mind, Open yo
    - [[file:perf.org][perf]] linux系统自带的性能分析工具，支持硬件以及软件事件计数器，支持profile kernel以及user code.
 
 ** Network Programming
+   - [[file:./network-programming-reading.org][network-programming-reading]] 关于网络编程方面的一些文章以及阅读心得
    - [[file:unp.org][unp]] Unix网络编程(Unix Network Programming),W. Richard Stevens的又一神作。笔记里面只是对于TCP原理有比较详细讨论，这部分笔记也包含了TCP Illustrated v1里面和TCP相关的章节内容。对于编程方面也着重TCP socket使用，毕竟在大部分应用场景下面我们选用TCP模型更多，并且TCP里面有很多非常琐碎的知识。
    - [[https://github.com/dirtysalt/sperm/tree/master/code/cc/itachi][itachi]] 自己两天时间写完的异步网络编程框架，当然有很多地方需要改进，但是内核基本稳定了。并且在上面做了asocket封装，编写网络程序非常方便。TODO(dirlt):是否需要专门写篇文章介绍
    - [[file:./libev.org][libev]] 开源的事件触发器。被认为是更高效的libevent. [[https://github.com/dirtysalt/sperm/tree/master/code/cc/itachi][itachi]] 这个项目开始想自己编写事件触发器，但是发现工作比较琐碎枯燥，所以底层还是选择使用libev.
