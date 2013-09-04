@@ -194,4 +194,47 @@ public static class Node {
     - onChannelClosed是在连接关闭的时候调用。通常连接是不关闭的，如果关闭肯定是因为连接不上或者是读写异常造成的，那么需要以 (1 << node.punishCount) * connectTimeout 作为指数退避来等待重新建立连接，不然如果节点挂掉的话，就会出现频繁请求连接而又不能够成功。因为punishCount上线是10, connecTimeout = 10ms, 所以等待最长时间就是10s，这一般是人工恢复时间间隔。
     - connect是发起连接的操作，这里判断了连接数目的上限。
 
+*然后还有一个问题就是如何解决后端链接失效的问题* 。后端失效的问题是这样产生的，假设服务A需要访问服务B，所以开辟了很多和B的链接。之后B重启了服务，那么之前A缓存的所有链接都失效了。一个办法是定时去检查这些链接是否失效，如果失效的话，那么就直接丢弃并且建立新的链接。另外一种办法就是在访问的时候进行判断，如果对端关闭的话，那么在write的时候就会出现pipe broken/CloeedChannelException这样的问题，而这个过程触发是非常快的。 *注意我们没有使用访问前先检查链接是否正常的方式来工作，是因为对于大部分链接来说平时是不会断开的，每次访问之前都要重新检查链接这个过程是没有意义的* 如果出现后端链接失效的话，可以认为和访问超时逻辑一样，丢弃链接之后发起重试，这样在很短的时间就可以基本上将所有的失效链接全部检查出来并且丢弃。
+
+#+BEGIN_SRC Java
+    public void handleProxyRequestId() {
+        if (retryProxyId == 0) {
+            requestProxyIdTimestamp = System.currentTimeMillis();
+        }
+        // check timeout.
+        long timeout = calcRequestTimeout(retryProxyId);
+        if (timeout < 0) {
+            raiseException("detect timeout in request proxy id");
+            return;
+        }
+        // build request.
+        // ...
+        // obtain connection.
+        ProxyHandler handler = null;
+        while (true) {
+            handler = ProxyConnector.getInstance().acquireConnection();
+            if (handler == null) {
+                if (calcRequestTimeout(retryProxyId) < 0) {
+                    raiseException("detect timeout in request proxy id");
+                    return;
+                }
+            } else {
+                break;
+            }
+        }
+        // write it out.
+        // ...
+    }
+
+    public void handleProxyResponseId() {
+         // check proxy channel closed.
+        if (proxyChannelClosed) {
+            proxyChannelClosed = false;
+            retryProxyId += 1;
+            code = Status.kProxyRequestId;
+            run();
+            return;
+        }
+#+END_SRC
+
 *** when async is better than sync.
