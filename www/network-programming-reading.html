@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="network-programming-reading"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-05 20:00:57 CST"/>
+<meta name="generated" content="2013-09-05 22:38:43 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -131,6 +131,8 @@
 
 <p>超时(timeout)通常是client访问server提供的网络服务所能容忍的时间上限，因为网络服务可能存在诸多的可变性(variability), 而解决网络服务可变性一种常用办法就是重试(retry). 
 </p>
+
+<hr/>
 <p>
 retry可以是服务内部进行retry，也可以是由client发起retry，但是通常服务内部发起retry的代价相比client发起retry的代价要小，这点非常好理解。假设一个访问数据库的服务，逻辑通常是
 </p><ol>
@@ -160,6 +162,8 @@ retry可以是服务内部进行retry，也可以是由client发起retry，但�
 
 <p>也就是说client retry比server retry多出了两个步骤，花费时间更长。所以相对client external retry, server internal retry效率更高。
 </p>
+
+<hr/>
 <p>
 如果选定server internal retry这种方案的话，那么就需要考虑本次请求timeout的时间应该来如何分配在逻辑各个环节中。以上面逻辑为例：
 </p><ul>
@@ -188,6 +192,8 @@ retry可以是服务内部进行retry，也可以是由client发起retry，但�
 
 <p>那么这种时间分配的话只能满足p96的需求。而如果按照指数分布请求的话，2ms，8ms，16ms，32ms，142ms，那么响应p99的几率就可以增大很多。
 </p>
+
+<hr/>
 <p>
 下面是一段在FastHBaseRest里面分配timeout的代码
 </p>
@@ -264,6 +270,8 @@ retry可以是服务内部进行retry，也可以是由client发起retry，但�
 
 <p>dmp service在实现上综合了这些考虑，在ProxyConnector里面是connection pool的实现
 </p>
+
+<hr/>
 <p>
 后端节点的数据结构如下
 </p>
@@ -295,6 +303,8 @@ retry可以是服务内部进行retry，也可以是由client发起retry，但�
 </ul>
 
 
+
+<hr/>
 <p>
 获取连接的代码如下
 </p>
@@ -365,6 +375,8 @@ public void releaseConnection(ProxyHandler handler) {
 </ol>
 
 
+
+<hr/>
 <p>
 节点建立连接和关闭过程如下
 </p>
@@ -416,6 +428,8 @@ public void connect(Node node) {
 </ul>
 
 
+
+<hr/>
 <p>
 <b>然后还有一个问题就是如何解决后端链接失效的问题</b> 。后端失效的问题是这样产生的，假设服务A需要访问服务B，所以开辟了很多和B的链接。之后B重启了服务，那么之前A缓存的所有链接都失效了。一个办法是定时去检查这些链接是否失效，如果失效的话，那么就直接丢弃并且建立新的链接。另外一种办法就是在访问的时候进行判断，如果对端关闭的话，那么在write的时候就会出现pipe broken/CloeedChannelException这样的问题，而这个过程触发是非常快的。 <b>注意我们没有使用访问前先检查链接是否正常的方式来工作，是因为对于大部分链接来说平时是不会断开的，每次访问之前都要重新检查链接这个过程是没有意义的</b> 如果出现后端链接失效的话，可以认为和访问超时逻辑一样，丢弃链接之后发起重试，这样在很短的时间就可以基本上将所有的失效链接全部检查出来并且丢弃。
 </p>
