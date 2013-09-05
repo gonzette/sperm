@@ -1,4 +1,4 @@
-* in-stream-big-data-process
+* in-stream-big-data-processing
 #+TITLE: In-Stream Big Data Processing
 
 http://highlyscalable.wordpress.com/2013/08/20/in-stream-big-data-processing/
@@ -117,8 +117,10 @@ file:./images/in-stream-aggregation-on-a-sliding-window.png
 ** Query Processing Pipeline: Storm, Cassandra, Kafka
 ** Towards Unified Big Data Processing
 The key observation is that relational query processing, MapReduce, and in-stream processing could be implemented using exactly the same concepts and techniques like shuffling and pipelining. At the same time:
-   - In-stream processing could require strict data delivery guarantees and persistence of the intermediate state. These properties are not crucial for batch processing where computations can be easily restarted. 
+   - In-stream processing could require strict data delivery guarantees and persistence of the intermediate state. These properties are not crucial for batch processing where computations can be easily restarted.
    - In-stream processing is inseparable from pipelining. For batch processing, pipelining is not so crucial and even inapplicable in certain cases. Systems like Apache Hive are based on staged MapReduce with materialization of the intermediate state and do not take full advantage of pipelining.
+
+*NOTE(dirlt):stream和batch之间的差异主要还是在数据量上。spark被称为stream系统但是内部还是按照batch来做处理的，只不过在实时性上spark和mapreduce区分开来。实时性一方面来源于input/output性质, 一方面来源于pipelining的中间状态是否需要保存以及如何保存*
 
 ** References
    - A. Wilschut and P. Apers, “Dataflow Query Execution in a Parallel Main-Memory Environment “

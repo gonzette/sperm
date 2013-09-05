@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="In-Stream Big Data Processing"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-05 09:53:17 CST"/>
+<meta name="generated" content="2013-09-05 12:27:43 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -95,7 +95,7 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 in-stream-big-data-process</a>
+<li><a href="#sec-1">1 in-stream-big-data-processing</a>
 <ul>
 <li><a href="#sec-1-1">1.1 Basics of Distributed Query Processing</a>
 <ul>
@@ -124,7 +124,7 @@
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> in-stream-big-data-process</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> in-stream-big-data-processing</h2>
 <div class="outline-text-2" id="text-1">
 
 
@@ -244,6 +244,8 @@ As a tuple comes in, the joiner first looks it up in the hash table of the other
 <h3 id="sec-1-2"><span class="section-number-3">1.2</span> In-Stream Processing Patterns</h3>
 <div class="outline-text-3" id="text-1-2">
 
+<p>In this section, we discuss a number of techniques that are used by streaming systems to provide message delivery guarantees and some other patterns that are not typical for standard query processing.
+</p>
 
 </div>
 
@@ -251,6 +253,8 @@ As a tuple comes in, the joiner first looks it up in the hash table of the other
 <h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Stream Replay</h4>
 <div class="outline-text-4" id="text-1-2-1">
 
+<p><img src="./images/in-stream-stream-replay.png"  alt="./images/in-stream-stream-replay.png" />
+</p>
 </div>
 
 </div>
@@ -259,6 +263,72 @@ As a tuple comes in, the joiner first looks it up in the hash table of the other
 <h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> Lineage Tracking</h4>
 <div class="outline-text-4" id="text-1-2-2">
 
+<p>In a streaming system, events flow through a chain of processors until the result reaches the final destination (like an external database). Each input event produces a directed graph of descendant events (lineage) that ends by the final results. To guarantee reliable data processing, it is necessary to ensure that the entire graph was processed successfully and to restart processing in case of failures. （所谓lineage tracking就是，追踪output对应的input以及对应的pipelines. 如果output失败的话那么可以从input开始重新构建这个output)
+</p><ul>
+<li>twitter storm lineage tracking
+</li>
+<li>apache spark lineage tracking
+</li>
+</ul>
+
+
+<ul>
+<li id="sec-1-2-2-1">storm lineage tracking<br/>
+这个算法比较fancy，有一定的概率会造成数据丢失但是没有重传，不过概率非常小。
+<ul>
+<li>每个消息分配一个ID和签名sig
+</li>
+<li>对于发送节点来说，会有一张表来做[ID,sig']映射关系，初始时候这个表是[ID,0]
+</li>
+<li>对于处理节点（包括发送节点）来说，假设接收消息[ID,sig]，（对于发送节点来说，接受消息就是[ID,0]）
+<ul>
+<li>输出消息使用和接受消息相同的ID，但是不同的签名比如[ID,sig1],[ID,sig2],&hellip;
+</li>
+<li>处理完成之后，将输出消息和接收消息一起发送给我发送节点
+</li>
+<li>发送节点以这个ID为key，value更新为 sig XOR sig1 XOR sig2 &hellip;
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+<p>
+举个例子，假设发送端产生数据[0,01111], 处理节点1产生数据[0,10000], 处理节点2直接输出到数据库不产生数据
+</p><ul>
+<li>发送端因为只发送给处理节点1数据，所以表更新为[0, 01111 XOR 0] = [0,011111]
+</li>
+<li>处理节点1处理完成之后，将表更新为[0, 01111 XOR 01111 XOR 10000] = [0,10000]
+</li>
+<li>处理节点2处理完成之后，将表更新为[0, 10000 XOR 10000] = [0,0]
+</li>
+</ul>
+
+
+<p>
+因此一个正常的逻辑下来，某个ID对应的sig最终应该是0的。然后发送端从发送完成数据之后，就可以定期检查ID是否都为0. 如果超过一定时间不为0的话，那么说明数据中途丢失，也可能是处理超时，那么发送端就会触发重传的逻辑。
+</p>
+<p>
+上面这个算法有个好处就是和更新顺序没有任何关系，并且非常高效。但是有一定的概率在处理节点中间的时候就更新成为0。One can note that the algorithm above is not strictly reliable – the signature could turn into zero accidentally due to unfortunate combination of IDs. However, 64-bit IDs are sufficient to guarantee a very low probability of error, about 2<sup>(-64)</sup>, that is acceptable in almost all practical applications. As result, the table of signatures could have a small memory footprint.
+</p>
+<p>
+<img src="./images/in-stream-twitter-lineage-tracking.png"  alt="./images/in-stream-twitter-lineage-tracking.png" />
+</p>
+</li>
+</ul>
+<ul>
+<li id="sec-1-2-2-2">spark lineage tracking<br/>
+The idea is to consider the final result as a function of the incoming data. To simplify lineage tracking, the framework processes events in batches, so the result is a sequence of batches where each batch is a function of the input batches. Resulting batches can be computed in parallel and if some computation fails, the framework simply reruns it. The framework considers the incoming streams not as streams, but as set of batches. Each batch has an ID and the framework can fetch it by the ID at any moment of time. So, stream processing can be represented as a bunch of transactions where each transaction takes a group of input batches, transforms them using a processing function, and persists a result. 这点和Spark本身有关系。spark使用function来描述dataflow，batch作为input, 所以很自然lineage就可以使用这种function来描述。
+
+<p>
+<img src="./images/in-stream-spark-lineage-tracking.png"  alt="./images/in-stream-spark-lineage-tracking.png" />
+</p>
+<p>
+This simple but powerful paradigm enables centralized transaction management and inherently provides exactly-once message processing semantics. It is worth noting that this technique can be used both for batch processing and for stream processing because it treats the input data as a set of batches regardless to their streaming of static nature.
+</p>
+</li>
+</ul>
 </div>
 
 </div>
@@ -267,6 +337,8 @@ As a tuple comes in, the joiner first looks it up in the hash table of the other
 <h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> State Checkpointing</h4>
 <div class="outline-text-4" id="text-1-2-3">
 
+<p><b>TODO(dirlt):</b>
+</p>
 </div>
 
 </div>
@@ -274,6 +346,14 @@ As a tuple comes in, the joiner first looks it up in the hash table of the other
 <div id="outline-container-1-2-4" class="outline-4">
 <h4 id="sec-1-2-4"><span class="section-number-4">1.2.4</span> Additive State and Sketches</h4>
 <div class="outline-text-4" id="text-1-2-4">
+
+<ul>
+<li>Additivity of intermediate and final computational results is an important property that drastically simplifies design, implementation, maintenance, and recovery of in-stream data processing systems. Additivity means that the computational result for a larger time range or a larger data partition can be calculated as a combination of results for smaller time ranges or smaller partitions.
+</li>
+<li>Sketches is a very efficient way to transform non-additive values into additive. Sketches are very popular in certain areas like internet advertising and can be considered as an independent pattern of in-stream processing. 
+</li>
+</ul>
+
 
 </div>
 
@@ -283,6 +363,8 @@ As a tuple comes in, the joiner first looks it up in the hash table of the other
 <h4 id="sec-1-2-5"><span class="section-number-4">1.2.5</span> Logical Time Tracking</h4>
 <div class="outline-text-4" id="text-1-2-5">
 
+<p>It is very common for in-stream computations to depend on time: aggregations and joins are often performed on sliding time windows; processing logic often depends on a time interval between events and so on. Obviously, the in-stream processing system should have a notion of application’s view of time, instead of CPU wall-clock. However, proper time tracking is not trivial because data streams and particular events can be replayed in case of failures. Each processor in a pipeline tracks the maximal timestamp it has seen in a stream and updates a global persistent clock by this timestamp if the global clock is behind. All other processors synchronize their time with the global clock. <b>TODO(dirlt):为什么需要同步这个global clock?</b>
+</p>
 </div>
 
 </div>
@@ -291,6 +373,14 @@ As a tuple comes in, the joiner first looks it up in the hash table of the other
 <h4 id="sec-1-2-6"><span class="section-number-4">1.2.6</span> Aggregation in a Persistent Store</h4>
 <div class="outline-text-4" id="text-1-2-6">
 
+<p>Instead of maintaining in-memory event buffers, one can simply save all incoming events from all data streams to Casandra using a join key as row key, as it shown in the figure below. On the other side, the second process traverses the records periodically, assembles and emits joined events, and evicts the events that fell out of the time window. Cassandra even can facilitate this activity by sorting events according to their timestamps.
+</p>
+<p>
+<img src="./images/in-stream-aggregation-in-a-persistent-store.png"  alt="./images/in-stream-aggregation-in-a-persistent-store.png" />
+</p>
+<p>
+It is important to understand that such techniques can defeat the whole purpose of in-stream data processing if implemented incorrectly – writing individual events to the data store can introduce a serious performance bottleneck even for fast stores like Cassandra or Redis. On the other hand, this approach provides perfect persistence of the computational state and different performance optimizations – say, batch writes – can help to achieve acceptable performance in many use cases. <b>NOTE（dirlt）：不要当作通用技术</b>
+</p>
 </div>
 
 </div>
@@ -299,6 +389,11 @@ As a tuple comes in, the joiner first looks it up in the hash table of the other
 <h4 id="sec-1-2-7"><span class="section-number-4">1.2.7</span> Aggregation on a Sliding Window</h4>
 <div class="outline-text-4" id="text-1-2-7">
 
+<p><b>Incremental computations</b> over sliding windows is a group of techniques that are widely used in digital signal processing, in both software and hardware. 
+</p>
+<p>
+<img src="./images/in-stream-aggregation-on-a-sliding-window.png"  alt="./images/in-stream-aggregation-on-a-sliding-window.png" />
+</p>
 </div>
 </div>
 
@@ -316,6 +411,18 @@ As a tuple comes in, the joiner first looks it up in the hash table of the other
 <h3 id="sec-1-4"><span class="section-number-3">1.4</span> Towards Unified Big Data Processing</h3>
 <div class="outline-text-3" id="text-1-4">
 
+<p>The key observation is that relational query processing, MapReduce, and in-stream processing could be implemented using exactly the same concepts and techniques like shuffling and pipelining. At the same time:
+</p><ul>
+<li>In-stream processing could require strict data delivery guarantees and persistence of the intermediate state. These properties are not crucial for batch processing where computations can be easily restarted.
+</li>
+<li>In-stream processing is inseparable from pipelining. For batch processing, pipelining is not so crucial and even inapplicable in certain cases. Systems like Apache Hive are based on staged MapReduce with materialization of the intermediate state and do not take full advantage of pipelining.
+</li>
+</ul>
+
+
+<p>
+<b>NOTE(dirlt):stream和batch之间的差异主要还是在数据量上。spark被称为stream系统但是内部还是按照batch来做处理的，只不过在实时性上spark和mapreduce区分开来。实时性一方面来源于input/output性质, 一方面来源于pipelining的中间状态是否需要保存以及如何保存</b>
+</p>
 </div>
 
 </div>
@@ -353,5 +460,5 @@ As a tuple comes in, the joiner first looks it up in the hash table of the other
 </div>
 </div>
 
-<!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'in-stream-big-data-process.html';var disqus_title = 'in-stream-big-data-process.html';var disqus_url = 'http://dirlt.com/in-stream-big-data-process.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
+<!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'in-stream-big-data-processing.html';var disqus_title = 'in-stream-big-data-processing.html';var disqus_url = 'http://dirlt.com/in-stream-big-data-processing.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>
