@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="In-Stream Big Data Processing"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-05 12:27:43 CST"/>
+<meta name="generated" content="2013-09-05 13:30:01 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -423,6 +423,27 @@ It is important to understand that such techniques can defeat the whole purpose 
 <p>
 <b>NOTE(dirlt):stream和batch之间的差异主要还是在数据量上。spark被称为stream系统但是内部还是按照batch来做处理的，只不过在实时性上spark和mapreduce区分开来。实时性一方面来源于input/output性质, 一方面来源于pipelining的中间状态是否需要保存以及如何保存</b>
 </p>
+<p>
+The two statement above imply that tunable persistence (in-memory message passing versus on-disk materialization) and reliability are the distinctive features of the imaginary query engine that provides a set of processing primitives and interfaces to the high-level
+frameworks:
+</p>
+<p>
+<img src="./images/in-stream-unified-big-data-processing-arch.png"  alt="./images/in-stream-unified-big-data-processing-arch.png" />
+</p>
+<p>
+Among the emerging technologies, the following two are especially notable in the context of this discussion:
+</p><ul>
+<li>Apache Tez, a part of the Stinger Initiative. Apache Tez is designed to succeed the MapReduce framework introducing a set of fine-grained query processing primitives. The goal is to enable frameworks like Apache Pig and Apache Hive to decompose their queries and
+</li>
+</ul>
+
+<p>scripts into efficient query processing pipelines instead of sequences of MapReduce jobs that are generally slow due to materialization of intermediate results.
+</p><ul>
+<li>Apache Spark. This project is probably the most advanced and promising technology for <b>unified Big Data processing that already includes a batch processing framework, SQL query engine, and a stream processing framework.</b> 
+</li>
+</ul>
+
+
 </div>
 
 </div>

@@ -146,6 +146,7 @@ file:./images/valve-logo.jpg 放眼未来，自由想象(Open your mind, Open yo
      - [[file:oozie.org][oozie]] Apache Hadoop项目的工作流系统，可以将多个MapReduce作业组合到一个逻辑单元中。支持作业之间的相互依赖，同时允许时间以及数据来触发作业。
      - [[file:hive.org][hive]] Apache Hadoop项目的数据仓库平台，以HDFS/HBase为数据仓库存储平台，底层执行引擎是MapReduce，上层提供类SQL的HiveQL数据查询语言。
      - [[file:pig.org][pig]] Apache Hadoop项目的计算语言，用于简化MapReduce任务的编写。事实上底层可以很多其他的计算引擎比如Spark等。
+   - [[file:./tez.org][tez]] Apache项目，可以有效地优化MapReduce组成的DAG。通常Pig/Hive都是生成这种DAG的，所以可以认为是替换了Pig/Hive的执行引擎。
    - [[file:dremel.org][dremel]] google针对大数据查询的交互式系统，传说可以在3秒内搞定PB级别的数据。
    - [[file:power-drill.org][power-drill]] dremel系统底层列式存储另外一种实现。
    - [[file:pregel.org][pregel]] google针对大规模图算法设计的分布式编程框架。
