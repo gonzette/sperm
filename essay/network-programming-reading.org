@@ -236,5 +236,3 @@ public static class Node {
             return;
         }
 #+END_SRC
-
-*** when async is better than sync
