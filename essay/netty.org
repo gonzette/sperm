@@ -1,4 +1,5 @@
 * netty
+#+OPTIONS: H:5
    - Netty: Home (Main.WebHome) https://netty.io/
    - The Netty Project 3.x User Guide http://static.netty.io/3.5/guide/
    - All documentation pages http://netty.io/wiki/all-documents.html
@@ -184,3 +185,283 @@ private void fireReadTimedOut(final ChannelHandlerContext ctx) throws Exception 
 
 *NOTE（dirlt）：有时候我在考虑，其实writeTimeout这个事件其实大部分时候是不需要的，对于server而言write之后就不care了，而对于client而言write之后直接使用read来触发readTimeout更加合适*
 
+** 代码分析
+*** HashedWheelTimer
+定时器的实现，相关其接口如下
+#+BEGIN_SRC Java
+public interface Timer {
+    Timeout newTimeout(TimerTask task, long delay, TimeUnit unit); // 发起定时任务
+    Set<Timeout> stop(); // 返回所有因为stop取消的定时任务
+}
+
+public interface TimerTask {
+    void run(Timeout timeout) throws Exception; // 超时触发或者取消
+}
+
+public interface Timeout {
+    Timer getTimer();
+    TimerTask getTask();
+    boolean isExpired(); // 是否超时
+    boolean isCancelled(); // 是否取消
+    void cancel(); // 发起取消操作
+}
+#+END_SRC
+
+数据结构如下：
+file:./images/netty-hashed-wheel-timer.png
+   - 整个数据结构是一个ring
+   - wheelSize是ring大小
+   - wheelCursor是当前在ring上的index
+   - 每个unit分配的时间单元称为tickDuration
+   - 整个ring分配的时间单元成为roundDuration = tickDuration * wheelSize
+   - 每个unit上对应一个Set<HashedWheelTimeout>结构，表示在这个unit上面需要检查超时的Timeout
+#+BEGIN_SRC Java
+public class HashedWheelTimer implements Timer {
+    private static final AtomicInteger id = new AtomicInteger(); // 用来为实例分配编号
+    private static final SharedResourceMisuseDetector misuseDetector =
+        new SharedResourceMisuseDetector(HashedWheelTimer.class); // 用来限制创建实例
+
+    private final Worker worker = new Worker(); // 后台线程
+    final Thread workerThread;
+    final AtomicInteger workerState = new AtomicInteger(); // 0 - init, 1 - started, 2 - shut down
+
+    private final long roundDuration;
+    final long tickDuration;
+    final Set<HashedWheelTimeout>[] wheel;
+    final ReusableIterator<HashedWheelTimeout>[] iterators; // wheel里面Set对应的iterator.
+    final int mask; // wheelSize = (1 << n). mask = (1 << n)-1 这样好做%操作
+    final ReadWriteLock lock = new ReentrantReadWriteLock(); // 涉及到多线程安全问题
+    volatile int wheelCursor;
+}
+#+END_SRC
+
+整个逻辑大致是这样的：
+   - 每次请求的Timeout会根据delay，当前时间，转换成为 a)round(需要检查多少轮） b)据当前wheelCursor的偏移offset（放置在ring什么位置上）
+     - *NOTE(dirlt):也就是将delay这个时间概念，转换成为两个状态变量。timer内部通过判断这两个状态变量来判断超时与否*
+   - 后台线程每隔tickDuration会检查下一个wheelCursor上的Timeout请求，判断那些存在超时，如果超时的话那么触发TimerTask这个操作。
+
+--------------------
+初始化
+#+BEGIN_SRC Java
+    public HashedWheelTimer(
+            ThreadFactory threadFactory,
+            long tickDuration, TimeUnit unit, int ticksPerWheel) {
+        // Normalize ticksPerWheel to power of two and initialize the wheel.
+        wheel = createWheel(ticksPerWheel); // 创建wheel
+        iterators = createIterators(wheel); // 创建iterators
+        mask = wheel.length - 1;
+
+        // Convert tickDuration to milliseconds.
+        this.tickDuration = tickDuration = unit.toMillis(tickDuration);
+        roundDuration = tickDuration * wheel.length;
+
+        workerThread = threadFactory.newThread(new ThreadRenamingRunnable(
+                        worker, "Hashed wheel timer #" + id.incrementAndGet())); // 构造线程，但是注意没有启动
+
+        // Misuse check
+        misuseDetector.increase(); // 检测创建实例数量
+    }
+
+    private static Set<HashedWheelTimeout>[] createWheel(int ticksPerWheel) {
+            ticksPerWheel = normalizeTicksPerWheel(ticksPerWheel);
+        Set<HashedWheelTimeout>[] wheel = new Set[ticksPerWheel];
+        for (int i = 0; i < wheel.length; i ++) {
+            wheel[i] = new MapBackedSet<HashedWheelTimeout>(
+                    new ConcurrentIdentityHashMap<HashedWheelTimeout, Boolean>(16, 0.95f, 4));
+        }
+        return wheel;
+    }
+
+    private static ReusableIterator<HashedWheelTimeout>[] createIterators(Set<HashedWheelTimeout>[] wheel) {
+        ReusableIterator<HashedWheelTimeout>[] iterators = new ReusableIterator[wheel.length];
+        for (int i = 0; i < wheel.length; i ++) {
+            iterators[i] = (ReusableIterator<HashedWheelTimeout>) wheel[i].iterator();
+        }
+        return iterators;
+    }
+
+    private static int normalizeTicksPerWheel(int ticksPerWheel) {
+        int normalizedTicksPerWheel = 1;
+        while (normalizedTicksPerWheel < ticksPerWheel) {
+            normalizedTicksPerWheel <<= 1;
+        }
+        return normalizedTicksPerWheel;
+    }
+#+END_SRC
+
+--------------------
+提交Timeout
+#+BEGIN_SRC Java
+    public Timeout newTimeout(TimerTask task, long delay, TimeUnit unit) {
+        final long currentTime = System.currentTimeMillis();
+        start(); // 启动工作线程
+
+        delay = unit.toMillis(delay);
+        HashedWheelTimeout timeout = new HashedWheelTimeout(task, currentTime + delay); // 构造Timeout对象，比较trival.
+        scheduleTimeout(timeout, delay); // 将Timeout对象放置到wheel内部
+        return timeout;
+    }
+
+    public void start() {
+        switch (workerState.get()) {
+        case 0:
+            if (workerState.compareAndSet(0, 1)) { // 确保只是启动一次
+                workerThread.start();
+            }
+            break;
+        case 1:
+            break;
+        case 2:
+            throw new IllegalStateException("cannot be started once stopped");
+        default:
+            throw new Error();
+        }
+    }
+
+    void scheduleTimeout(HashedWheelTimeout timeout, long delay) {
+        // delay must be equal to or greater than tickDuration so that the
+        // worker thread never misses the timeout.
+        if (delay < tickDuration) { // 如果delay时间过短的话那么修正到tickDuration.
+            delay = tickDuration;
+        }
+
+        // Prepare the required parameters to schedule the timeout object.
+        final long lastRoundDelay = delay % roundDuration;
+        final long lastTickDelay = delay % tickDuration;
+        final long relativeIndex =
+            lastRoundDelay / tickDuration + (lastTickDelay != 0? 1 : 0); // 计算相距当前的wheelCursor偏移
+
+        final long remainingRounds =
+            delay / roundDuration - (delay % roundDuration == 0? 1 : 0); // 计算需要轮转多少次才会触发超时
+
+        // Add the timeout to the wheel.
+        lock.readLock().lock();
+        try {
+            int stopIndex = (int) (wheelCursor + relativeIndex & mask);
+            timeout.stopIndex = stopIndex;
+            timeout.remainingRounds = remainingRounds;
+
+            wheel[stopIndex].add(timeout);
+        } finally {
+            lock.readLock().unlock();
+        }
+    }
+#+END_SRC
+
+--------------------
+后台线程 *NOTE（dirlt）：注意里面的deadline并不是每次调用currentTimeMillis, 而是在startTime上面不断叠加的，然后在sleep过程中进行修正*
+
+@org.jboss.netty.util.HashedWheelTimer.Worker
+#+BEGIN_SRC Java
+        public void run() {
+            List<HashedWheelTimeout> expiredTimeouts =
+                new ArrayList<HashedWheelTimeout>();
+
+            startTime = System.currentTimeMillis();
+            tick = 1; // 初始tick = 1
+
+            while (workerState.get() == 1) { // 当前处于工作状态
+                final long deadline = waitForNextTick(); // 等待到下一个tick
+                if (deadline > 0) { // 判断返回值，如果>0表示deadline, 否则认为无效
+                    fetchExpiredTimeouts(expiredTimeouts, deadline); // 判断那些Timeout需要触发，保存到expiredTimouts
+                    notifyExpiredTimeouts(expiredTimeouts); // 触发expiredTimeouts里面的Timeout
+                }
+            }
+        }
+
+        private long waitForNextTick() { // 这个过程非常好理解，就是等待一段时间
+            long deadline = startTime + tickDuration * tick; 
+
+            for (;;) {
+                final long currentTime = System.currentTimeMillis();
+                long sleepTime = tickDuration * tick - (currentTime - startTime);
+
+                // Check if we run on windows, as if thats the case we will need
+                // to round the sleepTime as workaround for a bug that only affect
+                // the JVM if it runs on windows.
+                //
+                // See https://github.com/netty/netty/issues/356
+                if (DetectionUtil.isWindows()) {
+                    sleepTime = sleepTime / 10 * 10;
+                }
+
+                if (sleepTime <= 0) {
+                    break;
+                }
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException e) {
+                    if (workerState.get() != 1) { // 如果不是工作状态就返回-1
+                        return -1;
+                    }
+                }
+            }
+
+            // Increase the tick.
+            tick ++;
+            return deadline;
+        }
+
+         private void fetchExpiredTimeouts(
+                List<HashedWheelTimeout> expiredTimeouts, long deadline) {
+
+            // Find the expired timeouts and decrease the round counter
+            // if necessary.  Note that we don't send the notification
+            // immediately to make sure the listeners are called without
+            // an exclusive lock.
+            lock.writeLock().lock();
+            try {
+                int newWheelCursor = wheelCursor = wheelCursor + 1 & mask;
+                ReusableIterator<HashedWheelTimeout> i = iterators[newWheelCursor];
+                fetchExpiredTimeouts(expiredTimeouts, i, deadline); // 检查当前unit下面的iterators是否存在超时
+            } finally {
+                lock.writeLock().unlock();
+            }
+        }
+
+        private void fetchExpiredTimeouts(
+                List<HashedWheelTimeout> expiredTimeouts,
+                ReusableIterator<HashedWheelTimeout> i, long deadline) {
+
+            List<HashedWheelTimeout> slipped = null;
+            i.rewind();
+            while (i.hasNext()) {
+                HashedWheelTimeout timeout = i.next();
+                if (timeout.remainingRounds <= 0) { /
+                    i.remove();
+                    if (timeout.deadline <= deadline) { // 判断超时之后需要检查deadline.
+                        expiredTimeouts.add(timeout);
+                    } else {
+                        // Handle the case where the timeout is put into a wrong
+                        // place, usually one tick earlier.  For now, just add
+                        // it to a temporary list - we will reschedule it in a
+                        // separate loop.
+                        if (slipped == null) { // 有可能存在一些计时偏差情况，单独处理这种情况
+                            slipped = new ArrayList<HashedWheelTimeout>();
+                        }
+                        slipped.add(timeout);
+                    }
+                } else {
+                    timeout.remainingRounds --;
+                }
+            }
+
+            // Reschedule the slipped timeouts.
+            if (slipped != null) { // 将存在偏差的Timeout重新设置timeout.
+                for (HashedWheelTimeout timeout: slipped) {
+                    scheduleTimeout(timeout, timeout.deadline - deadline);
+                }
+            }
+        }
+
+        private void notifyExpiredTimeouts(
+                List<HashedWheelTimeout> expiredTimeouts) { // 触发超时事件
+            // Notify the expired timeouts.
+            for (int i = expiredTimeouts.size() - 1; i >= 0; i --) {
+                expiredTimeouts.get(i).expire();
+            }
+
+            // Clean up the temporary list.
+            expiredTimeouts.clear();
+        }
+#+END_SRC

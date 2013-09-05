@@ -1418,6 +1418,3 @@ none             24G     0   24G   0% /run/shm
 /dev/sdh1       1.9T  1.8T   13G 100% /data/data7
 /dev/sde1       1.9T  535G  1.3T  31% /data/data4
 #+END_EXAMPLE
-
-
-
