@@ -1,0 +1,194 @@
+* scala
+#+OPTIONS: H:4
+   - [[http://www.cs.ucsb.edu/~benh/260/Programming-in-Scala.pdf][Programming in Scala]] 
+   - The Scala Programming Language : http://www.scala-lang.org/
+
+** 基本语法
+*** 原始类型
+More generally, all of Java’s primitive types have corresponding classes in the scala package. And when you compile your Scala code to Java bytecodes, the Scala com- piler will use Java’s primitive types where possible to give you the perfor- mance benefits of the primitive types.
+
+java原始类型已经全部导入了scala这个包里面，并且这个包是自动引入的。然后所有的原始类型全部变为大写字母开头比如Int,Float,Long等。这样存在一个好处就是从语法上完全统一了扩展类型和原始类型，并且对于这些原始类型scala在上面也做了一些扩展提供了方法，这样使得就更加模糊了扩展类型和原始类型之间的区别。但是scala在底层会尽可能地使用原始类型操作，在性能上不会存在损失。
+
+#+BEGIN_EXAMPLE
+scala> val a:Int=2
+a: Int = 2
+
+scala> a.toString()
+res0: String = 2
+
+scala> a.to(4)
+res1: scala.collection.immutable.Range.Inclusive = Range(2, 3, 4)
+#+END_EXAMPLE
+
+*TODO(dirlt):可以学习一下这些原始类型提供的方法* 
+
+--------------------
+数组类型则是 Array[<type>] 比如
+   - Array[String]
+   - Array[Array[String]]
+#+BEGIN_EXAMPLE
+scala> val a = new Array[Array[String]](10)
+a: Array[Array[String]] = Array(null, null, null, null, null, null, null, null, null, null)
+
+scala> a[0]
+<console>:1: error: identifier expected but integer literal found.
+       a[0]
+
+scala> a(0)
+res1: Array[String] = null
+
+scala> a.apply(0)
+res2: Array[String] = null
+#+END_EXAMPLE
+注意这里不能够在用[]这种方式来访问数组，而必须使用()的方式来访问。实际上scala将()调用方法定向到了apply这个函数，可以认为是操作符重载。 
+ 
+*** 变量定义 
+Scala has two kinds of variables, vals and vars. A val is similar to a final variable in Java. Once initialized, a val can never be reassigned. A var, by contrast, is similar to a non-final variable in Java. A var can be reassigned throughout its lifetime. 
+
+scala提供了两种变量定义的方式，分别是val和var. 对于val来说一旦赋值便不能够更改，有点类似C++的引用或者是用const/final字段做修饰。而var则是类似普通变量赋值之后依然可以更改。定义变量形式如下
+#+BEGIN_EXAMPLE
+[val|var] <name> : <type> = <initializor>
+#+END_EXAMPLE
+因为scala有type inference功能，所以实际上<type>这个字段可以省略，直接通过<initializor>这个字段来推测类型。
+
+#+BEGIN_EXAMPLE
+scala> val a = 1
+a: Int = 1
+
+scala> val a = 1L
+a: Long = 1
+
+scala> val a = 1.0
+a: Double = 1.0
+
+scala> val a = "Hello"
+a: String = Hello
+#+END_EXAMPLE
+
+*** 函数定义
+a function defines an expression that results in a value.
+
+大致形式如下
+#+BEGIN_EXAMPLE
+def <func>(<param1>:<type1>, <param2>:<type2>,..):<return-type> = {
+  // function body.
+}
+#+END_EXAMPLE
+
+函数本质上就是求得一个表达式，所以在<function-body>部分最后一个表达式就function返回结果，不需要使用return来显示说明。同样这里也可以使用type inference, 所以如果scala可以从function-body推断的话，那么<return-type>这个部分也可以不用写。但是scala type inference依然比较简单，如果有显示return语句的话(有时候我们确实需要），那么依然需要指定返回类型。
+#+BEGIN_EXAMPLE
+scala> def foo(a:Int,b:Int):Int = {
+     | a+b
+     | }
+foo: (a: Int, b: Int)Int
+
+scala> def foo(a:Int,b:Int)  = {
+     | a+b
+     | }
+foo: (a: Int, b: Int)Int
+
+scala> def foo(a:Int,b:Int)  = {
+     | return a+b
+     | }
+<console>:9: error: method foo has return statement; needs result type
+       return a+b
+       ^
+#+END_EXAMPLE
+
+但是scala也允许定义没有任何返回值的函数.对于这类函数<return-type>=Unit, 类似java里面的void. 但是从概念上来说因为不返回值，所以没有必要加上=这个标签，这样看上去更像是一个过程
+#+BEGIN_SRC Scala
+def printLine(a:String) {
+  println(a)
+}
+#+END_SRC
+
+*NOTE（dirlt)：需要注意的是传入的param实际上都是以val来定义的，所以在funciton-body里面不允许做修改*
+ 
+*** 匿名函数
+*** 控制结构
+   - while
+   - foreach # args.foreach(<function>).
+   - for # for(arg <- args). 注意这里的arg以val定义所以不能够修改
+
+*** 等值比较
+scala下==的和java是不同的。 *在java下==是比较引用相等性，而scala下==则是比较值相等性，也就是说会调用equal来做比较* 
+
+*TODO（dirlt）：怎么判断引用相等？* 
+
+*** 操作符重载
+  - a op b -> a.op(b)
+  - a(b) -> a.apply(b)
+  - a(b)=c -> a.update(b,c)
+  - a op: b -> b.op(a) # If the method name ends in a colon, the method is invoked on the right operand. 
+    - *NOTE(dirlt):但是evaluation的顺序依然先是a，然后是b*
+
+#+BEGIN_SRC Scala
+var Id = 0 // for identification.
+class Op() {
+  val id = Id;
+  Id += 1;
+  def + (x: Op) {
+    println("operation by Op#" + id);
+  }
+  def +: (x: Op) {
+    println("operation by Op#" + id);
+  }
+  def apply(p: Int) {
+    println("apply with " + p)
+  }
+  def update(p: Int, c:Int) {
+    println("update with " + p + ", " + c);
+  }
+}
+val a = new Op(); // Op#0
+val b = new Op(); // Op#1
+a + b;
+a +: b;
+a(0);
+a(0)=1;
+#+END_SRC
+
+** 面向对象
+*** 单例对象
+单例对象很好地解决了Java的两个问题，一个是是单例模式没有集成到语言当中去导致代码编写冗余，一个是静态字段和静态方法嵌入在类定义中导致代码结构不清晰。下面是一段Java代码
+#+BEGIN_SRC Java
+/* coding:utf-8
+ * Copyright (C) dirlt
+ */
+
+public class Hello {
+  public static final kConstant = 10;
+  private static instance;
+  public static void init() {
+    instance = new Hello();
+  }
+  public static Hello getInstance() {
+    return instance;
+  }
+  public void method() {
+  }
+}
+#+END_SRC
+
+而scala引入单例对象方式解决这个问题。单例对象使用object来定义，使用时候直接拿名称引用即可。
+#+BEGIN_SRC Scala
+object Hello {
+  val kConstant = 10;
+  def method() {
+  }
+}
+Hello.method();
+println(Hello.kConstant);
+#+END_SRC
+
+When a singleton object shares the same name with a class, it is called that class’s companion object. You must define both the class and its companion object in the same source file. The class is called the companion class of the singleton object. A class and its companion object can access each other’s private members.
+
+如果定义了和这个单例对象名称相同的类的话，那么
+   - *这两个定义必须放在同一份文件*
+   - 这个类称为这个单例对象的 *共生类*
+   - 这个单例对象称为这个类的 *共生对象* 
+
+A singleton object that does not share the same name with a companion class is called a standalone object. You can use standalone objects for many purposes, including collecting related utility methods together, or defining an entry point to a Scala application. 
+
+** 面向函数
+** 面向泛型 

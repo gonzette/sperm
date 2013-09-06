@@ -37,4 +37,6 @@ sae/
 #www/kylin.html
 
 code/java/*/target
+essay/*.html
+essay/note/*.html
 

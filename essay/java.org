@@ -1,5 +1,4 @@
 * java
-** 相关资料
    - Core Java Volume I: Fundamentals
 
 ** 基本语法
@@ -258,7 +257,7 @@ location: class com.dirlt.X
 
 解决这个问题最好的办法，我觉得应该就是： *对于文件内部本身的类，不要使用import来导入，直接使用全称即可。*
 
-** 泛型陷阱
+** 面向泛型 
 TODO（dirlt）：
 
 ** JDK
