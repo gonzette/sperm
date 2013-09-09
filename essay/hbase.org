@@ -366,7 +366,9 @@ org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = 
         at org.apache.zookeeper.ClientCnxn$EventThread.processEvent(ClientCnxn.java:531)
         at org.apache.zookeeper.ClientCnxn$EventThread.run(ClientCnxn.java:507)
 #+END_EXAMPLE
-下面是从ganglia里面来的当时的负载情况 [[file:./images/hbase-dp48-high-cpu-load.png][link]]
+下面是从ganglia里面来的当时的负载情况
+
+file:./images/hbase-dp48-high-cpu-load.png
 
 *** lease expired exception
 #+BEGIN_EXAMPLE
