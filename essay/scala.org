@@ -481,7 +481,7 @@ println(h.doubleD)
 #+END_SRC
 
 *** 类型继承
-使用extends关键字来继承，然后在继承的声明里面可以对父类做初始化。
+使用extends关键字来继承，然后在继承的声明里面可以对父类做初始化。父类实例使用super来引用。
 #+BEGIN_SRC Scala
 class A(n:Int) {
   println("init A with n = " + n);
@@ -544,7 +544,22 @@ def divide(x: Int, y: Int): Int =
 所谓的traits就是特征，在面向对象里面就是指代这个类或者是这个对象的特征。scala trait和java interface非常相似，其引入都是为了解决多重继承的问题。 *trait包含方法和字段，但是没有类参数（class parameter）和构造函数。*  *NOTE（dirlt）：我觉得这点设计让trait回归到了本意，同时简化了设计和使用*
 trait的定义和class类似，mixin trait上也是通过关键字extends来完成的，如果需要mixin多个trait的话用with关键字
 #+BEGIN_SRC Scala
+trait A {
+  def foo();
+}
 
+trait B {
+  def bar();
+}
+
+class C extends A with B {
+  def foo() {
+    println("foo");
+  }
+  def bar() {
+    println("bar");
+  }
+}
 #+END_SRC
 
 ** 面向函数
