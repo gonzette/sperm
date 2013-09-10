@@ -272,6 +272,54 @@ a(0)=1;
    - assert(expression)
    - assert(experession,explaination)
 
+*** package
+scala提供了两种定义package的方式，一种是java的，一种是类似C++ namespace的，关键字_root_来引用到最外层package
+#+BEGIN_SRC Scala
+package A {  
+  class X {
+  }
+  package B {
+    class X {
+    }
+  }
+  package C {
+    object Hello extends App {
+      val x = new A.X() // new _root_.A.X()
+      val x2 = new B.X()
+    }
+  }
+}
+#+END_SRC
+
+import有下面几种常用方法 http://www.scala-lang.org/old/node/119.html
+| The clause        | makes available without qualification..                     |
+|-------------------+-------------------------------------------------------------|
+| import p._        | all members of p (this is analogous to import p.* in Java). |
+| import p.x        | the member x of p.                                          |
+| import p.{x => a} | the member x of p renamed as a.                             |
+| import p.{x => _} | the member x of p removed.                                  |
+| import p.{x, y}   | the members x and y of p.                                   |
+| import p1.p2.z    | the member z of p2, itself member of p1.                    |
+Futhermore the clause import p1._, p2._ is a shorthand for import p1._; import p2._. A catch-all ‘_’. This imports all members except those members men-tioned in a preceding clause. If a catch-all is given, it must come last in the list of import selectors.
+
+cacth-all只能够用在最后一个selector上面，过滤之前所有的条件之后的部分，也就是说import p.{x=>_,_}导入p的除x之外的所有members, import p.{x=>a,_}则是导入p所有的members但是将x重命名为a.
+
+scala import相比java import更加灵活
+   - may appear anywhere // 类似Python的import.
+   - may refer to objects (singleton or regular) in addition to packages
+   - let you rename and hide some of the imported members
+#+BEGIN_SRC Scala
+def showFruit(fruit: Fruit) {
+  import fruit._
+  println(name +"s are "+ color)
+}
+#+END_SRC
+
+Implicitly imported into every compilation unit are, in that order:
+   - the package java.lang,
+   - the package scala,
+   - and the object scala.Predef.
+
 ** 面向对象
 *** 单例对象
 单例对象很好地解决了Java的两个问题，一个是是单例模式没有集成到语言当中去导致代码编写冗余，一个是静态字段和静态方法嵌入在类定义中导致代码结构不清晰。下面是一段Java代码
@@ -305,14 +353,13 @@ Hello.method();
 println(Hello.kConstant);
 #+END_SRC
 
-When a singleton object shares the same name with a class, it is called that class’s companion object. You must define both the class and its companion object in the same source file. The class is called the companion class of the singleton object. A class and its companion object can access each other’s private members.
+When a singleton object shares the same name with a class, it is called that class’s companion object. You must define both the class and its companion object in the same source file. The class is called the companion class of the singleton object. A class and its companion object can access each other’s private members. A singleton object that does not share the same name with a companion class is called a standalone object. You can use standalone objects for many purposes, including collecting related utility methods together, or defining an entry point to a Scala application. 
 
 如果定义了和这个单例对象名称相同的类的话，那么
    - *这两个定义必须放在同一份文件*
    - 这个类称为这个单例对象的 *共生类*
    - 这个单例对象称为这个类的 *共生对象* 
-
-A singleton object that does not share the same name with a companion class is called a standalone object. You can use standalone objects for many purposes, including collecting related utility methods together, or defining an entry point to a Scala application. 
+共生对象和共生类可以相互访问private members
 
 *** 构造函数
 scala将构造函数和类定义合并，相比java方式更加简洁。下面是一段Java代码
@@ -356,7 +403,7 @@ class Hello(private val pn: Int, private val pd: Int) {
   def this(pn:Int) = this(pn,0);
 }
 #+END_SRC
-在class parameter之前添加[private|public|protected|override] [val|var]即可，这样既定义了类构造函数参数也定义了对应的字段。
+在class parameter之前添加[private|protected|override] [val|var]即可，这样既定义了类构造函数参数也定义了对应的字段。scala访问修饰符只有private/protected,默认是public. The way you make members public in Scala is by not explicitly specifying any access modifier. Put another way, where you’d say “public” in Java, you simply say nothing in Scala. Public is Scala’s default access level. 
 
 如果面向对象角度相比于java，上面这种方式确实简化不少。而scala本意应该是更想到达函数式类构造效果，构造生成对象称为 *functional object* . 我们之所以想保存这些参数是因为在编写java时候这些参数只能够在构造函数中获得，而在scala里面实际上在整个类里面都是可以获得的，因此对于上面情况来说我们根本没有必要保存这些类参数。在下面closure代码里面我们实际上可以直接引用pn,pd来参与计算。
 #+BEGIN_SRC Scala
@@ -561,6 +608,78 @@ class C extends A with B {
   }
 }
 #+END_SRC
+
+trait的引入解决了一些多重继承的问题，最重要的问题就是如何解释super. 多重继承里面最麻烦的就是菱形继承问题A->B,A->C,B->D,C->D. 下面是一段C++代码
+#+BEGIN_SRC C++
+/* coding:utf-8
+ * Copyright (C) dirlt
+ */
+
+#include <cstdio>
+
+class A {
+ public:
+  void foo() {
+    printf("A\n");
+  }
+};
+
+class B:public A {
+ public:
+  void foo() {
+    A::foo();
+    printf("B\n");
+  }
+};
+
+class C:public A {
+ public:
+  void foo() {
+    A::foo();
+    printf("C\n");
+  }
+};
+
+class D:public B,
+        public C {
+ public:
+  void foo() {
+    B::foo();
+    C::foo();        
+    printf("D\n");
+  }
+};
+
+int main() {
+  D d;
+  d.foo();
+  return 0;
+}
+#+END_SRC
+这里D想调用A,B,C的foo各一次，但是最终调用了A两次。因为在C++里面允许多重继承没有super这个概念，所以只指定哪些父类，但是即使存在super这个概念也比较难以解决这个问题。比较难以解决这个问题的根本是，super这个parent-child关系是静态确定的，也就是说一旦出现菱形继承这样的情况，能够选择其中一条parent-child链执行。而如果语言能够在语言级别的层面上，根据当前继承关系动态地给出一个包含所有节点parent-child链的话，就可以解决这个问题。scala就是这个做法。
+
+scala这种动态确定关系链的技术叫做linearization, 也就是将继承关系线性化得到一个linear order。以下面这个继承关系为例
+#+BEGIN_EXAMPLE
+class Animal
+trait Furry extends Animal
+trait HasLegs extends Animal
+trait FourLegged extends HasLegs
+class Cat extends Animal with Furry with FourLegged
+#+END_EXAMPLE
+
+file:./images/scala-linearization.png
+
+以Cat直接继承和混入类型， *从左向右分析*
+   1. Animal linear order = Animal -> AnyRef -> Any
+   2. Flurry linear order = Furry -> Animal -> AnyRef -> Any
+   3. FourLegged linear order = HasLegs -> Animal -> AnyRef -> Any
+优先级别上1>2>3. 1和2结合结果为
+   - Furry -> Animal -> AnyRef -> Any
+然后和3结合结果为
+   - FourLegged -> HasLegs -> Furry -> Animal -> AnyRef -> Any
+所以最后的linear order为此，以此顺序调用super.
+
+*NOTE（dirlt）：这种动态执行的效果就是，你不能够确定super到底是哪个，取决于context.*
 
 ** 面向函数
 *** 匿名函数
