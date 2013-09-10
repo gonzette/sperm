@@ -75,6 +75,7 @@ file:./images/valve-logo.jpg 放眼未来，自由想象(Open your mind, Open yo
    - [[file:perf.org][perf]] linux系统自带的性能分析工具，支持硬件以及软件事件计数器，支持profile kernel以及user code.
    - [[file:./protobuf.org][protobuf]] google的数据交换格式，能够高效地序列化和反序列化对象，同时考虑向后兼容问题。
    - [[file:./thrift.org][thrift]] facebook的数据交换格式，能够高效地序列化和反序列化对象，同时考虑向后兼容问题。
+   - [[file:./gdb.org][gdb]] GNU Debugger, mainly on C/C++. 不过现在比较习惯打印日志方式来调试。
 
 ** Network Programming
    - [[file:unp.org][unp]] Unix网络编程(Unix Network Programming),W. Richard Stevens的又一神作。笔记里面只是对于TCP原理有比较详细讨论，这部分笔记也包含了TCP Illustrated v1里面和TCP相关的章节内容。对于编程方面也着重TCP socket使用，毕竟在大部分应用场景下面我们选用TCP模型更多，并且TCP里面有很多非常琐碎的知识。
