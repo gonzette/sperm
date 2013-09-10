@@ -547,8 +547,6 @@ trait的定义和class类似，mixin trait上也是通过关键字extends来完�
 
 #+END_SRC
 
-
-
 ** 面向函数
 *** 匿名函数
 *NOTE（dirlt）：aka. function literal* 
