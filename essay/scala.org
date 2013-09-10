@@ -225,7 +225,14 @@ val y =
 *** 等值比较
 scala下==的和java是不同的。 *在java下==是比较引用相等性，而scala下==则是比较值相等性，也就是说会调用equal来做比较* 
 
-*TODO（dirlt）：怎么判断引用相等？* 
+使用eq,ne来判断引用相当，但是判断引用相等仅限于引用类型
+#+BEGIN_SRC Scala
+val a = Array("1");
+val b = Array("2");
+println(a eq b)
+val c = b
+println(c eq b)
+#+END_SRC
 
 *** operator
   - a op b -> a.op(b)
@@ -498,9 +505,49 @@ abstract class Hello {
 与抽象类相对应的是final类，这个类不能够再被继承。同时final字段还能够用在方法和字段上面这样可以不被override.
 
 *** 类型层次
-   - Unit () # 赋值语句产生()
-   - Null null
-   - Nothing
+file:./images/scala-class-hierarchy.png
+
+所有的基类是Any，定义了下面这些方法
+#+BEGIN_SRC Scala
+final def ==(that: Any): Boolean
+final def !=(that: Any): Boolean
+def equals(that: Any): Boolean
+def hashCode: Int
+def toString: String
+#+END_SRC
+注意这里我们不需要实现==,!=，它们会调用equals这个方法，这个才是我们需要复写的。
+
+The root class Any has two subclasses: AnyVal and AnyRef. AnyVal is the parent class of every built-in value class in Scala. There are nine such value classes: Byte, Short, Char, Int, Long, Float, Double, Boolean, and Unit. The first eight of these correspond to Java’s primitive types, and their values are represented at run time as Java’s primitive values. The instances of these classes are all written as literals in Scala. As mentioned previously, on the Java platform AnyRef is in fact just an alias for class java.lang.Object. So classes written in Java as well as classes written in Scala all inherit from AnyRef.
+
+AnyVal是所有的内置类型基类，包括8种对应的java基本类型以及Unit（对应void类型），AnyRef是所有引用类型的基类。对于scala内置类型而言，值是通过字面量来创建的，也就是说不能够通过比如new Int这样的方法来创建，而Unit对应的value为(). 在JVM平台上面，AnyRef是Object的alias,但是如果可以的话尽可能地使用AnyRef而不要使用Object. *因为AnyRef上定义了eq和ne两个方法，所以只有引用类型才能够调用*
+
+Scala classes are different from Java classes in that they also inherit from a special marker trait called ScalaObject. The idea is that the ScalaObject contains methods that the Scala compiler defines and implements in order to make execution of Scala programs more efficient. Right now, Scala object contains a single method, named $tag, which is used internally to speed up pattern matching.
+
+继承ScalaObject主要是用来加速pattern matching.
+
+Class Null is the type of the null reference; it is a subclass of every reference class (i.e., every class that itself inherits from AnyRef). Type Nothing is at the very bottom of Scala’s class hierarchy; it is a sub- type of every other type. However, there exist no values of this type whatso-ever.
+
+Null是所有引用类型的子类，其实例对象是null. 而Nothing是所有类型的子类，但是没有实例对象。对于Nothing没有实例对象需要了解Nothing的引入。Nothing引入是为了将异常融入类型系统的，比如下面scala代码
+#+BEGIN_SRC Scala
+def error(message: String): Nothing =
+  throw new RuntimeException(message)
+#+END_SRC
+定义了error这个函数来报告错误，然后我们在使用的时候
+#+BEGIN_SRC Scala
+def divide(x: Int, y: Int): Int =
+  if (y != 0) x / y
+  else error("can't divide by zero")
+#+END_SRC
+我们必须确保类型能够统一，所以error类型必须和Int兼容，因此Nothing在设计上必须是所有类型的子类。
+
+*** Traits
+所谓的traits就是特征，在面向对象里面就是指代这个类或者是这个对象的特征。scala trait和java interface非常相似，其引入都是为了解决多重继承的问题。 *trait包含方法和字段，但是没有类参数（class parameter）和构造函数。*  *NOTE（dirlt）：我觉得这点设计让trait回归到了本意，同时简化了设计和使用*
+trait的定义和class类似，mixin trait上也是通过关键字extends来完成的，如果需要mixin多个trait的话用with关键字
+#+BEGIN_SRC Scala
+
+#+END_SRC
+
+
 
 ** 面向函数
 *** 匿名函数

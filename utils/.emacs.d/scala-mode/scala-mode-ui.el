@@ -1,35 +1,36 @@
-;;; scala-mode-ui.el --- Menu entries and keyboard shortcuts for scala mode
+;;; -*-Emacs-Lisp-*-
+;;; scala-mode-ui.el - Menu entries and keyboard shortcuts for scala mode
 
-;; Copyright (C) 2009 Scala Dev Team at EPFL
+;; Copyright (C) 2009-2011 Scala Dev Team at EPFL
 ;; Authors: See AUTHORS file
 ;; Keywords: scala languages oop
 
 ;;; License
 
 ;; SCALA LICENSE
-;;
-;; Copyright (c) 2002-2010 EPFL, Lausanne, unless otherwise specified.
+;;  
+;; Copyright (c) 2002-2011 EPFL, Lausanne, unless otherwise specified.
 ;; All rights reserved.
-;;
+;;  
 ;; This software was developed by the Programming Methods Laboratory of the
 ;; Swiss Federal Institute of Technology (EPFL), Lausanne, Switzerland.
-;;
+;;  
 ;; Permission to use, copy, modify, and distribute this software in source
 ;; or binary form for any purpose with or without fee is hereby granted,
 ;; provided that the following conditions are met:
-;;
+;;  
 ;;    1. Redistributions of source code must retain the above copyright
 ;;       notice, this list of conditions and the following disclaimer.
-;;
+;;  
 ;;    2. Redistributions in binary form must reproduce the above copyright
 ;;       notice, this list of conditions and the following disclaimer in the
 ;;       documentation and/or other materials provided with the distribution.
-;;
+;;  
 ;;    3. Neither the name of the EPFL nor the names of its contributors
 ;;       may be used to endorse or promote products derived from this
 ;;       software without specific prior written permission.
-;;
-;;
+;;  
+;;  
 ;; THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
 ;; ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 ;; IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -42,10 +43,10 @@
 ;; OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 ;; SUCH DAMAGE.
 
-;;; Commentary:
-;;
+;;; Code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Code:
+(provide 'scala-mode-ui)
 
 (require 'easymenu)
 (require 'scala-mode-lib)
@@ -59,7 +60,7 @@
     :group 'scala))
 
 (defmacro scala-mode-ui:key (key)
-  "Simple macro for appending `scala-mode-prefix-key' to KEY commands."
+  "Simple macro for appending 'scala-mode-prefix-key' to key commands"
   `(kbd ,(concat scala-mode-ui:prefix-key " " key)))
 
 ;;; Helper functions
@@ -117,6 +118,7 @@
 
 )
 
+
 ;;; Shortcuts
 
 (defvar scala-mode-map
@@ -131,15 +133,15 @@
    ;; Attach keyboard Shortcuts
    ([(control tab)]            'scala-undent-line)
    ([backspace]                'backward-delete-char-untabify)
-
+   		                
    ("\r"                       'scala-newline)
 
    ([f1]                       'speedbar-get-focus)
-
+			        
    ([(control c)(control l)]   'scala-load-file)
    ([(control c)(control r)]   'scala-eval-region)
    ([(control c)(control b)]   'scala-eval-buffer)
-
+			        
    ([(control c)(control c)]   'comment-region)
 
    ("}"                        'scala-electric-brace)
@@ -151,6 +153,7 @@
    ((scala-mode-ui:key "t a")  'tags-apropos)
    )
 
-(provide 'scala-mode-ui)
 
-;;; scala-mode-ui.el ends here
+
+
+

@@ -1,4 +1,5 @@
-;;; scala-mode-feature-electric.el --- electric editing commands for scala files.
+;;; -*-Emacs-Lisp-*-
+;;; scala-mode-feature-electric.el - electric editing commands for scala files
 
 ;; Copyright (C) 2009 by Hemant Kumar (gethemant at gmail to com)
 ;; Modified by Anders Bach Nielsen <andersbach.nielsen at epfl dot ch> to fit into the scala mode
@@ -8,29 +9,29 @@
 ;;; License
 
 ;; SCALA LICENSE
-;;
-;; Copyright (c) 2002-2010 EPFL, Lausanne, unless otherwise specified.
+;;  
+;; Copyright (c) 2002-2011 EPFL, Lausanne, unless otherwise specified.
 ;; All rights reserved.
-;;
+;;  
 ;; This software was developed by the Programming Methods Laboratory of the
 ;; Swiss Federal Institute of Technology (EPFL), Lausanne, Switzerland.
-;;
+;;  
 ;; Permission to use, copy, modify, and distribute this software in source
 ;; or binary form for any purpose with or without fee is hereby granted,
 ;; provided that the following conditions are met:
-;;
+;;  
 ;;    1. Redistributions of source code must retain the above copyright
 ;;       notice, this list of conditions and the following disclaimer.
-;;
+;;  
 ;;    2. Redistributions in binary form must reproduce the above copyright
 ;;       notice, this list of conditions and the following disclaimer in the
 ;;       documentation and/or other materials provided with the distribution.
-;;
+;;  
 ;;    3. Neither the name of the EPFL nor the names of its contributors
 ;;       may be used to endorse or promote products derived from this
 ;;       software without specific prior written permission.
-;;
-;;
+;;  
+;;  
 ;; THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
 ;; ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 ;; IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -43,20 +44,21 @@
 ;; OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 ;; SUCH DAMAGE.
 
-;;; Commentary:
-;;
+;;; Code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Code:
+(provide 'scala-mode-feature-electric)
 
 ;; Customization
-
+ 
 (defgroup scala-mode-feature:electric nil
   "Minor mode providing electric editing commands for scala files"
   :group 'scala)
 
+
 (defcustom scala-mode-feature:electric-expand-delimiters-list '(all)
-  "*List of contexts where matching delimiter should be inserted.
-The word 'all' will do all insertions."
+  "*List of contexts where matching delimiter should be
+inserted. The word 'all' will do all insertions."
   :type '(set :extra-offset 8
               (const :tag "Everything" all )
               (const :tag "Curly brace" ?\{ )
@@ -68,10 +70,13 @@ The word 'all' will do all insertions."
               (const :tag "Vertical bar" ?\| ))
   :group 'scala-mode-feature:electric)
 
+
 (defcustom scala-mode-feature:electric-newline-before-closing-bracket nil
-  "*Controls whether a newline should be inserted before the closing bracket or not."
-  :type 'boolean
+  "*Controls whether a newline should be inserted before the
+closing bracket or not."
+  :type 'boolean 
   :group 'scala-mode-feature:electric)
+
 
 (defcustom scala-mode-feature:electric-on-per-default nil
   "*Controls whether scala electric mode should be on per default or not."
@@ -87,6 +92,7 @@ The word 'all' will do all insertions."
     (?\` . ?\`)
     (?\" . ?\")))
 
+
 (defvar scala-mode-feature-electric-mode scala-mode-feature:electric-on-per-default
   "nil disables scala electric mode, non-nil enables.")
 
@@ -98,6 +104,7 @@ The word 'all' will do all insertions."
 (make-variable-buffer-local 'scala-mode-feature-electric-mode)
 
 (defun scala-mode-feature-electric-mode (&optional arg)
+  ""
   (interactive "P")
   (setq scala-mode-feature-electric-mode
         (if (null arg)
@@ -109,6 +116,7 @@ The word 'all' will do all insertions."
 
 ;; Alias for some backwards compat
 (defalias 'scala-electric-mode 'scala-mode-feature-electric-mode)
+
 
 ;; Functions
 (defun scala-mode-feature-electric-active-p ()
@@ -126,7 +134,7 @@ The word 'all' will do all insertions."
 
 (defun scala-mode-feature-electric-is-last-command-char-expandable-punct-p()
   (or (memq 'all scala-mode-feature:electric-expand-delimiters-list)
-      (memq last-command-char scala-mode-feature:electric-expand-delimiters-list)))
+      (memq last-command-event scala-mode-feature:electric-expand-delimiters-list)))
 
 (defun scala-mode-feature-electric-curlies(arg)
   (interactive "P")
@@ -151,14 +159,14 @@ The word 'all' will do all insertions."
   (and (scala-mode-feature-electric-is-last-command-char-expandable-punct-p)
        (scala-mode-feature-electric-code-at-point-p)
        (save-excursion
-         (insert (cdr (assoc last-command-char
+         (insert (cdr (assoc last-command-event
                              scala-mode-feature-electric-matching-delimeter-alist))))))
 
 (defun scala-mode-feature-electric-install ()
   (or (assoc 'scala-mode-feature-electric-mode minor-mode-alist)
       (setq minor-mode-alist
 	    (cons '(scala-mode-feature-electric-mode " electric") minor-mode-alist)))
-
+  
   (or (assoc 'scala-mode-feature-electric-mode minor-mode-map-alist)
       (setq minor-mode-map-alist
 	    (cons (cons 'scala-mode-feature-electric-mode scala-mode-feature-electric-mode-map)
@@ -168,9 +176,5 @@ The word 'all' will do all insertions."
   (define-key scala-mode-feature-electric-mode-map "("	 'scala-mode-feature-electric-matching-char)
   (define-key scala-mode-feature-electric-mode-map "["	 'scala-mode-feature-electric-matching-char)
   (define-key scala-mode-feature-electric-mode-map "\"" 'scala-mode-feature-electric-matching-char)
-
+  
   t)
-
-(provide 'scala-mode-feature-electric)
-
-;;; scala-mode-feature-electric.el ends here

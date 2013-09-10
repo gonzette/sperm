@@ -1,6 +1,7 @@
-;;; scala-mode-fontlock.el --- Font locking support for Scala.
+;;; -*-Emacs-Lisp-*-
+;;; scala-mode-fontlock.el -
 
-;; Copyright (C) 2009 Scala Dev Team at EPFL
+;; Copyright (C) 2009-2011 Scala Dev Team at EPFL
 ;; Authors: See AUTHORS file
 ;; Keywords: scala languages oop
 
@@ -8,7 +9,7 @@
 
 ;; SCALA LICENSE
 ;;
-;; Copyright (c) 2002-2010 EPFL, Lausanne, unless otherwise specified.
+;; Copyright (c) 2002-2011 EPFL, Lausanne, unless otherwise specified.
 ;; All rights reserved.
 ;;
 ;; This software was developed by the Programming Methods Laboratory of the
@@ -42,16 +43,23 @@
 ;; OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 ;; SUCH DAMAGE.
 
-;;; Commentary:
-;;
+;;; Code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Code:
+(provide 'scala-mode-fontlock)
 
 (require 'cl)
 (require 'font-lock)
 (require 'scala-mode-constants)
 (require 'scala-mode-lib)
 (require 'scala-mode-navigation)
+
+(defcustom scala-mode-fontlock:multiline-highlight t
+  "Non-nil means enable multiple line highlight support, which
+may cause emacs slow down in certain condition. Set this variable
+to nil if you want to disable multiple line highlight support."
+  :type 'boolean
+  :group 'scala)
 
 (defun scala-mark-borders (funs)
   (loop for (fun . flag) in funs
@@ -68,6 +76,31 @@
 (defconst scala-binding-end-re
   (regexp-opt '(":" "=" "=>" ";" "<-")))
 
+
+(defun scala-font-lock-limit ()
+  "Find font lock limit and mark multiple line construct in
+current context."
+  (let ((p0 (point))
+        (p1 (save-excursion (end-of-line) (point))))
+    ;; multiple line construct will only start with '[' or '(', not '{'
+    (when (looking-at "[ \t\n]*[\\[(]")
+      (save-excursion
+        ;; skip all parameter groups in "def foo(a: Int)(b: Int)"
+        (while (looking-at "[ \t\n]*[\\[(]")
+          (condition-case ex
+              (forward-list)
+            ('error
+             ;; Hack: Find next keyword when parentheses are not balanced.  Here
+             ;; we assume that next keyword will not be too far from current
+             ;; position, so will not cause emacs slow down too much.
+             (unless (search-forward-regexp scala-keywords-re nil t)
+               (end-of-line))))
+          (setq p1 (point))))
+      (when scala-mode-fontlock:multiline-highlight
+        (put-text-property p0 p1 'font-lock-multiline t)))
+    p1))
+
+
 (defun scala-match-and-skip-binding (limit)
   (skip-chars-forward " ()")
   (and (not (or (looking-at "\\<\\(extends\\|with\\)\\>\\|{")
@@ -78,10 +111,10 @@
            (let ((matches (scala-make-match
                            '((scala-forward-ident . t)
                              ((lambda ()
-                                (scala-forward-spaces)
+                                (scala-forward-ignorable)
                                 (when (scala-looking-at-special-identifier ":")
                                   (forward-char)
-                                  (scala-forward-spaces)
+                                  (scala-forward-ignorable)
                                   t)) . nil)
                              ((lambda ()
                                 (scala-forward-type)
@@ -92,7 +125,7 @@
          t)))
 
 (defun scala-match-and-skip-ident (limit)
-  (scala-forward-spaces)
+  (scala-forward-ignorable)
   (when (and (not (looking-at scala-keywords-re))
              (looking-at scala-qual-ident-re))
     (goto-char (match-end 0))
@@ -101,7 +134,7 @@
 (defun scala-match-and-skip-type-param (limit)
   (scala-when-looking-at "\\s *[[,]\\s *"
     (let ((matches (scala-make-match '((scala-forward-type-param . t)))))
-      (scala-when-looking-at "\\s *\\]")
+      (while (scala-when-looking-at "[\s \n\t]*\\]"))
       (set-match-data matches)
       t)))
 
@@ -131,6 +164,7 @@
          (cond ((looking-at scala-capitalized-ident-re)
                 (goto-char (match-end 0)))
                ((scala-match-and-skip-binding limit) t)))))
+
 
 (defvar scala-font-lock-keywords
   `(;; keywords
@@ -165,21 +199,24 @@
 	      scala-ident-re
 	      "\\)\\s *")
      (2 font-lock-function-name-face nil)
-     (scala-match-and-skip-type-param (goto-char (match-end 0)) nil
+     (scala-match-and-skip-type-param (progn
+                                        (goto-char (match-end 0))
+                                        (scala-font-lock-limit))
+                                        nil
 				      (1 font-lock-type-face nil t))
-     (scala-match-and-skip-binding nil nil
+     (scala-match-and-skip-binding (scala-font-lock-limit) nil
 				   (1 font-lock-variable-name-face nil)
 				   (2 font-lock-type-face nil t))
-     (scala-match-and-skip-result-type nil nil
+     (scala-match-and-skip-result-type (scala-font-lock-limit) nil
 				       (0 font-lock-type-face nil)))
 
     ;; class definitions
     ("\\<\\(class\\|trait\\)\\>"
      (scala-match-and-skip-ident (goto-char (match-end 0)) nil
 				 (1 font-lock-type-face nil))
-     (scala-match-and-skip-type-param nil nil
+     (scala-match-and-skip-type-param (scala-font-lock-limit) nil
 				      (1 font-lock-type-face nil t))
-     (scala-match-and-skip-binding nil nil
+     (scala-match-and-skip-binding (scala-font-lock-limit) nil
 				   (1 font-lock-variable-name-face nil)
 				   (2 font-lock-type-face nil t)))
 
@@ -187,7 +224,7 @@
     ("\\<\\(extends\\|with\\)\\>\\s *[^{]"
      (scala-match-and-skip-ident (goto-char (1- (match-end 0))) nil
 				 (0 font-lock-type-face nil))
-     (scala-match-and-skip-type-param nil nil
+     (scala-match-and-skip-type-param (scala-font-lock-limit) nil
 				      (1 font-lock-type-face nil t)))
 
     ;; patterns
@@ -197,10 +234,6 @@
 				   (2 font-lock-type-face nil t)))
     ))
 
+
 (defvar scala-font-lock-syntactic-keywords
-  `((,scala-char-re (0 "\"" t nil))
-    (scala-search-special-identifier-forward (0 "w" nil nil))))
-
-(provide 'scala-mode-fontlock)
-
-;;; scala-mode-fontlock.el ends here
+  `((,scala-char-re (0 "\"" t nil))))

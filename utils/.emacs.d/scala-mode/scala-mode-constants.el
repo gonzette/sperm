@@ -1,35 +1,36 @@
-;;; scala-mode-constants.el --- Language constants for Scala.
+;;; -*-Emacs-Lisp-*-
+;;; scala-mode-constants.el - 
 
-;; Copyright (C) 2009 Scala Dev Team at EPFL
+;; Copyright (C) 2009-2011 Scala Dev Team at EPFL
 ;; Authors: See AUTHORS file
 ;; Keywords: scala languages oop
 
 ;;; License
 
 ;; SCALA LICENSE
-;;
-;; Copyright (c) 2002-2010 EPFL, Lausanne, unless otherwise specified.
+;;  
+;; Copyright (c) 2002-2011 EPFL, Lausanne, unless otherwise specified.
 ;; All rights reserved.
-;;
+;;  
 ;; This software was developed by the Programming Methods Laboratory of the
 ;; Swiss Federal Institute of Technology (EPFL), Lausanne, Switzerland.
-;;
+;;  
 ;; Permission to use, copy, modify, and distribute this software in source
 ;; or binary form for any purpose with or without fee is hereby granted,
 ;; provided that the following conditions are met:
-;;
+;;  
 ;;    1. Redistributions of source code must retain the above copyright
 ;;       notice, this list of conditions and the following disclaimer.
-;;
+;;  
 ;;    2. Redistributions in binary form must reproduce the above copyright
 ;;       notice, this list of conditions and the following disclaimer in the
 ;;       documentation and/or other materials provided with the distribution.
-;;
+;;  
 ;;    3. Neither the name of the EPFL nor the names of its contributors
 ;;       may be used to endorse or promote products derived from this
 ;;       software without specific prior written permission.
-;;
-;;
+;;  
+;;  
 ;; THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
 ;; ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 ;; IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -42,11 +43,10 @@
 ;; OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 ;; SUCH DAMAGE.
 
+;;; Code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Commentary:
-;;
-
-;;; Code:
+(provide 'scala-mode-constants)
 
 (require 'cl)
 (require 'regexp-opt)
@@ -54,10 +54,12 @@
 ;; Helper functions
 
 (defun scala-regexp-opt-charset (chars)
-  "Return a regexp to match a character in CHARS.
-
-The basic idea is to find character ranges.  Also we take care in the
-position of character set meta characters in the character set regexp."
+  ;;
+  ;; Return a regexp to match a character in CHARS.
+  ;;
+  ;; The basic idea is to find character ranges.  Also we take care in the
+  ;; position of character set meta characters in the character set regexp.
+  ;;
   (let* ((charmap (make-char-table 'case-table))
      (start -1) (end -2)
      (charset "")
@@ -79,14 +81,18 @@ position of character set meta characters in the character set regexp."
     (map-char-table
      (lambda (c v)
        (when v
-	 (if (listp c) (setq start (car c) end (cdr c))
-	   (if (= (1- c) end) (setq end c)
+         (let ((c-start) (c-end))
+           (if (listp c) 
+	       (setq c-start (car c) c-end (cdr c))
+	     (setq c-start c c-end c))
+	   (unless (= (1- c-start) end) 
 	     (if (> end (+ start 2))
 		 (setq charset (format "%s%c-%c" charset start end))
-              (while (>= end start)
-                (setq charset (format "%s%c" charset start))
-                (incf start)))
-	     (setq start c end c)))))
+	       (while (>= end start)
+		 (setq charset (format "%s%c" charset start))
+		 (incf start)))
+	     (setq start c-start))
+	   (setq end c-end))))
      charmap)
     (when (>= end start)
       (if (> end (+ start 2))
@@ -138,11 +144,11 @@ reserved keywords when used alone.")
 
 (defconst scala-most-special-char-re
   (scala-regexp-opt-charset scala-most-special-chars)
-  "Regular expression matching a single Scala special character.")
+  "Regular expression matching a single Scala special character")
 
 (defconst scala-all-special-char-re
   (scala-regexp-opt-charset scala-all-special-chars)
-  "Regular expression matching a single Scala special character.")
+  "Regular expression matching a single Scala special character")
 
 (defconst scala-keywords-re
   (regexp-opt '("abstract" "case" "class" "catch" "def" "do" "else" "extends"
@@ -177,29 +183,49 @@ reserved keywords when used alone.")
 (defconst scala-capitalized-ident-re
   (concat "\\(\\)\\([[:upper:]]" scala-ident-re "\\)"))
 
-(defconst scala-expr-start-re
-  (concat
-   (regexp-opt '("if" "else" "for" "do" "yield") 'words) "\\|"
-   (regexp-opt '("=" "=>") t)))
+(defconst scala-if-re 
+  (regexp-opt '("if") 'words))
+
+(defconst scala-else-if-re 
+  "\\<else\\s +if\\>")
+
+(defconst scala-for-re 
+  (regexp-opt '("for") 'words))
+
+(defconst scala-case-re
+  (regexp-opt '("case") 'words))
+
+(defconst scala-class-re
+  (regexp-opt '("class") 'words))
+
+(defconst scala-value-expr-cont-re
+  (regexp-opt '("else" "yield") 'words))
+
+(defconst scala-declr-expr-start-re 
+  "[^=]=")
+
+(defconst scala-double-arrow-re 
+  "=>\\($\\|[ _({[:alpha:]]\\)")
+
+(defconst scala-class-middle-re 
+  (regexp-opt '("extends" "with") 'words))
+
+(defconst scala-class-head-re
+  (regexp-opt '("class" "object" "new") 'words))
 
 (defconst scala-expr-starter
   (mapcar (lambda (pair) (cons (car pair) (concat "\\<" (cdr pair) "\\>")))
           '(("else" . "if")
             ("yield" . "for")
-            ("do" . "for")
-            ("extends" . "class")
-            ("with" . "class")
-            ("=>" . "case"))))
+            ("while" . "do")
+            ("extends" . "class\\|object")
+            ("with" . "extends\\|new"))))
 
 (defconst scala-expr-middle-re
   (regexp-opt (mapcar #'car scala-expr-starter) 'words))
 
-(defconst scala-compound-expr-re
-  "\\<else\\s +if\\>")
-
 (defconst scala-comment-begin-or-end-re
   (concat "\\(" "^/\\*.*" "\\|" "^//.*" "\\|" ".*\\*/$" "\\)"))
 
-(provide 'scala-mode-constants)
+(defconst scala-empty-line-re  "^\\s *$")
 
-;;; scala-mode-constants.el ends here

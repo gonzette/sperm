@@ -1,15 +1,14 @@
-;;; scala-mode.el --- Major mode for editing Scala code.
+;;; scala-mode.el - Major mode for editing Scala code.
 
-;; Copyright (C) 2009 Scala Dev Team at EPFL
+;; Copyright (C) 2009-2011 Scala Dev Team at EPFL
 ;; Authors: See AUTHORS file
 ;; Keywords: scala languages oop
-;; Version: 0.5.99.5
 
 ;;; License
 
 ;; SCALA LICENSE
 ;;
-;; Copyright (c) 2002-2010 EPFL, Lausanne, unless otherwise specified.
+;; Copyright (c) 2002-2011 EPFL, Lausanne, unless otherwise specified.
 ;; All rights reserved.
 ;;
 ;; This software was developed by the Programming Methods Laboratory of the
@@ -43,11 +42,10 @@
 ;; OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 ;; SUCH DAMAGE.
 
+;;; Code
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; Commentary:
-;;
-
-;;; Code:
+(provide 'scala-mode)
 
 (require 'cl)
 
@@ -68,7 +66,7 @@
   :group 'languages)
 
 (defcustom scala-mode:api-url "http://www.scala-lang.org/docu/files/api/index.html"
-  "URL to the online Scala documentation."
+  "URL to the online Scala documentation"
   :type 'string
   :group 'scala)
 
@@ -77,20 +75,24 @@
 (defconst scala-bug-e-mail "scala@listes.epfl.ch")
 (defconst scala-web-url "http://scala-lang.org/")
 
-;;; Helper functions/macros
+
+;;; Helper functions/macroes
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
 (defun scala-mode:browse-web-site ()
-  "Browse the Scala home-page."
+  "Browse the Scala home-page"
   (interactive)
   (require 'browse-url)
   (browse-url scala-web-url))
 
+
 (defun scala-mode:browse-api ()
-  "Browse the Scala API."
+  "Browse the Scala API"
   (interactive)
   (require 'browse-url)
   (browse-url scala-mode:api-url))
+
 
 (defun scala-mode:report-bug ()
   "Report a bug to the author of the Scala mode via e-mail.
@@ -104,71 +106,105 @@ through `mail-user-agent'."
      (concat "Emacs Scala mode v" scala-mode-version)
      '(scala-indent-step))))
 
-(defvar scala-mode-abbrev-table (make-abbrev-table)
+
+
+
+
+(defvar scala-mode-abbrev-table nil
   "Abbrev table in use in `scala-mode' buffers.")
+(define-abbrev-table 'scala-mode-abbrev-table nil)
 
-(defvar scala-mode-syntax-table
-  (let ((table (make-syntax-table)))
-    ;; strings and character literals
-    (modify-syntax-entry ?\" "\"" table)
-    (modify-syntax-entry ?\\ "\\" table)
 
-    ;; different kinds of "parenthesis"
-    (modify-syntax-entry ?\( "()" table)
-    (modify-syntax-entry ?\[ "(]" table)
-    (modify-syntax-entry ?\{ "(}" table)
-    (modify-syntax-entry ?\) ")(" table)
-    (modify-syntax-entry ?\] ")[" table)
-    (modify-syntax-entry ?\} "){" table)
-
-    ;; special characters
-    (modify-syntax-entry ?\_ "_" table)
-
-    (dolist (char scala-all-special-chars)
-      (modify-syntax-entry char "." table))
-
-    (modify-syntax-entry ?\. "." table)
-
-    ;; comments
-    ;; the `n' means that comments can be nested
-    (modify-syntax-entry ?\/  ". 124nb" table)
-    (modify-syntax-entry ?\*  ". 23n"   table)
-    (modify-syntax-entry ?\n  "> bn" table)
-    (modify-syntax-entry ?\r  "> bn" table)
-    table)
+(defvar scala-mode-syntax-table nil
   "Syntax table used in `scala-mode' buffers.")
+(when (not scala-mode-syntax-table)
+  (setq scala-mode-syntax-table (make-syntax-table))
+  ;; strings and character literals
+  (modify-syntax-entry ?\" "\"" scala-mode-syntax-table)
+  (modify-syntax-entry ?\\ "\\" scala-mode-syntax-table)
+
+  ;; different kinds of "parenthesis"
+  (modify-syntax-entry ?\( "()" scala-mode-syntax-table)
+  (modify-syntax-entry ?\[ "(]" scala-mode-syntax-table)
+  (modify-syntax-entry ?\{ "(}" scala-mode-syntax-table)
+  (modify-syntax-entry ?\) ")(" scala-mode-syntax-table)
+  (modify-syntax-entry ?\] ")[" scala-mode-syntax-table)
+  (modify-syntax-entry ?\} "){" scala-mode-syntax-table)
+
+  ;; special characters
+  (modify-syntax-entry ?\_ "_" scala-mode-syntax-table)
+
+  (dolist (char scala-all-special-chars)
+    (modify-syntax-entry char "." scala-mode-syntax-table))
+
+  (modify-syntax-entry ?\. "." scala-mode-syntax-table)
+
+  ;; comments
+  ;; the `n' means that comments can be nested
+  (modify-syntax-entry ?\/  ". 124b" scala-mode-syntax-table)
+  (modify-syntax-entry ?\*  ". 23n"   scala-mode-syntax-table)
+  (modify-syntax-entry ?\n  "> b" scala-mode-syntax-table)
+  (modify-syntax-entry ?\r  "> b" scala-mode-syntax-table))
+
+
+;;; Mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;###autoload
-(define-derived-mode scala-mode prog-mode "Scala"
+(defun scala-mode ()
   "Major mode for editing Scala code.
+When started, run `scala-mode-hook'.
 \\{scala-mode-map}"
-  :group 'scala
-  (set (make-local-variable 'font-lock-defaults)         '(scala-font-lock-keywords
-                                                           nil
-                                                           nil
-                                                           ((?\_ . "w"))
-                                                           nil
-                                                           (font-lock-syntactic-keywords . scala-font-lock-syntactic-keywords)
-                                                           (parse-sexp-lookup-properties . t)))
+  (interactive)
+  ;; set up local variables
+  (kill-all-local-variables)
+  (make-local-variable 'font-lock-defaults)
+  (make-local-variable 'paragraph-separate)
+  (make-local-variable 'paragraph-start)
+  (make-local-variable 'paragraph-ignore-fill-prefix)
+  (make-local-variable 'require-final-newline)
+  (make-local-variable 'comment-start)
+  (make-local-variable 'comment-end)
+  (make-local-variable 'comment-start-skip)
+  (make-local-variable 'comment-end-skip)
+  (make-local-variable 'comment-column)
+  ;(make-local-variable 'comment-indent-function)
+  (make-local-variable 'indent-line-function)
+  ;;
+  (set-syntax-table scala-mode-syntax-table)
+  (setq major-mode                    'scala-mode
+	mode-name                     "Scala"
+	local-abbrev-table            scala-mode-abbrev-table
+	font-lock-defaults            '(scala-font-lock-keywords
+                                       nil
+                                       nil
+                                       ((?\_ . "w"))
+                                       nil
+                                       (font-lock-syntactic-keywords . scala-font-lock-syntactic-keywords)
+                                       (parse-sexp-lookup-properties . t))
+	paragraph-separate            (concat scala-empty-line-re "\\|" page-delimiter)
+	paragraph-start               (concat scala-empty-line-re "\\|" page-delimiter)
+	paragraph-ignore-fill-prefix  t
+	require-final-newline         t
+	comment-start                 "// "
+	comment-end                   ""
+	comment-start-skip            "/\\*+ *\\|//+ *"
+	comment-end-skip              " *\\*+/\\| *"
+	comment-column                40
+;	comment-indent-function       'scala-comment-indent-function
+	indent-line-function          'scala-indent-line
+	)
 
-  (set (make-local-variable 'paragraph-separate)           (concat "^\\s *$\\|" page-delimiter))
-  (set (make-local-variable 'paragraph-start)              (concat "^\\s *$\\|" page-delimiter))
-  (set (make-local-variable 'paragraph-ignore-fill-prefix) t)
-  (set (make-local-variable 'require-final-newline)        t)
-  (set (make-local-variable 'comment-start)                "// ")
-  (set (make-local-variable 'comment-end)                  "")
-  (set (make-local-variable 'comment-start-skip)           "/\\*+ *\\|//+ *")
-  (set (make-local-variable 'comment-end-skip)             " *\\*+/\\| *")
-  (set (make-local-variable 'comment-column)               40)
-  ;; (set (make-local-variable 'comment-indent-function)   'scala-comment-indent-function)
-  (set (make-local-variable 'indent-line-function)         'scala-indent-line)
-  (scala-mode-feature-install))
+  (use-local-map scala-mode-map)
+  (turn-on-font-lock)
+  (scala-mode-feature-install)
+  (if scala-mode-hook
+      (run-hooks 'scala-mode-hook)))
 
-;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.scala\\'" . scala-mode))
-;;;###autoload
-(modify-coding-system-alist 'file "\\.scala$"     'utf-8)
 
-(provide 'scala-mode)
+
+;; Local Variables:
+;; mode: emacs-lisp
+;; End:
 
 ;;; scala-mode.el ends here
