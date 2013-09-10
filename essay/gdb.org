@@ -64,8 +64,9 @@
    - 设置汇编格式 set disassembly-flavor [intel/att]
 
 ** 插件编写
-插件在~/.gdbinit下面编写代码，然后gdb就会自动加载这些内容
-#+BEGIN_SRC gdb-script
+插件代码放在在~/.gdbinit下面。下面是一段示例代码
+
+#+BEGIN_EXAMPLE
 #-*- gdb-script -*-
 #函数定义
 define function
@@ -79,8 +80,5 @@ document function
     #some comment
     a gdb plugin example
 end
-#+END_SRC
-   - 在emacs下面处于gdb-script模式
-   - #用来做comment
-   - 函数调用都需要设置返回值
+#+END_EXAMPLE
 

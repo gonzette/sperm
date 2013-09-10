@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="gdb"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-10 16:50:13 CST"/>
+<meta name="generated" content="2013-09-10 17:12:21 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -327,33 +327,25 @@
 <h3 id="sec-1-2"><span class="section-number-3">1.2</span> 插件编写</h3>
 <div class="outline-text-3" id="text-1-2">
 
-<p>插件在~/.gdbinit下面编写代码，然后gdb就会自动加载这些内容
+<p>插件代码放在在~/.gdbinit下面。下面是一段示例代码
 </p>
 
 
-<pre class="src src-gdb-script"><span style="color: #ffff00;">#</span><span style="color: #ffff00;">-*- gdb-script -*-</span>
-<span style="color: #ffff00;">#</span><span style="color: #ffff00;">&#20989;&#25968;&#23450;&#20041;</span>
-<span style="color: #00ffff;">define</span> <span style="color: #00ffff;">function</span>
-    <span style="color: #ffff00;">#</span><span style="color: #ffff00;">some comment</span>
-    <span style="color: #00ffff;">set</span> $<span style="color: #ffff00;">buf</span>=malloc(8192)
-    <span style="color: #00ffff;">set</span> $<span style="color: #ffff00;">ret</span>=printf(<span style="color: #ffff00;">"hello,%s\n"</span>,<span style="color: #ffff00;">"world"</span>)
-    <span style="color: #00ffff;">set</span> $<span style="color: #ffff00;">ret</span>=free($<span style="color: #ffff00;">buf</span>)
-<span style="color: #00ffff;">end</span>
-<span style="color: #ffff00;">#</span><span style="color: #ffff00;">&#20989;&#25968;&#25991;&#26723;</span>
-<span style="color: #00ffff;">document</span> function
-<span style="color: #ffff00;">    #some comment</span>
-<span style="color: #ffff00;">    a gdb plugin example</span>
-<span style="color: #00ffff;">end</span>
-</pre>
 
-<ul>
-<li>在emacs下面处于gdb-script模式
-</li>
-<li>#用来做comment
-</li>
-<li>函数调用都需要设置返回值
-</li>
-</ul>
+<pre class="example">#-*- gdb-script -*-
+#函数定义
+define function
+    #some comment
+    set $buf=malloc(8192)
+    set $ret=printf("hello,%s\n","world")
+    set $ret=free($buf)
+end
+#函数文档
+document function
+    #some comment
+    a gdb plugin example
+end
+</pre>
 
 
 </div>
