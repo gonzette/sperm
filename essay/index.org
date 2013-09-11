@@ -214,7 +214,9 @@ file:./images/valve-logo.jpg 放眼未来，自由想象(Open your mind, Open yo
      - [[file:note/ymy-travel.org][圆明园游]]
      - [[file:./note/my-amoi-n821.org][我的夏新N821]]
      - [[file:./note/guilin-travel.org][桂林山水甲天下]]
-     - [[file:./note/virgin-swimming.org][初次游泳]] 
+     - [[file:./note/virgin-swimming.org][初次游泳]]
+     - [[file:./note/virgin-10km-running.org][初次10km跑步]]
+
    - 记录
      - [[file:./note/todo.org][todo]] 记录自己日常需要完成的事情。
      - [[file:note/fun.org][挺搞笑的]]
