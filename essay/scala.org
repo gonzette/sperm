@@ -36,6 +36,8 @@ res1: scala.collection.immutable.Range.Inclusive = Range(2, 3, 4)
 
 *TODO(dirlt):可以学习一下这些原始类型提供的方法* 
 
+*NOTE(dirlt):实际上scala内部提供了隐式转换到其他类来提供扩展方法的，比如将Int->RichInt*
+
 --------------------
 数组类型则是 Array[<type>] 比如
    - Array[String]
