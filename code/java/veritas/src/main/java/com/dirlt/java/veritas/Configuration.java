@@ -17,6 +17,8 @@ public class Configuration {
     private String backendNodes = "localhost:12345";
     private int cpuThreadNumber = 16;
     private int cpuQueueSize = 4096;
+    private int cacheExpireTime = 3600;
+    private int cacheMaxCapacity = 2 * 1024 * 1024;
     private int acceptIOThreadNumber = 4;
     private int ioThreadNumber = 16;
     private int timeout = 10 * 1000; // ms.
@@ -27,6 +29,7 @@ public class Configuration {
     private String serviceName = "veritas";
     private boolean debug = true;
     private boolean stat = true;
+    private boolean cache = true;
     private boolean responseWithBestEffort = true;
 
     // table info.
@@ -52,6 +55,10 @@ public class Configuration {
                 cpuThreadNumber = Integer.valueOf(arg.substring("--cpu-thread-number=".length()));
             } else if (arg.startsWith("--cpu-queue-size=")) {
                 cpuQueueSize = Integer.valueOf(arg.substring("--cpu-queue-size=".length()));
+            } else if (arg.startsWith("--cache-expire-time=")) {
+                cacheExpireTime = Integer.valueOf(arg.substring("--cache-expire-time=".length()));
+            } else if (arg.startsWith("--cache-max-capacity=")) {
+                cacheMaxCapacity = Integer.valueOf(arg.substring("--cache-max-capacity=".length()));
             } else if (arg.startsWith("--accept-io-thread-number=")) {
                 acceptIOThreadNumber = Integer.valueOf(arg.substring("--accept-io-thread-number=".length()));
             } else if (arg.startsWith("--io-thread-number=")) {
@@ -80,6 +87,8 @@ public class Configuration {
                 debug = Boolean.valueOf(arg.substring("--debug=".length()));
             } else if (arg.startsWith("--stat=")) {
                 stat = Boolean.valueOf(arg.substring("--stat=".length()));
+            } else if (arg.startsWith("--cache=")) {
+                cache = Boolean.valueOf(arg.substring("--cache=".length()));
             } else if (arg.startsWith("--response-with-best-effort=")) {
                 responseWithBestEffort = Boolean.valueOf(arg.substring("--response-with-best-effort=".length()));
             } else if (arg.startsWith("--kv=")) {
@@ -101,6 +110,8 @@ public class Configuration {
         System.out.println("\t--backend-nodes # default localhost:12345");
         System.out.println("\t--cpu-thread-number # default 16");
         System.out.println("\t--cpu-queue-size # default 4096");
+        System.out.println("\t--cache-expire-time # default 3600(s)");
+        System.out.println("\t--cache-max-capacity # default 2 * 1024 * 1024");
         System.out.println("\t--accept-io-thread-number # default 4");
         System.out.println("\t--io-thread-number # default 16");
         System.out.println("\t--timeout # default 10 * 1000(ms)");
@@ -120,16 +131,18 @@ public class Configuration {
         System.out.println("\t--response-with-best-effort # default true");
         System.out.println("\t--debug # default true");
         System.out.println("\t--stat # default true");
+        System.out.println("\t--cache # default true");
         System.out.println("\t--kv=<key>:<value> # key value pair");
     }
 
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append(String.format("stat=%s, debug=%s\n", isStat(), isDebug()));
+        sb.append(String.format("stat=%s, cache=%s, debug=%s\n", isStat(), isCache(), isDebug()));
         sb.append(String.format("ip=%s, port=%d, backlog=%d\n", getIp(), getPort(), getBacklog()));
         sb.append(String.format("backend-nodes=%s\n", getBackendNodes()));
         sb.append(String.format("cpu-thread-number=%d, cpu-queue-size=%d\n", getCpuThreadNumber(), getCpuQueueSize()));
+        sb.append(String.format("cache-expire-time=%d(s), cache-max-capacity=%d\n", getCacheExpireTime(), getCacheMaxCapacity()));
         sb.append(String.format("service-name=%s\n", getServiceName()));
         sb.append(String.format("accept-io-thread-number=%d, io-thread-number=%d\n",
                 getAcceptIOThreadNumber(), getIoThreadNumber()));
@@ -171,6 +184,14 @@ public class Configuration {
 
     public int getCpuQueueSize() {
         return cpuQueueSize;
+    }
+
+    public int getCacheExpireTime() {
+        return cacheExpireTime;
+    }
+
+    public int getCacheMaxCapacity() {
+        return cacheMaxCapacity;
     }
 
     public int getAcceptIOThreadNumber() {
@@ -231,6 +252,10 @@ public class Configuration {
 
     public boolean isStat() {
         return stat;
+    }
+
+    public boolean isCache() {
+        return cache;
     }
 
     public Map<String, String> getKv() {

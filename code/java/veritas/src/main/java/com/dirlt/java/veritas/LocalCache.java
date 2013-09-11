@@ -1,4 +1,4 @@
-package com.dirlt.java.FastHBaseRest;
+package com.dirlt.java.veritas;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class LocalCache {
     // singleton.
-    private static Cache<String, byte[]> cache = null;
+    private static Cache<String, Object> cache = null;
     private static LocalCache instance = null;
 
     public static void init(Configuration configuration) {
@@ -33,11 +33,11 @@ public class LocalCache {
         return instance;
     }
 
-    public byte[] get(String k) {
+    public Object get(String k) {
         return cache.getIfPresent(k);
     }
 
-    public void set(String k, byte[] b) {
+    public void set(String k, Object b) {
         cache.put(k, b);
     }
 

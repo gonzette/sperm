@@ -14,6 +14,8 @@ java -server \
     --backend-nodes=dp0:12345,dp4:12345 \
     --cpu-thread-number=1024 \
     --cpu-queue-size=4096 \
+    --cache-expire-time=1200 \
+    --cache-max-capacity=2097152 \
     --accept-io-thread-number=4 \
     --io-thread-number=32 \
     --timeout=300 \

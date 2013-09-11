@@ -91,6 +91,7 @@ public class VeritasServer {
         StatStore.init(configuration);
         ProxyConnector.init(configuration);
         CpuWorkerPool.init(configuration);
+        LocalCache.init(configuration);
         runHttpServer(configuration);
     }
 }

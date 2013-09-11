@@ -109,6 +109,8 @@ public class AsyncClient implements Runnable {
     public MessageProtos1.ReadResponse proxyInfoResponse;
     public MessageProtos1.ReadResponse.Builder proxyInfoResponseBuilder;
     public String umengId;
+    public String proxyIdCacheKey;
+    public String proxyInfoCacheKey;
     public long requestTimestamp;
     public long requestProxyIdTimestamp;
     public int retryProxyId;
@@ -377,10 +379,38 @@ public class AsyncClient implements Runnable {
         return timeout - kCPUReservedTimeSlice;
     }
 
+    private static final String kSep = String.format("%c", 0x0);
+
+    public String makeProxyIdCacheKey() {
+        StringBuilder sb = new StringBuilder();
+        JSONObject object = (JSONObject) veritasRequest;
+        for (String key : kDeviceIdKeys) {
+            Object v = object.get(key);
+            if (v == null) {
+                continue;
+            }
+            sb.append(key + "_" + v);
+            sb.append(",");
+        }
+        return sb.toString();
+    }
+
     public void handleProxyRequestId() {
         debug("veritas handle proxy request id");
         if (retryProxyId == 0) {
             requestProxyIdTimestamp = System.currentTimeMillis();
+            // do cache.
+            if (configuration.isCache()) {
+                proxyIdCacheKey = makeProxyIdCacheKey();
+                System.out.println(proxyIdCacheKey);
+                Object x = LocalCache.getInstance().get(proxyIdCacheKey);
+                if (x != null) {
+                    umengId = (String) x;
+                    code = Status.kProxyRequestInfo;
+                    run();
+                    return;
+                }
+            }
         }
         // check timeout.
         long timeout = calcRequestTimeout(retryProxyId);
@@ -479,6 +509,9 @@ public class AsyncClient implements Runnable {
             return;
         }
         umengId = umid;
+        if (configuration.isCache()) {
+            LocalCache.getInstance().set(proxyIdCacheKey, umengId);
+        }
         // update metric.
         StatStore.getInstance().updateClock(StatStore.ClockFieldName.kProxyId, System.currentTimeMillis() - requestProxyIdTimestamp);
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyIdResponseBytes, size);
@@ -487,10 +520,26 @@ public class AsyncClient implements Runnable {
         run();
     }
 
+    public String makeProxyInfoCacheKey() {
+        String req = (String) ((JSONObject) veritasRequest).get(kRequestTypeKey);
+        return umengId + 0x0 + req;
+    }
+
     public void handleProxyRequestInfo() {
         debug("veritas handle proxy request info");
         if (retryProxyInfo == 0) {
             requestProxyInfoTimestamp = System.currentTimeMillis();
+            if (configuration.isCache()) {
+                proxyInfoCacheKey = makeProxyInfoCacheKey();
+                Object x = LocalCache.getInstance().get(proxyInfoCacheKey);
+                if (x != null) {
+                    // NOTE(dirlt): reqid may not change.
+                    veritasResponse = x;
+                    code = Status.kResponse;
+                    run();
+                    return;
+                }
+            }
         }
         // check timeout.
         long timeout = calcRequestTimeout(retryProxyInfo);
@@ -564,6 +613,7 @@ public class AsyncClient implements Runnable {
         proxyInfoResponseBuilder.clear();
         // build response.
         JSONObject object = new JSONObject();
+        boolean doCache = true;
         if (!proxyInfoResponse.getError()) {
             JSONObject content = new JSONObject();
             boolean ok = true;
@@ -582,6 +632,7 @@ public class AsyncClient implements Runnable {
                         if (!configuration.isResponseWithBestEffort()) {
                             object.put(kErrorCodeKey, "proxy hbase content = " + e.toString());
                             ok = false;
+                            doCache = false;
                             break;
                         }
                     }
@@ -595,6 +646,7 @@ public class AsyncClient implements Runnable {
             }
         } else {
             object.put(kErrorCodeKey, proxyInfoResponse.getMessage());
+            doCache = false;
         }
         object.put(kUmengIdKey, umengId);
         // fill request id.
@@ -603,6 +655,9 @@ public class AsyncClient implements Runnable {
             object.put(kRequestIdKey, origin.get(kRequestIdKey));
         }
         veritasResponse = object;
+        if (configuration.isCache() && doCache) {
+            LocalCache.getInstance().set(proxyInfoCacheKey, veritasResponse);
+        }
         // update metric.
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kProxyInfoResponseBytes, size);
         StatStore.getInstance().updateClock(StatStore.ClockFieldName.kProxyInfo, System.currentTimeMillis() - requestProxyInfoTimestamp);
