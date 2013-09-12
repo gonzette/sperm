@@ -40,6 +40,16 @@ static inline void set_ip_reuseaddr(int fd) {
   }
 }
 
+static inline int get_socket_error(int fd) {
+  int value = 0;
+  socklen_t value_len = sizeof(value);
+  if(getsockopt(fd, SOL_SOCKET, SO_ERROR, &value, &value_len) != 0) {
+    SPERM_WARNING("getsockopt(%d,SOL_SOCKET,SO_ERROR) failed(%s)", fd, SERRNO);
+    return 1; // error occurs.
+  }
+  return value;
+}
+
 static inline int tcp_accept(int fd) {
 again:
   int sock = accept(fd, NULL, NULL);

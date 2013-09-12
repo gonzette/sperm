@@ -284,8 +284,10 @@ void AsyncSocket::Client::onComplete(AsyncContext* ctx_) {
       if(ctx->isTimeout()) {
         ctx->onConnectTimeout();
       } else {
-        tcp_connect(ctx->fd(), ctx->ip_.c_str(), ctx->port_);
-        assert(code != 1 && (code == 0 || code == -1));
+        // NOTE(dirlt): not right to connect again.
+        // code = tcp_connect(ctx->fd(), ctx->ip_.c_str(), ctx->port_);
+        // assert(code != 1 && (code == 0 || code == -1));
+        code = get_socket_error(ctx->fd());
         if(code == 0) {
           ctx->onConnected();
         } else {
