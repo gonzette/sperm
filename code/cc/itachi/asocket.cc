@@ -224,10 +224,10 @@ int AsyncSocket::send(Message* msg, int timeout_ms) {
 }
 
 #define ITACHI_WITHOUT_CODE() do {                             \
-    SPERM_WARNING("%s",__PRETTY_FUNCTION__);            \
-    release();                                          \
+    SPERM_WARNING("%s",__PRETTY_FUNCTION__);                   \
+    release();                                                 \
   }while(0)
-#define ITACHI_WITH_CODE()  do {                                               \
+#define ITACHI_WITH_CODE()  do {                                        \
     SPERM_WARNING("%s(%s)",__PRETTY_FUNCTION__,SERRNO2(code));          \
     release();                                                          \
   }while(0)
