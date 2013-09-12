@@ -42,8 +42,8 @@
    - *Don't build infrastructure just for its own sake:*
      - Identify common needs and address them
      - Don't imagine unlikely potential needs that aren't really there
-     - Best approach: use your own infrastructure (especially at first!)
-       - (much more rapid feedback about what works, what doesn't) 
+   - *Best approach: use your own infrastructure (especially at first!)*
+     - (much more rapid feedback about what works, what doesn't) 
    - *If not possible, at least work very closely with initial client team*
      - ideally sit within 50 feet of each other
      - keep other potential clients needs in mind, but get system 
