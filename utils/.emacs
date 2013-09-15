@@ -376,49 +376,46 @@
 ;; file:projects.org::some words # text search in Org file1
 ;; file:projects.org::*task title # heading search in Org file
 ;; mailto:adent@galaxy.net Mail link
+
 (setq load-path (cons "~/.emacs.d/org-7.9.2/" load-path))
-;; (setq load-path (cons "~/.emacs.d/org-8.0.6/" load-path))
 (require 'org-install)
 (require 'org-publish)
 
-;; (define-key global-map "\C-ca" 'org-agenda)
-;; (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (add-hook 'org-mode-hook 'turn-on-font-lock)
 (add-hook 'org-mode-hook 
           (lambda () (setq truncate-lines nil)))
 (setq org-log-done t)
-;;(setq org-agenta-files (file-expand-wildcards "~/github/sperm/essay/*.org"))
-;;(setq org-agenta-files "~/github/sperm/essay/plan.org")
+
+;; (define-key global-map "\C-ca" 'org-agenda)
+;; (setq org-agenta-files "~/github/sperm/essay/note/todo.org")
+
+;; http://orgmode.org/manual/Publishing-options.html
 (setq org-export-have-math nil)
 (setq org-use-sub-superscripts (quote {}))
 (setq org-export-author-info nil)
 (setq org-html-preamble nil)
 (setq org-html-postamble nil)
+;; (setq org-export-html-style-include-default nil)
+(setq org-export-html-style-include-scripts nil)
 (setq org-publish-project-alist
       '(("essay"
          :base-directory "~/github/sperm/essay"
          :publishing-directory "~/github/sperm/www/"
          :section-numbers 't
 	 :recursive nil
-	 :publishing-function org-publish-org-to-html
-	 :html-preamble nil
-	 :html-postamble nil	 
 	 :author "dirtysalt"
          :email "dirtysalt at gmail dot com"
-	 :style "<link rel=\"stylesheet\" type=\"text/css\" href=\"./css/site-plain.css\" />"
+	 :style "<link rel=\"stylesheet\" type=\"text/css\" href=\"./css/site.css\" />"
          :table-of-contents 't)
         ("note"
          :base-directory "~/github/sperm/essay/note"
          :publishing-directory "~/github/sperm/www/note"
          :section-numbers 't
 	 :recursive nil
-	 :publishing-function org-publish-org-to-html
-	 :html-preamble nil
-	 :html-postamble nil
 	 :author "dirtysalt"
 	 :email "dirtysalt at gmail dot com"
-	 :style "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/site-plain.css\" />"
+	 :style "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/site.css\" />"
          :table-of-contents 't)
 	("blog" :components ("essay" "note"))))
 
