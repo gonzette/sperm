@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="jni"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:56:01 CST"/>
+<meta name="generated" content="2013-09-15 15:19:16 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -196,7 +196,7 @@
 public class Hello {
   private static native void run();
   public static void main(String[] args) {
-    System.loadLibrary(<span style="color: #ffff00;">"Hello"</span>);
+    System.loadLibrary(<span class="org-string">"Hello"</span>);
     run();
   }
 }
@@ -217,7 +217,7 @@ public class Hello {
 #ifndef _Included_Hello
 #define _Included_Hello
 #ifdef __cplusplus
-extern <span style="color: #ffff00;">"C"</span> {
+extern <span class="org-string">"C"</span> {
 #endif
 /*
  * Class:     Hello
@@ -247,10 +247,10 @@ JNIEXPORT void JNICALL Java_Hello_run
  */
 
 #include &lt;cstdio&gt;
-#include <span style="color: #ffff00;">"Hello.h"</span>
+#include <span class="org-string">"Hello.h"</span>
 
 JNIEXPORT void JNICALL Java_Hello_run  (JNIEnv * env, jclass cls)
-    printf(<span style="color: #ffff00;">"Hello,World\n"</span>);
+    printf(<span class="org-string">"Hello,World\n"</span>);
 }
 
 </pre>
@@ -633,7 +633,7 @@ void destroy() {
 int main() {  
   JavaVMInitArgs vm_args;
   JavaVMOption options[1];  
-  options[0].optionString = <span style="color: #ffff00;">"-Djava.class.path=."</span>;
+  options[0].optionString = <span class="org-string">"-Djava.class.path=."</span>;
   vm_args.version = JNI_VERSION_1_6;
   vm_args.options = options;
   vm_args.nOptions = 1;
@@ -643,26 +643,26 @@ int main() {
   jint res = JNI_CreateJavaVM(&amp;jvm, (void**)&amp;env, &amp;vm_args);
 
   if (res &lt; 0) { // can't create jvm.
-    fprintf(stderr, <span style="color: #ffff00;">"Can't create Java VM\n"</span>);
+    fprintf(stderr, <span class="org-string">"Can't create Java VM\n"</span>);
     exit(1);
   }
 
-  jclass cls = env-&gt;FindClass(<span style="color: #ffff00;">"Hello"</span>);
+  jclass cls = env-&gt;FindClass(<span class="org-string">"Hello"</span>);
   if (cls == NULL) { // can't find class.
     destroy();
   }
 
-  jmethodID mid = env-&gt;GetStaticMethodID(cls, <span style="color: #ffff00;">"main"</span>,
-                                         <span style="color: #ffff00;">"([Ljava/lang/String;)V"</span>);
+  jmethodID mid = env-&gt;GetStaticMethodID(cls, <span class="org-string">"main"</span>,
+                                         <span class="org-string">"([Ljava/lang/String;)V"</span>);
   if (mid == NULL) { // no main method.
     destroy();
   }
 
-  jstring jstr = env-&gt;NewStringUTF(<span style="color: #ffff00;">" from C!"</span>);
+  jstring jstr = env-&gt;NewStringUTF(<span class="org-string">" from C!"</span>);
   if (jstr == NULL) {
     destroy();
   }
-  jclass stringClass = env-&gt;FindClass(<span style="color: #ffff00;">"java/lang/String"</span>);
+  jclass stringClass = env-&gt;FindClass(<span class="org-string">"java/lang/String"</span>);
   jobjectArray args = env-&gt;NewObjectArray(1, stringClass, jstr);
   if (args == NULL) {
     destroy();
@@ -914,7 +914,7 @@ Accessing Objects
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:56:01 CST</p>
+<p class="date">Date: 2013-09-15 15:19:16 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

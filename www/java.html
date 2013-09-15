@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="java"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:56:01 CST"/>
+<meta name="generated" content="2013-09-15 15:19:17 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -165,7 +165,7 @@
         }
       }
     }
-    System.out.println(i+<span style="color: #ffff00;">","</span>+j);
+    System.out.println(i+<span class="org-string">","</span>+j);
   }
 }
 </pre>
@@ -207,7 +207,7 @@ java断言可以指定检查表达式以及出错表达式，asser 条件：表�
 
 <pre class="src src-Java">class X{  
   public static void main(String[] args) {
-    assert 0==1 : <span style="color: #ffff00;">"omg"</span>;
+    assert 0==1 : <span class="org-string">"omg"</span>;
   }
 }
 </pre>
@@ -271,7 +271,7 @@ java断言可以指定检查表达式以及出错表达式，asser 条件：表�
 
 <pre class="src src-Java">class App {
   static {
-    System.out.println(<span style="color: #ffff00;">"hello,world"</span>);
+    System.out.println(<span class="org-string">"hello,world"</span>);
     System.exit(0);
   }
 }
@@ -393,7 +393,7 @@ class X$Y extends java.lang.Object{
   void foo(final int y){
     class Y{
       void foo(int z){
-        System.out.println(x+<span style="color: #ffff00;">","</span>+y+<span style="color: #ffff00;">","</span>+z);
+        System.out.println(x+<span class="org-string">","</span>+y+<span class="org-string">","</span>+z);
       }
     }
     Y iy=new Y();
@@ -436,7 +436,7 @@ class X$Y extends java.lang.Object{
     Thread y=new Thread() { // &#36825;&#20010;&#22320;&#26041;&#38656;&#35201;&#20256;&#20837;&#22522;&#31867;&#30340;&#26500;&#36896;&#21442;&#25968;&#12290;
         public void run() {
           for(int i=0;i&lt;10;i++){
-            System.out.println(<span style="color: #ffff00;">"run..."</span>);
+            System.out.println(<span class="org-string">"run..."</span>);
           }
         }
       };
@@ -733,13 +733,13 @@ class X{
     final Runnable r=new Runnable() {
         public void run() {
           for(int i=0;i&lt;10;i++){
-            System.out.println(<span style="color: #ffff00;">"run..."</span>);
+            System.out.println(<span class="org-string">"run..."</span>);
           }
         }
       };
     Runnable proxy=(Runnable)Proxy.newProxyInstance(r.getClass().getClassLoader(),new Class[]{Runnable.class}, new InvocationHandler() {
         public Object invoke(Object proxy, Method m, Object[] args){
-          System.out.println(<span style="color: #ffff00;">"entering..."</span>);
+          System.out.println(<span class="org-string">"entering..."</span>);
           try {
             return m.invoke(r,args);
           } catch(Exception ex){
@@ -1155,7 +1155,7 @@ How Does HPROF Work?
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:56:01 CST</p>
+<p class="date">Date: 2013-09-15 15:19:17 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="muduo"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:55:28 CST"/>
+<meta name="generated" content="2013-09-15 15:18:42 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -371,12 +371,12 @@ void ThreadPool::runInThread()
     eventHandling_ = true;
     if ((revents_ &amp; POLLHUP) &amp;&amp; !(revents_ &amp; POLLIN))
     {
-        LOG_WARN &lt;&lt; <span style="color: #ffff00;">"Channel::handle_event() POLLHUP"</span>;
+        LOG_WARN &lt;&lt; <span class="org-string">"Channel::handle_event() POLLHUP"</span>;
         if (closeCallback_) closeCallback_();
     }
     if (revents_ &amp; POLLNVAL)
     {
-        LOG_WARN &lt;&lt; <span style="color: #ffff00;">"Channel::handle_event() POLLNVAL"</span>;
+        LOG_WARN &lt;&lt; <span class="org-string">"Channel::handle_event() POLLNVAL"</span>;
     }
     if (revents_ &amp; (POLLERR | POLLNVAL))
     {
@@ -917,7 +917,7 @@ TcpConnection::connectEstablished,之后的所有操作都交给TcpConnection了
     loop_-&gt;assertInLoopThread();
     EventLoop* ioLoop = threadPool_-&gt;getNextLoop();
     char buf[32];
-    snprintf(buf, sizeof buf, <span style="color: #ffff00;">":%s#%d"</span>, hostport_.c_str(), nextConnId_);
+    snprintf(buf, sizeof buf, <span class="org-string">":%s#%d"</span>, hostport_.c_str(), nextConnId_);
     ++nextConnId_;
     string connName = name_ + buf;
     // FIXME poll with zero timeout to double confirm the new connection
@@ -943,7 +943,7 @@ TcpConnection::connectEstablished轮询地丢到每个线程里面去完成。�
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:55:28 CST</p>
+<p class="date">Date: 2013-09-15 15:18:42 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

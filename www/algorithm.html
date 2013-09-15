@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="algorithm"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:56:38 CST"/>
+<meta name="generated" content="2013-09-15 15:19:53 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -260,7 +260,7 @@ const char *str;
   // lomagic = 0x0101010101010101L
 
   /* Bits 31, 24, 16, and 8 of this number are zero.  Call these bits
-   * the <span style="color: #ffff00;">"holes."</span>  Note that there is a hole just to the left of
+   * the <span class="org-string">"holes."</span>  Note that there is a hole just to the left of
    * each byte, with an extra at the end:
    *
    * bits:  01111110 11111110 11111110 11111111
@@ -592,7 +592,7 @@ Another interesting thing about this algorithm is that it introduces two paramet
 
 
 <pre class="src src-Python">def trailing_zeroes(num):
-  <span style="color: #ffff00;">"""Counts the number of trailing 0 bits in num."""</span>
+  <span class="org-string">"""Counts the number of trailing 0 bits in num."""</span>
   if num == 0:
     return 32 # Assumes 32 bit integer inputs!
   p = 0
@@ -601,12 +601,12 @@ Another interesting thing about this algorithm is that it introduces two paramet
   return p
 
 def estimate_cardinality(values, k):
-  <span style="color: #ffff00;">"""Estimates the number of unique elements in the input set values.</span>
+  <span class="org-string">"""Estimates the number of unique elements in the input set values.</span>
 
-<span style="color: #ffff00;">  Arguments:</span>
-<span style="color: #ffff00;">    values: An iterator of hashable elements to estimate the cardinality of.</span>
-<span style="color: #ffff00;">    k: The number of bits of hash to use as a bucket number; there will be 2**k buckets.</span>
-<span style="color: #ffff00;">  """</span>
+<span class="org-string">  Arguments:</span>
+<span class="org-string">    values: An iterator of hashable elements to estimate the cardinality of.</span>
+<span class="org-string">    k: The number of bits of hash to use as a bucket number; there will be 2**k buckets.</span>
+<span class="org-string">  """</span>
   num_buckets = 2 ** k
   max_zeroes = [0] * num_buckets
   for value in values:
@@ -781,7 +781,7 @@ a1 a1 a1 a2 a2 a2 &hellip; an an an X
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:56:38 CST</p>
+<p class="date">Date: 2013-09-15 15:19:53 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

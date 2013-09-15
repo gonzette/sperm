@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="netty"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:55:27 CST"/>
+<meta name="generated" content="2013-09-15 15:18:41 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -612,7 +612,7 @@ public interface Timeout {
     roundDuration = tickDuration * wheel.length;
 
     workerThread = threadFactory.newThread(new ThreadRenamingRunnable(
-                    worker, <span style="color: #ffff00;">"Hashed wheel timer #"</span> + id.incrementAndGet())); // &#26500;&#36896;&#32447;&#31243;&#65292;&#20294;&#26159;&#27880;&#24847;&#27809;&#26377;&#21551;&#21160;
+                    worker, <span class="org-string">"Hashed wheel timer #"</span> + id.incrementAndGet())); // &#26500;&#36896;&#32447;&#31243;&#65292;&#20294;&#26159;&#27880;&#24847;&#27809;&#26377;&#21551;&#21160;
 
     // Misuse check
     misuseDetector.increase(); // &#26816;&#27979;&#21019;&#24314;&#23454;&#20363;&#25968;&#37327;
@@ -673,7 +673,7 @@ public void start() {
     case 1:
         break;
     case 2:
-        throw new IllegalStateException(<span style="color: #ffff00;">"cannot be started once stopped"</span>);
+        throw new IllegalStateException(<span class="org-string">"cannot be started once stopped"</span>);
     default:
         throw new Error();
     }
@@ -840,7 +840,7 @@ private void notifyExpiredTimeouts(
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:55:27 CST</p>
+<p class="date">Date: 2013-09-15 15:18:41 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

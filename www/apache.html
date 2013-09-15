@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="apache"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:56:36 CST"/>
+<meta name="generated" content="2013-09-15 15:19:52 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -224,7 +224,7 @@ class HTTPDownloadFileLimitSpeed(object):
         self._conn.close()
 
 def callback_upload(self):
-    print(<span style="color: #ffff00;">"max_speed:%lf,sent_bytes:%lf,seconds:%lf,unit:%d"</span>%(self._max_speed,
+    print(<span class="org-string">"max_speed:%lf,sent_bytes:%lf,seconds:%lf,unit:%d"</span>%(self._max_speed,
                                                               self._already_sent_bytes,
                                                               self._elapsed_seconds,
                                                               self._unit))
@@ -233,7 +233,7 @@ def callback_upload(self):
             self._max_speed*=8
 
 def callback_download(self):
-    print(<span style="color: #ffff00;">"max_speed:%lf,recv_bytes:%lf,seconds:%lf,unit:%d"</span>%(self._max_speed,
+    print(<span class="org-string">"max_speed:%lf,recv_bytes:%lf,seconds:%lf,unit:%d"</span>%(self._max_speed,
                                                               self._already_recv_bytes,
                                                               self._elapsed_seconds,
                                                               self._unit))
@@ -242,7 +242,7 @@ def callback_download(self):
             self._max_speed*=8
 
 client=HTTPUploadFileLimitSpeed('localhost',8080,timeout=10,max_speed=128,send_unit=128)
-client.set_upload_file_params(<span style="color: #ffff00;">"/uploads/test.py"</span>,'./test.py')
+client.set_upload_file_params(<span class="org-string">"/uploads/test.py"</span>,'./test.py')
 res=client.perform(callback_upload)
 data=res.read()
 print(res.getheaders())
@@ -253,7 +253,7 @@ print(data)
 client.close()
 
 client=HTTPDownloadFileLimitSpeed('localhost',8080,timeout=10,max_speed=128,recv_unit=128)
-client.set_download_file_params(<span style="color: #ffff00;">"/uploads/test.py"</span>,'./test.py')
+client.set_download_file_params(<span class="org-string">"/uploads/test.py"</span>,'./test.py')
 res=client.perform(callback_download)
 print(res.getheaders())
 print(res.version)
@@ -270,7 +270,7 @@ client.close()
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:56:36 CST</p>
+<p class="date">Date: 2013-09-15 15:19:52 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="web-misc"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:54:56 CST"/>
+<meta name="generated" content="2013-09-15 15:18:11 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -182,9 +182,9 @@ WordPress会自动将单引号转换成全角单引号。这样就导致浏览�
 
         wp_footer();
 ?&gt;
-&lt;script type=<span style="color: #ffff00;">"text/javascript"</span>&gt;
-var _bdhmProtocol = ((<span style="color: #ffff00;">"https:"</span> == document.location.protocol) ? <span style="color: #ffff00;">" https://"</span> : <span style="color: #ffff00;">" http://"</span>);
-document.write(unescape(<span style="color: #ffff00;">"%3Cscript src='"</span> + _bdhmProtocol + <span style="color: #ffff00;">"hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"</span>));
+&lt;script type=<span class="org-string">"text/javascript"</span>&gt;
+var _bdhmProtocol = ((<span class="org-string">"https:"</span> == document.location.protocol) ? <span class="org-string">" https://"</span> : <span class="org-string">" http://"</span>);
+document.write(unescape(<span class="org-string">"%3Cscript src='"</span> + _bdhmProtocol + <span class="org-string">"hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"</span>));
 &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
@@ -241,7 +241,7 @@ import base64
 username='username'
 password='password'
 #os.system('curl -u %s:%s http://api.weibo.com/2/statuses/public_timeline.json?source=1144364821'%(username,password))
-os.system('curl -H Authorization:<span style="color: #ffff00;">"Basic %s"</span> http://api.weibo.com/2/statuses/public_timeline.json?source=1144364821'%(
+os.system('curl -H Authorization:<span class="org-string">"Basic %s"</span> http://api.weibo.com/2/statuses/public_timeline.json?source=1144364821'%(
         base64.b64encode(username+':'+password)))
 </pre>
 
@@ -411,12 +411,12 @@ def _encode_multipart(**kw):
             if n != (-1):
                 ext = filename[n:].lower()
             content = v.read()
-            data.append('Content-Disposition: form-data; name=<span style="color: #ffff00;">"%s"</span>; filename=<span style="color: #ffff00;">"hidden"</span>' % k)
+            data.append('Content-Disposition: form-data; name=<span class="org-string">"%s"</span>; filename=<span class="org-string">"hidden"</span>' % k)
             data.append('Content-Length: %d' % len(content))
             data.append('Content-Type: %s\r\n' % _guess_content_type(ext))
             data.append(content)
         else:
-            data.append('Content-Disposition: form-data; name=<span style="color: #ffff00;">"%s"</span>\r\n' % k)
+            data.append('Content-Disposition: form-data; name=<span class="org-string">"%s"</span>\r\n' % k)
             data.append(v.encode('utf-8') if isinstance(v, unicode) else v)
     data.append('--%s--\r\n' % boundary)
     return '\r\n'.join(data), boundary
@@ -528,7 +528,7 @@ class APIClient(object):
 
     def request_access_token(self, code, redirect_uri=None):
         '''
-        return access token as object: {<span style="color: #ffff00;">"access_token"</span>:<span style="color: #ffff00;">"your-access-token"</span>,<span style="color: #ffff00;">"expires_in"</span>:12345678}, expires_in is standard unix-epoch-time
+        return access token as object: {<span class="org-string">"access_token"</span>:<span class="org-string">"your-access-token"</span>,<span class="org-string">"expires_in"</span>:12345678}, expires_in is standard unix-epoch-time
         '''
         redirect = redirect_uri if redirect_uri else self.redirect_uri
         if not redirect:
@@ -618,7 +618,7 @@ max-requests = 128
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:54:56 CST</p>
+<p class="date">Date: 2013-09-15 15:18:11 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

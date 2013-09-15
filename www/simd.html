@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="simd"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:55:10 CST"/>
+<meta name="generated" content="2013-09-15 15:18:25 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -296,102 +296,102 @@ SIMD全称是Single Instruction Multiple Data,即单指令多数据,
 int check_support_mmx(){
     int res=0;
     __asm__ __volatile__(
-        <span style="color: #ffff00;">"movl $1,%%eax\n\t"</span>
-        <span style="color: #ffff00;">"cpuid\n\t"</span>
-        <span style="color: #ffff00;">"test $0x800000,%%edx\n\t"</span>
-        <span style="color: #ffff00;">"jz 1f\n\t"</span>
-        <span style="color: #ffff00;">"movl $1,%0\n\t"</span>
-        <span style="color: #ffff00;">"1:\n\t"</span>
-        :<span style="color: #ffff00;">"=m"</span>(res)
-        ::<span style="color: #ffff00;">"eax"</span>,<span style="color: #ffff00;">"edx"</span>);
+        <span class="org-string">"movl $1,%%eax\n\t"</span>
+        <span class="org-string">"cpuid\n\t"</span>
+        <span class="org-string">"test $0x800000,%%edx\n\t"</span>
+        <span class="org-string">"jz 1f\n\t"</span>
+        <span class="org-string">"movl $1,%0\n\t"</span>
+        <span class="org-string">"1:\n\t"</span>
+        :<span class="org-string">"=m"</span>(res)
+        ::<span class="org-string">"eax"</span>,<span class="org-string">"edx"</span>);
     return res;
 }
 int check_support_sse(){
     int res=0;
     __asm__ __volatile__(
-        <span style="color: #ffff00;">"movl $1,%%eax\n\t"</span>
-        <span style="color: #ffff00;">"cpuid\n\t"</span>
-        <span style="color: #ffff00;">"test $0x02000000,%%edx\n\t"</span>
-        <span style="color: #ffff00;">"jz 1f\n\t"</span>
-        <span style="color: #ffff00;">"movl $1,%0\n\t"</span>
-        <span style="color: #ffff00;">"1:\n\t"</span>
-        :<span style="color: #ffff00;">"=m"</span>(res)
-        ::<span style="color: #ffff00;">"eax"</span>,<span style="color: #ffff00;">"edx"</span>);
+        <span class="org-string">"movl $1,%%eax\n\t"</span>
+        <span class="org-string">"cpuid\n\t"</span>
+        <span class="org-string">"test $0x02000000,%%edx\n\t"</span>
+        <span class="org-string">"jz 1f\n\t"</span>
+        <span class="org-string">"movl $1,%0\n\t"</span>
+        <span class="org-string">"1:\n\t"</span>
+        :<span class="org-string">"=m"</span>(res)
+        ::<span class="org-string">"eax"</span>,<span class="org-string">"edx"</span>);
     return res;
 }
 int check_support_sse2(){
     int res=0;
     __asm__ __volatile__(
-        <span style="color: #ffff00;">"movl $1,%%eax\n\t"</span>
-        <span style="color: #ffff00;">"cpuid\n\t"</span>
-        <span style="color: #ffff00;">"test $0x04000000,%%edx\n\t"</span>
-        <span style="color: #ffff00;">"jz 1f\n\t"</span>
-        <span style="color: #ffff00;">"movl $1,%0\n\t"</span>
-        <span style="color: #ffff00;">"1:\n\t"</span>
-        :<span style="color: #ffff00;">"=m"</span>(res)
-        ::<span style="color: #ffff00;">"eax"</span>,<span style="color: #ffff00;">"edx"</span>);
+        <span class="org-string">"movl $1,%%eax\n\t"</span>
+        <span class="org-string">"cpuid\n\t"</span>
+        <span class="org-string">"test $0x04000000,%%edx\n\t"</span>
+        <span class="org-string">"jz 1f\n\t"</span>
+        <span class="org-string">"movl $1,%0\n\t"</span>
+        <span class="org-string">"1:\n\t"</span>
+        :<span class="org-string">"=m"</span>(res)
+        ::<span class="org-string">"eax"</span>,<span class="org-string">"edx"</span>);
     return res;
 }
 int check_support_sse3(){
     int res=0;
     __asm__ __volatile__(
-        <span style="color: #ffff00;">"movl $1,%%eax\n\t"</span>
-        <span style="color: #ffff00;">"cpuid\n\t"</span>
-        <span style="color: #ffff00;">"test $0x1,%%ecx\n\t"</span>
-        <span style="color: #ffff00;">"jz 1f\n\t"</span>
-        <span style="color: #ffff00;">"movl $1,%0\n\t"</span>
-        <span style="color: #ffff00;">"1:\n\t"</span>
-        :<span style="color: #ffff00;">"=m"</span>(res)
-        ::<span style="color: #ffff00;">"eax"</span>,<span style="color: #ffff00;">"edx"</span>);
+        <span class="org-string">"movl $1,%%eax\n\t"</span>
+        <span class="org-string">"cpuid\n\t"</span>
+        <span class="org-string">"test $0x1,%%ecx\n\t"</span>
+        <span class="org-string">"jz 1f\n\t"</span>
+        <span class="org-string">"movl $1,%0\n\t"</span>
+        <span class="org-string">"1:\n\t"</span>
+        :<span class="org-string">"=m"</span>(res)
+        ::<span class="org-string">"eax"</span>,<span class="org-string">"edx"</span>);
     return res;
 }
 int check_support_ssse3(){
     int res=0;
     __asm__ __volatile__(
-        <span style="color: #ffff00;">"movl $1,%%eax\n\t"</span>
-        <span style="color: #ffff00;">"cpuid\n\t"</span>
-        <span style="color: #ffff00;">"test $0x0200,%%ecx\n\t"</span>
-        <span style="color: #ffff00;">"jz 1f\n\t"</span>
-        <span style="color: #ffff00;">"movl $1,%0\n\t"</span>
-        <span style="color: #ffff00;">"1:\n\t"</span>
-        :<span style="color: #ffff00;">"=m"</span>(res)
-        ::<span style="color: #ffff00;">"eax"</span>,<span style="color: #ffff00;">"edx"</span>);
+        <span class="org-string">"movl $1,%%eax\n\t"</span>
+        <span class="org-string">"cpuid\n\t"</span>
+        <span class="org-string">"test $0x0200,%%ecx\n\t"</span>
+        <span class="org-string">"jz 1f\n\t"</span>
+        <span class="org-string">"movl $1,%0\n\t"</span>
+        <span class="org-string">"1:\n\t"</span>
+        :<span class="org-string">"=m"</span>(res)
+        ::<span class="org-string">"eax"</span>,<span class="org-string">"edx"</span>);
     return res;
 }
 int check_support_sse4_1(){
     int res=0;
     __asm__ __volatile__(
-        <span style="color: #ffff00;">"movl $1,%%eax\n\t"</span>
-        <span style="color: #ffff00;">"cpuid\n\t"</span>
-        <span style="color: #ffff00;">"test $0x80000,%%ecx\n\t"</span>
-        <span style="color: #ffff00;">"jz 1f\n\t"</span>
-        <span style="color: #ffff00;">"movl $1,%0\n\t"</span>
-        <span style="color: #ffff00;">"1:\n\t"</span>
-        :<span style="color: #ffff00;">"=m"</span>(res)
-        ::<span style="color: #ffff00;">"eax"</span>,<span style="color: #ffff00;">"edx"</span>);
+        <span class="org-string">"movl $1,%%eax\n\t"</span>
+        <span class="org-string">"cpuid\n\t"</span>
+        <span class="org-string">"test $0x80000,%%ecx\n\t"</span>
+        <span class="org-string">"jz 1f\n\t"</span>
+        <span class="org-string">"movl $1,%0\n\t"</span>
+        <span class="org-string">"1:\n\t"</span>
+        :<span class="org-string">"=m"</span>(res)
+        ::<span class="org-string">"eax"</span>,<span class="org-string">"edx"</span>);
     return res;
 }
 int check_support_sse4_2(){
     int res=0;
     __asm__ __volatile__(
-        <span style="color: #ffff00;">"movl $1,%%eax\n\t"</span>
-        <span style="color: #ffff00;">"cpuid\n\t"</span>
-        <span style="color: #ffff00;">"test $0x0100000,%%ecx\n\t"</span>
-        <span style="color: #ffff00;">"jz 1f\n\t"</span>
-        <span style="color: #ffff00;">"movl $1,%0\n\t"</span>
-        <span style="color: #ffff00;">"1:\n\t"</span>
-        :<span style="color: #ffff00;">"=m"</span>(res)
-        ::<span style="color: #ffff00;">"eax"</span>,<span style="color: #ffff00;">"edx"</span>);
+        <span class="org-string">"movl $1,%%eax\n\t"</span>
+        <span class="org-string">"cpuid\n\t"</span>
+        <span class="org-string">"test $0x0100000,%%ecx\n\t"</span>
+        <span class="org-string">"jz 1f\n\t"</span>
+        <span class="org-string">"movl $1,%0\n\t"</span>
+        <span class="org-string">"1:\n\t"</span>
+        :<span class="org-string">"=m"</span>(res)
+        ::<span class="org-string">"eax"</span>,<span class="org-string">"edx"</span>);
     return res;
 }
 int main(){
-    printf(<span style="color: #ffff00;">"MMX[%s]\n"</span>,check_support_mmx()?<span style="color: #ffff00;">"OK"</span>:<span style="color: #ffff00;">"FAILED"</span>);
-    printf(<span style="color: #ffff00;">"SSE[%s]\n"</span>,check_support_sse()?<span style="color: #ffff00;">"OK"</span>:<span style="color: #ffff00;">"FAILED"</span>);
-    printf(<span style="color: #ffff00;">"SSE2[%s]\n"</span>,check_support_sse2()?<span style="color: #ffff00;">"OK"</span>:<span style="color: #ffff00;">"FAILED"</span>);
-    printf(<span style="color: #ffff00;">"SSE3[%s]\n"</span>,check_support_sse3()?<span style="color: #ffff00;">"OK"</span>:<span style="color: #ffff00;">"FAILED"</span>);
-    printf(<span style="color: #ffff00;">"SSSE3[%s]\n"</span>,check_support_ssse3()?<span style="color: #ffff00;">"OK"</span>:<span style="color: #ffff00;">"FAILED"</span>);
-    printf(<span style="color: #ffff00;">"SSE4.1[%s]\n"</span>,check_support_sse4_1()?<span style="color: #ffff00;">"OK"</span>:<span style="color: #ffff00;">"FAILED"</span>);
-    printf(<span style="color: #ffff00;">"SSE4.2[%s]\n"</span>,check_support_sse4_2()?<span style="color: #ffff00;">"OK"</span>:<span style="color: #ffff00;">"FAILED"</span>);
+    printf(<span class="org-string">"MMX[%s]\n"</span>,check_support_mmx()?<span class="org-string">"OK"</span>:<span class="org-string">"FAILED"</span>);
+    printf(<span class="org-string">"SSE[%s]\n"</span>,check_support_sse()?<span class="org-string">"OK"</span>:<span class="org-string">"FAILED"</span>);
+    printf(<span class="org-string">"SSE2[%s]\n"</span>,check_support_sse2()?<span class="org-string">"OK"</span>:<span class="org-string">"FAILED"</span>);
+    printf(<span class="org-string">"SSE3[%s]\n"</span>,check_support_sse3()?<span class="org-string">"OK"</span>:<span class="org-string">"FAILED"</span>);
+    printf(<span class="org-string">"SSSE3[%s]\n"</span>,check_support_ssse3()?<span class="org-string">"OK"</span>:<span class="org-string">"FAILED"</span>);
+    printf(<span class="org-string">"SSE4.1[%s]\n"</span>,check_support_sse4_1()?<span class="org-string">"OK"</span>:<span class="org-string">"FAILED"</span>);
+    printf(<span class="org-string">"SSE4.2[%s]\n"</span>,check_support_sse4_2()?<span class="org-string">"OK"</span>:<span class="org-string">"FAILED"</span>);
     return 0;
 }
 
@@ -1753,7 +1753,7 @@ FISTP需要修改FPU Tag Word设置为截断处理才会有这样的效果,
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:55:10 CST</p>
+<p class="date">Date: 2013-09-15 15:18:25 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

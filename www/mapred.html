@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="mapred"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:55:34 CST"/>
+<meta name="generated" content="2013-09-15 15:18:49 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -878,18 +878,18 @@ Corona在fb部署过程是这样的
 
 <pre class="src src-Java">public ShuffleRamManager(Configuration conf) throws IOException {
   final float maxInMemCopyUse =
-    conf.getFloat(<span style="color: #ffff00;">"mapred.job.shuffle.input.buffer.percent"</span>, 0.70f);
+    conf.getFloat(<span class="org-string">"mapred.job.shuffle.input.buffer.percent"</span>, 0.70f);
   if (maxInMemCopyUse &gt; 1.0 || maxInMemCopyUse &lt; 0.0) {
-    throw new IOException(<span style="color: #ffff00;">"mapred.job.shuffle.input.buffer.percent"</span> +
+    throw new IOException(<span class="org-string">"mapred.job.shuffle.input.buffer.percent"</span> +
                           maxInMemCopyUse);
   }
   // Allow unit tests to fix Runtime memory
-  maxSize = (int)(conf.getInt(<span style="color: #ffff00;">"mapred.job.reduce.total.mem.bytes"</span>,
+  maxSize = (int)(conf.getInt(<span class="org-string">"mapred.job.reduce.total.mem.bytes"</span>,
       (int)Math.min(Runtime.getRuntime().maxMemory(), Integer.MAX_VALUE))
     * maxInMemCopyUse);
   maxSingleShuffleLimit = (long)(maxSize * MAX_SINGLE_SHUFFLE_SEGMENT_FRACTION);
-  LOG.info(<span style="color: #ffff00;">"ShuffleRamManager: MemoryLimit="</span> + maxSize + 
-           <span style="color: #ffff00;">", MaxSingleShuffleLimit="</span> + maxSingleShuffleLimit);
+  LOG.info(<span class="org-string">"ShuffleRamManager: MemoryLimit="</span> + maxSize + 
+           <span class="org-string">", MaxSingleShuffleLimit="</span> + maxSingleShuffleLimit);
 }
 </pre>
 
@@ -973,7 +973,7 @@ Corona在fb部署过程是这样的
 public void write(Path path, LongWritable offset) throws IOException, InterruptedException {
   if (outputStream == null) {
     // Set up the output file on the first record.
-    LOG.info(<span style="color: #ffff00;">"Setting up output stream to write index file for "</span> + path);
+    LOG.info(<span class="org-string">"Setting up output stream to write index file for "</span> + path);
     outputStream = setupOutputFile(path);
   }
   offset.write(outputStream);
@@ -993,7 +993,7 @@ public void close(TaskAttemptContext taskAttemptContext) throws IOException, Int
     // Close the output stream so that the tmp file is synced, then move it.
     outputStream.close();
 
-    LOG.info(<span style="color: #ffff00;">"In close, now renaming "</span> + tmpIndexPath + <span style="color: #ffff00;">" to final location "</span> + realIndexPath);
+    LOG.info(<span class="org-string">"In close, now renaming "</span> + tmpIndexPath + <span class="org-string">" to final location "</span> + realIndexPath);
     // Rename, indexing completed.
     fs.rename(tmpIndexPath, realIndexPath);
   }
@@ -1075,14 +1075,14 @@ public boolean nextKeyValue() throws IOException {
     // An uncompressed block size of zero means end of file.
     return false;
   } else if (uncompressedBlockSize &lt; 0) {
-    throw new EOFException(<span style="color: #ffff00;">"Could not read uncompressed block size at position "</span> +
-                           rawInputStream.getPos() + <span style="color: #ffff00;">" in file "</span> + lzoFile);
+    throw new EOFException(<span class="org-string">"Could not read uncompressed block size at position "</span> +
+                           rawInputStream.getPos() + <span class="org-string">" in file "</span> + lzoFile);
   }
 
   int compressedBlockSize = rawInputStream.readInt();
   if (compressedBlockSize &lt;= 0) {
-    throw new EOFException(<span style="color: #ffff00;">"Could not read compressed block size at position "</span> +
-                           rawInputStream.getPos() + <span style="color: #ffff00;">" in file "</span> + lzoFile);
+    throw new EOFException(<span class="org-string">"Could not read compressed block size at position "</span> +
+                           rawInputStream.getPos() + <span class="org-string">" in file "</span> + lzoFile);
   }
 
   // See LzopInputStream.getCompressedData
@@ -1099,8 +1099,8 @@ public boolean nextKeyValue() throws IOException {
 
   // Log some progress every so often.
   if (numBlocksRead % LOG_EVERY_N_BLOCKS == 0) {
-    LOG.info(<span style="color: #ffff00;">"Reading block "</span> + numBlocksRead + <span style="color: #ffff00;">" at pos "</span> + pos + <span style="color: #ffff00;">" of "</span> + totalFileSize + <span style="color: #ffff00;">". Read is "</span> +
-             (100.0 * getProgress()) + <span style="color: #ffff00;">"% done. "</span>);
+    LOG.info(<span class="org-string">"Reading block "</span> + numBlocksRead + <span class="org-string">" at pos "</span> + pos + <span class="org-string">" of "</span> + totalFileSize + <span class="org-string">". Read is "</span> +
+             (100.0 * getProgress()) + <span class="org-string">"% done. "</span>);
   }
 
   return true;
@@ -1188,7 +1188,7 @@ protected List&lt;FileStatus&gt; listStatus(JobContext job) throws IOException {
     if (!LzoInputFormatCommon.isLzoFile(file.toString())) {
       // Get rid of non-LZO files, unless the conf explicitly tells us to
       // keep them.
-      // However, always skip over files that end with <span style="color: #ffff00;">".lzo.index"</span>, since
+      // However, always skip over files that end with <span class="org-string">".lzo.index"</span>, since
       // they are not part of the input.
       if (ignoreNonLzo || LzoInputFormatCommon.isLzoIndexFile(file.toString())) {
         iterator.remove();
@@ -1302,7 +1302,7 @@ public List&lt;InputSplit&gt; getSplits(JobContext job) throws IOException {
     // LZO file, try to split if the .index file was found
     LzoIndex index = indexes.get(file);
     if (index == null) {
-      throw new IOException(<span style="color: #ffff00;">"Index not found for "</span> + file);
+      throw new IOException(<span class="org-string">"Index not found for "</span> + file);
     }
 
     if (index.isEmpty()) {
@@ -2649,7 +2649,7 @@ none             24G     0   24G   0% /run/shm
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:55:34 CST</p>
+<p class="date">Date: 2013-09-15 15:18:49 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

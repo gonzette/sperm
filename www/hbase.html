@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="hbase"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:56:08 CST"/>
+<meta name="generated" content="2013-09-15 15:19:24 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -1144,7 +1144,7 @@ throws IOException {
   IOException exception = null;
   DistributedFileSystem dfs = (DistributedFileSystem) fs;
   try {
-    if (dfs.exists(new Path(<span style="color: #ffff00;">"/"</span>))) {
+    if (dfs.exists(new Path(<span class="org-string">"/"</span>))) {
       return;
     }
   } catch (IOException e) {
@@ -1153,9 +1153,9 @@ throws IOException {
   try {
     fs.close();
   } catch (Exception e) {
-      LOG.error(<span style="color: #ffff00;">"file system close failed: "</span>, e);
+      LOG.error(<span class="org-string">"file system close failed: "</span>, e);
   }
-  IOException io = new IOException(<span style="color: #ffff00;">"File system is not available"</span>);
+  IOException io = new IOException(<span class="org-string">"File system is not available"</span>);
   io.initCause(exception);
   throw io;
 }
@@ -1244,13 +1244,13 @@ org.apache.hadoop.ipc.RemoteException: org.apache.hadoop.ipc.RemoteException: ja
 <pre class="src src-Java">// validate for well-formedness
 private void validatePut(final Put put) throws IllegalArgumentException{
   if (put.isEmpty()) {
-    throw new IllegalArgumentException(<span style="color: #ffff00;">"No columns to insert"</span>);
+    throw new IllegalArgumentException(<span class="org-string">"No columns to insert"</span>);
   }
   if (maxKeyValueSize &gt; 0) {
     for (List&lt;KeyValue&gt; list : put.getFamilyMap().values()) {
       for (KeyValue kv : list) {
         if (kv.getLength() &gt; maxKeyValueSize) {
-          throw new IllegalArgumentException(<span style="color: #ffff00;">"KeyValue size too large"</span>);
+          throw new IllegalArgumentException(<span class="org-string">"KeyValue size too large"</span>);
         }
       }
     }
@@ -1274,8 +1274,8 @@ private void validatePut(final Put put) throws IllegalArgumentException{
 
 
 <pre class="src src-Java">public static Configuration addHbaseResources(Configuration conf) {
-  conf.addResource(<span style="color: #ffff00;">"hbase-default.xml"</span>);
-  conf.addResource(<span style="color: #ffff00;">"hbase-site.xml"</span>);
+  conf.addResource(<span class="org-string">"hbase-default.xml"</span>);
+  conf.addResource(<span class="org-string">"hbase-site.xml"</span>);
 
   checkDefaultsVersion(conf);
   checkForClusterFreeMemoryLimit(conf);
@@ -1407,8 +1407,8 @@ processBatch代码比较冗长，大致意思如下：
 
 
 <pre class="src src-Java">public static Configuration addHbaseResources(Configuration conf) {
-  conf.addResource(<span style="color: #ffff00;">"hbase-default.xml"</span>);
-  conf.addResource(<span style="color: #ffff00;">"hbase-site.xml"</span>);
+  conf.addResource(<span class="org-string">"hbase-default.xml"</span>);
+  conf.addResource(<span class="org-string">"hbase-site.xml"</span>);
 
   checkDefaultsVersion(conf);
   checkForClusterFreeMemoryLimit(conf);
@@ -3151,7 +3151,7 @@ Currently the WAL is using a Hadoop SequenceFile, which stores records as sets o
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:56:08 CST</p>
+<p class="date">Date: 2013-09-15 15:19:24 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

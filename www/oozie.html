@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="oozie"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:55:25 CST"/>
+<meta name="generated" content="2013-09-15 15:18:40 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -333,26 +333,26 @@ oozie执行分为三种模式：
 
 <pre class="src src-XML">&lt;!--
   Copyright (c) 2010 Yahoo! Inc. All rights reserved.
-  Licensed under the Apache License, Version 2.0 (the <span style="color: #ffff00;">"License"</span>);
+  Licensed under the Apache License, Version 2.0 (the <span class="org-string">"License"</span>);
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
 
     http://www.apache.org/licenses/LICENSE-2.0
 
   Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an <span style="color: #ffff00;">"AS IS"</span> BASIS,
+  distributed under the License is distributed on an <span class="org-string">"AS IS"</span> BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License. See accompanying LICENSE file.
 --&gt;
-&lt;workflow-app xmlns=<span style="color: #ffff00;">"uri:oozie:workflow:0.1"</span> name=<span style="color: #ffff00;">"map-reduce-wf"</span>&gt;
-    &lt;start to=<span style="color: #ffff00;">"mr-node"</span>/&gt;
-    &lt;action name=<span style="color: #ffff00;">"mr-node"</span>&gt;
+&lt;workflow-app xmlns=<span class="org-string">"uri:oozie:workflow:0.1"</span> name=<span class="org-string">"map-reduce-wf"</span>&gt;
+    &lt;start to=<span class="org-string">"mr-node"</span>/&gt;
+    &lt;action name=<span class="org-string">"mr-node"</span>&gt;
         &lt;map-reduce&gt;
             &lt;job-tracker&gt;${jobTracker}&lt;/job-tracker&gt;
             &lt;name-node&gt;${nameNode}&lt;/name-node&gt;
             &lt;prepare&gt;
-                &lt;delete path=<span style="color: #ffff00;">"${nameNode}/user/${wf:user()}/${examplesRoot}/output-data/${outputDir}"</span>/&gt;
+                &lt;delete path=<span class="org-string">"${nameNode}/user/${wf:user()}/${examplesRoot}/output-data/${outputDir}"</span>/&gt;
             &lt;/prepare&gt;
             &lt;configuration&gt;
                 &lt;property&gt;
@@ -381,13 +381,13 @@ oozie执行分为三种模式：
                 &lt;/property&gt;
             &lt;/configuration&gt;
         &lt;/map-reduce&gt;
-        &lt;ok to=<span style="color: #ffff00;">"end"</span>/&gt;
-        &lt;error to=<span style="color: #ffff00;">"fail"</span>/&gt;
+        &lt;ok to=<span class="org-string">"end"</span>/&gt;
+        &lt;error to=<span class="org-string">"fail"</span>/&gt;
     &lt;/action&gt;
-    &lt;kill name=<span style="color: #ffff00;">"fail"</span>&gt;
+    &lt;kill name=<span class="org-string">"fail"</span>&gt;
         &lt;message&gt;Map/Reduce failed, error message[${wf:errorMessage(wf:lastErrorNode())}]&lt;/message&gt;
     &lt;/kill&gt;
-    &lt;end name=<span style="color: #ffff00;">"end"</span>/&gt;
+    &lt;end name=<span class="org-string">"end"</span>/&gt;
 &lt;/workflow-app&gt;
 </pre>
 
@@ -528,9 +528,9 @@ NOTE（dirlt）：关于coordinator的文档非常少，而且使用起来有诸
 
 
 
-<pre class="src src-XML">&lt;coordinator-app name=<span style="color: #ffff00;">"coord"</span> frequency=<span style="color: #ffff00;">"${coord:hours(1)}"</span>
-                 start=<span style="color: #ffff00;">"${startTime}"</span> end=<span style="color: #ffff00;">"${endTime}"</span> timezone=<span style="color: #ffff00;">"${tz}"</span>
-                 xmlns=<span style="color: #ffff00;">"uri:oozie:coordinator:0.1"</span>&gt;
+<pre class="src src-XML">&lt;coordinator-app name=<span class="org-string">"coord"</span> frequency=<span class="org-string">"${coord:hours(1)}"</span>
+                 start=<span class="org-string">"${startTime}"</span> end=<span class="org-string">"${endTime}"</span> timezone=<span class="org-string">"${tz}"</span>
+                 xmlns=<span class="org-string">"uri:oozie:coordinator:0.1"</span>&gt;
   &lt;controls&gt;
     &lt;timeout&gt;-1&lt;/timeout&gt;
     &lt;concurrency&gt;2&lt;/concurrency&gt;
@@ -538,19 +538,19 @@ NOTE（dirlt）：关于coordinator的文档非常少，而且使用起来有诸
   &lt;/controls&gt;     
 
   &lt;datasets&gt;
-    &lt;dataset name=<span style="color: #ffff00;">"ds"</span> frequency=<span style="color: #ffff00;">"${coord:hours(1)}"</span>
-             initial-instance=<span style="color: #ffff00;">"${dsStartTime}"</span> timezone=<span style="color: #ffff00;">"${tz}"</span>&gt;
+    &lt;dataset name=<span class="org-string">"ds"</span> frequency=<span class="org-string">"${coord:hours(1)}"</span>
+             initial-instance=<span class="org-string">"${dsStartTime}"</span> timezone=<span class="org-string">"${tz}"</span>&gt;
       &lt;uri-template&gt;${appPath}/data/${YEAR}/${MONTH}/${DAY}/${HOUR}&lt;/uri-template&gt;
     &lt;/dataset&gt;
   &lt;/datasets&gt;
 
   &lt;input-events&gt;
-    &lt;data-in name=<span style="color: #ffff00;">"input"</span> dataset=<span style="color: #ffff00;">"ds"</span>&gt;
+    &lt;data-in name=<span class="org-string">"input"</span> dataset=<span class="org-string">"ds"</span>&gt;
       &lt;instance&gt;${coord:current(-1)}&lt;/instance&gt;
     &lt;/data-in&gt;
   &lt;/input-events&gt;
   &lt;output-events&gt;
-    &lt;data-out name=<span style="color: #ffff00;">"output"</span> dataset=<span style="color: #ffff00;">"ds"</span>&gt;
+    &lt;data-out name=<span class="org-string">"output"</span> dataset=<span class="org-string">"ds"</span>&gt;
       &lt;instance&gt;${coord:current(0)}&lt;/instance&gt;
     &lt;/data-out&gt;
   &lt;/output-events&gt;
@@ -664,7 +664,7 @@ NOTE（dirlt）：不过后来测试了一下之后，发现其实是可以观�
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:55:25 CST</p>
+<p class="date">Date: 2013-09-15 15:18:40 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

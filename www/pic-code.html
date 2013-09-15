@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="pic-code"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:55:23 CST"/>
+<meta name="generated" content="2013-09-15 15:18:38 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -317,8 +317,8 @@ ELF Header:
 
 <pre class="src src-C++">//==============================main.cc==============================
 #include &lt;cstdio&gt;
-extern <span style="color: #ffff00;">"C"</span> int global_variable;
-extern <span style="color: #ffff00;">"C"</span> int echo();
+extern <span class="org-string">"C"</span> int global_variable;
+extern <span class="org-string">"C"</span> int echo();
 int global_variable=0;
 int main(){
     echo();
@@ -326,10 +326,10 @@ int main(){
 }
 //==============================echo.cc==============================
 #include &lt;cstdio&gt;
-extern <span style="color: #ffff00;">"C"</span> int global_variable;
-extern <span style="color: #ffff00;">"C"</span> int echo();
+extern <span class="org-string">"C"</span> int global_variable;
+extern <span class="org-string">"C"</span> int echo();
 int echo(){
-    printf(<span style="color: #ffff00;">"%d\n"</span>,global_variable);
+    printf(<span class="org-string">"%d\n"</span>,global_variable);
     return 0;
 }
 </pre>
@@ -585,7 +585,7 @@ int echo(){
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:55:23 CST</p>
+<p class="date">Date: 2013-09-15 15:18:38 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

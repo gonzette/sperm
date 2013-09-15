@@ -398,6 +398,7 @@
 (setq org-html-postamble nil)
 ;; (setq org-export-html-style-include-default nil)
 (setq org-export-html-style-include-scripts nil)
+(setq org-export-htmlize-output-type 'css)
 (setq org-publish-project-alist
       '(("essay"
          :base-directory "~/github/sperm/essay"

@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="scala"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:55:12 CST"/>
+<meta name="generated" content="2013-09-15 15:18:26 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -377,7 +377,7 @@ scala里面对应的表示如下,类型为String*
 </p>
 
 
-<pre class="src src-Scala">val x = Array(<span style="color: #ffff00;">"Hello"</span>,<span style="color: #ffff00;">"World"</span>);
+<pre class="src src-Scala">val x = Array(<span class="org-string">"Hello"</span>,<span class="org-string">"World"</span>);
 foo(x:_*)
 </pre>
 
@@ -427,7 +427,7 @@ foo(x:_*)
     if i%4 == 0;
     j &lt;- 0 to 5
     if j%2 == 1) {
-  println(<span style="color: #ffff00;">"i="</span> + i + <span style="color: #ffff00;">",j="</span> + j);
+  println(<span class="org-string">"i="</span> + i + <span class="org-string">",j="</span> + j);
 }
 </pre>
 
@@ -462,7 +462,7 @@ println(x) // Vector(0, 1, 2, 3, 4)
 
 
 <pre class="src src-Scala">def f() {
-  throw new Exception(<span style="color: #ffff00;">"hello"</span>);
+  throw new Exception(<span class="org-string">"hello"</span>);
 }
 
 def g():Int = {
@@ -500,11 +500,11 @@ match和switch非常类似，但是有下面两个比较重要的差别：
 </p>
 
 
-<pre class="src src-Scala">val x = <span style="color: #ffff00;">"hello"</span>;
+<pre class="src src-Scala">val x = <span class="org-string">"hello"</span>;
 val y = 
   x match {
-    case <span style="color: #ffff00;">"world"</span> =&gt; 2;
-    case <span style="color: #ffff00;">"hello"</span> =&gt; 3;
+    case <span class="org-string">"world"</span> =&gt; 2;
+    case <span class="org-string">"hello"</span> =&gt; 3;
     case _ =&gt; 4;
   }
 </pre>
@@ -528,8 +528,8 @@ val y =
 </p>
 
 
-<pre class="src src-Scala">val a = Array(<span style="color: #ffff00;">"1"</span>);
-val b = Array(<span style="color: #ffff00;">"2"</span>);
+<pre class="src src-Scala">val a = Array(<span class="org-string">"1"</span>);
+val b = Array(<span class="org-string">"2"</span>);
 println(a eq b)
 val c = b
 println(c eq b)
@@ -569,16 +569,16 @@ class Op() {
   val id = Id;
   Id += 1;
   def + (x: Op) {
-    println(<span style="color: #ffff00;">"operation by Op#"</span> + id);
+    println(<span class="org-string">"operation by Op#"</span> + id);
   }
   def +: (x: Op) {
-    println(<span style="color: #ffff00;">"operation by Op#"</span> + id);
+    println(<span class="org-string">"operation by Op#"</span> + id);
   }
   def apply(p: Int) {
-    println(<span style="color: #ffff00;">"apply with "</span> + p)
+    println(<span class="org-string">"apply with "</span> + p)
   }
   def update(p: Int, c:Int) {
-    println(<span style="color: #ffff00;">"update with "</span> + p + <span style="color: #ffff00;">", "</span> + c);
+    println(<span class="org-string">"update with "</span> + p + <span class="org-string">", "</span> + c);
   }
 }
 val a = new Op(); // Op#0
@@ -677,7 +677,7 @@ scala import相比java import更加灵活
 
 <pre class="src src-Scala">def showFruit(fruit: Fruit) {
   import fruit._
-  println(name +<span style="color: #ffff00;">"s are "</span>+ color)
+  println(name +<span class="org-string">"s are "</span>+ color)
 }
 </pre>
 
@@ -791,7 +791,7 @@ public class Hello {
     this(n,0);
   }
   {
-    System.out.println(<span style="color: #ffff00;">"initializing...("</span> + n + <span style="color: #ffff00;">","</span> + d + <span style="color: #ffff00;">")"</span>);
+    System.out.println(<span class="org-string">"initializing...("</span> + n + <span class="org-string">","</span> + d + <span class="org-string">")"</span>);
   }
 }
 </pre>
@@ -807,7 +807,7 @@ public class Hello {
 <pre class="src src-Scala">class Hello(pn: Int, pd: Int) {
   private val n = pn;
   private val d = pd;
-  println(<span style="color: #ffff00;">"initializing...("</span> + n + <span style="color: #ffff00;">","</span> + d + <span style="color: #ffff00;">")"</span>);
+  println(<span class="org-string">"initializing...("</span> + n + <span class="org-string">","</span> + d + <span class="org-string">")"</span>);
   def this(pn:Int) = this(pn,0);
 }
 </pre>
@@ -821,7 +821,7 @@ scala将构造函数和初始化代码融合，只是使用初始化代码来作
 
 
 <pre class="src src-Scala">class Hello(private val pn: Int, private val pd: Int) {
-  println(<span style="color: #ffff00;">"initializing...("</span> + pn + <span style="color: #ffff00;">","</span> + pd + <span style="color: #ffff00;">")"</span>);
+  println(<span class="org-string">"initializing...("</span> + pn + <span class="org-string">","</span> + pd + <span class="org-string">")"</span>);
   def this(pn:Int) = this(pn,0);
 }
 </pre>
@@ -861,7 +861,7 @@ println(h.closure(2.0f));
 
 
 <pre class="src src-Scala">class Hello(pn: Int, pd: Int) {
-  def toString() = <span style="color: #ffff00;">"n = "</span> + pn + <span style="color: #ffff00;">", d = "</span> + pd;
+  def toString() = <span class="org-string">"n = "</span> + pn + <span class="org-string">", d = "</span> + pd;
 }
 </pre>
 
@@ -915,12 +915,12 @@ x.echoX(); // 1
 <pre class="src src-Scala">class Hello(p:Int) {
   private val x = p;
   def op(h:Hello) {
-    println(<span style="color: #ffff00;">"op("</span> + x + <span style="color: #ffff00;">","</span> + h.x + <span style="color: #ffff00;">")"</span>);
+    println(<span class="org-string">"op("</span> + x + <span class="org-string">","</span> + h.x + <span class="org-string">")"</span>);
   }
 }
 
 implicit def intToHello(x:Int) = {
-  println(<span style="color: #ffff00;">"do implicit conversion"</span>);
+  println(<span class="org-string">"do implicit conversion"</span>);
   new Hello(x);
 }
 
@@ -1022,11 +1022,11 @@ println(h.doubleD)
 
 
 <pre class="src src-Scala">class A(n:Int) {
-  println(<span style="color: #ffff00;">"init A with n = "</span> + n);
+  println(<span class="org-string">"init A with n = "</span> + n);
 }
 
 class B(n:Int) extends A(n) {
-  println(<span style="color: #ffff00;">"init B with n = "</span> + n);
+  println(<span class="org-string">"init B with n = "</span> + n);
 }
 
 val b = new B(10);
@@ -1105,7 +1105,7 @@ Null是所有引用类型的子类，其实例对象是null. 而Nothing是所有
 
 <pre class="src src-Scala">def divide(x: Int, y: Int): Int =
   if (y != 0) x / y
-  else error(<span style="color: #ffff00;">"can't divide by zero"</span>)
+  else error(<span class="org-string">"can't divide by zero"</span>)
 </pre>
 
 <p>
@@ -1134,10 +1134,10 @@ trait B {
 
 class C extends A with B {
   def foo() {
-    println(<span style="color: #ffff00;">"foo"</span>);
+    println(<span class="org-string">"foo"</span>);
   }
   def bar() {
-    println(<span style="color: #ffff00;">"bar"</span>);
+    println(<span class="org-string">"bar"</span>);
   }
 }
 </pre>
@@ -1157,7 +1157,7 @@ trait的引入解决了一些多重继承的问题，最重要的问题就是如
 class A {
  public:
   void foo() {
-    printf(<span style="color: #ffff00;">"A\n"</span>);
+    printf(<span class="org-string">"A\n"</span>);
   }
 };
 
@@ -1165,7 +1165,7 @@ class B:public A {
  public:
   void foo() {
     A::foo();
-    printf(<span style="color: #ffff00;">"B\n"</span>);
+    printf(<span class="org-string">"B\n"</span>);
   }
 };
 
@@ -1173,7 +1173,7 @@ class C:public A {
  public:
   void foo() {
     A::foo();
-    printf(<span style="color: #ffff00;">"C\n"</span>);
+    printf(<span class="org-string">"C\n"</span>);
   }
 };
 
@@ -1183,7 +1183,7 @@ class D:public B,
   void foo() {
     B::foo();
     C::foo();        
-    printf(<span style="color: #ffff00;">"D\n"</span>);
+    printf(<span class="org-string">"D\n"</span>);
   }
 };
 
@@ -1390,7 +1390,7 @@ println(foo(1)) // 1
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:55:12 CST</p>
+<p class="date">Date: 2013-09-15 15:18:26 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

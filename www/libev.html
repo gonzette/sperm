@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="libev"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 14:55:38 CST"/>
+<meta name="generated" content="2013-09-15 15:18:53 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -168,8 +168,8 @@ ev_io_start (EV_P_ ev_io *w)
   if (expect_false (ev_is_active (w)))
     return;
 
-  assert ((<span style="color: #ffff00;">"libev: ev_io_start called with negative fd"</span>, fd &gt;= 0));
-  assert ((<span style="color: #ffff00;">"libev: ev_io_start called with illegal event mask"</span>, !(w-&gt;events &amp; ~(EV__IOFDSET | EV_READ | EV_WRITE))));
+  assert ((<span class="org-string">"libev: ev_io_start called with negative fd"</span>, fd &gt;= 0));
+  assert ((<span class="org-string">"libev: ev_io_start called with illegal event mask"</span>, !(w-&gt;events &amp; ~(EV__IOFDSET | EV_READ | EV_WRITE))));
 
   EV_FREQUENT_CHECK;
 
@@ -379,7 +379,7 @@ wacther的状态有下面这么几种：
 <pre class="src src-C++">void
 ev_run (EV_P_ int flags)
 {
-  assert ((<span style="color: #ffff00;">"libev: ev_loop recursion during release detected"</span>, loop_done != EVBREAK_RECURSE));
+  assert ((<span class="org-string">"libev: ev_loop recursion during release detected"</span>, loop_done != EVBREAK_RECURSE));
 
   loop_done = EVBREAK_CANCEL;
 
@@ -540,8 +540,8 @@ ev_io_start (EV_P_ ev_io *w)
   if (expect_false (ev_is_active (w)))
     return;
 
-  assert ((<span style="color: #ffff00;">"libev: ev_io_start called with negative fd"</span>, fd &gt;= 0));
-  assert ((<span style="color: #ffff00;">"libev: ev_io_start called with illegal event mask"</span>, !(w-&gt;events &amp; ~(EV__IOFDSET | EV_READ | EV_WRITE))));
+  assert ((<span class="org-string">"libev: ev_io_start called with negative fd"</span>, fd &gt;= 0));
+  assert ((<span class="org-string">"libev: ev_io_start called with illegal event mask"</span>, !(w-&gt;events &amp; ~(EV__IOFDSET | EV_READ | EV_WRITE))));
 
   EV_FREQUENT_CHECK;
 
@@ -646,7 +646,7 @@ timers_reify (EV_P)
         {
           ev_timer *w = (ev_timer *)ANHE_w (timers [HEAP0]);
 
-          /*assert ((<span style="color: #ffff00;">"libev: inactive timer on timer heap detected"</span>, ev_is_active (w)));*/
+          /*assert ((<span class="org-string">"libev: inactive timer on timer heap detected"</span>, ev_is_active (w)));*/
 
           /* first reschedule or stop timer */
           if (w-&gt;repeat)
@@ -655,7 +655,7 @@ timers_reify (EV_P)
               if (ev_at (w) &lt; mn_now)
                 ev_at (w) = mn_now;
 
-              assert ((<span style="color: #ffff00;">"libev: negative ev_timer repeat value found while processing timers"</span>, w-&gt;repeat &gt; 0.));
+              assert ((<span class="org-string">"libev: negative ev_timer repeat value found while processing timers"</span>, w-&gt;repeat &gt; 0.));
 
               ANHE_at_cache (timers [HEAP0]);
               downheap (timers, timercnt, HEAP0);
@@ -767,19 +767,19 @@ static std::string address_to_string(struct sockaddr_in* addr){
     char ip[128];
     inet_ntop(AF_INET,&amp;(addr-&gt;sin_addr),ip,sizeof(ip));
     char port[32];
-    snprintf(port,sizeof(port),<span style="color: #ffff00;">"%d"</span>,ntohs(addr-&gt;sin_port));
+    snprintf(port,sizeof(port),<span class="org-string">"%d"</span>,ntohs(addr-&gt;sin_port));
     std::string r;
-    r=r+<span style="color: #ffff00;">"("</span>+ip+<span style="color: #ffff00;">":"</span>+port+<span style="color: #ffff00;">")"</span>;
+    r=r+<span class="org-string">"("</span>+ip+<span class="org-string">":"</span>+port+<span class="org-string">")"</span>;
     return r;
 }
 
 static int new_tcp_server(int port){
     int fd=socket(AF_INET,SOCK_STREAM,IPPROTO_TCP);
-    D(fd&gt;0,<span style="color: #ffff00;">"socket failed(%m)\n"</span>);
+    D(fd&gt;0,<span class="org-string">"socket failed(%m)\n"</span>);
     setnonblock(fd);
     setreuseaddr(fd);
     sockaddr_in addr;
-    setaddress(<span style="color: #ffff00;">"0.0.0.0"</span>,port,&amp;addr);
+    setaddress(<span class="org-string">"0.0.0.0"</span>,port,&amp;addr);
     bind(fd,(struct sockaddr*)&amp;addr,sizeof(addr));
     listen(fd,64); // backlog = 64
     return fd;
@@ -811,8 +811,8 @@ static int new_tcp_client(const char* ip,int port){
 
 
 
-<pre class="src src-C++">#include <span style="color: #ffff00;">"ev.h"</span>
-#include <span style="color: #ffff00;">"common.h"</span>
+<pre class="src src-C++">#include <span class="org-string">"ev.h"</span>
+#include <span class="org-string">"common.h"</span>
 
 static void do_connected(struct ev_loop* reactor,ev_io* w,int events){
     close(w-&gt;fd);
@@ -821,7 +821,7 @@ static void do_connected(struct ev_loop* reactor,ev_io* w,int events){
 
 int main(){
     struct ev_loop* reactor=ev_loop_new(EVFLAG_AUTO);
-    int fd=common::new_tcp_client(<span style="color: #ffff00;">"127.0.0.1"</span>,34567);
+    int fd=common::new_tcp_client(<span class="org-string">"127.0.0.1"</span>,34567);
     ev_io io;
     ev_io_init(&amp;io,&amp;do_connected,fd,EV_WRITE);
     ev_io_start(reactor,&amp;io);
@@ -845,15 +845,15 @@ int main(){
 
 
 
-<pre class="src src-C++">#include <span style="color: #ffff00;">"ev.h"</span>
-#include <span style="color: #ffff00;">"common.h"</span>
+<pre class="src src-C++">#include <span class="org-string">"ev.h"</span>
+#include <span class="org-string">"common.h"</span>
 
 static void do_accept(struct ev_loop* reactor,ev_io* w,int events){
     struct sockaddr_in addr;
     socklen_t addr_size=sizeof(addr);
     int conn=accept(w-&gt;fd,(struct sockaddr*)&amp;addr,&amp;addr_size);
     std::string r=common::address_to_string(&amp;addr);
-    fprintf(stderr,<span style="color: #ffff00;">"accept %s\n"</span>,r.c_str());
+    fprintf(stderr,<span class="org-string">"accept %s\n"</span>,r.c_str());
     close(conn);
 }
 
@@ -877,7 +877,7 @@ int main(){
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-15 14:55:38 CST</p>
+<p class="date">Date: 2013-09-15 15:18:53 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
