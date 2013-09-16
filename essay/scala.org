@@ -322,6 +322,107 @@ Implicitly imported into every compilation unit are, in that order:
    - the package scala,
    - and the object scala.Predef.
 
+*** 模式匹配
+模式匹配pattern matching在scala里面是一个重量级的功能，依赖于pm可以优雅地实现很多功能。大致格式如下
+#+BEGIN_EXAMPLE
+selector match {
+  pattern1 => <body1>
+  pattern2 => <body2>
+  ...
+}
+#+END_EXAMPLE
+
+pattern总结起来大约以下几类：
+   1. Wildcard patterns // _ 统配
+   2. Constant patterns // 常量
+   3. Variable patterns // 变量
+   4. Constructor patterns // 构造函数
+   5. Sequence patterns // 比如List(_,_). 如果需要匹配剩余的话使用List(0,_*)
+   6. Tuple patterns // (a,b,c)
+   7. Typed patterns // 使用类型匹配 case a:Map[_,_]
+      - asInstanceOf[<type>]
+      - isInstanceOf[<type>]
+      - *NOTE(dirlt):这里需要注意容器类型擦除.Array例外因为这个是java内置类型* 
+
+实际上我们还能够使用pattern完成下面事情：
+   1. Patterns in variable definitions // val (a,b) = ("123","345");
+   2. Case sequences as partial functions 
+      - 直接使用pattern来构造函数.以参数为match对象，在body里面直接编写case. 
+      - Each case is an entry point to the function, and the parameters are specified with the pattern. The body of each entry point is the right-hand side of the case.
+   3. Patterns in for expressions // for ((country, city) <- capitals)
+#+BEGIN_SRC Scala
+// case sequences as partial function. 
+val foo : Option[String] => String = {
+  case Some(e) => e
+  case None => "???"
+}
+
+val a = Option[String]("hello")
+println(foo(a))
+val b = None
+println(foo(b))
+#+END_SRC
+
+pattern matching过程中还有下面几个问题需要注意：
+   - Patterns are tried in the order in which they are written.
+   - Variable binding // 有时候我们希望匹配的变量包含外层结构
+     - A(1,B(x)) => handle(B(x))
+     - A(1, p @ B(_)) => handle(p) # p绑定了B(x)这个匹配
+   - Pattern guards // 有时候我们希望对pattern做一些限制性条件
+     - A(1,e,e) 比如希望后面两个元素相等，但是这个在pm里面没有办法表达
+     - A(1,x,y) if x == y => <body> // 通过guard来完成
+
+--------------------
+scala为了方便扩展pm对象的case, 提供case class这个概念。case class和普通class大致相同，不过有以下三个区别，定义上只需要在class之前加上case即可：
+   - 提供factory method来方便构造object
+   - class parameter隐含val prefix
+   - 自带toString,hashCode,equals实现
+#+BEGIN_SRC Scala
+case class A(x:Int) {} // implicit val x:Int  
+val a = A(1); // factory method.
+println(a.x); 
+println(a); // toString = A(1)
+#+END_SRC
+case class最大就是可以很方便地用来做pattern matching.
+
+--------------------
+如果我们能够知道某个selector所有可能的pattern的话，那么就能够在编译期做一些安全性检查。但是selector这个过于宽泛，如果将selector限制在类层次上的话，那么还是可以实现的。举例如下：
+#+BEGIN_SRC Scala
+abstract class A; // sealed abstract class A
+case class B(a:Int) extends A;
+case class C(a:Int) extends A;
+case class D(a:Int) extends A;
+
+val a:A = B(1);
+
+a match {
+  case e @ B(_) => println(e)
+  case e @ C(_) => println(e)
+}
+#+END_SRC
+在match a这个过程中，实际上我们可能存在B，C，D三种子类，但是因为我们这里缺少检查。使用sealed关键字可以完成这个工作。sealed class必须和subclass在同一个文件内。A sealed class cannot have any new subclasses added except the ones in the same file. 如果上面增加sealed的话，那么编译会出现如下警告，说明我们没有枚举所有可能的情况。
+#+BEGIN_EXAMPLE
+/Users/dirlt/scala/Hello.scala:8: warning: match may not be exhaustive.
+It would fail on the following input: D(_)
+a match {
+^
+one warning found
+#+END_EXAMPLE
+ 
+有三个方式可以解决这个问题，一个是加上对D的处理，一个是使用unchecked annotation, 一个则是在最后用wildcard匹配 
+#+BEGIN_SRC Scala
+(a : @unchecked)  match {
+  case e @ B(_) => println(e)
+  case e @ C(_) => println(e)
+}
+
+a match {
+  case e @ B(_) => println(e)
+  case e @ C(_) => println(e)
+  case _ => throw new RuntimeException("??");
+}
+#+END_SRC
+ 
 ** 面向对象
 *** 单例对象
 单例对象很好地解决了Java的两个问题，一个是是单例模式没有集成到语言当中去导致代码编写冗余，一个是静态字段和静态方法嵌入在类定义中导致代码结构不清晰。下面是一段Java代码
@@ -683,6 +784,45 @@ file:./images/scala-linearization.png
 
 *NOTE（dirlt）：这种动态执行的效果就是，你不能够确定super到底是哪个，取决于context.*
 
+*** 访问权限
+The way you make members public in Scala is by not explicitly specifying any access modifier. Put another way, where you’d say “public” in Java, you simply say nothing in Scala. Public is Scala’s default access level.  
+
+scala访问修饰符只有private/protected,默认是public. 访问权限上和java非常类似。
+
+但是scala还提供了更细粒度的访问权限控制scope of protection. 也就是说访问权限是按照作用域来设置的。基本语法如下：
+#+BEGIN_EXAMPLE
+[private|protected][X]
+#+END_EXAMPLE
+A modifier of the form private[X] or protected[X] means that access is private or protected “up to” X, where X designates some enclosing package, class or singleton object.  可以用来修饰class, field, method.  *其含义是private/protected属性最多作用到X以外，X以内均可以作为public来进行访问。* 其中X还有一个特例就是this，那么标明这个字段只能够在这个实例里面访问。下面是一个例子。
+
+#+BEGIN_SRC Scala
+class A(private val x:Int) {
+  def foo(o:A) {
+    println(x + o.x); // works.
+  }
+}
+
+class B(private[this] val x:Int) {
+  def foo(o:A) {
+    println(x + o.x); // can not access o.x
+  }
+}
+#+END_SRC
+
+*** Option
+Option type能够很好地解决java里面null的问题. 举个例子我们在java里面处理map.get("hello")返回值的时候，都需要判断是否为null然后在做处理，否则可能会出现NullPointerException. 同样在scala里面，map.get("hello")返回一个Option对象，这个对象必然是一个有效的引用对象。对于一个Option对象而言：
+   1. Some(x). 表示其value是x
+   2. None. 表示缺失value.
+可以通过模式匹配来判断是否为None以及获取value.
+#+BEGIN_SRC Scala
+def show(x: Option[String]) = x match {
+  case Some(s) => s
+  case None => "?"
+}
+#+END_SRC
+ 
+By contrast, Scala encourages the use of Option to indicate an optional value. This approach to optional values has several advantages over Java’s. First, it is far more obvious to readers of code that a variable whose type is Option[String] is an optional String than a variable of type String, which may sometimes be null. But most importantly, that programming error described earlier of using a variable that may be null without first checking it for null becomes in Scala a type error. If a variable is of type Option[String] and you try to use it as a String, your Scala program will not compile.
+ 
 ** 面向函数
 *** 匿名函数
 *NOTE（dirlt）：aka. function literal* 
@@ -747,4 +887,5 @@ y = 0
 println(foo(1)) // 1
 #+END_SRC
 
-** 面向泛型 
+** 面向泛型
+
