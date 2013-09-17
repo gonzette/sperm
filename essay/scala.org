@@ -625,18 +625,103 @@ val h = new Hello(1);
 h op 2;
 #+END_SRC
 
-但是从一个类型向另外一个类型做隐式转换只能够提供一个函数，不然就会出现歧义. 这里我提供了两个隐式转换函数结果编译出错。 
+Because im- plicit conversions are applied implicitly by the compiler, not explicitly writ- ten down in the source code, it can be non-obvious to client programmers what implicit conversions are being applied. 隐式转换这个东西还是尽量少用比较好。
+
+--------------------
+关于隐式转换有下面几个通用规则 Implicit conversions are governed by the following general rules:
+   1. Marking Rule: Only definitions marked implicit are available. 必须显示指明implicit. 
+   2. Scope Rule: An inserted implicit conversion must be in scope as a single identifier, or be associated with the source or target type of the conver- sion. 隐式转换函数必须能够以单个id来访问，或者是在转换类型共生对象内部有定义
+   3. Non-Ambiguity Rule: An implicit conversion is only inserted if there is no other possible conversion to insert. 无歧义否则编译出现如下错误“implicit conversions are not applicable because they are ambiguous”
+   4. One-at-a-time Rule: Only one implicit is tried. 只会尝试做一次隐式转换
+   5. Explicits-First Rule: Whenever code type checks as it is written, no implicits are attempted. 如果类型匹配就不会做隐式转换
+
+这里主要说说第2点，举个例子
+#+BEGIN_SRC Scala
+class C(val x:Int) {
+  def op(c:C) {
+    
+  }
+}
+
+object X {
+  implicit def intToC(x:Int) = new C(x)
+}
+
+// import X._ 
+// works.
+val x = new C(1)
+x op 10
+#+END_SRC
+
+运行时候出现如下错误
 #+BEGIN_EXAMPLE
-Note that implicit conversions are not applicable because they are ambiguous:
- both method intToHello of type (x: Int)this.Hello
- and method intToHello2 of type (x: Int)this.Hello
- are possible conversion functions from Int(2) to this.Hello
+/Users/dirlt/scala/Hello.scala:12: error: type mismatch;
+ found   : Int(10)
+ required: this.C
+x op 10
+     ^
+one error found
 #+END_EXAMPLE
+也就是说找不到隐式转换函数，因为隐式转换函数只能够以单个id存在，而现在需要使用X.intToC才能够使用。所以解决办法是import X._将intToC这个函数导入到外部。
 
-Because im- plicit conversions are applied implicitly by the compiler, not explicitly writ- ten down in the source code, it can be non-obvious to client programmers what implicit conversions are being applied. 
+存在一个特例，就是这个类型的共生对象(companion object)提供隐式转换函数也可以正常工作。
+#+BEGIN_SRC Scala
+class C(val x:Int) {
+  def op(c:C) {
+    
+  }
+}
 
-所以隐式转换这个东西还是尽量少用比较好。
-  
+class D(val y:Int) {
+}
+
+object D {
+  implicit def D2C(d:D):C = {
+    println("called...");
+    new C(d.y)
+  }
+}
+
+val x = new C(1)
+val y = new D(2)
+x op y
+#+END_SRC
+
+--------------------
+
+隐式转换会发生在下面三个地方：
+   1. conversions to an expected type, 
+   2. conversions of the receiver of a selection, and 
+可以理解为其中1是作用在operand上，而2是作用在receiver上。1这个类型转换过程相对比较好理解，2的话稍微有点麻烦，以下面为例
+#+BEGIN_SRC Scala
+class A(val x:Int) {
+  def op(a:A) {
+  }
+}
+
+val a = new A(2)
+1 op a
+#+END_SRC
+上面这段程序肯定是不能够成功的. 对于scala来说其实要找的隐式转换函数式这样的：“能够将int转换成为某个type, 这个type有op(A)这样的方法". 所以如果添加IntToA这样的隐式转换函数即可。
+
+*** 隐式参数
+关于隐式参数有点类似C++的缺省参数，但是从实现上来看还不太一样。scala的隐式参数实现和隐式转换有点类似，要求隐式参数必须能够使用单个id访问到。下面是使用隐式参数例子 
+#+BEGIN_SRC Scala
+def foo(x:Int)(implicit a:String,b:String) {
+  println(x + "," + a + "," + b);
+}
+#+END_SRC
+implicit作用在后面所有的参数上，需要和explicit参数分开编写。
+
+隐式参数的提供有点类似全局变量方式
+#+BEGIN_SRC Scala
+implicit val defaultString:String = "hello"
+foo(1) // 1,hello,hello
+#+END_SRC
+这里需要注意的是，隐式参数的匹配不是靠名字而是靠类型来匹配的。又因为这个方式有点类似全局变量，所以隐式参数类型定义上一定要选择比较unique的，这样才不容易出现冲突。As a style rule, it is best to use a custom named type in the types of implicit parameters. 
+
+*TODO(dirlt):view bound.*
+
 *** ()method
 parameterless vs. empty-paren method. 对于函数来说如果没有任何参数的话，那么可以将()取消:
    - def foo() = 1 // empty-paren
