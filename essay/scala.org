@@ -58,6 +58,13 @@ res2: Array[String] = null
 #+END_EXAMPLE
 注意这里不能够在用[]这种方式来访问数组，而必须使用()的方式来访问。实际上scala将()调用方法定向到了apply这个函数，可以认为是操作符重载。 
 
+--------------------
+scala允许使用type关键字来为类型做别名，类型别名能够很大程度上简化代码
+#+BEGIN_SRC Scala
+type Counter = Long;
+var id : Counter = 0;
+#+END_SRC
+
 *** 变量定义 
 Scala has two kinds of variables, vals and vars. A val is similar to a final variable in Java. Once initialized, a val can never be reassigned. A var, by contrast, is similar to a non-final variable in Java. A var can be reassigned throughout its lifetime. 
 
@@ -81,6 +88,14 @@ scala> val a = "Hello"
 a: String = Hello
 #+END_EXAMPLE
 
+如果没有赋初值的话那么相当只是声明而非定义。如果对于初值不感兴趣的话，那么可以使用_这个特殊的initializor. *但是注意只对var有效，这是因为val其实上必须设置有效的初值*. 这个初始值语义上表示0,对于不同的类型有不同的初始值。比如int = 0, float = 0.0f, 引用类型 = null. 
+#+BEGIN_SRC Scala
+var a:Int = _;
+var b:Float = _;
+println(a);
+println(b);
+#+END_SRC
+ 
 *** 函数定义
 a function defines an expression that results in a value.
 
@@ -183,6 +198,8 @@ println(x) // Vector(0, 1, 2, 3, 4)
 #+BEGIN_SRC Python
 a = [x+2 for x in range(0,4) if x %2 == 0]
 #+END_SRC
+
+*NOTE（dirlt）：在书中“For Expressions Revisited”这节其实可以认为for是语法糖衣，将map/filter/anonymous-function包装起来.事实上缺少break/continue这样的控制语句，将for转换成为函数式计算也相对比较简单*
 
 --------------------
 异常的触发和java类似都是throw new Exception(). catch部分可以通过模式匹配来完成。finally则主要用于处理清理资源释放等问题。
@@ -385,6 +402,7 @@ println(a); // toString = A(1)
 #+END_SRC
 case class最大就是可以很方便地用来做pattern matching.
 
+
 --------------------
 如果我们能够知道某个selector所有可能的pattern的话，那么就能够在编译期做一些安全性检查。但是selector这个过于宽泛，如果将selector限制在类层次上的话，那么还是可以实现的。举例如下：
 #+BEGIN_SRC Scala
@@ -422,6 +440,37 @@ a match {
   case _ => throw new RuntimeException("??");
 }
 #+END_SRC
+ 
+*** annotation
+Unlike comments, they have structure, thus making them easier to machine process. There are many things you can do with a program other than compiling and running it. Some examples are:
+   1. Automatic generation of documentation as with Scaladoc.
+   2. Pretty printing code so that it matches your preferred style.
+   3. Checking code for common errors such as opening a file but, on some control paths, never closing it.
+   4. Experimental type checking, for example to manage side effects or ensure ownership properties.
+Such tools are called meta-programming tools, because they are pro- grams that take other programs as input. Annotations support these tools by letting the programmer sprinkle directives to the tool throughout their source code. Such directives let the tools be more effective than if they could have no user input. （所谓元编程就是能够编写以程序为输入的程序） 
+
+annotation作用方式通常有两种：
+   - @annotation [val|var|def|class|object] // 作用在声明和定义上
+   - (expression : @annotation) // 作用在表达式上 
+#+BEGIN_EXAMPLE
+@deprecated class QuickAndDirty {}
+(e: @unchecked) match {}
+#+END_EXAMPLE
+
+annotation通常格式如下
+#+BEGIN_EXAMPLE
+@annot(exp1, exp2, ...) {val name1=const1, ..., val namen=constn}
+#+END_EXAMPLE
+其中annot是名字，exp是对应参数，而后面部分一些可选命名参数，没有顺序要求。
+
+--------------------
+一些常用的annotation包括
+   - @deprecated
+   - @volatile
+   - @serializable
+   - @SerialVersionUID(1234) # 实际上就是相当为这个className定义UID，这样在反序列化的时候会进行检查
+   - @transient
+   - @unchecked # pm的时候不要考虑遗漏情况
  
 ** 面向对象
 *** 单例对象
@@ -690,9 +739,22 @@ def divide(x: Int, y: Int): Int =
 #+END_SRC
 我们必须确保类型能够统一，所以error类型必须和Int兼容，因此Nothing在设计上必须是所有类型的子类。
 
+--------------------
+Option type能够很好地解决java里面null的问题. 举个例子我们在java里面处理map.get("hello")返回值的时候，都需要判断是否为null然后在做处理，否则可能会出现NullPointerException. 同样在scala里面，map.get("hello")返回一个Option对象，这个对象必然是一个有效的引用对象。对于一个Option对象而言：
+   1. Some(x). 表示其value是x
+   2. None. 表示缺失value.
+可以通过模式匹配来判断是否为None以及获取value.
+#+BEGIN_SRC Scala
+def show(x: Option[String]) = x match {
+  case Some(s) => s
+  case None => "?"
+}
+#+END_SRC
+ 
+By contrast, Scala encourages the use of Option to indicate an optional value. This approach to optional values has several advantages over Java’s. First, it is far more obvious to readers of code that a variable whose type is Option[String] is an optional String than a variable of type String, which may sometimes be null. But most importantly, that programming error described earlier of using a variable that may be null without first checking it for null becomes in Scala a type error. If a variable is of type Option[String] and you try to use it as a String, your Scala program will not compile.
+ 
 *** Traits
-所谓的traits就是特征，在面向对象里面就是指代这个类或者是这个对象的特征。scala trait和java interface非常相似，其引入都是为了解决多重继承的问题。 *trait包含方法和字段，但是没有类参数（class parameter）和构造函数。*  *NOTE（dirlt）：我觉得这点设计让trait回归到了本意，同时简化了设计和使用*
-trait的定义和class类似，mixin trait上也是通过关键字extends来完成的，如果需要mixin多个trait的话用with关键字
+所谓的traits就是特征，在面向对象里面就是指代这个类或者是这个对象的特征。scala trait和java interface非常相似，其引入都是为了解决多重继承的问题。 *trait包含方法和字段，但是没有类参数（class parameter）和构造函数。*  *NOTE（dirlt）：我觉得这点设计让trait回归到了本意，同时简化了设计和使用* trait的定义和class类似，mixin trait上也是通过关键字extends来完成的，如果需要mixin多个trait的话用with关键字
 #+BEGIN_SRC Scala
 trait A {
   def foo();
@@ -784,6 +846,58 @@ file:./images/scala-linearization.png
 
 *NOTE（dirlt）：这种动态执行的效果就是，你不能够确定super到底是哪个，取决于context.*
 
+--------------------
+和java inteface一样，scala也允许构造匿名对象实现trait. 不过因为trait相比interface引入了字段，所以也引入了一些问题。这个问题主要是字段初始化顺序问题。下面是一个例子
+#+BEGIN_SRC Scala
+trait A{  
+  val a: Int;
+  val b: Int;
+  println("A..." + a + "," + b);
+}
+
+val b = new A {
+  val a = 1;
+  val b = 2;
+  println("B...");
+}
+#+END_SRC
+
+上面这段代码里面，构造了一个匿名trait A的实现。但是注意运行的时候A在B之前初始化，也就是说虽然我们给了a，b定义，但是在执行到A初始化的时候，a，b实际上还是没有任何值的。对于这个问题scala给出了两种解决办法。
+
+一种是显式地说在A初始化之前就给出值的定义,这种方式称为pre-initialized field. 
+#+BEGIN_SRC Scala
+trait A{  
+  val a: Int;
+  val b: Int;
+  println("A..." + a + "," + b);
+}
+
+val b = new {
+  val a = 1;
+  val b = 2;
+} with A;
+#+END_SRC
+
+另外一种是对值做惰性初始化，这种方式称为lazy-evaluation. 这种方式和定义函数非常类似，但是有个好处就是一旦初始化一次之后就不会再次evaluation.
+#+BEGIN_SRC Scala
+trait A{  
+  val a: Int;
+  val b: Int;
+  lazy val c = a;
+  lazy val d = b;
+  def say() {
+    println(c + "," + d);
+  }
+}
+
+val b = new A{
+  val a = 1;
+  val b = 2;
+}
+b.say
+#+END_SRC
+但是lazy不允许只有声明必须有定义，这个定义对应expression表示这个lazy value计算方式。
+
 *** 访问权限
 The way you make members public in Scala is by not explicitly specifying any access modifier. Put another way, where you’d say “public” in Java, you simply say nothing in Scala. Public is Scala’s default access level.  
 
@@ -809,20 +923,30 @@ class B(private[this] val x:Int) {
 }
 #+END_SRC
 
-*** Option
-Option type能够很好地解决java里面null的问题. 举个例子我们在java里面处理map.get("hello")返回值的时候，都需要判断是否为null然后在做处理，否则可能会出现NullPointerException. 同样在scala里面，map.get("hello")返回一个Option对象，这个对象必然是一个有效的引用对象。对于一个Option对象而言：
-   1. Some(x). 表示其value是x
-   2. None. 表示缺失value.
-可以通过模式匹配来判断是否为None以及获取value.
+*** Enumeration
+创建枚举类型非常简单.对于枚举类型来说通常都是单例所以直接使用object较多。You can find more information in the Scaladoc comments of class scala.Enumeration.
+
 #+BEGIN_SRC Scala
-def show(x: Option[String]) = x match {
-  case Some(s) => s
-  case None => "?"
+object X extends Enumeration {
+  val A,B,C = Value; // print as A,B,C
+  val E = Value("hello");
+  val F = Value("???"); // print as ???
 }
 #+END_SRC
- 
-By contrast, Scala encourages the use of Option to indicate an optional value. This approach to optional values has several advantages over Java’s. First, it is far more obvious to readers of code that a variable whose type is Option[String] is an optional String than a variable of type String, which may sometimes be null. But most importantly, that programming error described earlier of using a variable that may be null without first checking it for null becomes in Scala a type error. If a variable is of type Option[String] and you try to use it as a String, your Scala program will not compile.
- 
+Value这里是一个比较特殊的类型path-dependent type.所谓path-dependent type是指这个类型随着路径不同而不同。在X里面，那么Value type全称是X.Value, 这样就可以和其他枚举类型的Value区分开来。
+
+scala提供的枚举类型也相对比较灵活，也可以很容易地访问整个枚举类型内部，也可以很容易地构造出枚举类型
+#+BEGIN_SRC Scala
+for (a <- X) { // TODO(dirlt): seems don't work now!.
+  println(a)
+}
+
+val x = X(1) // easy construction.
+println(x.id + "," + x)
+val y = X(4)
+println(y.id + "," + y)
+#+END_SRC
+
 ** 面向函数
 *** 匿名函数
 *NOTE（dirlt）：aka. function literal* 
