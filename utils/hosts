@@ -150,6 +150,13 @@ ff02::3	ip6-allhosts
 10.18.20.4 unode77
 10.18.10.55 unode67
 
+10.18.20.20 unode91-alog-as10 unode91
+10.18.20.21 unode92-alog-as11 unode92
+10.18.20.22 unode93-alog-as12 unode93
+10.18.20.23 unode94-alog-as13 unode94
+10.18.20.24 unode95-alog-as14 unode95
+10.18.20.25 unode96-alog-as15 unode96
+
 10.11.50.1 ad21
 10.11.50.4 ad24
 
