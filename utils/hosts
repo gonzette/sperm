@@ -40,50 +40,50 @@ ff02::3	ip6-allhosts
 10.11.0.31      dp0.umeng.com                   dp0
 10.18.10.54     dp1.umeng.com                   dp1
 
-10.11.0.2 	dp2.umeng.com 			dp2
-10.11.0.3 	dp3.umeng.com 			dp3
-10.11.0.4 	dp4.umeng.com 			dp4
-10.11.0.5 	dp5.umeng.com 			dp5
-10.11.0.6 	dp6.umeng.com 			dp6
-10.11.0.7 	dp7.umeng.com 			dp7
-10.11.0.8 	dp8.umeng.com 			dp8
-10.11.0.9 	dp9.umeng.com 			dp9
-10.11.0.10	dp10.umeng.com 			dp10
-10.11.0.11	dp11.umeng.com 			dp11
-10.11.0.12	dp12.umeng.com 			dp12
-10.11.0.13	dp13.umeng.com 			dp13
-10.11.0.14	dp14.umeng.com 			dp14
-10.11.0.15	dp15.umeng.com 			dp15
-10.11.0.16	dp16.umeng.com 			dp16
-10.11.0.17	dp17.umeng.com 			dp17
-10.11.0.18	dp18.umeng.com 			dp18
-10.11.0.19	dp19.umeng.com 			dp19
-10.11.0.20	dp20.umeng.com 			dp20
-10.11.0.21	dp21.umeng.com 			dp21
-10.11.0.22	dp22.umeng.com 			dp22
-10.11.0.23	dp23.umeng.com 			dp23
-10.11.0.24	dp24.umeng.com 			dp24
-10.11.0.25	dp25.umeng.com 			dp25
-10.11.0.26	dp26.umeng.com 			dp26
-10.11.0.27	dp27.umeng.com 			dp27
-10.11.0.28	dp28.umeng.com 			dp28
-10.11.0.29	dp29.umeng.com 			dp29
-10.11.0.30	dp30.umeng.com 			dp30
+10.11.0.2 	dp2.umops.us 			dp2
+10.11.0.3 	dp3.umops.us 			dp3
+10.11.0.4 	dp4.umops.us 			dp4
+10.11.0.5 	dp5.umops.us 			dp5
+10.11.0.6 	dp6.umops.us 			dp6
+10.11.0.7 	dp7.umops.us 			dp7
+10.11.0.8 	dp8.umops.us 			dp8
+10.11.0.9 	dp9.umops.us 			dp9
+10.11.0.10	dp10.umops.us 			dp10
+10.11.0.11	dp11.umops.us 			dp11
+10.11.0.12	dp12.umops.us 			dp12
+10.11.0.13	dp13.umops.us 			dp13
+10.11.0.14	dp14.umops.us 			dp14
+10.11.0.15	dp15.umops.us 			dp15
+10.11.0.16	dp16.umops.us 			dp16
+10.11.0.17	dp17.umops.us 			dp17
+10.11.0.18	dp18.umops.us 			dp18
+10.11.0.19	dp19.umops.us 			dp19
+10.11.0.20	dp20.umops.us 			dp20
+10.11.0.21	dp21.umops.us  			dp21
+10.11.0.22	dp22.umops.us 			dp22
+10.11.0.23	dp23.umops.us 			dp23
+10.11.0.24	dp24.umops.us 			dp24
+10.11.0.25	dp25.umops.us 			dp25
+10.11.0.26	dp26.umops.us 			dp26
+10.11.0.27	dp27.umops.us 			dp27
+10.11.0.28	dp28.umops.us 			dp28
+10.11.0.29	dp29.umops.us 			dp29
+10.11.0.30	dp30.umops.us 			dp30
 
-10.11.0.45	dp31.umeng.com			dp31
-10.11.0.32	dp32.umeng.com			dp32
-10.11.0.33	dp33.umeng.com			dp33
-10.11.0.34	dp34.umeng.com			dp34
-10.11.0.35	dp35.umeng.com			dp35
-10.11.0.36	dp36.umeng.com			dp36
-10.11.0.37	dp37.umeng.com			dp37
-10.11.0.38	dp38.umeng.com			dp38
-10.11.0.39	dp39.umeng.com			dp39
-10.11.0.40	dp40.umeng.com			dp40
-10.11.0.41	dp41.umeng.com			dp41
-10.11.0.42	dp42.umeng.com			dp42
-10.11.0.43	dp43.umeng.com			dp43
-10.11.0.44	dp44.umeng.com			dp44
+10.11.0.45	dp31.umops.us			dp31
+10.11.0.32	dp32.umops.us			dp32
+10.11.0.33	dp33.umops.us			dp33
+10.11.0.34	dp34.umops.us			dp34
+10.11.0.35	dp35.umops.us			dp35
+10.11.0.36	dp36.umops.us			dp36
+10.11.0.37	dp37.umops.us			dp37
+10.11.0.38	dp38.umops.us			dp38
+10.11.0.39	dp39.umops.us			dp39
+10.11.0.40	dp40.umops.us			dp40
+10.11.0.41	dp41.umops.us			dp41
+10.11.0.42	dp42.umops.us			dp42
+10.11.0.43	dp43.umops.us			dp43
+10.11.0.44	dp44.umops.us			dp44
 10.11.0.65      dp45.umops.us   dp45.umeng.com  dp45
 10.11.0.46      dp46.umops.us   dp46.umeng.com  dp46
 10.11.0.47      dp47.umops.us   dp47.umeng.com  dp47
@@ -109,27 +109,41 @@ ff02::3	ip6-allhosts
 10.11.0.68      dp67.umops.us   dp67.umeng.com  dp67
 10.11.0.69      dp68.umops.us   dp68.umeng.com  dp68
 10.11.0.70      dp69.umops.us   dp69.umeng.com  dp69
-
-10.11.0.71  	dp70.umops.us	dp70.umeng.com	dp70
-10.11.0.74	dp71.umops.us	dp71.umeng.com	dp71
-10.11.0.75	dp72.umops.us	dp72.umeng.com	dp72
-10.11.0.76	dp73.umops.us	dp73.umeng.com	dp73
-10.11.0.77	dp74.umops.us	dp74.umeng.com	dp74
-10.11.0.78	dp75.umops.us	dp75.umeng.com	dp75
-10.11.0.79	dp76.umops.us	dp76.umeng.com	dp76
-10.11.0.80	dp77.umops.us	dp77.umeng.com	dp77
-10.11.0.81	dp78.umops.us	dp78.umeng.com	dp78
-10.11.0.82	dp79.umops.us	dp79.umeng.com	dp79
-10.11.0.83	dp80.umops.us	dp80.umeng.com	dp80
-10.11.0.84	dp81.umops.us	dp81.umeng.com	dp81
-10.11.0.85	dp82.umops.us	dp82.umeng.com	dp82
-10.11.0.86	dp83.umops.us	dp83.umeng.com	dp83
-10.11.0.87	dp84.umops.us	dp84.umeng.com	dp84
-10.11.0.88	dp85.umops.us	dp85.umeng.com	dp85
-10.11.0.89	dp86.umops.us	dp86.umeng.com	dp86
-10.11.0.90	dp87.umops.us	dp87.umeng.com	dp87
-10.11.0.95	dp88.umops.us	dp88.umeng.com	dp88
-10.11.0.96	dp89.umops.us	dp89.umeng.com	dp89
+10.11.0.71      dp70.umops.us   dp70.umeng.com  dp70
+10.11.0.74      dp71.umops.us   dp71.umeng.com  dp71
+10.11.0.75      dp72.umops.us   dp72.umeng.com  dp72
+10.11.0.76      dp73.umops.us   dp73.umeng.com  dp73
+10.11.0.77      dp74.umops.us   dp74.umeng.com  dp74
+10.11.0.78      dp75.umops.us   dp75.umeng.com  dp75
+10.11.0.79      dp76.umops.us   dp76.umeng.com  dp76
+10.11.0.80      dp77.umops.us   dp77.umeng.com  dp77
+10.11.0.81      dp78.umops.us   dp78.umeng.com  dp78
+10.11.0.82      dp79.umops.us   dp79.umeng.com  dp79
+10.11.0.83      dp80.umops.us   dp80.umeng.com  dp80
+10.11.0.84      dp81.umops.us   dp81.umeng.com  dp81
+10.11.0.85      dp82.umops.us   dp82.umeng.com  dp82
+10.11.0.86      dp83.umops.us   dp83.umeng.com  dp83
+10.11.0.87      dp84.umops.us   dp84.umeng.com  dp84
+10.11.0.88      dp85.umops.us   dp85.umeng.com  dp85
+10.11.0.89      dp86.umops.us   dp86.umeng.com  dp86
+10.11.0.90      dp87.umops.us   dp87.umeng.com  dp87
+10.11.0.95      dp88.umops.us   dp88.umeng.com  dp88
+10.11.0.96      dp89.umops.us   dp89.umeng.com  dp89
+10.11.0.97	dp90.umops.us	dp90
+10.11.0.98      dp91.umops.us   dp91
+10.11.0.99      dp92.umops.us   dp92
+10.11.0.100      dp93.umops.us   dp93
+10.11.1.1      dp94.umops.us   dp94
+10.11.1.2      dp95.umops.us   dp95
+10.11.1.3      dp96.umops.us   dp96
+10.11.1.4      dp97.umops.us   dp97
+10.11.1.5      dp98.umops.us   dp98
+10.11.1.6      dp99.umops.us   dp99
+10.11.1.7      dp100.umops.us   dp100
+10.11.1.8      dp101.umops.us   dp101
+10.11.1.9      dp102.umops.us   dp102
+10.11.1.10      dp103.umops.us   dp103
+10.11.1.11      dp104.umops.us   dp104
 
 10.11.0.91      dptest1.umops.us        dptest1.umeng.com       dptest1
 10.11.0.92      dptest2.umops.us        dptest2.umeng.com       dptest2
