@@ -46,27 +46,28 @@ then
     exit 1
 fi
 
-echo "start fast-hbase-rest..."
+dt=`date`
+echo "[$dt]start fast-hbase-rest..."
 start
-echo "start fast-hbase-rest OK!"
+echo "[$dt]start fast-hbase-rest OK!"
 
 for((;;))
 do
     sleep 30
     reboot=`curl -S $url 2>/dev/null`
-    echo "reboot status = $reboot"
     if [ $reboot == 'true' ]
     then
-	echo "wipe..."
+	dt=`date`
+	echo "[$dt]wipe..."
 	wipe
 	if [ $? -eq 0 ]
 	then
-	    echo "wipe OK! restart..."
+	    echo "[$dt]wipe OK! restart..."
 	    # wipe ok.
 	    start
-	    echo "restart OK!"
+	    echo "[$dt]restart OK!"
 	else 
-	    echo "wipe FAILED!"
+	    echo "[$dt]wipe FAILED!"
 	    # failed.
 	    continue
 	fi
