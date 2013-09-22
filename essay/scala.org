@@ -34,9 +34,7 @@ scala> a.to(4)
 res1: scala.collection.immutable.Range.Inclusive = Range(2, 3, 4)
 #+END_EXAMPLE
 
-*TODO(dirlt):可以学习一下这些原始类型提供的方法* 
-
-*NOTE(dirlt):实际上scala内部提供了隐式转换到其他类来提供扩展方法的，比如将Int->RichInt*
+*NOTE(dirlt):实际上scala内部提供了隐式转换到其他类来提供扩展方法的，比如将Int->RichInt.可以学习一下这些扩展方法*
 
 --------------------
 数组类型则是 Array[<type>] 比如
@@ -385,6 +383,7 @@ pattern matching过程中还有下面几个问题需要注意：
    - Variable binding // 有时候我们希望匹配的变量包含外层结构
      - A(1,B(x)) => handle(B(x))
      - A(1, p @ B(_)) => handle(p) # p绑定了B(x)这个匹配
+     - A(1, p @ B()) => handle(p) # *B是可以包含unapply从type(p) => Boolean的类，做条件判断*
    - Pattern guards // 有时候我们希望对pattern做一些限制性条件
      - A(1,e,e) 比如希望后面两个元素相等，但是这个在pm里面没有办法表达
      - A(1,x,y) if x == y => <body> // 通过guard来完成
@@ -401,7 +400,6 @@ println(a.x);
 println(a); // toString = A(1)
 #+END_SRC
 case class最大就是可以很方便地用来做pattern matching.
-
 
 --------------------
 如果我们能够知道某个selector所有可能的pattern的话，那么就能够在编译期做一些安全性检查。但是selector这个过于宽泛，如果将selector限制在类层次上的话，那么还是可以实现的。举例如下：
@@ -440,6 +438,11 @@ a match {
   case _ => throw new RuntimeException("??");
 }
 #+END_SRC
+
+--------------------
+模式匹配除了能够直接作用在case class上之外，也可以作用在普通的class上面，但是需要普通的class提供一些辅助的方法将转换成为case class或者是constant/string上面。这个机制在scala里面称为 *extractor* 
+
+TODO(dirlt):
  
 *** annotation
 Unlike comments, they have structure, thus making them easier to machine process. There are many things you can do with a program other than compiling and running it. Some examples are:
@@ -720,7 +723,38 @@ foo(1) // 1,hello,hello
 #+END_SRC
 这里需要注意的是，隐式参数的匹配不是靠名字而是靠类型来匹配的。又因为这个方式有点类似全局变量，所以隐式参数类型定义上一定要选择比较unique的，这样才不容易出现冲突。As a style rule, it is best to use a custom named type in the types of implicit parameters. 
 
-*TODO(dirlt):view bound.*
+--------------------
+Note that when you use implicit on a parameter, then not only will the compiler try to supply that parameter with an implicit value, but the compiler will also use that parameter as an available implicit in the body of the method! 
+
+使用隐式参数的话，编译器不仅仅会在外部调用时候使用这个参数，在函数体内也会使用这个参数，以下面代码为例
+#+BEGIN_SRC Scala
+def maxList[T](elements: List[T])
+(implicit orderer: T => Ordered[T]): T =
+  elements match {
+    case List() =>
+      throw new IllegalArgumentException("empty list!")
+    case List(x) => x
+    case x :: rest =>
+      val maxRest = maxList(rest)  // (orderer) is implicit
+    if (x > maxRest) x           // orderer(x) is implicit
+    else maxRest
+  }
+#+END_SRC
+函数体内部默认地都是用了两个隐式参数。但是注意在函数体内实际上这个隐式参数根本没有使用。
+
+Because this pattern is common, Scala lets you leave out the name of this pa- rameter and shorten the method header by using a view bound. 因为这个模式非常通用，所以scala提出了一个 *view bound* . 上面代码可以写为
+#+BEGIN_SRC Scala
+def maxList[T <% Ordered[T]](elements: List[T]): T = elements match {
+  case List() =>
+    throw new IllegalArgumentException("empty list!")
+  case List(x) => x
+  case x :: rest =>
+    val maxRest = maxList(rest)  // (orderer) is implicit
+  if (x > maxRest) x           // orderer(x) is implicit
+  else maxRest
+}
+#+END_SRC
+这里对T做了view bound.  *You can think of “T <% Ordered[T]” as saying, “I can use any T, so long as T can be treated as an Ordered[T].”*  也就是说T可以被认为是Ordered[T]这个类型传入，只要外部提供了T => Ordered[T]的隐式转换函数。 
 
 *** ()method
 parameterless vs. empty-paren method. 对于函数来说如果没有任何参数的话，那么可以将()取消:
