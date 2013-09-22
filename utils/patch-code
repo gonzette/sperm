@@ -6,6 +6,7 @@ rsync -avrz $HOME/github/fast-hbase-rest/src/main/ $HOME/github/sperm/code/java/
 rsync -vz $HOME/github/fast-hbase-rest/pom.xml $HOME/github/sperm/code/java/fast-hbase-rest/pom.xml
 rsync -vz $HOME/github/fast-hbase-rest/.gitignore $HOME/github/sperm/code/java/fast-hbase-rest/.gitignore
 rsync -vz $HOME/github/fast-hbase-rest/run-fast-hbase-rest $HOME/github/sperm/code/java/fast-hbase-rest/run-fast-hbase-rest
+rsync -vz $HOME/github/fast-hbase-rest/daemon-fast-hbase-rest $HOME/github/sperm/code/java/fast-hbase-rest/daemon-fast-hbase-rest
 rsync -vz $HOME/github/fast-hbase-rest/Makefile $HOME/github/sperm/code/java/fast-hbase-rest/Makefile
 
 echo "patching veritas ..."

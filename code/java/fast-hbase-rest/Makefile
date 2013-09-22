@@ -7,7 +7,7 @@ JAR=FastHBaseRest-1.0-SNAPSHOT-jar-with-dependencies.jar
 dist:clean
 	mvn compile package
 	mkdir -p $D
-	cp target/$(JAR) run-fast-hbase-rest $D
+	cp target/$(JAR) run-fast-hbase-rest daemon-fast-hbase-rest $D
 	cd $D && ln -s $(JAR) FastHBaseRest.jar
 	tar czvf $D.tar.gz $D
 
