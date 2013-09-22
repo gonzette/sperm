@@ -442,8 +442,57 @@ a match {
 --------------------
 模式匹配除了能够直接作用在case class上之外，也可以作用在普通的class上面，但是需要普通的class提供一些辅助的方法将转换成为case class或者是constant/string上面。这个机制在scala里面称为 *extractor* 
 
-TODO(dirlt):
- 
+下面是一个例子
+#+BEGIN_SRC Scala
+class A(val a:String,
+        val b:String) {
+  
+}
+
+val a = new A("hello","world");
+a match {
+  case A(x,y) => println(x + "," + y);
+  case _ => println("!match");
+}
+#+END_SRC
+这段代码不能够运行，原因在于没有办法告诉scala，如果将A实例和A(x,y)来做匹配。对于case classes来说实现可能相对简单，因为case class的class parameters都是val定义的，也就是说构造参数没有办法改变，编译器内部处理case classes的话可以保存这个构造参数，而general class却不能够像case class一样。所以需要用户提供辅助函数来帮助scala做pattern matching. *用户需要在companion object提供unapply函数* 
+
+#+BEGIN_SRC Scala
+object A {
+  def apply(a:String,b:String) = new A(a,b)
+  def unapply(x:A) = Some((x.a,x.b))
+}
+#+END_SRC
+unapply和apply通常是配对的函数。apply将参数构造成为一个对象，而unapply将对象解构成为参数。the apply method is called an injection, because it takes some arguments and yields an element of a given set. The unapply method is called an extrac- tion, because it takes an element of the same set and extracts some of its parts. 而companion object则称为extractor.
+
+*unapply的过程可以认为是将unapply参数最用在expression上，抽取出这个expression的构造参数* 比如上面过程可以认为类似
+#+BEGIN_SRC Scala
+object A {
+  def apply(a:String,b:String) = new A(a,b)
+  def unapply(a: A) = Some((a.a,a.b))
+}
+
+val a = new A("hello","world");
+A.unapply(a) match {
+  case Some((x,y)) => println(x + "," + y);
+  case _ => println("!match");
+}
+#+END_SRC
+
+使用上面的unapply方法不能够匹配带有_*这种sequence variable的pattern.允许匹配这种pattern的话，那么需要实现unapplySeq方法，返回参数必须是Option[Seq[T]]这个类型
+#+BEGIN_SRC Scala
+object A {
+  def apply(a:String,b:String) = new A(a,b)
+  def unapplySeq(a: A):Option[Seq[String]] = Some(List(a.a,a.b))
+}
+
+val a = new A("hello","world");
+a match {
+  case A(x,_*) => println(x);
+  case _ => println("!match");
+}
+#+END_SRC
+
 *** annotation
 Unlike comments, they have structure, thus making them easier to machine process. There are many things you can do with a program other than compiling and running it. Some examples are:
    1. Automatic generation of documentation as with Scaladoc.
