@@ -467,23 +467,14 @@ public class AsyncClient implements Runnable {
     }
 
     // TODO(dirlt):maybe need modification.
-    private long calcRequestTimeout(int retryTime, int qualifierCount) {
+    private long calcRequestTimeout(int retryTime, long allocateTime, int qualifierCount) {
         final long kCPUReservedTimeSlice = 10; // allocate 10ms for CPU.
-        if (retryTime > 5) { // better not too much. [0,5]
+        final long kMaxRetryTime = 5;
+        if (retryTime >= kMaxRetryTime) {
             return 0;
         }
-        retryTime = retryTime * 2;
-        if (qualifierCount == 0) {
-            retryTime += 5;
-        } else {
-            retryTime += 3;
-        }
-        long base = 1 << retryTime;
-        if ((requestTimeout - kCPUReservedTimeSlice) > base) {
-            return base;
-        } else {
-            return 0;
-        }
+        float t = (1 << retryTime) * 1.0f / (1 << kMaxRetryTime) * (allocateTime - kCPUReservedTimeSlice);
+        return (long) t;
     }
 
     public void readHBaseService() {
@@ -498,7 +489,7 @@ public class AsyncClient implements Runnable {
             byte[][] qualifiers = new byte[readHBaseQualifiers.size()][];
             int idx = 0;
             for (String q : readHBaseQualifiers) {
-                qualifiers[idx] = q.getBytes();
+                qualifiers[idx] = Utility.toBytes(q);
                 idx += 1;
             }
             getRequest.qualifiers(qualifiers);
@@ -510,9 +501,10 @@ public class AsyncClient implements Runnable {
         Exception except = null;
         int retryTime = 0;
         int qualifierCount = rdReq.getQualifiersCount();
+        long allocateTime = requestTimeout;
         while (true) {
-            long timeout = calcRequestTimeout(retryTime, qualifierCount);
-            RestServer.logger.debug(String.format("timeout=%s, retryTime=%d, requestTimeout=%s", timeout, retryTime, requestTimeout));
+            long timeout = calcRequestTimeout(retryTime, allocateTime, qualifierCount);
+            RestServer.logger.debug(String.format("timeout=%s, retryTime=%d", timeout, retryTime));
             Deferred<ArrayList<KeyValue>> deferred = HBaseService.getInstance().get(getRequest);
             // we don't use callback because of it's lack of controlling timeout.
             try {
@@ -606,18 +598,20 @@ public class AsyncClient implements Runnable {
         byte[][] qualifiers = new byte[wrReq.getKvsCount()][];
         byte[][] values = new byte[wrReq.getKvsCount()][];
         for (int i = 0; i < wrReq.getKvsCount(); i++) {
-            qualifiers[i] = wrReq.getKvs(i).getQualifier().getBytes();
+            qualifiers[i] = Utility.toBytes(wrReq.getKvs(i).getQualifier());
             values[i] = wrReq.getKvs(i).getContent().toByteArray();
         }
         StatStore.getInstance().addMetric(StatStore.MetricFieldName.kWriteQualifierCount, wrReq.getKvsCount());
-        PutRequest putRequest = new PutRequest(tableName.getBytes(), rowKey.getBytes(), columnFamily.getBytes(), qualifiers, values);
+        PutRequest putRequest = new PutRequest(Utility.toBytes(tableName), Utility.toBytes(rowKey), Utility.toBytes(columnFamily), qualifiers, values);
 
         writeHBaseServiceStartTimestamp = System.currentTimeMillis();
         Exception except = null;
         int retryTime = 0;
         int qualifierCount = wrReq.getKvsCount();
+        long allocateTime = requestTimeout;
         while (true) {
-            long timeout = calcRequestTimeout(retryTime, qualifierCount);
+            long timeout = calcRequestTimeout(retryTime, allocateTime, qualifierCount);
+            RestServer.logger.debug(String.format("timeout=%s, retryTime=%d", timeout, retryTime));
             Deferred<Object> deferred = HBaseService.getInstance().put(putRequest);
             // we don't use callback because of it's lack of controlling timeout.
             try {

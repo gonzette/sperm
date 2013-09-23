@@ -15,11 +15,20 @@ public class Utility {
         return hashCode.substring(0, 4) + "_" + s;
     }
 
+    public static byte[] toBytes(String s) {
+        try {
+            return s.getBytes("utf-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return s.getBytes();
+        }
+    }
+
     public static String getMD5(String input) throws Exception {
         // Create MD5 Hash
         MessageDigest digest = java.security.MessageDigest
                 .getInstance("MD5");
-        digest.update(input.getBytes());
+        digest.update(toBytes(input));
         byte messageDigest[] = digest.digest();
 
         // Create Hex String

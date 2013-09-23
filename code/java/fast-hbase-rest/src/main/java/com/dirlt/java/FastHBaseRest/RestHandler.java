@@ -46,7 +46,7 @@ public class RestHandler extends SimpleChannelHandler {
                 HttpVersion.HTTP_1_1, HttpResponseStatus.OK);
         response.setHeader("Content-Length", content.length());
         ChannelBuffer buffer = ChannelBuffers.buffer(content.length());
-        buffer.writeBytes(content.getBytes());
+        buffer.writeBytes(Utility.toBytes(content));
         response.setContent(buffer);
         channel.write(response).addListener(ChannelFutureListener.CLOSE);
     }
