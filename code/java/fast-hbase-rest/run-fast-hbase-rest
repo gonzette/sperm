@@ -24,4 +24,6 @@ java -server \
     --debug=false \
     --close-on-failure=true \
     --kv=appuserstat.date.addHashCodeAsRowKeyPrefix:2013-07-02 \
+    --kv=reboot-ratio-threshold:0.005 \
+    --kv=reboot-count-threshold:64 \
     $@

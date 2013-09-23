@@ -469,24 +469,14 @@ public class AsyncClient implements Runnable {
     // TODO(dirlt):maybe need modification.
     private long calcRequestTimeout(int retryTime, int qualifierCount) {
         final long kCPUReservedTimeSlice = 10; // allocate 10ms for CPU.
+        if (retryTime > 5) { // better not too much. [0,5]
+            return 0;
+        }
+        retryTime = retryTime * 2;
         if (qualifierCount == 0) {
-            retryTime += 7;
-            if (retryTime > 13) {
-                retryTime = 13;
-            }
-            // 128ms .. 8192ms
-        } else if (qualifierCount > 64) {
             retryTime += 5;
-            if (retryTime > 12) {
-                retryTime = 12;
-            }
-            // 32ms .. 4096ms.
         } else {
             retryTime += 3;
-            if (retryTime > 10) {
-                retryTime = 10;
-            }
-            // 8ms .. 1024ms.
         }
         long base = 1 << retryTime;
         if ((requestTimeout - kCPUReservedTimeSlice) > base) {

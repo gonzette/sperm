@@ -148,6 +148,7 @@ public class StatStore {
     private static final int kReservedSize = 5;
     private static final int kTickInterval = 60 * 1000;
     private static Configuration gConfiguration;
+    private static volatile Boolean rebootFlag = false;
     private static StatStore[] pool = new StatStore[kReservedSize];
     private static volatile int current = 0;
 
@@ -171,6 +172,34 @@ public class StatStore {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public static void setRebootFlag() {
+        rebootFlag = true;
+    }
+
+    public static Boolean getNeedReboot() {
+        if (rebootFlag) {
+            return true;
+        }
+        if (gConfiguration.getKv().containsKey("reboot-ratio-threshold") &&
+                gConfiguration.getKv().containsKey("reboot-count-threshold")) {
+            int readRequestCount = 0;
+            int readRequestTimeoutOfHBaseCount = 0;
+            for (int i = 0; i < kReservedSize; i++) {
+                StatStore store = getInstance(i);
+                readRequestCount += store.metric[MetricFieldName.kReadRequestCount.ordinal()].get();
+                readRequestTimeoutOfHBaseCount += store.metric[MetricFieldName.kReadRequestTimeoutOfHBaseCount.ordinal()].get();
+            }
+            float ratio = readRequestTimeoutOfHBaseCount * 1.0f / (readRequestCount + 1);
+            float rebootRatio = Float.valueOf((String) (gConfiguration.getKv().get("reboot-ratio-threshold")));
+            int rebootCount = Integer.valueOf((String) (gConfiguration.getKv().get("reboot-count-threshold")));
+            if (ratio > rebootRatio &&
+                    readRequestTimeoutOfHBaseCount > rebootCount) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public StatStore(Configuration configuration) {

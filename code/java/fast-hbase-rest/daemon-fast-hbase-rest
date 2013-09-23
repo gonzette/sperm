@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+#Copyright (C) dirlt
+
+port=12345
+if [ $# -ge 1 ]
+then
+    port=$1
+    shift 
+fi
+
+url="http://127.0.0.1:$port/need-reboot"
+cmd="./run-fast-hbase-rest --port=$port $@"
+
+get_pid() {
+    pid=`ps aux | grep FastHBaseRest | grep java | awk '{print $2;}'`
+}
+
+wipe() {
+    get_pid
+    if [ $pid"X" != "X" ]
+    then 
+	kill $pid
+	sleep 1
+    fi
+    get_pid
+    if [ $pid"X" == "X" ]
+    then
+	# OK
+	return 0
+    else
+	# failed.
+	return 1
+    fi    
+}
+
+start() {
+    $cmd >fast-hbase-rest.log 2>&1 &
+}
+
+wipe
+# check instance.
+get_pid
+if [ $pid"X" != "X" ]
+then
+    echo "fast-hbase-rest has instance, please kill it manually!"
+    exit 1
+fi
+
+dt=`date`
+echo "[$dt]start fast-hbase-rest..."
+start
+echo "[$dt]start fast-hbase-rest OK!"
+
+for((;;))
+do
+    sleep 30
+    reboot=`curl -S $url 2>/dev/null`
+    if [ $reboot == 'true' ]
+    then
+	dt=`date`
+	echo "[$dt]wipe..."
+	wipe
+	if [ $? -eq 0 ]
+	then
+	    echo "[$dt]wipe OK! restart..."
+	    # wipe ok.
+	    start
+	    echo "[$dt]restart OK!"
+	else 
+	    echo "[$dt]wipe FAILED!"
+	    # failed.
+	    continue
+	fi
+    fi
+done

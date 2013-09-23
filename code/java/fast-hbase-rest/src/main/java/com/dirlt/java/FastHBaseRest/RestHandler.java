@@ -24,6 +24,8 @@ public class RestHandler extends SimpleChannelHandler {
 
     static {
         allowedPath.add("/stat");
+        allowedPath.add("/set-reboot");
+        allowedPath.add("/need-reboot");
         allowedPath.add("/read");
         allowedPath.add("/multi-read");
         allowedPath.add("/write");
@@ -46,7 +48,7 @@ public class RestHandler extends SimpleChannelHandler {
         ChannelBuffer buffer = ChannelBuffers.buffer(content.length());
         buffer.writeBytes(content.getBytes());
         response.setContent(buffer);
-        channel.write(response);
+        channel.write(response).addListener(ChannelFutureListener.CLOSE);
     }
 
     @Override
@@ -82,6 +84,19 @@ public class RestHandler extends SimpleChannelHandler {
         // as stat, we can easily handle it.
         if (path.equals("/stat")) {
             String content = StatStore.getStat();
+            writeContent(channel, content);
+            return;
+        }
+
+        if (path.equals("/need-reboot")) {
+            Boolean f = StatStore.getNeedReboot();
+            writeContent(channel, f.toString());
+            return;
+        }
+
+        if (path.equals("/set-reboot")) {
+            String content = "OK";
+            StatStore.setRebootFlag();
             writeContent(channel, content);
             return;
         }

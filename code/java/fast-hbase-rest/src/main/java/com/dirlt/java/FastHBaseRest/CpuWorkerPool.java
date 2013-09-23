@@ -23,6 +23,10 @@ public class CpuWorkerPool {
                 0, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(configuration.getCpuQueueSize()));
     }
 
+    public ExecutorService getExecutorService() {
+        return executorService;
+    }
+
     public static CpuWorkerPool getInstance() {
         return instance;
     }
