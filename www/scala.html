@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="scala"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-22 12:08:41 CST"/>
+<meta name="generated" content="2013-09-23 17:30:46 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -116,7 +116,13 @@
 <li><a href="#sec-1-3-3">1.3.3 closure</a></li>
 </ul>
 </li>
-<li><a href="#sec-1-4">1.4 面向泛型</a></li>
+<li><a href="#sec-1-4">1.4 面向泛型</a>
+<ul>
+<li><a href="#sec-1-4-1">1.4.1 类型参数化</a></li>
+<li><a href="#sec-1-4-2">1.4.2 variance</a></li>
+<li><a href="#sec-1-4-3">1.4.3 bound</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1186,7 +1192,7 @@ scala将构造函数和初始化代码融合，只是使用初始化代码来作
 </pre>
 
 <p>
-在class parameter之前添加[private|protected|override] [val|var]即可，这样既定义了类构造函数参数也定义了对应的字段。scala访问修饰符只有private/protected,默认是public. The way you make members public in Scala is by not explicitly specifying any access modifier. Put another way, where you’d say “public” in Java, you simply say nothing in Scala. Public is Scala’s default access level. 
+在class parameter之前添加[private|protected|override] [val|var]即可，这样既定义了类构造函数参数也定义了对应的字段。scala访问修饰符只有private/protected,默认是public. The way you make members public in Scala is by not explicitly specifying any access modifier. Put another way, where you’d say “public” in Java, you simply say nothing in Scala. Public is Scala’s default access level.  <b>NOTE(dirlt):默认是public val</b>  
 </p>
 <p>
 如果面向对象角度相比于java，上面这种方式确实简化不少。而scala本意应该是更想到达函数式类构造效果，构造生成对象称为 <b>functional object</b> . 我们之所以想保存这些参数是因为在编写java时候这些参数只能够在构造函数中获得，而在scala里面实际上在整个类里面都是可以获得的，因此对于上面情况来说我们根本没有必要保存这些类参数。在下面closure代码里面我们实际上可以直接引用pn,pd来参与计算。
@@ -1576,7 +1582,7 @@ val b = new B(10);
 </pre>
 
 <p>
-抽象类不能够用来创建实例，类必须继承实现方法才能够创建实例。
+抽象类不能够用来创建实例，类必须继承实现方法才能够创建实例。 <b>NOTE(dirlt):注意对于字段和方法来说一定要给出定义，否则会认为是声明，这样就会产生抽象的字段和方法</b> 
 </p>
 <p>
 与抽象类相对应的是final类，这个类不能够再被继承。同时final字段还能够用在方法和字段上面这样可以不被override.
@@ -2089,12 +2095,219 @@ println(foo(1)) // 1
 
 
 </div>
+
+<div id="outline-container-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> 类型参数化</h4>
+<div class="outline-text-4" id="text-1-4-1">
+
+<p>scala将类型参数化的语法为C[T]. <b>但是和Java不同的是，scala必须指定类型参数。</b> 
+</p>
+<p>
+scala底层使用jvm所以还是面临类型擦除的问题。下面是一段示例代码
+</p>
+
+
+<pre class="src src-Scala">class A[T] {
+}
+
+def foo(x: A[String]) {
+}
+
+def foo(x: A[Int]) {
+}
+</pre>
+
+<p>
+对于上面这段程序，编译器会认为A[String]和A[Int]是相同的，所以不能够做函数重载
+</p>
+
+
+<pre class="example">/Users/dirlt/scala/Hello.scala:7: error: double definition:
+method foo:(x: this.A[Int])Unit and
+method foo:(x: this.A[String])Unit at line 4
+have same type after erasure: (x: A)Unit
+def foo(x: A[Int]) {
+</pre>
+
+
+<p>
+scala对于类型参数化的检查也只是在compile阶段而非runtime阶段完成。不过相比java而言scala做了更多的工作。
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> variance</h4>
+<div class="outline-text-4" id="text-1-4-2">
+
+<p>如果T1和T2存在某种关系的话，那么C[T1]和C[T2]之间存在的关系则称为C的variance. 对于Java和C++来说，C[T1]和C[T2]之间在编译期间是完全不兼容的类型，而scala则定义了三种关系：如果T1 extends T2的话
+</p><ul>
+<li>C[T1] extends C[T2]的话，那么C是covariant.
+</li>
+<li>C[T2] extends C[T1]的话，那么C是contravariant. 
+</li>
+<li>C[T1] 和 C[T2] 不兼容的话，那么C是nonvariant.
+</li>
+</ul>
+
+<p>默认而言scala也是nonvariant的，也就是说对于C[Any]和C[T]之间是相互不兼容的。
+</p>
+<p>
+这和Java则有点不同，Java class泛型可以不指定类型参数。
+</p>
+
+
+<pre class="src src-Java">import java.util.*;
+
+public class Hello {
+  public static void main(String[] args) {
+    Map&lt;String,String&gt; a = new HashMap&lt;String,String&gt;();
+    Map b = a;
+  }
+}
+</pre>
+
+
+<p>
+上面代码是可以编译的，但是如果放在scala的话
+</p>
+
+
+<pre class="src src-Scala">class A[T] {
+}
+
+val x = new A[Int];
+val y:A[Any] = x;
+</pre>
+
+
+<p>
+那么出现如下编译错误
+</p>
+
+
+<pre class="example">/Users/dirlt/scala/Hello.scala:5: error: type mismatch;
+ found   : this.A[Int]
+ required: this.A[Any]
+Note: Int &lt;: Any, but class A is invariant in type T.
+You may wish to define T as +T instead. (SLS 4.5)
+val y:A[Any] = x;
+               ^
+one error found
+</pre>
+
+
+<p>
+<b>如果希望covariant的话，那么在定义时候形式如C[+T], 如果希望是contravariant的话，那么定义时候形式如C[-T].</b> 通过annotation方式提供。 
+</p>
+
+
+<pre class="src src-Scala">class A[+T] {
+}
+
+val x = new A[Int];
+val y:A[Any] = x;
+</pre>
+
+<p>
+<b>NOTE(dirlt):初看contravariant似乎没有太大作用，后面会说到</b>
+</p>
+<p>
+当然出了改变variance之外，还能够像java一样做强制类型转换，通过asInstanceOf,isInstanceOf来操作
+</p>
+
+
+<pre class="src src-Scala">class A[T] {
+}
+
+val x = new A[Int];
+val y:A[Any] = x.asInstanceOf[A[Any]];
+</pre>
+
+
+
+<hr/>
+<p>
+scala引入variance也带来了一些问题
+</p>
+
+
+
+<pre class="src src-Scala">class A[+T] {
+  def foo(x:T) {
+  }
+}
+
+val x = new A[String];
+val y:A[Any] = x;
+y.foo(<span class="org-string">"hello"</span>);
+</pre>
+
+<p>
+其实y是不允许调用"hello"的，我们的问题出在y=x和foo函数定义上。原因是因为A里面包含了一个foo方法需要传入参数T，而如果转换到更general类型的话，那么foo方法调用时候可能出现类型错误。 <b>scala会在编译期间对潜在造成类型错误的操作做检查</b> 
+</p>
+<p>
+这个问题如果仔细考虑的话会是这样的：对于传入参数而言要求类型应该是T的子类，而对于传出参数而言要求类型应该是T的超类。这样在转换到general类型的时候，才不会出现潜在类型错误。这也就是需要contravariant的原因。
+</p>
+
+
+<pre class="src src-Scala">class X
+class Y extends X
+class Z extends Y
+
+
+class A[-P] {
+  def foo(x:P) {
+  }
+}
+
+val x = new A[X];
+val y:A[Y] = x;
+y.foo(new Y());
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> bound</h4>
+<div class="outline-text-4" id="text-1-4-3">
+
+<p>这里的bound主要就是指泛型中的类型限定，其实类型限定这个东西还是因为提供了泛型类型上的类型层次系统导致的。以C++实现泛型来说就没有类型限定，因为类型参数都是duck-type，所有类型检查都是在编译阶段将代码展开来完成的，所以差别最主要的原因还是因为实现考虑和折中。bound语法如下：
+</p><ul>
+<li>U &gt;: T # U is required to be a supertype of T. <b>upper bound</b>
+</li>
+<li>U &lt;: T # U is required to be a subtype of T. <b>lower bound</b>
+</li>
+</ul>
+
+
+
+
+
+<pre class="src src-Scala">def foo[T &lt;: Ordered[T]](x:T,y:T) = x &lt; y
+
+class A (private val v:Int) extends Ordered[A] {
+  def compare(x: A) = v - x.v
+}
+
+val x = new A(10);
+val y = new A(20);
+println(foo(x,y));
+println(foo(10,20)); // compile error.
+</pre>
+
+</div>
+</div>
 </div>
 </div>
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-22 12:08:41 CST</p>
+<p class="date">Date: 2013-09-23 17:30:46 CST</p>
 <p class="creator">Org version 7.8.02 with Emacs version 23</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
