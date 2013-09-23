@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="scala"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-23 17:30:46 CST"/>
+<meta name="generated" content="2013-09-23 19:34:58 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -121,6 +121,14 @@
 <li><a href="#sec-1-4-1">1.4.1 类型参数化</a></li>
 <li><a href="#sec-1-4-2">1.4.2 variance</a></li>
 <li><a href="#sec-1-4-3">1.4.3 bound</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">1.5 Interoperation</a>
+<ul>
+<li><a href="#sec-1-5-1">1.5.1 singleton object</a></li>
+<li><a href="#sec-1-5-2">1.5.2 traits as interfaces</a></li>
+<li><a href="#sec-1-5-3">1.5.3 annotation</a></li>
+<li><a href="#sec-1-5-4">1.5.4 existential types</a></li>
 </ul>
 </li>
 </ul>
@@ -2300,14 +2308,184 @@ println(foo(x,y));
 println(foo(10,20)); // compile error.
 </pre>
 
+
 </div>
+</div>
+
+</div>
+
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Interoperation</h3>
+<div class="outline-text-3" id="text-1-5">
+
+<p>Scala is implemented as a translation to standard Java bytecodes. As much as possible, Scala features map directly onto the equivalent Java features. Scala classes, methods, strings, exceptions, for example, are all compiled to the same in Java bytecode as their Java counterparts. scala实现上是将代码翻译成为bytecode,并且这个映射大部分来说都是相对比较直接的
+</p>
+<p>
+To make this happen required an occasional hard choice in the design of Scala. For example, it might have been nice to resolve overloaded methods at run time, using run-time types, rather than at compile time. Such a design would break with Java’s, however, making it much trickier to mesh Java and Scala. In this case, Scala stays with Java’s overloading resolution, and thus Scala methods and method calls can map directly to Java methods and method calls. 为此scala实现做了很多折中，比如将重载方法的解析放在了编译时期而非运行时期，但是这样换来的好处就是scala方法调用可以很直接地映射到java方法调用上。
+</p>
+<p>
+For other features Scala has its own design. For example, traits have no equivalent in Java. Similarly, while both Scala and Java have generic types, the details of the two systems clash. For language features like these, Scala code cannot be mapped directly to a Java construct, so it must be encoded using some combination of the structures Java does have. 但是scala也有一些java没有的特性或者说存在冲突的特性，导致这些特性不能够直接映射到java结构上，而需要一些约定和组合办法来解决。
+</p>
+<p>
+For these features that are mapped indirectly, the encoding is not fixed. There is an ongoing effort to make the translations as simple as possible, so by the time you read this, some details may be different than at the time of writing. You can find out what translation your current Scala compiler uses by examining the “.class” files with tools like javap. 但是对这些靠约定和组合的解决办法，并不保证固定可能在之后的版本发生变化，最可靠的办法还是使用javap来分析生成的class文件 
+</p>
+
+</div>
+
+<div id="outline-container-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> singleton object</h4>
+<div class="outline-text-4" id="text-1-5-1">
+
+<p>For every Scala singleton object, the compiler will create a Java class for the object with a dollar sign added to the end. For a singleton object named App, the compiler produces a Java class named App$. This class has all the methods and fields of the Scala singleton object. The Java class also has a single static field named MODULE$ to hold the one instance of the class that is created at run time. 
+</p>
+<p>
+对于singleton object而言，产生的类名是&lt;class-name&gt;$. 注意字段并不是static.
+</p>
+
+
+<pre class="src src-Scala">object C {
+  def foo(){
+  }
+}
+class C;
+</pre>
+
+
+<p>
+javap C$
+</p>
+
+
+<pre class="example">Compiled from "Hello.scala"
+public final class C$ extends java.lang.Object{
+    public static final C$ MODULE$;
+    public static {};
+    public void foo();
+}
+</pre>
+
+
+<p>
+但是如果是standalone object的话那么没有$后缀，并且字段称为static.
+</p>
+
+
+<pre class="src src-Scala">object C {
+  def foo(){
+  }
+}
+</pre>
+
+
+<p>
+javap C
+</p>
+
+
+<pre class="example">Compiled from "Hello.scala"
+public final class C extends java.lang.Object{
+    public static void foo();
+}
+</pre>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> traits as interfaces</h4>
+<div class="outline-text-4" id="text-1-5-2">
+
+<p>Implementing a trait in Java is another story. In the general case it is not practical. One special case is important, however. If you make a Scala trait that includes only abstract methods, then that trait will be translated directly to a Java interface, with no other code to worry about. Essentially this means that you can write a Java interface in Scala syntax if you like.
+</p>
+<p>
+如果trait里面都只有抽象方法的话，那么直接翻译称为java interface. 而如果是其他情况的话则比较难处理。 
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-5-3" class="outline-4">
+<h4 id="sec-1-5-3"><span class="section-number-4">1.5.3</span> annotation</h4>
+<div class="outline-text-4" id="text-1-5-3">
+
+<ul>
+<li>@deprecated 
+</li>
+<li>@volatile # volatile修饰符
+</li>
+<li>@serializable # 实现java serializable接口 
+</li>
+<li>@SerialVersionUID(1234L) # 增加字段 private final static long SerialVersionUID = 1234L
+</li>
+<li>@throws(classOf[IOException]) # scala默认不生成exception declaration. 但是如果使用此注解的话bytecode会声明抛出IOExceptin.
+<ul>
+<li>jvm执行bytecode本身是不检查exception的，但是javac在编译时候会从bytecode从得到异常声明信息做检查
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5-4" class="outline-4">
+<h4 id="sec-1-5-4"><span class="section-number-4">1.5.4</span> existential types</h4>
+<div class="outline-text-4" id="text-1-5-4">
+
+<p>大部分Java类型在scala里面都有对应表示，但是对于一些特殊类型没有对应表示比如
+</p><ul>
+<li>Iterator&lt;?&gt;
+</li>
+<li>Iterator&lt;? extends Component&gt;
+</li>
+<li><b>NOTE(dirlt):似乎只有java泛型类型这块没有对应</b>
+</li>
+</ul>
+
+<p>Existential types are a fully supported part of the language, but in practice they are mainly used when accessing Java types from Scala. 
+</p>
+<p>
+语法格式如下
+</p>
+
+
+<pre class="example">type forSome { declarations }
+</pre>
+
+
+<p>
+对于上面Java类型的话是
+</p><ul>
+<li>Iterator[T] forSome { type T }
+</li>
+<li>Iterator[T] forSome { type T :&lt; Component }
+</li>
+</ul>
+
+<p>为了方便书写scala还引入了使用placeholder的简写
+</p><ul>
+<li>Iterator[_]
+</li>
+<li>Iterator[_ :&lt; Component ]
+</li>
+</ul>
+
+
+<p>
+<b>NOTE(dirlt):大部分时候使用不到,主要还是为了能够比较好理解compile error message</b>
+</p></div>
 </div>
 </div>
 </div>
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-23 17:30:46 CST</p>
+<p class="date">Date: 2013-09-23 19:34:58 CST</p>
 <p class="creator">Org version 7.8.02 with Emacs version 23</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
