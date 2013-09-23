@@ -298,9 +298,29 @@ thrift.Thrift.TApplicationException: Invalid method name: 'scannerOpenWithScan'
 #+END_EXAMPLE
 
 *** 获取集群运行状况
-    - 参考代码 com.dirlt.java.hbase.ClusterSummary
-    - HBaseAdmin可以获取节点信息
-    - HTable可以获取table
+   - 参考代码 com.dirlt.java.hbase.ClusterSummary
+   - HBaseAdmin可以获取节点信息
+   - HTable可以获取table信息
+
+*** bulk load
+   - http://hbase.apache.org/book/arch.bulk.load.html
+   - Preparing data via a MapReduce job
+     - 将输入文件转换成为HFile格式
+     - 参考代码 com.dirlt.java.mr.HBaseLoaderMR
+     - region，reduce，output对应，也就是说有多少个region就有多少个reduce
+       - *NOTE（dirlt）：所以需要关注region分布。如果过于集中的话需要考虑使用做pre-split或者是将key做hash-prefix等*
+     - configureIncrementalLoad会改写reducer实现，所以这个转换过程只能够由单独任务完成。
+     - In order to function efficiently, HFileOutputFormat must be configured such that each output HFile fits within a single region. In order to do this, jobs whose output will be bulk loaded into HBase use Hadoop's TotalOrderPartitioner class to partition the map output into disjoint ranges of the key space, corresponding to the key ranges of the regions in the table. HFileOutputFormat includes a convenience function, configureIncrementalLoad(), which automatically sets up a TotalOrderPartitioner based on the current region boundaries of a table.
+   - Completing the data load
+     - 将上步产生的HFile移动到相应目录并且通知对应的rs
+     - If the region boundaries have changed during the course of bulk load preparation, or between the preparation and completion steps, the completebulkloads utility will automatically split the data files into pieces corresponding to the new boundaries. This process is not optimally efficient, so users should take care to minimize the delay between preparing a bulk load and importing it into the cluster, especially if other clients are simultaneously loading data through other means.
+     - 如果在产生HFile和load之间rs出现分裂的话，bulkload工具能够自动处理，但是相对来说效率不是最佳。
+     - hadoop jar hbase-VERSION.jar completebulkload [-c /path/to/hbase/config/hbase-site.xml] /user/todd/myoutput mytable
+   - *NOTE(dirlt):实际上上面命令可能会出现权限问题，如果转换程序输出是hdfs owner的话，而要将文件移动到hbase那么必须是hbase owner. 所以通常使用下面命令完成*
+     - sudo -u hdfs hadoop fs -chmod -R 0777 <hfile-path> # 修改权限
+     - sudo -u hdfs hadoop fs -chown -R hbase <hfile-path> # 修改owner
+     - sudo -u hbase hadoop jar /usr/lib/hbase/hbase-0.94.6-cdh4.3.0-security.jar completebulkload <hfile-path> <table>
+
 ** 日志分析
 *** output error
 2013.04.07 AttachAppkeyToDeviceInfo失败很多次，都是因为连接hbase很多次失败。观察发现每次task都是连接某一个regionserver失败。日志中出现很多下面这样的错误：
