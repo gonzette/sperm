@@ -953,7 +953,7 @@ TODO（dirlt）：
 
 TODO(dirlt):???
 
-#+BEGIN_SRC 
+#+BEGIN_SRC Java
  private void resetData() {
     this.cluster = new NetworkTopology();
     this.overUtilizedDatanodes.clear();
@@ -1234,9 +1234,10 @@ TODO(dirlt):??
 #+END_SRC
 
 ***** Source::filterMovedBlocks
+从srcBlockList里面过滤在一段时间内已经移动过的block. 实现可以参考MovedBlocks.
+
 #+BEGIN_SRC Java
     /* iterate all source's blocks to remove moved ones */    
-    // 从srcBlockList里面过滤一些在一段时间内已经移动过的block. 实现可以参考MovedBlocks.
     private void filterMovedBlocks() {
       for (Iterator<BalancerBlock> blocks=getBlockIterator();
             blocks.hasNext();) {
@@ -1248,16 +1249,16 @@ TODO(dirlt):??
 #+END_SRC
 
 ***** Source::shouldFetchMoreBlocks
+是否应该尝试获取更多的blocks.
+
 #+BEGIN_SRC Java    
-    // 是否应该尝试获取更多的blocks，srcBlockList大小<5并且还有余量来获取blocks.
+    // srcBlockList大小<5并且还有余量来获取blocks.
     private static final int SOURCE_BLOCK_LIST_MIN_SIZE=5;
     /* Return if should fetch more blocks from namenode */
     private boolean shouldFetchMoreBlocks() {
       return srcBlockList.size()<SOURCE_BLOCK_LIST_MIN_SIZE &&
                  blocksToReceive>0;
     }
-
-  }
 #+END_SRC
 
 ***** Source::chooseNextBlockToMove
