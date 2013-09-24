@@ -522,3 +522,781 @@ uri = file:///
 *** 获取集群运行状况
    - 参考代码 com.dirlt.java.hdfs.ClusterSummary
    - 通过DFSClient可以获取集群运行状况
+
+** 代码分析
+*** Balancer
+*NOTE(dirlt):名词是自己定义的方便理解*
+   - NNs balance iteration # 对于hdfs federation来说可能存在多个NN. 并且对于这些NN需要发起多轮balance迭代，每轮迭代称为NNs balance iteration.
+   - NN balance iteration # NNs balance iteration内部针对每个NN集群发起一轮balance迭代称为NN balance iteration. 内部会拆解成为多个source发起balance.
+   - Source balance iteration # 每个source发起balance, 内部也会多次挑选block来做move. 这样每次move称为source balance iteration.
+
+**** NNS balance iteration
+***** main thread
+主流程大致是这样的：
+   1. 获得所有namenodes(hdfs federation supported)
+   2. 对每个namenode进行balance(block pool or node)
+   3. 迭代直到均衡或者是出现异常为止
+针对所有NNs迭代称为 *NNs balance iteration* ，而对每个NN迭代称为 *NN balance iteration*
+
+代码如下：
+#+BEGIN_SRC Java
+// 通过上面调用获得所有namenodes.
+// final Collection<URI> namenodes = DFSUtil.getNsServiceRpcUris(conf); 
+
+  static int run(Collection<URI> namenodes, final Parameters p,
+      Configuration conf) throws IOException, InterruptedException {
+    final long sleeptime = 2000*conf.getLong( // 默认6s
+        DFSConfigKeys.DFS_HEARTBEAT_INTERVAL_KEY, // dfs.heartbeat.interval
+        DFSConfigKeys.DFS_HEARTBEAT_INTERVAL_DEFAULT); // 3
+    final List<NameNodeConnector> connectors
+        = new ArrayList<NameNodeConnector>(namenodes.size());
+    try {
+      for (URI uri : namenodes) {
+        connectors.add(new NameNodeConnector(uri, conf));
+      }
+    
+      boolean done = false;
+      for(int iteration = 0; !done; iteration++) {
+        done = true;
+        Collections.shuffle(connectors); // 并不是顺序对nn做balance的
+        for(NameNodeConnector nnc : connectors) {
+          // 创建Balancer对象，参数是 1.和nn的connection 2.balance parameters 3.configuration.
+          final Balancer b = new Balancer(nnc, p, conf); 
+          // 调用Balancer对象run方法进行balance，iteration可以汇报当前是多少轮调度
+          final ReturnStatus r = b.run(iteration, formatter);
+          if (r == ReturnStatus.IN_PROGRESS) {
+            done = false; 
+          } else if (r != ReturnStatus.SUCCESS) {
+            //must be an error statue, return.
+            return r.code;
+          }
+        }
+
+        if (!done) {
+          Thread.sleep(sleeptime); // 如果调度在进行的话那么下次调度要等待一段时间
+        }
+      }
+    } finally {
+      for(NameNodeConnector nnc : connectors) {
+        nnc.close();
+      }
+    }
+    return ReturnStatus.SUCCESS.code;
+  }
+#+END_SRC
+
+Parameters有两个控制参数
+   - BalancingPolicy # 对Node还是Pool来做balance.默认是Node
+   - threshold # per node/pool disk util 和 avg disk util 百分比的差值小于多少的话停止balance过程，默认是10  
+
+***** BalancingPolicy
+定义如何计算disk util，包括计算per node/pool disk util 和 avg disk util. 根据Node和Pool不同特性有两个实现，
+
+#+BEGIN_SRC Java
+abstract class BalancingPolicy {
+  long totalCapacity;
+  long totalUsedSpace;
+  private double avgUtilization;
+
+  void reset() {
+    totalCapacity = 0L;
+    totalUsedSpace = 0L;
+    avgUtilization = 0.0;
+  }
+
+  /** Get the policy name. */
+  abstract String getName();
+
+  /** Accumulate used space and capacity. */
+  abstract void accumulateSpaces(DatanodeInfo d);
+
+  void initAvgUtilization() {
+    this.avgUtilization = totalUsedSpace*100.0/totalCapacity;
+  }
+  double getAvgUtilization() {
+    return avgUtilization;
+  }
+
+  /** Return the utilization of a datanode */
+  abstract double getUtilization(DatanodeInfo d);
+#+END_SRC
+
+Node实现
+#+BEGIN_SRC Java
+ static class Node extends BalancingPolicy {
+    static Node INSTANCE = new Node();
+    private Node() {}
+
+    @Override
+    String getName() {
+      return "datanode";
+    }
+
+    @Override
+    void accumulateSpaces(DatanodeInfo d) {
+      totalCapacity += d.getCapacity();
+      totalUsedSpace += d.getDfsUsed();  
+    }
+    
+    @Override
+    double getUtilization(DatanodeInfo d) {
+      return d.getDfsUsed()*100.0/d.getCapacity();
+    }
+  }
+#+END_SRC
+
+Pool实现
+#+BEGIN_SRC Java
+  static class Pool extends BalancingPolicy {
+    static Pool INSTANCE = new Pool();
+    private Pool() {}
+
+    @Override
+    String getName() {
+      return "blockpool";
+    }
+
+    @Override
+    void accumulateSpaces(DatanodeInfo d) {
+      totalCapacity += d.getCapacity();
+      totalUsedSpace += d.getBlockPoolUsed();
+    }
+
+    @Override
+    double getUtilization(DatanodeInfo d) {
+      return d.getBlockPoolUsed()*100.0/d.getCapacity();
+    }
+  }
+#+END_SRC
+
+
+**** NN balance iteration
+***** Balancer
+Balancer数据结构
+
+#+BEGIN_SRC Java
+public class Balancer {
+  final private static long MAX_BLOCKS_SIZE_TO_FETCH = 2*1024*1024*1024L; //2GB // 每次最多选中2GB大小的blocks来做shuffle.
+  private static long WIN_WIDTH = 5400*1000L; // 1.5 hour
+
+  /** The maximum number of concurrent blocks moves for 
+   * balancing purpose at a datanode
+   */
+  public static final int MAX_NUM_CONCURRENT_MOVES = 5; // 单个datanode最多同时5个block move同时进行
+   
+  private final NameNodeConnector nnc; // NN连接
+  private final BalancingPolicy policy; // 均衡策略
+  private final double threshold; // 
+  
+  // all data node lists
+  // 这些列表含义后面会解释
+  private Collection<Source> overUtilizedDatanodes
+                               = new LinkedList<Source>();
+  private Collection<Source> aboveAvgUtilizedDatanodes
+                               = new LinkedList<Source>();
+  private Collection<BalancerDatanode> belowAvgUtilizedDatanodes
+                               = new LinkedList<BalancerDatanode>();
+  private Collection<BalancerDatanode> underUtilizedDatanodes
+                               = new LinkedList<BalancerDatanode>();
+   
+  // source节点和sink节点
+  private Collection<Source> sources
+                               = new HashSet<Source>();
+  private Collection<BalancerDatanode> targets
+                               = new HashSet<BalancerDatanode>();
+  
+  // 保存所有调度出现过的Block
+  private Map<Block, BalancerBlock> globalBlockList
+                 = new HashMap<Block, BalancerBlock>();
+  // 
+  private MovedBlocks movedBlocks = new MovedBlocks();
+
+  // Map storage IDs to BalancerDatanodes
+  // 所有datanodes，通过storageID来区分
+  private Map<String, BalancerDatanode> datanodes 
+                 = new HashMap<String, BalancerDatanode>();
+
+  // 集群网络拓扑结构  
+  private NetworkTopology cluster = new NetworkTopology();
+  
+  // 后台线程池
+  final static private int MOVER_THREAD_POOL_SIZE = 1000;
+  final private ExecutorService moverExecutor = 
+    Executors.newFixedThreadPool(MOVER_THREAD_POOL_SIZE);
+  final static private int DISPATCHER_THREAD_POOL_SIZE = 200;
+  final private ExecutorService dispatcherExecutor =
+    Executors.newFixedThreadPool(DISPATCHER_THREAD_POOL_SIZE);
+
+  // 实际移动多少字节，AtomicInteger包装
+  private BytesMoved bytesMoved = new BytesMoved();
+  private int notChangedIterations = 0;
+
+  // 每次检查block move是否完成的等待时间间隔，30s
+  // The sleeping period before checking if block move is completed again
+  static private long blockMoveWaitTime = 30000L;  
+}
+#+END_SRC
+
+***** Balancer::run
+*NN balance iteration*
+   1. 计算还有多少字节（block）需要移动，如果==0的话那么返回
+   2. 选择需要参与移动block的节点返回会移动多少字节（block），如果==0的话那么返回
+   3. 指定移动方案并且执行方案，返回最终是否发生了移动。如果5次没有变化的话那么返回
+   4. reset数据为下轮做准备
+
+#+BEGIN_SRC Java
+  private ReturnStatus run(int iteration, Formatter formatter) {
+    try {
+      /* get all live datanodes of a cluster and their disk usage
+       * decide the number of bytes need to be moved
+       */
+      final long bytesLeftToMove = initNodes(nnc.client.getDatanodeReport(DatanodeReportType.LIVE)); // 同时存储这些datanodes信息
+      if (bytesLeftToMove == 0) {
+        System.out.println("The cluster is balanced. Exiting...");
+        return ReturnStatus.SUCCESS;
+      } else {
+        LOG.info( "Need to move "+ StringUtils.byteDesc(bytesLeftToMove)
+            + " to make the cluster balanced." );
+      }
+      
+      /* Decide all the nodes that will participate in the block move and
+       * the number of bytes that need to be moved from one node to another
+       * in this iteration. Maximum bytes to be moved per node is
+       * Min(1 Band worth of bytes,  MAX_SIZE_TO_MOVE).
+       */
+      final long bytesToMove = chooseNodes(); // 选择参与移动节点
+      if (bytesToMove == 0) {
+        System.out.println("No block can be moved. Exiting...");
+        return ReturnStatus.NO_MOVE_BLOCK;
+      } else {
+        LOG.info( "Will move " + StringUtils.byteDesc(bytesToMove) +
+            " in this iteration");
+      }
+      
+      /* For each pair of <source, target>, start a thread that repeatedly 
+       * decide a block to be moved and its proxy source, 
+       * then initiates the move until all bytes are moved or no more block
+       * available to move.
+       * Exit no byte has been moved for 5 consecutive iterations.
+       */
+      if (dispatchBlockMoves() > 0) { // 执行移动计划方案
+        notChangedIterations = 0;
+      } else {
+        notChangedIterations++;
+        if (notChangedIterations >= 5) {
+          System.out.println(
+              "No block has been moved for 5 iterations. Exiting...");
+          return ReturnStatus.NO_MOVE_PROGRESS;
+        }
+      }
+
+      // clean all lists
+      resetData();
+      return ReturnStatus.IN_PROGRESS;
+    } finally {
+      // shutdown thread pools
+      dispatcherExecutor.shutdownNow();
+      moverExecutor.shutdownNow();
+    }
+  }
+#+END_SRC
+
+***** Balancer::initNodes
+从namenode得到所有处于存活状态的datanodes.但是在处理的时候排除掉那些已经decommission以及正在decommission的节点
+   1. 计算所有这些datanodes磁盘平均使用状况（根据Node还是Pool策略）
+   2. 根据每个datanode disk util和avg disk util的比较，放置到不同的列表里面，注意不同列表节点类型也不同
+      1. aboveAvgUtilizedDatanodes # du > avg-du && du <= avg-du + threshold,类型Source
+      2. overUtilizedDatanodes # du > avg + threshold, 类型Source
+      3. isBelowOrEqualAvgUtilized # du <= avg-du && du > avg-du - threshood,类型BalancerDatanode
+      4. underUtilizedDatanodes # du < avg-du - threshold, 类型BalancerDatanode
+   3. 计算需要移动多少字节才能够完全平衡
+     
+#+BEGIN_SRC Java
+  private long initNodes(DatanodeInfo[] datanodes) {
+    // compute average utilization
+    for (DatanodeInfo datanode : datanodes) {
+      if (datanode.isDecommissioned() || datanode.isDecommissionInProgress()) {
+        continue; // ignore decommissioning or decommissioned nodes
+      }
+      policy.accumulateSpaces(datanode);
+    }
+    policy.initAvgUtilization();
+
+    /*create network topology and all data node lists: 
+     * overloaded, above-average, below-average, and underloaded
+     * we alternates the accessing of the given datanodes array either by
+     * an increasing order or a decreasing order.
+     */  
+    long overLoadedBytes = 0L, underLoadedBytes = 0L;
+    shuffleArray(datanodes);
+    for (DatanodeInfo datanode : datanodes) {
+      if (datanode.isDecommissioned() || datanode.isDecommissionInProgress()) {
+        continue; // ignore decommissioning or decommissioned nodes
+      }
+      cluster.add(datanode); // 保存datanode信息到cluster.
+      BalancerDatanode datanodeS;
+      final double avg = policy.getAvgUtilization();
+      if (policy.getUtilization(datanode) > avg) {
+        datanodeS = new Source(datanode, policy, threshold);
+        if (isAboveAvgUtilized(datanodeS)) {
+          this.aboveAvgUtilizedDatanodes.add((Source)datanodeS);
+        } else {
+          assert(isOverUtilized(datanodeS)) :
+            datanodeS.getDisplayName()+ "is not an overUtilized node";
+          this.overUtilizedDatanodes.add((Source)datanodeS);
+          overLoadedBytes += (long)((datanodeS.utilization-avg
+              -threshold)*datanodeS.datanode.getCapacity()/100.0);
+        }
+      } else {
+        datanodeS = new BalancerDatanode(datanode, policy, threshold);
+        if ( isBelowOrEqualAvgUtilized(datanodeS)) {
+          this.belowAvgUtilizedDatanodes.add(datanodeS);
+        } else {
+          assert isUnderUtilized(datanodeS) : "isUnderUtilized("
+              + datanodeS.getDisplayName() + ")=" + isUnderUtilized(datanodeS)
+              + ", utilization=" + datanodeS.utilization; 
+          this.underUtilizedDatanodes.add(datanodeS);
+          underLoadedBytes += (long)((avg-threshold-
+              datanodeS.utilization)*datanodeS.datanode.getCapacity()/100.0);
+        }
+      }
+      this.datanodes.put(datanode.getStorageID(), datanodeS);
+    }
+
+    // return number of bytes to be moved in order to make the cluster balanced
+    return Math.max(overLoadedBytes, underLoadedBytes);
+  }
+#+END_SRC
+
+***** Balancer::chooseNodes
+选出source和target更新到sources和targets节点
+
+#+BEGIN_SRC Java
+  private long chooseNodes() {
+    // Match nodes on the same rack first
+    chooseNodes(true);
+    // Then match nodes on different racks
+    chooseNodes(false);
+    
+    assert (datanodes.size() >= sources.size()+targets.size())
+      : "Mismatched number of datanodes (" +
+      datanodes.size() + " total, " +
+      sources.size() + " sources, " +
+      targets.size() + " targets)";
+
+    long bytesToMove = 0L;
+    for (Source src : sources) {
+      bytesToMove += src.scheduledSize; // 规划src节点上面移动scheduledSize字节
+    }
+    return bytesToMove; // 本次规划总共移动多少字节
+  }
+#+END_SRC
+
+TODO（dirlt）：
+
+***** dispatchBlockMoves
+发起block move操作
+
+#+BEGIN_SRC Java
+  private long dispatchBlockMoves() throws InterruptedException {
+    long bytesLastMoved = bytesMoved.get(); // 上次总共move多少字节
+    Future<?>[] futures = new Future<?>[sources.size()];
+    int i=0;
+    for (Source source : sources) {
+      // 产生BlockMoveDispatcher放到dispatcher线程池执行
+      // 发起者是source, 因为只有source才有信息知道应该向哪些target做move.
+      futures[i++] = dispatcherExecutor.submit(source.new BlockMoveDispatcher());
+    }
+    
+    // wait for all dispatcher threads to finish
+    for (Future<?> future : futures) {
+      try {
+        future.get();
+      } catch (ExecutionException e) {
+        LOG.warn("Dispatcher thread failed", e.getCause());
+      }
+    }
+    
+    // 等待完成
+    // wait for all block moving to be done
+    waitForMoveCompletion();
+    
+    // 本次move多少字节
+    return bytesMoved.get()-bytesLastMoved;
+  }
+#+END_SRC
+
+***** waitForMoveCompletion
+从target的pendingQ里面可以看到整个move过程是否结束
+
+#+BEGIN_SRC Java
+  private void waitForMoveCompletion() {
+    boolean shouldWait;
+    do {
+      shouldWait = false;
+      for (BalancerDatanode target : targets) {
+        if (!target.isPendingQEmpty()) {
+          shouldWait = true;
+        }
+      }
+      if (shouldWait) {
+        try {
+          Thread.sleep(blockMoveWaitTime); // 默认30s
+        } catch (InterruptedException ignored) {
+        }
+      }
+    } while (shouldWait);
+#+END_SRC
+
+***** resetData
+清除NN balance iteration产生数据，为下轮NN balance iteration准备。
+
+TODO(dirlt):???
+
+#+BEGIN_SRC 
+ private void resetData() {
+    this.cluster = new NetworkTopology();
+    this.overUtilizedDatanodes.clear();
+    this.aboveAvgUtilizedDatanodes.clear();
+    this.belowAvgUtilizedDatanodes.clear();
+    this.underUtilizedDatanodes.clear();
+    this.datanodes.clear();
+    this.sources.clear();
+    this.targets.clear();  
+    this.policy.reset();
+    cleanGlobalBlockList();
+    this.movedBlocks.cleanup();
+  }
+  
+  /* Remove all blocks from the global block list except for the ones in the
+   * moved list.
+   */
+  private void cleanGlobalBlockList() {
+    for (Iterator<Block> globalBlockListIterator=globalBlockList.keySet().iterator();
+    globalBlockListIterator.hasNext();) {
+      Block block = globalBlockListIterator.next();
+      if(!movedBlocks.contains(block)) {
+        globalBlockListIterator.remove();
+      }
+    }
+  }
+#+END_SRC
+
+***** MovedBlocks
+TODO(dirlt):
+
+
+**** Source balance iteration
+*restriction*
+   - timeout = 20min
+   - block size = 2 * scheduledSize # scheduledSize在NN balance iteration的chooseNodes阶段设置
+
+***** BalancerDatanode
+保存sink节点，也就是说其disk util比较低，可以接收disk util比较高的节点的数据来做平衡。
+
+#+BEGIN_SRC Java
+ /* A class that keeps track of a datanode in Balancer */
+  private static class BalancerDatanode {
+    final private static long MAX_SIZE_TO_MOVE = 10*1024*1024*1024L; //10GB
+    final DatanodeInfo datanode;
+    final double utilization; // 本节点磁盘利用率
+    final long maxSize2Move; // 本次移动字节配额
+    protected long scheduledSize = 0L; // 本次在此节点上移动多少字节
+    //  blocks being moved but not confirmed yet
+    private List<PendingBlockMove> pendingBlocks = // pending block move操作队列
+      // 这个字段对于sink来说没有用，只是被source使用
+      new ArrayList<PendingBlockMove>(MAX_NUM_CONCURRENT_MOVES); 
+
+    /* Constructor 
+     * Depending on avgutil & threshold, calculate maximum bytes to move 
+     */
+   // 构造函数和Source是相同的，所以里面处理了两种逻辑
+    private BalancerDatanode(DatanodeInfo node, BalancingPolicy policy, double threshold) {
+      datanode = node;
+      utilization = policy.getUtilization(node);
+      final double avgUtil = policy.getAvgUtilization();
+      long maxSizeToMove;
+
+      // 计算这个datanode上面最多能够增加/减少多少数据
+      if (utilization >= avgUtil+threshold
+          || utilization <= avgUtil-threshold) { 
+        maxSizeToMove = (long)(threshold*datanode.getCapacity()/100);
+      } else {
+        maxSizeToMove = 
+          (long)(Math.abs(avgUtil-utilization)*datanode.getCapacity()/100);
+      }
+      if (utilization < avgUtil ) { // 如果增加数据需要考虑磁盘空间是否足够
+        maxSizeToMove = Math.min(datanode.getRemaining(), maxSizeToMove);
+      }
+      this.maxSize2Move = Math.min(MAX_SIZE_TO_MOVE, maxSizeToMove); // 10GB是单次移动上限
+    }
+    
+    /** Decide if still need to move more bytes */
+    protected boolean isMoveQuotaFull() { // 本次移动quota是否满？
+      return scheduledSize<maxSize2Move;
+    }
+  }
+#+END_SRC
+
+***** BalancerBlock
+内部管理Block数据结构
+
+#+BEGIN_SRC Java
+ static private class BalancerBlock {
+    private Block block; // the block
+    // 这个block在哪些datanode上，通常是3份。
+    private List<BalancerDatanode> locations
+            = new ArrayList<BalancerDatanode>(3); // its locations
+  }
+#+END_SRC
+
+另外有个数据结构是BlockWithLocations也是管理block数据结构的，但是这个是直接从namenode返回的原始block结构
+#+BEGIN_SRC Java
+  public static class BlockWithLocations {
+    Block block; // block信息
+    String storageIDs[]; // 这个block存储在哪些datanode上（每个datanode有通过storageID来区分）
+  }
+#+END_SRC
+
+***** NodeTask
+   - datanode # sink节点
+   - size # 向这个sink节点move字节数
+#+BEGIN_SRC Java
+  static private class NodeTask {
+    private BalancerDatanode datanode; //target node
+    private long size;  //bytes scheduled to move
+  }
+#+END_SRC
+
+***** Source
+Source继承BalancerDatanode. 但是感觉代码差别还是比较大的，所以单独拿出来分析仔细分析每个函数。先看看这个类数据结构
+
+#+BEGIN_SRC Java
+  private class Source extends BalancerDatanode {
+    private ArrayList<NodeTask> nodeTasks = new ArrayList<NodeTask>(2); // 需要向哪些node move block.
+    private long blocksToReceive = 0L; // 每次dispatch block move最多去查找多少block（按照字节计算）
+    /* source blocks point to balancerBlocks in the global list because
+     * we want to keep one copy of a block in balancer and be aware that
+     * the locations are changing over time.
+     */
+    private List<BalancerBlock> srcBlockList
+            = new ArrayList<BalancerBlock>();
+    
+    /** Add a node task */
+    private void addNodeTask(NodeTask task) {
+      assert (task.datanode != this) :
+        "Source and target are the same " + datanode; // source和target不能够相同
+      incScheduledSize(task.getSize()); // 可以认为如果这个block move成功的话，那么source要增加这么多scheduledSize.
+      nodeTasks.add(task);
+    }
+}
+#+END_SRC
+    
+***** Source::BlockMoveDispatcher
+在NN balance iteration里面dispatchBlockMoves使用了这个类，这个类非常简单直接调用dispatchBlocks方法
+
+#+BEGIN_SRC Java
+    private class BlockMoveDispatcher implements Runnable {
+      @Override
+      public void run() {
+        dispatchBlocks();
+      }
+    }
+#+END_SRC
+
+***** Source::dispatchBlocks
+source如何发起block move.
+
+#+BEGIN_SRC Java
+    /* This method iteratively does the following:
+     * it first selects a block to move,
+     * then sends a request to the proxy source to start the block move
+     * when the source's block list falls below a threshold, it asks
+     * the namenode for more blocks.
+     * It terminates when it has dispatch enough block move tasks or
+     * it has received enough blocks from the namenode, or 
+     * the elapsed time of the iteration has exceeded the max time limit.
+     */ 
+    private static final long MAX_ITERATION_TIME = 20*60*1000L; //20 mins
+    private void dispatchBlocks() { // 这个函数具体执行Block Move操作
+      long startTime = Time.now();
+      this.blocksToReceive = 2*scheduledSize; // 本次运行最多查找多少block（以字节计算）
+      boolean isTimeUp = false;
+      while(!isTimeUp && scheduledSize>0 &&
+          (!srcBlockList.isEmpty() || blocksToReceive>0)) {
+        // 当前是否有blocks可以移动，如果存在那么选择block move.
+        PendingBlockMove pendingBlock = chooseNextBlockToMove();
+        if (pendingBlock != null) {
+          // move the block
+          pendingBlock.scheduleBlockMove();
+          continue;
+        }
+        
+        /* Since we can not schedule any block to move,
+         * filter any moved blocks from the source block list and
+         * check if we should fetch more blocks from the namenode
+         */       
+        filterMovedBlocks(); // filter already moved blocks
+        // 如果当前blocks比较少的话，那么请求nn返回更多blocks.
+        if (shouldFetchMoreBlocks()) {
+          // fetch new blocks
+          try {
+            blocksToReceive -= getBlockList();
+            continue;
+          } catch (IOException e) {
+            LOG.warn("Exception while getting block list", e);
+            return;
+          }
+        } 
+        
+        // check if time is up or not
+        // 如果时间过长的话那么终止
+        if (Time.now()-startTime > MAX_ITERATION_TIME) {
+          isTimeUp = true;
+          continue;
+        }
+        
+        /* Now we can not schedule any block to move and there are
+         * no new blocks added to the source block list, so we wait. 
+         */
+        try {
+          synchronized(Balancer.this) {
+            Balancer.this.wait(1000);  // wait for targets/sources to be idle
+          }
+        } catch (InterruptedException ignored) {
+        }
+      }
+    }
+#+END_SRC
+
+***** Source::getBlockList
+从nn获取blocks.
+
+#+BEGIN_SRC Java
+    /* fetch new blocks of this source from namenode and
+     * update this source's block list & the global block list
+     * Return the total size of the received blocks in the number of bytes.
+     */
+    private long getBlockList() throws IOException {
+      // final private static long MAX_BLOCKS_SIZE_TO_FETCH = 2*1024*1024*1024L; //2GB
+      // 一次获取blocks不要太多
+      BlockWithLocations[] newBlocks = nnc.namenode.getBlocks(datanode, 
+        Math.min(MAX_BLOCKS_SIZE_TO_FETCH, blocksToReceive)).getBlocks();
+      long bytesReceived = 0;
+      for (BlockWithLocations blk : newBlocks) {
+        bytesReceived += blk.getBlock().getNumBytes();
+        BalancerBlock block;
+        synchronized(globalBlockList) {
+          block = globalBlockList.get(blk.getBlock()); // TODO（dirlt）：？？？
+          if (block==null) {
+            block = new BalancerBlock(blk.getBlock());
+            globalBlockList.put(blk.getBlock(), block);
+          } else {
+            block.clearLocations();
+          }
+        
+          synchronized (block) {
+            // 修改这个block对象里面存储位置
+            // update locations
+            for ( String storageID : blk.getStorageIDs() ) {
+              BalancerDatanode datanode = datanodes.get(storageID);
+              if (datanode != null) { // not an unknown datanode
+                block.addLocation(datanode);
+              }
+            }
+          }
+          if (!srcBlockList.contains(block) && isGoodBlockCandidate(block)) { // 如果这个block足够好并且没有添加过
+            // filter bad candidates
+            srcBlockList.add(block);
+          }
+        }
+      }
+      // 返回本次查找block多少（以字节计算）
+      return bytesReceived;
+    }
+#+END_SRC
+
+***** Source::isGoodBlockCandidate
+决定这个block是否合适来调度
+
+TODO(dirlt):??
+
+#+BEGIN_SRC Java
+    /* Decide if the given block is a good candidate to move or not */
+    private boolean isGoodBlockCandidate(BalancerBlock block) {
+      for (NodeTask nodeTask : nodeTasks) {
+        if (Balancer.this.isGoodBlockCandidate(this, nodeTask.datanode, block)) {
+          return true;
+        }
+      }
+      return false;
+    }
+#+END_SRC
+
+***** Source::filterMovedBlocks
+#+BEGIN_SRC Java
+    /* iterate all source's blocks to remove moved ones */    
+    // 从srcBlockList里面过滤一些在一段时间内已经移动过的block. 实现可以参考MovedBlocks.
+    private void filterMovedBlocks() {
+      for (Iterator<BalancerBlock> blocks=getBlockIterator();
+            blocks.hasNext();) {
+        if (movedBlocks.contains(blocks.next())) {
+          blocks.remove();
+        }
+      }
+    }
+#+END_SRC
+
+***** Source::shouldFetchMoreBlocks
+#+BEGIN_SRC Java    
+    // 是否应该尝试获取更多的blocks，srcBlockList大小<5并且还有余量来获取blocks.
+    private static final int SOURCE_BLOCK_LIST_MIN_SIZE=5;
+    /* Return if should fetch more blocks from namenode */
+    private boolean shouldFetchMoreBlocks() {
+      return srcBlockList.size()<SOURCE_BLOCK_LIST_MIN_SIZE &&
+                 blocksToReceive>0;
+    }
+
+  }
+#+END_SRC
+
+***** Source::chooseNextBlockToMove
+从srcBlockList选出block来向target发起move.
+
+TODO（dirlt）：？？？
+
+#+BEGIN_SRC Java
+    /* Return a block that's good for the source thread to dispatch immediately
+     * The block's source, target, and proxy source are determined too.
+     * When choosing proxy and target, source & target throttling
+     * has been considered. They are chosen only when they have the capacity
+     * to support this block move.
+     * The block should be dispatched immediately after this method is returned.
+     */
+    private PendingBlockMove chooseNextBlockToMove() {
+      for ( Iterator<NodeTask> tasks=nodeTasks.iterator(); tasks.hasNext(); ) {
+        NodeTask task = tasks.next();
+        BalancerDatanode target = task.getDatanode();
+        PendingBlockMove pendingBlock = new PendingBlockMove();
+        if ( target.addPendingBlock(pendingBlock) ) { 
+          // target is not busy, so do a tentative block allocation
+          pendingBlock.source = this;
+          pendingBlock.target = target;
+          if ( pendingBlock.chooseBlockAndProxy() ) {
+            long blockSize = pendingBlock.block.getNumBytes(); 
+            scheduledSize -= blockSize;
+            task.size -= blockSize;
+            if (task.size == 0) {
+              tasks.remove();
+            }
+            return pendingBlock;
+          } else {
+            // cancel the tentative move
+            target.removePendingBlock(pendingBlock);
+          }
+        }
+      }
+      return null;
+    }
+#+END_SRC
+

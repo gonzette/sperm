@@ -245,6 +245,15 @@ fusion iomemory 是类似 ssd的东西， *操作速度接近DRAM，成本更低
  </property>
 #+END_SRC
 
+*** table configuration
+   - DATA_BLOCK_ENCODING => 'FAST_DIFF'(PREFIX,DIFF) # block压缩算法（偏向应用层）
+   - ENCODE_ON_DISK => 'false' # 以上encoding是否需要作用在disk上
+   - BLOOMFILTER => 'ROW'(ROWCOL) # 按照row还是按照row+qualifier做bloom filter.
+   - COMPRESSION => 'SNAPPY' # block压缩算法（偏向系统层）
+   - BLOCKSIZE => '32768' # 对于随机查询高的table,blocksize缩小可以减少LRUCache使用
+   - VERSIONS => '100' # 保存历史版本数目
+   - NAME => 'info' # column family
+
 *** hbase shell
    - scan 'test' 
      - STARTROW=>'xyz' 
