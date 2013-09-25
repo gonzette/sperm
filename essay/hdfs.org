@@ -1,5 +1,5 @@
 * hdfs
-#+OPTIONS: H:5
+#+OPTIONS: H:4
 
 ** The Hadoop Distributed File System(2010)
    - http://storageconference.org/2010/Papers/MSST/Shvachko.pdf
@@ -526,9 +526,9 @@ uri = file:///
 ** 代码分析
 *** Balancer
 *NOTE(dirlt):名词是自己定义的方便理解*
-   - NNs balance iteration # 对于hdfs federation来说可能存在多个NN. 并且对于这些NN需要发起多轮balance迭代，每轮迭代称为NNs balance iteration.
-   - NN balance iteration # NNs balance iteration内部针对每个NN集群发起一轮balance迭代称为NN balance iteration. 内部会拆解成为多个source发起balance.
-   - Source balance iteration # 每个source发起balance, 内部也会多次挑选block来做move. 这样每次move称为source balance iteration.
+   - NNs balance # 对于hdfs federation来说可能存在多个NN. 并且对于这些NN需要发起多轮balance迭代，每轮迭代称为NNs balance.
+   - NN balance # NNs balance iteration内部针对每个NN集群发起alance称为NN balance iteration. 内部会拆解成为多个source发起balance.
+   - Source balance # 每个source发起balance, 内部也会多次挑选block来做move. 其中Source balance内部会有多轮迭代。
 
 **** NNS balance iteration
 ***** main thread
@@ -705,10 +705,10 @@ public class Balancer {
   private Collection<BalancerDatanode> targets
                                = new HashSet<BalancerDatanode>();
   
-  // 保存所有调度出现过的Block
+  // 保存所有调度出现过的Block. NOTE(dirlt)：似乎是遗留代码，没有实际用途
   private Map<Block, BalancerBlock> globalBlockList
                  = new HashMap<Block, BalancerBlock>();
-  // 
+  // 在最近一段时间内移动过的Block.
   private MovedBlocks movedBlocks = new MovedBlocks();
 
   // Map storage IDs to BalancerDatanodes
@@ -721,9 +721,11 @@ public class Balancer {
   
   // 后台线程池
   final static private int MOVER_THREAD_POOL_SIZE = 1000;
+  // 完成移动操作线程池
   final private ExecutorService moverExecutor = 
     Executors.newFixedThreadPool(MOVER_THREAD_POOL_SIZE);
   final static private int DISPATCHER_THREAD_POOL_SIZE = 200;
+  // 完成分发操作线程池
   final private ExecutorService dispatcherExecutor =
     Executors.newFixedThreadPool(DISPATCHER_THREAD_POOL_SIZE);
 
@@ -892,9 +894,165 @@ public class Balancer {
   }
 #+END_SRC
 
-TODO（dirlt）：
+内部调用了chooseNodes(onRack)这个方法，参数表示是否选择nodes在相同rack的
+#+BEGIN_SRC Java
+  private void chooseNodes(boolean onRack) {
+    /* first step: match each overUtilized datanode (source) to
+     * one or more underUtilized datanodes (targets).
+     */
+    chooseTargets(underUtilizedDatanodes.iterator(), onRack); // 以under util节点为target. over util节点为source.
+    
+    /* match each remaining overutilized datanode (source) to 
+     * below average utilized datanodes (targets).
+     * Note only overutilized datanodes that haven't had that max bytes to move
+     * satisfied in step 1 are selected
+     */
+    chooseTargets(belowAvgUtilizedDatanodes.iterator(), onRack); // 以below util为target. over util节点为source.
 
-***** dispatchBlockMoves
+    /* match each remaining underutilized datanode to 
+     * above average utilized datanodes.
+     * Note only underutilized datanodes that have not had that max bytes to
+     * move satisfied in step 1 are selected.
+     */
+    chooseSources(aboveAvgUtilizedDatanodes.iterator(), onRack); // 以above util为source. under util为target.
+  }
+#+END_SRC
+
+***** Balancer::chooseTargets
+寻找和over util匹配的target.
+
+#+BEGIN_SRC Java
+private void chooseTargets(  
+      Iterator<BalancerDatanode> targetCandidates, boolean onRackTarget ) {
+    for (Iterator<Source> srcIterator = overUtilizedDatanodes.iterator();
+        srcIterator.hasNext();) {
+      Source source = srcIterator.next();
+      while (chooseTarget(source, targetCandidates, onRackTarget)) {
+      }
+      if (!source.isMoveQuotaFull()) { // 如果这个source在规划上配额满的话那么就不考虑这个source.
+        srcIterator.remove();
+      }
+    }
+    return;
+  }
+#+END_SRC
+
+***** Balancer::chooseTarget
+#+BEGIN_SRC Java
+  private boolean chooseTarget(Source source,
+      Iterator<BalancerDatanode> targetCandidates, boolean onRackTarget) {
+    if (!source.isMoveQuotaFull()) { // 如果source配额满的话
+      return false;
+    }
+    boolean foundTarget = false;
+    BalancerDatanode target = null;
+    while (!foundTarget && targetCandidates.hasNext()) {
+      target = targetCandidates.next();
+      if (!target.isMoveQuotaFull()) {
+        targetCandidates.remove();
+        continue;
+      }
+      if (onRackTarget) {
+        // choose from on-rack nodes
+        if (cluster.isOnSameRack(source.datanode, target.datanode)) {
+          foundTarget = true;
+        }
+      } else {
+        // choose from off-rack nodes
+        if (!cluster.isOnSameRack(source.datanode, target.datanode)) {
+          foundTarget = true;
+        }
+      }
+    }
+    if (foundTarget) {
+      assert(target != null):"Choose a null target";
+      long size = Math.min(source.availableSizeToMove(),
+          target.availableSizeToMove()); // 两者通信最多多少字节？
+      NodeTask nodeTask = new NodeTask(target, size);
+      source.addNodeTask(nodeTask);
+      target.incScheduledSize(nodeTask.getSize());
+      sources.add(source);
+      targets.add(target);
+      if (!target.isMoveQuotaFull()) {
+        targetCandidates.remove();
+      }
+      LOG.info("Decided to move "+StringUtils.byteDesc(size)+" bytes from "
+          +source.datanode + " to " + target.datanode);
+      return true;
+    }
+    return false;
+  }
+#+END_SRC
+
+***** Balancer::chooseSources
+寻找和under util匹配的source.
+
+#+BEGIN_SRC Java
+  private void chooseSources(
+      Iterator<Source> sourceCandidates, boolean onRackSource) {
+    for (Iterator<BalancerDatanode> targetIterator = 
+      underUtilizedDatanodes.iterator(); targetIterator.hasNext();) {
+      BalancerDatanode target = targetIterator.next();
+      while (chooseSource(target, sourceCandidates, onRackSource)) {
+      }
+      if (!target.isMoveQuotaFull()) { // 如果这个target在规划上配额满的话那么就不考虑这个target.
+        targetIterator.remove();
+      }
+    }
+    return;
+  }
+#+END_SRC
+
+***** Balancer::chooseSource
+和之前的chooseTarget非常类似
+
+#+BEGIN_SRC Java
+  private boolean chooseSource(BalancerDatanode target,
+      Iterator<Source> sourceCandidates, boolean onRackSource) {
+    if (!target.isMoveQuotaFull()) {
+      return false;
+    }
+    boolean foundSource = false;
+    Source source = null;
+    while (!foundSource && sourceCandidates.hasNext()) {
+      source = sourceCandidates.next();
+      if (!source.isMoveQuotaFull()) {
+        sourceCandidates.remove();
+        continue;
+      }
+      if (onRackSource) {
+        // choose from on-rack nodes
+        if ( cluster.isOnSameRack(source.getDatanode(), target.getDatanode())) {
+          foundSource = true;
+        }
+      } else {
+        // choose from off-rack nodes
+        if (!cluster.isOnSameRack(source.datanode, target.datanode)) {
+          foundSource = true;
+        }
+      }
+    }
+    if (foundSource) {
+      assert(source != null):"Choose a null source";
+      long size = Math.min(source.availableSizeToMove(),
+          target.availableSizeToMove());
+      NodeTask nodeTask = new NodeTask(target, size);
+      source.addNodeTask(nodeTask);
+      target.incScheduledSize(nodeTask.getSize());
+      sources.add(source);
+      targets.add(target);
+      if ( !source.isMoveQuotaFull()) {
+        sourceCandidates.remove();
+      }
+      LOG.info("Decided to move "+StringUtils.byteDesc(size)+" bytes from "
+          +source.datanode + " to " + target.datanode);
+      return true;
+    }
+    return false;
+  }
+#+END_SRC
+
+***** Balancer::dispatchBlockMoves
 发起block move操作
 
 #+BEGIN_SRC Java
@@ -926,7 +1084,7 @@ TODO（dirlt）：
   }
 #+END_SRC
 
-***** waitForMoveCompletion
+***** Balancer::waitForMoveCompletion
 从target的pendingQ里面可以看到整个move过程是否结束
 
 #+BEGIN_SRC Java
@@ -948,10 +1106,8 @@ TODO（dirlt）：
     } while (shouldWait);
 #+END_SRC
 
-***** resetData
+***** Balancer::resetData
 清除NN balance iteration产生数据，为下轮NN balance iteration准备。
-
-TODO(dirlt):???
 
 #+BEGIN_SRC Java
  private void resetData() {
@@ -983,13 +1139,43 @@ TODO(dirlt):???
 #+END_SRC
 
 ***** MovedBlocks
-TODO(dirlt):
+注释相对还是比较清晰的，类似0/1切换，触发时间在cleanup阶段
+
+#+BEGIN_SRC Java
+  /** This window makes sure to keep blocks that have been moved within 1.5 hour.
+   * Old window has blocks that are older;
+   * Current window has blocks that are more recent;
+   * Cleanup method triggers the check if blocks in the old window are
+   * more than 1.5 hour old. If yes, purge the old window and then
+   * move blocks in current window to old window.
+   */ 
+    private long lastCleanupTime = Time.now();
+    final private static int CUR_WIN = 0;
+    final private static int OLD_WIN = 1;
+    final private static int NUM_WINS = 2;
+    final private List<HashMap<Block, BalancerBlock>> movedBlocks = 
+      new ArrayList<HashMap<Block, BalancerBlock>>(NUM_WINS);
+
+    /* remove old blocks */
+    synchronized private void cleanup() {
+      long curTime = Time.now();
+      // check if old win is older than winWidth
+      if (lastCleanupTime + WIN_WIDTH <= curTime) {
+        // purge the old window
+        movedBlocks.set(OLD_WIN, movedBlocks.get(CUR_WIN));
+        movedBlocks.set(CUR_WIN, new HashMap<Block, BalancerBlock>());
+        lastCleanupTime = curTime;
+      }
+    }
+#+END_SRC
 
 
 **** Source balance iteration
 *restriction*
    - timeout = 20min
-   - block size = 2 * scheduledSize # scheduledSize在NN balance iteration的chooseNodes阶段设置
+   - source sent block size = 2 * scheduledSize # scheduledSize在NN balance iteration的chooseNodes阶段设置，上限10GB
+     - *NOTE（dirlt）：factor == 2 是为何？*
+   - target receive block size = scheduledSize 
 
 ***** BalancerDatanode
 保存sink节点，也就是说其disk util比较低，可以接收disk util比较高的节点的数据来做平衡。
@@ -1004,7 +1190,8 @@ TODO(dirlt):
     protected long scheduledSize = 0L; // 本次在此节点上移动多少字节
     //  blocks being moved but not confirmed yet
     private List<PendingBlockMove> pendingBlocks = // pending block move操作队列
-      // 这个字段对于sink来说没有用，只是被source使用
+      // source节点将所有操作封装成为PendingBlockMove添加到target的这个队列
+      // target队列在move
       new ArrayList<PendingBlockMove>(MAX_NUM_CONCURRENT_MOVES); 
 
     /* Constructor 
@@ -1128,7 +1315,7 @@ source如何发起block move.
         PendingBlockMove pendingBlock = chooseNextBlockToMove();
         if (pendingBlock != null) {
           // move the block
-          pendingBlock.scheduleBlockMove();
+          pendingBlock.scheduleBlockMove(); // 发起移动操作
           continue;
         }
         
@@ -1187,7 +1374,7 @@ source如何发起block move.
         bytesReceived += blk.getBlock().getNumBytes();
         BalancerBlock block;
         synchronized(globalBlockList) {
-          block = globalBlockList.get(blk.getBlock()); // TODO（dirlt）：？？？
+          block = globalBlockList.get(blk.getBlock()); // TODO（dirlt）：???
           if (block==null) {
             block = new BalancerBlock(blk.getBlock());
             globalBlockList.put(blk.getBlock(), block);
@@ -1219,8 +1406,6 @@ source如何发起block move.
 ***** Source::isGoodBlockCandidate
 决定这个block是否合适来调度
 
-TODO(dirlt):??
-
 #+BEGIN_SRC Java
     /* Decide if the given block is a good candidate to move or not */
     private boolean isGoodBlockCandidate(BalancerBlock block) {
@@ -1231,6 +1416,59 @@ TODO(dirlt):??
       }
       return false;
     }
+#+END_SRC
+
+这个函数调用了另外一个方法，检查这个block,source,所有target的关系，只要存在一个OK即可
+
+#+BEGIN_SRC Java
+  /* Decide if it is OK to move the given block from source to target
+   * A block is a good candidate if
+   * 1. the block is not in the process of being moved/has not been moved;
+   * 2. the block does not have a replica on the target;
+   * 3. doing the move does not reduce the number of racks that the block has
+   */
+  private boolean isGoodBlockCandidate(Source source, 
+      BalancerDatanode target, BalancerBlock block) {
+    // check if the block is moved or not
+    if (movedBlocks.contains(block)) { // 这个block是否已经移动？
+        return false;
+    }
+    if (block.isLocatedOnDatanode(target)) { // 是否已经在target上
+      return false;
+    }
+
+    boolean goodBlock = false;
+    if (cluster.isOnSameRack(source.getDatanode(), target.getDatanode())) { // source和target在同rack，仅仅是rack内平衡磁盘
+      // good if source and target are on the same rack
+      goodBlock = true;
+    } else {
+      boolean notOnSameRack = true;
+      synchronized (block) {
+        for (BalancerDatanode loc : block.locations) {
+          // 因为这个block已经在source上了，并且上面条件source和target不再一个rack
+          // 下面就是要检查是其他节点和target在同一个rack
+          if (cluster.isOnSameRack(loc.datanode, target.datanode)) { 
+            notOnSameRack = false;
+            break;
+          }
+        }
+      }
+      if (notOnSameRack) {
+        // good if target is target is not on the same rack as any replica
+        goodBlock = true;
+      } else {
+        // good if source is on the same rack as on of the replicas
+        for (BalancerDatanode loc : block.locations) {
+          if (loc != source && 
+              cluster.isOnSameRack(loc.datanode, source.datanode)) {
+            goodBlock = true;
+            break;
+          }
+        }
+      }
+    }
+    return goodBlock;
+  }
 #+END_SRC
 
 ***** Source::filterMovedBlocks
@@ -1263,9 +1501,11 @@ TODO(dirlt):??
 
 ***** Source::chooseNextBlockToMove
 从srcBlockList选出block来向target发起move.
-
-TODO（dirlt）：？？？
-
+   1. 遍历所有NodeTask找到对应target.
+   2. 创建PendingBlockMove
+   3. 尝试将这个PendingBlockMove添加到target队列里面
+   4. 如果添加成功的话，那么设置source,target并且选择block(chooseBlockAndProxy)(应该是从source的srcBlockList里面选择）
+   5. 如果没有选择到的话那么删除这个PendingBlockMove.
 #+BEGIN_SRC Java
     /* Return a block that's good for the source thread to dispatch immediately
      * The block's source, target, and proxy source are determined too.
@@ -1285,9 +1525,9 @@ TODO（dirlt）：？？？
           pendingBlock.target = target;
           if ( pendingBlock.chooseBlockAndProxy() ) {
             long blockSize = pendingBlock.block.getNumBytes(); 
-            scheduledSize -= blockSize;
-            task.size -= blockSize;
-            if (task.size == 0) {
+            scheduledSize -= blockSize; // NOTE(dirlt):其实这个操作没有用，因为scheduledSize是在chooseNodes静态计算之后，在实际操作阶段并不影响逻辑
+            task.size -= blockSize; // 这个task上向target最多传输size.
+            if (task.size == 0) { // NOTE(dirlt):==0是否会正常？
               tasks.remove();
             }
             return pendingBlock;
@@ -1298,6 +1538,113 @@ TODO（dirlt）：？？？
         }
       }
       return null;
+    }
+#+END_SRC
+
+***** PendingBlockMove
+这个用来描述BlockMove操作的，这个对象由source生成，然后在target线程池执行
+
+#+BEGIN_SRC Java
+private class PendingBlockMove {
+    private BalancerBlock block; // 要移动的block
+    private Source source; // from where
+    private BalancerDatanode proxySource; // 如果其他节点有相同block的话，那么可以由那个节点代为转发。
+    private BalancerDatanode target; // to where
+}
+#+END_SRC
+
+***** PendingBlockMove::chooseBlockAndProxy
+#+BEGIN_SRC Java
+    private boolean chooseBlockAndProxy() {
+      // iterate all source's blocks until find a good one    
+      for (Iterator<BalancerBlock> blocks=
+        source.getBlockIterator(); blocks.hasNext();) { // 遍历source每个块
+        if (markMovedIfGoodBlock(blocks.next())) { // 如果满足条件那么获取这个block并且从iterator删除返回
+          blocks.remove();
+          return true;
+        }
+      }
+      return false;
+    }
+#+END_SRC
+
+***** PendingBlockMove::markMovedIfGoodBlock
+#+BEGIN_SRC Java
+    /* Return true if the given block is good for the tentative move;
+     * If it is good, add it to the moved list to marked as "Moved".
+     * A block is good if
+     * 1. it is a good candidate; see isGoodBlockCandidate
+     * 2. can find a proxy source that's not busy for this move
+     */
+    private boolean markMovedIfGoodBlock(BalancerBlock block) {
+      synchronized(block) {
+        synchronized(movedBlocks) {
+          if (isGoodBlockCandidate(source, target, block)) { // block是否good.
+            this.block = block;
+            if ( chooseProxySource() ) { // 选择proxy.
+              movedBlocks.add(block);
+              if (LOG.isDebugEnabled()) {
+                LOG.debug("Decided to move block "+ block.getBlockId()
+                    +" with a length of "+StringUtils.byteDesc(block.getNumBytes())
+                    + " bytes from " + source.getDisplayName()
+                    + " to " + target.getDisplayName()
+                    + " using proxy source " + proxySource.getDisplayName() );
+              }
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+#+END_SRC
+
+***** PendingBlockMove::chooseProxySource
+首先选择和target相同rack的节点，然后选择这个block相对来说不是很繁忙的节点。选择proxy节点好处可以节省一定开销并且做均衡。
+
+#+BEGIN_SRC Java
+    /* Now we find out source, target, and block, we need to find a proxy
+     * 
+     * @return true if a proxy is found; otherwise false
+     */
+    private boolean chooseProxySource() {
+      // check if there is replica which is on the same rack with the target
+      for (BalancerDatanode loc : block.getLocations()) {
+        if (cluster.isOnSameRack(loc.getDatanode(), target.getDatanode())) {
+          if (loc.addPendingBlock(this)) {
+            proxySource = loc;
+            return true;
+          }
+        }
+      }
+      // find out a non-busy replica
+      for (BalancerDatanode loc : block.getLocations()) {
+        if (loc.addPendingBlock(this)) {
+          proxySource = loc;
+          return true;
+        }
+      }
+      return false;
+    }
+#+END_SRC
+
+***** PendingBlockMove::scheduleBlockMove
+这个在Source::dispatchBlocks里面出现过，主要是发起block move操作。产生runnable对象放在moverexecutor里面执行
+
+#+BEGIN_SRC Java
+    /* start a thread to dispatch the block move */
+    private void scheduleBlockMove() {
+      moverExecutor.execute(new Runnable() {
+        @Override
+        public void run() {
+          if (LOG.isDebugEnabled()) {
+            LOG.debug("Starting moving "+ block.getBlockId() +
+                " from " + proxySource.getDisplayName() + " to " +
+                target.getDisplayName());
+          }
+          dispatch();
+        }
+      });
     }
 #+END_SRC
 
