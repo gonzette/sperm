@@ -1,0 +1,2 @@
+#!/bin/bash
+./publish && gc && ssh dirlt-aws "./git-sync"
