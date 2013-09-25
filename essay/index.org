@@ -173,8 +173,8 @@ My name is Zhang Yan. I graduated from [[http://www.sdu.edu.cn/][Shandong Univer
 [[file:note.org][Here]] are my some notes written casually to record my life footprint. I may will take them like treasure when 30 years is past:). 
 
 My code name is dirtysalt or dirlt. It's translated from my chinese name. The translation works as following:
-   - Zhang pronounce like '脏' in cn which is the word of 'dirty'in en.
-   - Yan pronounce like in '盐' in cn which is the word of 'salt' in en.
+   - Zhang pronounce like 'dirty' in cn
+   - Yan pronounce like in 'salt' in cn 
    - then my code name is the combination of 'dirty' and 'salt' as 'dirtysalt'
    - 'dirtysalt' can be abbreviated to 'dirlt'.
 
