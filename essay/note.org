@@ -27,6 +27,7 @@
    - [[file:./note/guilin-travel.org][桂林山水甲天下]]
    - [[file:./note/virgin-swimming.org][初次游泳]]
    - [[file:./note/virgin-10km-running.org][初次10km跑步]]
+   - [[file:./note/do-we-need-exercise.org][我们是否需要运动]]
 
 ** 印记
    - [[file:./note/todo.org][todo]] 记录自己日常需要完成的事情。
