@@ -220,12 +220,12 @@ TODO（dirlt）：在Emacs里面需要安装ibus.el以及ibus-agent。但是现�
 似乎sunpinyin在google docs下面工作不是很好。使用原来的pinyin就没有问题。what a shame！
 
 ** 设置默认浏览器
-
 System Settings =》 Details 里面可以设置默认浏览器。至于emacs里面的话可以使用如下配置。
 #+BEGIN_SRC elisp
 (setq browse-url-generic-program (executable-find "chromium-browser")
       browse-url-browser-function 'browse-url-generic)
 #+END_SRC
+
 ** thunderbird配置gmail
    - pop3 pop.gmail.com/pop.googlmail.com SSL/TLS 995 normal password
    - smtp smtp.gmail.com/pop.googlmail.com SSL/TLS 465 normal password
@@ -237,13 +237,7 @@ System Settings =》 Details 里面可以设置默认浏览器。至于emacs里�
      - 4) check for new messages every 10 minutes.     
    - copies and folders => 1) cc these email addresses: dirtysalt1987@gmail.com（如果使用imap模式可以不使用）
    - composition and addressing => 1) start my reply above the quote and place my signature below the quote.
-
-设置签名为
-#+BEGIN_EXAMPLE
-章炎(dirtysalt)
-home:http://dirlt.com
-dirtysalt1987@gmail.com
-#+END_EXAMPLE
+   - 设置签名
 
 ** thunderbird的Inbox文件过大
    - http://blog.tianya.cn/blogger/post_read.asp?BlogID=3802303&PostID=35373429

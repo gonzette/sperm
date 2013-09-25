@@ -149,6 +149,10 @@ export SCALA_HOME=$HOME/utils/scala-2.10.2
 PATH=$SCALA_HOME/bin:$PATH
 MANPATH=$SCALA_HOME/man:$PATH
 
+# sbt
+export SBT_HOME=$HOME/utils/sbt
+PATH=$SBT_HOME/bin:$PATH
+
 # export path and manpath.
 export PATH
 export MANPATH
@@ -183,5 +187,3 @@ alias hudson="ssh -l ceshi hudson" # authorized.
 # private key.
 ssh-add ~/.ssh/id_rsa 2>/dev/null 
 ssh-add ~/.ssh/github 2>/dev/null
-
-

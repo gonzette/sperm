@@ -1,29 +1,6 @@
 * index
-#+TITLE: 章炎的主页
+#+TITLE: marathon@dirlt.com
 #+OPTIONS: H:3
-
-file:./images/valve-logo.jpg 放眼未来，自由想象(Open your mind, Open your eyes)
-
---------------------
-
-我叫章炎{dirtysalt}{dirlt}.我是一名软件工程师：
-   - 2012.5-now 在[[http://www.umeng.com][ 友盟{Umeng}]] 的数据平台{DataPlatform}工作，主要是负责统计数据处理以及数据平台的建设。
-   - 2008-2012.5 在 [[http://www.baidu.com][百度{Baidu}]] 的基础架构部{Infrastructure}工作，主要负责基础组件，开发工具以及分布式系统。
-
-可以从我的linkedin里面看到我做过的projects。感觉自己对各方面都感兴趣，不过现在关注的主要是:
-   - 计算机系统(Compute System)
-   - 网络编程框架(Network Programming)
-   - 单机存储系统(Storage System)
-   - 分布式系统(Distributed System)
-   - 程序设计语言和设计模式(Programming Language and Design Pattern)
-
-下面是我的一些联系方式。如果大家都什么问题或者是分享的话，欢迎交流。 
-   - linkedin http://www.linkedin.com/in/dirlt
-   - 邮箱 [[mailto:dirtysalt1987@gmail.com][dirtysalt1987@gmail.com]]
-   - 新浪微博 http://weibo.com/dirlt
-   - github https://github.com/dirtysalt
-
-+感谢xuchaoqian同学提供给我的空间，让我可以在上面把自己写的东西分享出来。+ （已经迁移到AWS EC2上，之前是他一直为我提供空间的） 他的空间是 http://xuchaoqian.com/ ，他是一位伟大的工程师
 
 ** Computer System
    - [[file:./computer-system-reading.org][computer-system-reading]] 关于单机系统方面的一些文章以及阅读心得。
@@ -188,7 +165,7 @@ file:./images/valve-logo.jpg 放眼未来，自由想象(Open your mind, Open yo
    - [[file:./aosa.org][The Architecture of Open Source Applications]]
    - [[file:./producing-open-source-software.org][Producing Open Source Software]]
 
-** Note
+** Notes irrelevant with Computer
    - 折腾
      - [[file:note/naruto.org][火影周边]]
      - [[file:./note/graduate-final-report.org][研究生答辩]]
@@ -283,7 +260,27 @@ file:./images/valve-logo.jpg 放眼未来，自由想象(Open your mind, Open yo
      - [[file:./note/meeting-dyq.org][“做CTO都是出去过的”]]
      - [[file:note/unecessary-hurry-up.org][急得蛋碎了也没有用]]
 
---------------------
-file:./images/dirtysalt.png (via http://cooltext.com/), and file:./images/cjy2020.png thank you for your accompany.
+** About Me
+   - val name : String = "Yan Zhang"
+   - val nick : List[String] = List("dirlt","dirtysalt")
+   - val wife : String = "Jinyu Chu"
 
---------------------
+*** Career
+   - 2012.5-now 在[[http://www.umeng.com][ 友盟{Umeng}]] 的数据平台{DataPlatform}工作，主要是负责统计数据处理以及数据平台的建设。
+   - 2008-2012.5 在 [[http://www.baidu.com][百度{Baidu}]] 的基础架构部{Infrastructure}工作，主要负责基础组件，开发工具以及分布式系统。
+
+*** Contact Info
+   - linkedin http://www.linkedin.com/in/dirlt
+   - mail [[mailto:dirtysalt1987@gmail.com][dirtysalt1987@gmail.com]]
+   - weibo http://weibo.com/dirlt
+   - github https://github.com/dirtysalt
+
+*** Manifesto
+放眼未来，自由想象(Open your mind, Open your eyes)
+
+file:./images/valve-logo.jpg 
+
+** Acknowledgements & Links
+感谢 [[http://xuchaoqian.com][xuchaoqian]] 同学提供给我的空间，让我可以在上面把自己写的东西分享出来，虽然现在已经迁移到AWS EC2上，但是当初是在他的鼓励和帮助下我才开始整理自己写过的东西。
+
+
