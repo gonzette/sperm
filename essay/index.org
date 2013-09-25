@@ -264,6 +264,7 @@
    - val name : String = "Yan Zhang"
    - val nick : List[String] = List("dirlt","dirtysalt")
    - val wife : String = "Jinyu Chu"
+   - val resume = List([[file:cn-resume.org]["cn-resume.org"]] , [[file:en-resume.org]["en-resume.org"]]) // type inference.     
 
 *** Career
    - 2012.5-now 在[[http://www.umeng.com][ 友盟{Umeng}]] 的数据平台{DataPlatform}工作，主要是负责统计数据处理以及数据平台的建设。
