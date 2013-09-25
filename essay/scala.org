@@ -133,6 +133,13 @@ def printLine(a:String) {
 
 *NOTE（dirlt)：需要注意的是传入的param实际上都是以val来定义的，所以在funciton-body里面不允许做修改*
 
+所有函数都是继承于Function这个类的，比如(Int,Int) => Long那么继承于Function2[Int,Int,Long]并且实现了apply方法，所以如果想创建函数的话，实际上也可以使用创建对象方式来完成
+#+BEGIN_SRC Scala
+val x = new Function2[Int,Int,Long] {
+  def apply(x:Int,y:Int) = x + y
+}
+#+END_SRC
+
 --------------------
 java里面使用...来表示参数列表比如
 #+BEGIN_SRC Java
@@ -1123,6 +1130,16 @@ println(y.id + "," + y)
 (<param1>:<type1>,<param2>:<type2>,...) => { <funciton-body> }
 #+END_EXAMPLE
 匿名函数不允许指定return-type，也就是说匿名函数必须通过type inference确定返回类型。
+
+*NOTE(dirlt):实际上匿名函数也可以指定return-type* 参考 http://stackoverflow.com/questions/2088524/is-it-possible-to-specify-an-anonymous-functions-return-type-in-scala
+   - syntax支持
+   - 匿名实例（因为所有函数都是继承Function这个类的）
+#+BEGIN_SRC Scala
+val x = (x : Int) => { x + 1 } : Int
+val y = new Function1[Int,Int] {
+  def apply(x:Int): Int = x + 1
+}
+#+END_SRC
 
 但是在某些特殊情况则不需要指定parameter-type, 因为parameter-type可以通过上下文推导出来。 
 #+BEGIN_SRC Scala
