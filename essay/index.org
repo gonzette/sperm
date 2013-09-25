@@ -35,24 +35,26 @@
    - [[file:./license.org][license]] 一些常见的开源协议。不知道自己以后是否可以用得上：）
    - [[file:./eclipse.org][eclipse]] 虽然我喜欢emacs，但是似乎java方面开发似乎还是离不开它。
    - [[file:intellij.org][intellij]] eclipse太慢了，看看intellij怎么样。
-   - [[file:./algorithm.org][algorithm]] 算法还是非常重要的。记录的都是现实中使用到的算法或者是比较有趣的数学问题吧。
-     - [[file:./probabilistic-data-structures-for-web-analytics-and-data-mining.org][Probabilistic Data Structures for Web Analytics and Data Mining]]
-   - [[file:./data-mining.org][data-mining]] 了解一些数据挖掘方面的知识还是比较有帮助的。其实我们每天都在不知不觉地进行数据挖掘。
    - [[file:lcov.org][lcov]] the LTP(Linux Testing Project) GCOV extension.用来完成C/C++测试覆盖。
    - [[file:web-misc.org][web-misc]] web开发遇到的一些问题。因为自己对于web开发不太了解，所以内容上的话可能显得有点弱智。
    - [[file:folly.org][folly]] Folly is an open-source C++ library developed and used at Facebook.
    - [[file:flex-bison.org][flex-bison]] 可以用来书写词法和语法分析器，bison支持的语法是LALR（1）。
    - [[file:./valgrind.org][valgrind]] CPU和内核模拟器，通过暴露接口可以构建动态分析工具，比如内存调试，检测内存泄露，多线程分析和性能分析等。
-   - [[file:recommender-system.org][recommender-system]] 推荐系统
-     - [[file:./deconstructing-recommender-systems.org][Deconstructing Recommender Systems]]
-   - [[file:./computational-advertising.org][computational-advertising]] 计算广告学
-     - [[file:./ctr.org][ctr]] click through rate.
    - [[file:systemtap.org][systemtap]] 通过将观察语句编译成为内核驱动，和linux内核提供的接口匹配，来深度地观察linux操作系统。
    - [[file:gperftools.org][gperftools]] google的性能分析工具，[[file:tcmalloc.org][tcmalloc]] 实现也在里面。用来观察应用程序似乎是个不错的选择。
    - [[file:perf.org][perf]] linux系统自带的性能分析工具，支持硬件以及软件事件计数器，支持profile kernel以及user code.
    - [[file:./protobuf.org][protobuf]] google的数据交换格式，能够高效地序列化和反序列化对象，同时考虑向后兼容问题。
    - [[file:./thrift.org][thrift]] facebook的数据交换格式，能够高效地序列化和反序列化对象，同时考虑向后兼容问题。
    - [[file:./gdb.org][gdb]] GNU Debugger, mainly on C/C++. 不过现在比较习惯打印日志方式来调试。
+
+** Algorithm Related
+   - [[file:./algorithm.org][algorithm]] 算法还是非常重要的。记录的都是现实中使用到的算法或者是比较有趣的数学问题吧。
+     - [[file:./probabilistic-data-structures-for-web-analytics-and-data-mining.org][Probabilistic Data Structures for Web Analytics and Data Mining]]
+   - [[file:./data-mining.org][data-mining]] 了解一些数据挖掘方面的知识还是比较有帮助的。其实我们每天都在不知不觉地进行数据挖掘。
+   - [[file:recommender-system.org][recommender-system]] 推荐系统
+     - [[file:./deconstructing-recommender-systems.org][Deconstructing Recommender Systems]]
+   - [[file:./computational-advertising.org][computational-advertising]] 计算广告学
+     - [[file:./ctr.org][ctr]] click through rate.
 
 ** Network Programming
    - [[file:unp.org][unp]] Unix网络编程(Unix Network Programming),W. Richard Stevens的又一神作。笔记里面只是对于TCP原理有比较详细讨论，这部分笔记也包含了TCP Illustrated v1里面和TCP相关的章节内容。对于编程方面也着重TCP socket使用，毕竟在大部分应用场景下面我们选用TCP模型更多，并且TCP里面有很多非常琐碎的知识。
@@ -164,124 +166,25 @@
      - [[file:./programmer-dilemma.org][Programmer’s dilemma]]
    - [[file:./aosa.org][The Architecture of Open Source Applications]]
    - [[file:./producing-open-source-software.org][Producing Open Source Software]]
-
-** Notes irrelevant with Computer
-   - 折腾
-     - [[file:note/naruto.org][火影周边]]
-     - [[file:./note/graduate-final-report.org][研究生答辩]]
-     - [[file:./note/baidu-bit-shanghai-route.org][百度BIT上海行程]]
-     - [[file:note/purchase-compaq-notebook.org][购买compqa笔记本]]
-     - [[file:note/struggle-with-ubuntu.org][折腾Ubuntu]]
-     - [[file:note/switch-back-to-windows.org][切换回windows]]
-     - [[file:note/how-to-apply-domain.org][如何申请域名]]
-     - [[file:note/2012-new-year-go-home.org][2012元旦回家]]
-     - [[file:./note/get-marriage-identity.org][领证经历]]
-     - [[file:note/purchase-diamond.org][购买钻戒]]
-     - [[file:note/take-wedding-photo.org][婚纱摄影]]
-     - [[file:note/zj-travel.org][上有天堂，下有苏杭]]
-     - [[file:note/purchase-car.org][购买汽车]]
-     - [[file:note/look-for-house-with-xcq.org][和xcq看房子]]
-     - [[file:note/2012-birthday.org][2012生日]]
-     - [[file:note/drive-learning.org][学车经历]]
-     - [[file:note/get-to-know-the-odds-problem.org][初探赔率问题]]
-     - [[file:./note/visit-tj-data-center.org][参观天津机房]]
-     - [[file:./note/purchase-mba.org][购买MacBookAir]]
-     - [[file:note/be-careful-when-you-drive.org][开车务必小心]]
-     - [[file:note/virgin-foot-massage.org][初次足疗]]
-     - [[file:note/ms-interview.org][微软面试]]
-     - [[file:note/ymy-travel.org][圆明园游]]
-     - [[file:./note/my-amoi-n821.org][我的夏新N821]]
-     - [[file:./note/guilin-travel.org][桂林山水甲天下]]
-     - [[file:./note/virgin-swimming.org][初次游泳]]
-     - [[file:./note/virgin-10km-running.org][初次10km跑步]]
-
-   - 记录
-     - [[file:./note/todo.org][todo]] 记录自己日常需要完成的事情。
-     - [[file:note/fun.org][挺搞笑的]]
-     - [[file:note/excerpt.org][网络摘抄]]
-     - [[file:note/american-idiom.org][海哥教你学英语]]
-     - [[file:note/lyric.org][歌词]] 
-     - [[file:note/movie.org][电影]]
-       - [[file:./note/inside-job.org][监守自盗(Inside Job)]]
-       - [[file:./note/seediq-bale.org][赛德克巴莱(Seediq Bale)]]
-       - [[file:./note/god-father.org][教父(GodFather)]]
-       - [[file:./note/scent-of-a-woman.org][闻香识女人(Scent of a Woman)]]
-       - [[file:./note/pulp-fiction.org][低俗小说(Pulp Fiction)]]
-       - [[file:./note/brave-heart.org][勇敢的心(Brave Heart)]]
-       - [[file:./note/the-hurt-locker.org][拆弹部队(The Hurt Locker)]]
-       - [[file:./note/the-prestige.org][致命魔术(The Prestige)]]
-       - [[file:./note/lincoln.org][林肯(Lincoln)]]
-     - [[file:note/pregnancy.org][怀孕]] 做爸爸妈妈需要注意的一些事情。
-     - [[file:note/health.org][健康]] 拥有健康的身体才能够更好地享受生活和工作。
-     - [[file:note/book.org][书籍]] 自己看过的一些书，可能不太好分类所以全部放在这里了。
-       - [[file:./note/steve-jobs.org][史蒂夫乔布斯传(Steve Jobs)]]
-       - [[file:./note/the-cathedral-and-the-bazaar.org][大教堂与市集(The Cathedral and the Bazaar)]]
-       - [[file:./note/hackers-and-painters.org][黑客与画家(Hackers and Painters)]]
-       - [[file:./note/writing-clean-code.org][编程精粹-Microsoft编写优质无错代码的秘诀(Writing Clean Code)]]
-       - [[file:./note/the-art-of-unix-programming.org][Unix程序设计艺术(The Art of Unix Programming)]]
-       - [[file:./note/the-mythical-man-month.org][人月神话(The Mythical Man-Month)]]
-       - [[file:./note/the-pragmatic-programmer.org][程序员修炼之道(The Pragmatic Programmer)]]
-       - [[file:./note/dreaming-in-code.org][梦断代码(Dreaming in Code)]]
-       - [[file:./note/refactoring-improving-the-design-of-existing-code.org][重构-改善既有代码的设计(Refactoring: Improving the Design of Existing Code)]] 
-       - [[file:./note/code-quality-the-open-source-perspective.org][高质量程序设计艺术(Code Quality The Open Source Perspective)]]
-       - [[file:./note/virtual-machine-design-and-implementation-in-c-cpp.org][虚拟机设计与实现(Virtual Machine Design and Implementation in C/C++)]]
-       - [[file:./note/structured-computer-organization.org][结构化计算机组成(Strcutured Computer Organization)]]
-       - [[file:./note/modern-operating-systems.org][现代操作系统(Modern Operating Systems)]]
-       - [[file:./note/introduction-to-computing-systems.org][计算机系统概论(Introduction to Computing Systems)]]
-       - [[file:./note/how-to-solve-it-a-new-apsect-of-math-method.org][如何解题-数学思维新方法(How to Solve It: A New Aspect of Mathematical Method)]]
-       - [[file:./note/distributed-operating-systems.org][分布式操作系统(Distributed Operating Systems)]]
-       - [[file:./note/republic.org][理想国(Republic)]]
-       - [[file:./note/influence.org][影响力(Influence)]]
-       - [[file:./note/amusing-ourselves-to-death.org][娱乐至死(Amusing Ourselves to Death)]]
-       - [[file:./note/true-believer.org][狂热分子(True Believer)]]
-       - [[file:./note/people-all-know.org][全世界人民都知道]]
-       - [[file:./note/big-data.org][大数据时代：生活、工作与思维的大变革(Big Data:A Revolution That Will Transform How We Live, Work, and Think)]]
-     - [[file:note/recipe.org][菜谱]] 是谁说的，活着就是为了更好的吃：）
-     - [[file:note/house.org][住房]] 在天朝这是一个大问题。
-     - [[file:note/photo.org][摄影]] 单反穷三代，摄影毁一生
-     - [[file:note/to-death.org][给离去的亲人们]]
-    
-   - 思考
-     - [[file:note/new-era-carmack.org][新时代的卡马克]]
-     - [[file:./note/cola-and-water.org][可乐和矿泉水]] 散文处女作
-     - [[file:./note/retrospect-2009.org][回顾2009]]
-     - [[file:note/retrospect-2010.org][回顾2010]]
-     - [[file:note/as-child-in-warm-house.org][温室长大的孩子]]
-     - [[file:note/retrospect-2011.org][回顾2011]]
-     - [[file:./note/talk-with-luoyan.org][和luoyan的谈话]]
-     - [[file:note/communicate-and-relationship.org][交流和关系]]
-     - [[file:note/code-for-run.org][为运行而生的代码]]
-     - [[file:note/have-a-nice-sleep-and-straighten-up.org][好好睡一觉，然后振作起来]]
-     - [[file:note/what-can-i-do-when-old.org][以后老了我能做什么]]
-     - [[file:note/not-easy-as-you-think.org][没有那么简单]]
-     - [[file:./note/my-without-wife-wedding.org][没有妻子的婚礼]]
-     - [[file:note/retrospect-2012.org][回顾2012]]
-     - [[file:./note/goodbye-dyy.org][朋友远行，一路顺风]]
-     - [[file:./note/meeting-dyq.org][“做CTO都是出去过的”]]
-     - [[file:note/unecessary-hurry-up.org][急得蛋碎了也没有用]]
-
+     
 ** About Me
-   - val name : String = "Yan Zhang"
-   - val nick : List[String] = List("dirlt","dirtysalt")
-   - val wife : String = "Jinyu Chu"
-   - val resume = List([[file:cn-resume.org]["cn-resume.org"]] , [[file:en-resume.org]["en-resume.org"]]) // type inference.     
+My name is Zhang Yan. I graduated from Shandong University as master, and currently work as Software Architect in Data Platform Team at Umeng which focus on mobile analytics since 2012.5 where I manily work on building and improving the infrastructure of big data processing on Hadoop/HBase. From 2010.7 to 2012.5, I have been a Senior Software Engineer at Baidu Infrastructure Tream where I wrote libraries, tools, services and distributed systems. From 2008.8 to 2010.7, I have been a Intern Software Engineer at Baidu Component Tream where I wrote libraries and tools. My linkedin written below has more details, and for the sake of seeking job I maintain a [[file:resume.org][resume]]. 
 
-*** Career
-   - 2012.5-now 在[[http://www.umeng.com][ 友盟{Umeng}]] 的数据平台{DataPlatform}工作，主要是负责统计数据处理以及数据平台的建设。
-   - 2008-2012.5 在 [[http://www.baidu.com][百度{Baidu}]] 的基础架构部{Infrastructure}工作，主要负责基础组件，开发工具以及分布式系统。
+[[file:note.org][Here]] are my some notes written casually to record my life footprint. I may will take them like treasure when 30 years is past:). 
 
-*** Contact Info
-   - linkedin http://www.linkedin.com/in/dirlt
+My code name is dirtysalt or dirlt. It's translated from my chinese name. The translation works as following:
+   - Zhang pronounce like '脏' in cn which is the word of 'dirty'in en.
+   - Yan pronounce like in '盐' in cn which is the word of 'salt' in en.
+   - then my code name is the combination of 'dirty' and 'salt' as 'dirtysalt'
+   - 'dirtysalt' can be abbreviated to 'dirlt'.
+
+Here is my contact info. I think email is the easiest way to get me.
    - mail [[mailto:dirtysalt1987@gmail.com][dirtysalt1987@gmail.com]]
+   - linkedin http://www.linkedin.com/in/dirlt
    - weibo http://weibo.com/dirlt
+   - twitter https://twitter.com/dirtysalt‎
    - github https://github.com/dirtysalt
 
-*** Manifesto
-放眼未来，自由想象(Open your mind, Open your eyes)
+My favouritest words comes from theidea of [[http://www.valvesoftware.com/][Valve]] : "Open your mind, Open your eyes" (放眼未来，自由想象), with a [[file:images/valve-logo.jpg][image]] from its game "Half Life"
 
-file:./images/valve-logo.jpg 
-
-** Acknowledgements & Links
-感谢 [[http://xuchaoqian.com][xuchaoqian]] 同学提供给我的空间，让我可以在上面把自己写的东西分享出来，虽然现在已经迁移到AWS EC2上，但是当初是在他的鼓励和帮助下我才开始整理自己写过的东西。
-
-
+Especially thanks to [[http://xuchaoqian.com][xuchaoqian]] for encouraging me to write and providing me host initially so I can publish my writings. And also thanks people who help me, support me, and accompany me, you complete me.
