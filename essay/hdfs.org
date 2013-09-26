@@ -532,7 +532,7 @@ uri = file:///
    - NN balance # NNs balance iteration内部针对每个NN集群发起alance称为NN balance iteration. 内部会拆解成为多个source发起balance.
    - Source balance # 每个source发起balance, 内部也会多次挑选block来做move. 其中Source balance内部会有多轮迭代。
 
-从传入参数上似乎没有做限速，可能是在dn传输之间做了限速
+从传入参数上似乎外部没有做限速，所以限速只能够依赖于dfs.balance.bandwidthPerSec配置来做
 
 **** NNS balance iteration
 ***** main thread
