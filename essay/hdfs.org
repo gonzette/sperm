@@ -525,10 +525,14 @@ uri = file:///
 
 ** 代码分析
 *** Balancer
+*NOTE(dirlt):hadoop-2.0.0-cdh4.3.0*
+
 *NOTE(dirlt):名词是自己定义的方便理解*
    - NNs balance # 对于hdfs federation来说可能存在多个NN. 并且对于这些NN需要发起多轮balance迭代，每轮迭代称为NNs balance.
    - NN balance # NNs balance iteration内部针对每个NN集群发起alance称为NN balance iteration. 内部会拆解成为多个source发起balance.
    - Source balance # 每个source发起balance, 内部也会多次挑选block来做move. 其中Source balance内部会有多轮迭代。
+
+从传入参数上似乎没有做限速，可能是在dn传输之间做了限速
 
 **** NNS balance iteration
 ***** main thread
@@ -1649,6 +1653,10 @@ private class PendingBlockMove {
 #+END_SRC
 
 *** BlockPlacementPolicy
+*NOTE(dirlt):hadoop-2.0.0-cdh4.3.0*
+
+就像之前论文里面提到的，block placement策略上没有考虑磁盘利用率问题，可能造成disk util上各个节点出现imbalance情况，需要靠balancer来做均衡。 
+
 **** Interface
 BlockPlacementPolicy负责块放置策略，本身是抽象类，有默认实现是BlockPlacementPolicyDefault。接口有下面这些，其意义注释上还是比较好理解的。
 

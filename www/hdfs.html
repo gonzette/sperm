@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="hdfs"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-26 20:10:06 CST"/>
+<meta name="generated" content="2013-09-26 21:50:42 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -1708,7 +1708,10 @@ uri = file:///
 <h4 id="sec-1-7-1"><span class="section-number-4">1.7.1</span> Balancer</h4>
 <div class="outline-text-4" id="text-1-7-1">
 
-<p><b>NOTE(dirlt):名词是自己定义的方便理解</b>
+<p><b>NOTE(dirlt):hadoop-2.0.0-cdh4.3.0</b>
+</p>
+<p>
+<b>NOTE(dirlt):名词是自己定义的方便理解</b>
 </p><ul>
 <li>NNs balance # 对于hdfs federation来说可能存在多个NN. 并且对于这些NN需要发起多轮balance迭代，每轮迭代称为NNs balance.
 </li>
@@ -1719,6 +1722,9 @@ uri = file:///
 </ul>
 
 
+<p>
+从传入参数上似乎没有做限速，可能是在dn传输之间做了限速
+</p>
 
 </div>
 
@@ -3122,6 +3128,11 @@ private void scheduleBlockMove() {
 <h4 id="sec-1-7-2"><span class="section-number-4">1.7.2</span> BlockPlacementPolicy</h4>
 <div class="outline-text-4" id="text-1-7-2">
 
+<p><b>NOTE(dirlt):hadoop-2.0.0-cdh4.3.0</b>
+</p>
+<p>
+就像之前论文里面提到的，block placement策略上没有考虑磁盘利用率问题，可能造成disk util上各个节点出现imbalance情况，需要靠balancer来做均衡。 
+</p>
 
 </div>
 
@@ -3942,8 +3953,8 @@ protected Iterator&lt;DatanodeDescriptor&gt; pickupReplicaSet(
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-09-26 20:10:06 CST</p>
-<p class="creator">Org version 7.8.02 with Emacs version 23</p>
+<p class="date">Date: 2013-09-26 21:50:42 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
 </div>
