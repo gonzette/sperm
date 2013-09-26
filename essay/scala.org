@@ -164,6 +164,16 @@ val x = Array("Hello","World");
 foo(x:_*)
 #+END_SRC
 
+--------------------
+函数调用上，如果没有参数的话可以省去(), 同时scala也支持指定参数传值而不是顺序传值
+#+BEGIN_SRC Scala
+def printX() = println("X")
+printX
+def foo(x:Int,y:Int) = 2 * x + y
+println(foo(x = 1, y = 1))
+println(foo(y = 1, x = 1))
+#+END_SRC
+
 *** 控制结构
 One thing you will notice is that almost all of Scala’s control structures result in some value. This is the approach taken by functional languages, in which programs are viewed as computing a value, thus the components of a program should also compute values. 
 

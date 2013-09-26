@@ -55,6 +55,11 @@ for((;;))
 do
     sleep 30
     reboot=`curl -S $url 2>/dev/null`
+    # if returns null, then maybe the service is already down.
+    if [ $reboot"X" == "X" ]
+    then
+	reboot='true'
+    fi
     if [ $reboot == 'true' ]
     then
 	dt=`date`
