@@ -33,13 +33,12 @@ class Solution {
     dist = new int [N * N];
     memset(dist,0,sizeof(int) * N * N);
     calcDist();
-    //printDist();
+    printf("%d\n",getMinDist());
     
     calcFloyd();
-    //printDist();
     VVS vvs = getDescription(0);
+    
     delete dist;
-    //adjustDescription(vvs);
     return vvs;
   }
 
@@ -83,7 +82,9 @@ class Solution {
     }
   }
 
+  
   // peformance-tuned.
+  // but not good enough.
   void calcFloyd() {
     for(int k=0;k<N;k++) {
       int ik = k;
@@ -105,7 +106,7 @@ class Solution {
         }
       }
     }
-  }
+  } 
 
   VVS getDescription(int f) {
     if(f == (N-1)) {
@@ -135,9 +136,29 @@ class Solution {
     }
   }
 
-  void adjustDescription(VVS& vvs) {
-    for(int i=0;i<vvs.size();i++) {
-      reverse(vvs[i].begin(),vvs[i].end());
+  // NOTE(dirlt):not think through.
+  int getMinDist() {
+    set<int> mask;
+    queue<int> Q1;
+    queue<int> Q2;
+    Q1.push(0);
+    mask.insert(0);
+    Q2.push(0);
+    while(!Q1.empty()) {
+      int n = Q1.front();
+      Q1.pop();
+      int d = Q2.front();
+      Q2.pop();
+      if(n == (N-1)) {
+        return d;
+      }
+      for(int i=0;i<N;i++) {
+        if(mask.find(i) == mask.end() && dist[getIndex(n,i)] == 1) {
+          mask.insert(i);
+          Q1.push(i);
+          Q2.push(d+1);
+        }
+      }
     }
   }
   
