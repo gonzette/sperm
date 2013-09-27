@@ -39,4 +39,5 @@ sae/
 code/java/*/target
 essay/*.html
 essay/note/*.html
+a.out
 
