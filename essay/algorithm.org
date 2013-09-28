@@ -200,6 +200,55 @@ def TreeDistance(root):
 
 对于返回元组来说的话(a,b,c)，a表示树的最长距离，b表示左子树的高度，c表示右子树的高度。
 
+--------------------
+
+leetcode上也有类似的题目，但是考虑上了树节点值 http://oj.leetcode.com/problems/binary-tree-maximum-path-sum/
+
+#+BEGIN_SRC C++
+class Solution {
+ public:
+  int maxPathSum(TreeNode *root) {
+    // Start typing your C/C++ solution below
+    // DO NOT write int main() function
+    if(root == NULL) {
+      return 0;
+    }
+    int p;
+    int s = side(root,&p);
+    return max(s,p);
+  }
+  
+  // path means max sum in root, but not contains root node,
+  // so it does not contribute the parent.(but if contains root node, it doesn't matter)
+  // because we just get max of it.
+  // function return value max sum including root node.
+  int side(TreeNode* root,int* path) {
+    if(root->left == NULL && root->right == NULL) {
+      *path = root->val;
+      return root->val;
+    } else if(root->left == NULL) {
+      int rp;
+      int r= side(root->right,&rp);
+      *path = max(r,rp);
+      return max(0,r) + root->val;      
+    } else if(root->right == NULL) {
+      int lp;
+      int l = side(root->left,&lp);
+      *path = max(l,lp);
+      return max(0,l) + root->val;
+    } else {
+      int lp,rp;    
+      int l = side(root->left,&lp);
+      int r = side(root->right,&rp);
+      int p = max(max(l,r),max(lp,rp));
+      p = max(p, max(0,l) + max(0,r) + root->val);
+      *path = p;
+      return max(max(0,l), max(0,r)) + root->val;      
+    }
+  }
+};
+#+END_SRC
+
 ** rsync core algorithm
    - http://coolshell.cn/articles/7425.html
 

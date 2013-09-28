@@ -1,6 +1,7 @@
 #include <string>
 #include <set>
-#include <unordered_set>
+//#include <unordered_set>
+#define unordered_set set
 #include <cstring>
 #include <vector>
 #include <algorithm>
@@ -15,7 +16,7 @@ class Solution {
  public:
   int N;
   vector<string> res;
-  int* dist;
+  char* dist;
 
   vector< vector<string> > findLadders(string start, string end, unordered_set<string> &dict) {
     // Start typing your C/C++ solution below
@@ -30,15 +31,15 @@ class Solution {
     //printf("N = %d\n", N);
     
     // construct dist
-    dist = new int [N * N];
-    memset(dist,0,sizeof(int) * N * N);
+    dist = new char [N * N];
+    memset(dist,0,sizeof(char) * N * N);
     calcDist();
     printf("%d\n",getMinDist());
     
     calcFloyd();
     VVS vvs = getDescription(0);
     
-    delete dist;
+    delete[] dist;
     return vvs;
   }
 
