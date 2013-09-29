@@ -1,0 +1,36 @@
+* resume
+** Summary
+extensive experience in:
+- large-scale distributed system design and implementation.
+- network programing and framework.
+- storage system design and implementation.
+- system software development.
+- big data processing and analysis.
+
+specialities:
+- proficient in c/c++, python, java, scala.
+- solid knowledge of data structure and algorithm.
+- extremely familiar with system development toolchains on linux.
+- performance optimization and tuning for systems and applications.
+- compiler technique and related tools.
+
+** Experience
+*** 2013.2 - now
+Software Architect at Umeng
+
+data platform team.
+
+- design umeng internal realtime+batch architecture. (aka. lambda architecture http://nathanmarz.com/blog/how-to-beat-the-cap-theorem.html) 
+
+- optimize hadoop cluster usage.
+
+- performance tuning of mapreduce jobs from perspective of
+  1. application(use hbase bulk load instead of writing data to hbase directly)
+  2. kernel(change some kernel parameters like /proc/sys/vm/*  to improve memory allocation)
+  3. language(use JNI instead of java code to accelerate cpu computation)
+  4. system(turn off mapreduce speculative mode when read data from hbase)
+
+- build the internal job scheduler system from scratch to arrange different jobs which are codependent.
+
+- fast-hbase-rest, a http server with cache for easily accessing hbase in multiple languages by using google protocol-buffers. much faster than 'hbase rest' meanwhile with more capabilities like request rewrite. https://github.com/dirtysalt/sperm/tree/master/code/java/fast-hbase-rest
+
