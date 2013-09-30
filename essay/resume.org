@@ -2,8 +2,9 @@
 ** Summary
 extensive experience in:
 - large-scale distributed system design and implementation.
-- network programing and framework.
+- network programing framework design and implementation.
 - storage system design and implementation.
+- performance optimization and tuning for systems and applications.
 - system software development.
 - big data processing and analysis.
 
@@ -11,12 +12,19 @@ specialities:
 - proficient in c/c++, python, java, scala.
 - solid knowledge of data structure and algorithm.
 - extremely familiar with system development toolchains on linux.
-- performance optimization and tuning for systems and applications.
-- compiler technique and related tools.
+- good understanding of compiler technique and related tools.
 
 ** Experience
-*** 2013.2 - now
-Software Architect at Umeng
+*** 2013.2-now
+Software Architect at Umeng.
+
+data platform team.
+
+- data analytics and data mining on hadoop.
+- build data access service on hbase for advertise platform.
+
+*** 2012.6-2013.2
+Senior Software Engineer at Umeng.
 
 data platform team.
 
@@ -32,5 +40,39 @@ data platform team.
 
 - build the internal job scheduler system from scratch to arrange different jobs which are codependent.
 
-- fast-hbase-rest, a http server with cache for easily accessing hbase in multiple languages by using google protocol-buffers. much faster than 'hbase rest' meanwhile with more capabilities like request rewrite. https://github.com/dirtysalt/sperm/tree/master/code/java/fast-hbase-rest
+- fast-hbase-rest, a http server with key value cache for easily accessing hbase in multiple languages by using google protocol-buffers. much faster than 'hbase rest' meanwhile with more capabilities like request rewrite. https://github.com/dirtysalt/sperm/tree/master/code/java/fast-hbase-rest
+
+*** 2011.8-2012.6
+Senior Software Engineer at Baidu.
+
+inf(infrastructure) hpc(high performance computing) team.
+
+- dstream, a in-house distributed realtime stream processing system in c++ like twitter's storm and yahoo!'s S4. The alpha version of dstream with 10 nodes can process 1 million tuples per second while keep the latency less than 100ms.
+
+*** 2010.6-2011.8
+Software Engineer at Baidu.
+
+inf(infrastructure) com(component) team.
+
+- itachi, an open-source high performance asynchronous network programming framework in c++. https://github.com/dirtysalt/sperm/tree/master/code/cc/itachi
+
+- comake2, a in-house build system in python, takes advantages of some open-source build systems such as SCons, CMake, google's GYP, boost's jam etc. It have been wildly used in baidu for continuous integration.
+
+- infpack, a in-house data exchange format in c++, exceeds google's protocol-buffers and facebook's thrift on the speed of serialization and deserialization about 20~30% faster while with 10~20% smaller size. its generated code is carefully hand-tuned so implementation is very efficient.
+
+- DDBS(distributed database system), a in-house distributed relational database system. I mainly worked on SQL parser to extend syntax for more capability and implementing a SPASS(single point automatic switch system) for its fault-tolerant feature.
+
+- maintainer and developer of baidu's common library including BSL(baidu standard library), ullib(wraps socket io, file io, and some linux syscalls etc.), comdb(a embedded high-performance key value storage system), memory allocator, character encoding, regular expression, signature and hash algorithm, url handling, http client, lock-free data structures and algorithms etc.
+
+*** 2008.7-2010.6
+Software Engineering Intern at Baidu.
+
+ibase com(component) team.
+
+- vitamin, a in-house tool to detect the potential bugs in C/C++ source code by static analyzation. It reports thousands of valuable warnings by scanning the whole baidu's code repository while keeping the rate of fake warnings relatively low.
+
+- idlcompiler, a in-house compiler translates a DSL(domain specified language) called 'idl'(interface description language) which is designed by myself to the code that support data exchange between C/C++ struct/class and mcpack(a in-house data pack like google's protocol-buffers).
+
+- maintainer and developer of ullib(wraps socket io, file io, and some linux syscalls etc.), comdb(a embedded high-performance key value storage system), memory allocator, character encoding, regular expression, signature and hash algorithm, url handling, http client etc.
+
 
