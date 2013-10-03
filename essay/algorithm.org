@@ -419,6 +419,22 @@ a1 a1 a2 a2 ... an an X
 
 这个问题只要将所有的值xor，那么对于a1 xor a1 = 0, 因此结果就剩下X
 
+http://oj.leetcode.com/problems/single-number/
+
+#+BEGIN_SRC C++
+class Solution {
+ public:
+  int singleNumber(int A[], int n) {
+    // Note: The Solution object is instantiated only once and is reused by each test case.
+    int x = 0;
+    for(int i=0;i<n;i++) {
+      x ^= A[i];
+    }
+    return x;
+  }
+};
+#+END_SRC
+
 --------------------
 有一堆数，只有 *两个* 数出现单次，其余数都出现 *偶数* 次。
 
@@ -439,6 +455,39 @@ a1 a1 a1 a2 a2 a2 ... an an an X
 
 并且这个处理方法可以扩展到其余数出现 *任意次* 。
 
+http://oj.leetcode.com/problems/single-number-ii/
+
+#+BEGIN_SRC C++
+class Solution {
+ public:
+  int singleNumber(int A[], int n) {
+    // Note: The Solution object is instantiated only once and is reused by each test case.
+    int mask[32]; // sizeof(int) == 32;
+    memset(mask,0,sizeof(mask));
+    for(int i=0;i<n;i++) {
+      R(A[i],mask);
+    }
+    int code = S(mask);
+    return code;
+  }
+  void R(int a,int mask[]) {
+    for(int i=0;i<32;i++) {
+      if(a & 0x1) {
+        mask[i] = (mask[i] + 1) % 3;
+      }
+      a >>= 1;
+    }
+  }
+  int S(int mask[]) {
+    int code = 0;
+    for(int i=31;i>=0;i--) {
+      code = (code << 1) + mask[i];
+    }
+    return code;
+  }
+};
+#+END_SRC
+
 ** 水池最大蓄水问题
 考虑一个二维直方图平面，X轴单位为1，Y轴是直方图高度。假设向这个直方图里面灌水，请问这个直方图能够容纳多少水。
 
@@ -447,3 +496,4 @@ a1 a1 a1 a2 a2 a2 ... an an an X
 这个问题我一开始的想法就是首先我们可以找出两个最高的点，这两个点之间肯定是可以存水的。然后以这两个点为划分，考虑剩余的区域。简单地说就是一个Divice and Conquer的方法。找出两个最高点时间复杂度为O（n)，然后两个点划分的话，类似于快排的时间复杂度，因此时间复杂度为O（nlgn）
 
 另外一个比较好的办法就是只是考虑某一个直方图容纳水多少。对于这个点来说，它所容纳的高度取决于它的左右两边最大高度。因此我们可以先对这个直方图做一个预处理，求解得到left[i]表示第i个柱子左边最大高度，right[i]表示第i个柱子右边最大高度，这个预处理O（n)就可以计算完成。然后再一遍处理即可求解结果。
+
