@@ -23,6 +23,7 @@ class Solution {
     if(head == NULL) {
       return NULL;
     }
+    cache.clear();
     RandomListNode* x = cache[head];
     if(x != NULL) {
       return x;
