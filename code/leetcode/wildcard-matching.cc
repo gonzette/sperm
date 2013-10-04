@@ -7,6 +7,7 @@ class Solution {
   int n;
   int m;
   char* dp;
+  int* valid;
   bool isMatch(const char *s, const char *p) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     string xs(s);
@@ -26,14 +27,29 @@ class Solution {
     }
     dp = new char[n*m];
     memset(dp,0xff,n*m);
+    valid = new int[m];
+    memset(valid,0,sizeof(int) * m);
+    preValid(p);
     
     bool res = isMatch(xs,0,xp,0);
     delete[] dp;
+    delete valid;
     return res;
   }
 
   int getIndex(int i,int j) {
     return i * m + j;
+  }
+
+  int preValid(const string &p) {
+    valid[m-1]=0;
+    for(int i=m-2;i>=0;i--) {
+      if(p[i+1] == '*') {
+        valid[i] = valid[i+1];      
+      } else {
+        valid[i] = valid[i+1] + 1;
+      }
+    }
   }
   
   string simplify(const string& p) {
@@ -62,17 +78,35 @@ class Solution {
       return dp[index] == 1;
     }
     bool res = false;
-    if(p[pf] == '?') {
-      res = isMatch(s,sf+1,p,pf+1);
-    } else if(p[pf] == '*') {
-      for(int i=sf;i<=s.size();i++) {
-        if(isMatch(s,i,p,pf+1)) {
-          res = true;
-          break;
+    if(p[pf] == '*') {
+      if(pf == (p.size() - 1)) { // last one. exception. matches all.
+        res = true;
+      } else {
+        int c = valid[pf];        
+        for(int i=sf;(i+c)<=s.size();i++) {
+          if(isMatch(s,i,p,pf+1)) {
+            res = true;
+            break;
+          }
         }
       }
     } else {
-      res = (p[pf] == s[sf] && isMatch(s,sf+1,p,pf+1));
+      res = true;
+      while(pf < p.size() && sf < s.size()) {
+        if(p[pf]!='*') {
+          if(!(p[pf]=='?' || p[pf] == s[sf])) {
+            res = false;
+            break;
+          }
+          pf++;
+          sf++;
+        } else {          
+          break;
+        }        
+      }
+      if(res) {
+        res = isMatch(s,sf,p,pf);
+      }
     }
     dp[index] = (res ? 1 : 0);
     return res;
