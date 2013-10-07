@@ -476,7 +476,7 @@ The filesystem under path '/hbase/.corrupt/dp18.umeng.com%3A60020.1349065853563'
 HDFS文件系统的操作步骤主要如下：
    - 首先通过configuration获得FileSystem实例
    - 然后通过FileSystem这个实例操作文件系统上的文件
-   - 代码可以参考 com.dirlt.java.hdfs.GetFS
+   - 代码可以参考 [[https://github.com/dirtysalt/sperm/blob/master/code/java/hdfs/src/main/java/com/dirlt/java/hdfs/GetFS.java][com.dirlt.java.hdfs.GetFS]]
 
 影响获取到的具体文件系统是fs.default.name这个值，hdfs文件系统API支持下面几个文件系统(不仅限于，只是常用的）
    - Local file fs.LocalFileSystem
@@ -485,7 +485,7 @@ HDFS文件系统的操作步骤主要如下：
      - Designed for streaming. Random seeks devastate performance.
    - HAR(Hadoop Archive) har fs.HarFileSystem
 
--以 com.dirlt.java.hdfs.GetFS 为例，如果使用java -cp方式运行的话，那么结果如下
+以 com.dirlt.java.hdfs.GetFS 为例，如果使用java -cp方式运行的话，那么结果如下
 #+BEGIN_EXAMPLE
 fs.default.name = file:///
 uri = file:///
@@ -510,17 +510,17 @@ uri = file:///
      - sync是FSDataOutputStream特有的，老版本相当是将datanode数据同步到namenode，这样reader就可以读取到当前的block，但是在高版本deprecated
      - hflush则是高版本推荐的sync用法
      - hsync不仅仅有hflush功能，还能够调用对应的datanode将数据刷到local fs上面。
-     - *NOTE（dirlt）：但是似乎不太work.参考代码 com.dirlt.java.hdfs.TestConsistency*
+     - *NOTE（dirlt）：但是似乎不太work.参考代码 [[https://github.com/dirtysalt/sperm/blob/master/code/java/hdfs/src/main/java/com/dirlt/java/hdfs/TestConsistency.java][com.dirlt.java.hdfs.TestConsistency]]*
 
 *** 读写进度
    - hdfs每次将64KB数据写入datanode pipeline的时候都会调用progress.     
    - 对于本地文件系统的话，可以跟进到RawLocalFileSystem.create发现progress这个方法并没有使用。
    - 对于分布式文件系统的话，可以跟进到DFSClient.DFSOutputStream.DataStreamer在run里面调用progress
      - 但是过程似乎有点复杂，所以也不确实是否真的写入64KB才会调用progress
-   - 代码可以参考 com.dirlt.java.hdfs.TestProgress
+   - 代码可以参考 [[https://github.com/dirtysalt/sperm/blob/master/code/java/hdfs/src/main/java/com/dirlt/java/hdfs/TestProgress.java][com.dirlt.java.hdfs.TestProgress]]
 
 *** 获取集群运行状况
-   - 参考代码 com.dirlt.java.hdfs.ClusterSummary
+   - 参考代码 [[https://github.com/dirtysalt/sperm/blob/master/code/java/hdfs/src/main/java/com/dirlt/java/hdfs/ClusterSummary.java][com.dirlt.java.hdfs.ClusterSummary]]
    - 通过DFSClient可以获取集群运行状况
 
 ** 代码分析

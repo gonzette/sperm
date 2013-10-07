@@ -78,7 +78,7 @@ MultiScanTableInputFormat  http://code.google.com/p/socorro/source/browse/trunk/
 #+END_VERSE
 针对时间这种开头的rowkey，我们可以之前加上hashcode来将连续时间row打散，这样访问就不会集中在几个region上面了。而使用这种方式的话在扫描的时候就需要input format支持传入multi scan对象。 *NOTE（dirlt）：这种方式不利的地方就是用hbase shell访问的话不是很方便*
 
-*NOTE(dirlt):我编写了一个[[file:code/java/mr/src/main/java/com/dirlt/java/mr/MultipleTableInputFormat.java][com.dirlt.java.mr.MultipleTableInputFormat]] 允许以多个table以及每个table上多个scan作为输入*
+*NOTE(dirlt):我编写了一个 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/MultipleTableInputFormat.java][com.dirlt.java.mr.MultipleTableInputFormat]] 允许以多个table以及每个table上多个scan作为输入*
 
 **** Supporting HBase： How to Stabilize, Diagnose, and Repair - Jeff, Jonathan, Kathleen, Cloudera
 file:./images/hbasecon2012-hbase-cross-section.png
@@ -328,9 +328,13 @@ http://hbase.apache.org/apidocs/org/apache/hadoop/hbase/client/Increment.html
 
 *** python client
 使用python来访问hbase确实可以很大地提高开发效率，但是通过thrift server来进行中转的话对于性能还是存在影响的，因此比较适合测试。
-   - 首先需要启动thrift server。hbase-deamon.sh start thrift
-   - 然后安装happybase。pip install happybase github: https://github.com/wbolster/happybase doc: http://happybase.readthedocs.org/en/latest/index.html
-使用起来还是比较简单的，documentation里面的说明也非常详细。具体代码可以参考 code/py/happybase/main.py
+   - 启动thrift server
+     - hbase-deamon.sh start thrift
+   - 安装happybase
+     - pip install happybase 
+     - github: https://github.com/wbolster/happybase 
+     - doc: http://happybase.readthedocs.org/en/latest/index.html
+使用起来还是比较简单的，documentation里面的说明也非常详细。
 
 *NOTE（dirlt）：发现还是存在一些不兼容的thrift协议，比如使用scan似乎就存在问题*
 #+BEGIN_EXAMPLE
@@ -347,7 +351,7 @@ thrift.Thrift.TApplicationException: Invalid method name: 'scannerOpenWithScan'
 #+END_EXAMPLE
 
 *** 获取集群运行状况
-   - 参考代码 com.dirlt.java.hbase.ClusterSummary
+   - 参考代码 [[https://github.com/dirtysalt/sperm/blob/master/code/java/hbase/src/main/java/com/dirlt/java/hbase/ClusterSummary.java][com.dirlt.java.hbase.ClusterSummary]]
    - HBaseAdmin可以获取节点信息
    - HTable可以获取table信息
 
@@ -355,7 +359,7 @@ thrift.Thrift.TApplicationException: Invalid method name: 'scannerOpenWithScan'
    - http://hbase.apache.org/book/arch.bulk.load.html
    - Preparing data via a MapReduce job
      - 将输入文件转换成为HFile格式
-     - 参考代码 com.dirlt.java.mr.HBaseLoaderMR
+     - 参考代码 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/HBaseLoaderMR.java][com.dirlt.java.mr.HBaseLoaderMR]]
      - region，reduce，output对应，也就是说有多少个region就有多少个reduce
        - *NOTE（dirlt）：所以需要关注region分布。如果过于集中的话需要考虑使用做pre-split或者是将key做hash-prefix等*
      - configureIncrementalLoad会改写reducer实现，所以这个转换过程只能够由单独任务完成。

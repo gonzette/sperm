@@ -4,8 +4,7 @@
 emacs --batch --script publish.el
 ./addcode
 cd ../www/
-rm -rf images css code
+rm -rf images css
 ln -s ../essay/images/ images
 ln -s ../essay/css css
-ln -s ../essay/code code
 cd ../essay/
