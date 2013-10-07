@@ -5,8 +5,7 @@ using namespace std;
 
 #define unordered_set set
 
-// seems trie is a bad way since it has backtrace.
-#if 0 
+#if 0
 class Trie {
  public:
   char ch;
@@ -84,16 +83,6 @@ class Solution {
       }
     }
   }
-
-  bool matchCh(char ch,const string& s) {
-    for(int i=0;i<s.size();i++) {
-      if(s[i] != ch) {
-        return false;
-      }
-    }
-    return true;
-  }
-  
   bool wordBreak(string s, unordered_set<string> &dict) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     
@@ -106,23 +95,13 @@ class Solution {
     
     Trie* p = new Trie();   
     simplifyAndBuildTrie(p,dict);
-    //buildTrie(p,dict);
-    //printTrie(p,0);    
-    if(p->sub.size() == 1) {
-      Trie* t = p->sub.begin()->second;
-      if(t->eof && t->sub.size() == 0) {
-        bool x = matchCh(t->ch,s);
-        freeTrie(p);
-        return x;
-      }
-    }    
     bool  x = matchTrie(p,s,0);
     freeTrie(p);
     return x;
   }
 };
 
-#endif
+#else
 
 class Solution {
  public:
@@ -172,6 +151,7 @@ class Solution {
   }
 };
 
+#endif
 
 int main() {
   Solution s;
