@@ -78,7 +78,7 @@ MultiScanTableInputFormat  http://code.google.com/p/socorro/source/browse/trunk/
 #+END_VERSE
 针对时间这种开头的rowkey，我们可以之前加上hashcode来将连续时间row打散，这样访问就不会集中在几个region上面了。而使用这种方式的话在扫描的时候就需要input format支持传入multi scan对象。 *NOTE（dirlt）：这种方式不利的地方就是用hbase shell访问的话不是很方便*
 
-*NOTE(dirlt):我编写了一个com.dirlt.java.mr.MultipleTableInputFormat允许以多个table以及每个table上多个scan作为输入*
+*NOTE(dirlt):我编写了一个[[file:code/java/mr/src/main/java/com/dirlt/java/mr/MultipleTableInputFormat.java][com.dirlt.java.mr.MultipleTableInputFormat]] 允许以多个table以及每个table上多个scan作为输入*
 
 **** Supporting HBase： How to Stabilize, Diagnose, and Repair - Jeff, Jonathan, Kathleen, Cloudera
 file:./images/hbasecon2012-hbase-cross-section.png
