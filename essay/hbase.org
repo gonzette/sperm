@@ -264,7 +264,7 @@ fusion iomemory 是类似 ssd的东西， *操作速度接近DRAM，成本更低
      - hbase.hstore.compactionThreshold Integer.MAX_VALUE关闭Compact
      - hbase.hstore.blockingStoreFiles Integer.MAX_VALUE不要因为store file数量而产生阻塞
 
-风险点——集群稳定/容灾
+风险点：集群稳定/容灾
    - regionserver的单点问题
      - 导致部分数据短暂不可用
    - 跨机房容灾
@@ -334,7 +334,7 @@ http://hbase.apache.org/apidocs/org/apache/hadoop/hbase/client/Increment.html
      - pip install happybase 
      - github: https://github.com/wbolster/happybase 
      - doc: http://happybase.readthedocs.org/en/latest/index.html
-使用起来还是比较简单的，documentation里面的说明也非常详细。
+使用起来还是比较简单的，documentation也非常详细。
 
 *NOTE（dirlt）：发现还是存在一些不兼容的thrift协议，比如使用scan似乎就存在问题*
 #+BEGIN_EXAMPLE
