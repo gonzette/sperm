@@ -1,5 +1,7 @@
 #!/bin/bash
 ./publish 
+# to dirlt-aws.
+gc && ssh dirlt-aws "./git-sync"
 
 # to github pages.
 cd $HOME/github/dirlt.com
