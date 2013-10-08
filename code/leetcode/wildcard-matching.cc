@@ -4,54 +4,15 @@ using namespace std;
 
 class Solution {
  public:
-  int n;
-  int m;
-  char* dp;
-  int* valid;
   bool isMatch(const char *s, const char *p) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     string xs(s);
     string xp(p);
     xp = simplify(xp);
-    n = xs.size();
-    m = xp.size();
-    if(n == 0 && m == 0) {
-      return true;
-    } else if(n == 0) {
-      if(m == 1 && xp[0] == '*') {
-        return true;
-      }
-      return false;
-    } else if(m == 0) {
-      return false;
-    }
-    dp = new char[n*m];
-    memset(dp,0xff,n*m);
-    valid = new int[m];
-    memset(valid,0,sizeof(int) * m);
-    preValid(p);
-    
-    bool res = isMatch(xs,0,xp,0);
-    delete[] dp;
-    delete valid;
+    bool res = isMatch(xs,xp);
     return res;
   }
 
-  int getIndex(int i,int j) {
-    return i * m + j;
-  }
-
-  int preValid(const string &p) {
-    valid[m-1]=0;
-    for(int i=m-2;i>=0;i--) {
-      if(p[i+1] == '*') {
-        valid[i] = valid[i+1];      
-      } else {
-        valid[i] = valid[i+1] + 1;
-      }
-    }
-  }
-  
   string simplify(const string& p) {
     char last = '\0';
     string x;
@@ -66,50 +27,67 @@ class Solution {
     return x;
   }
 
-  
-  bool isMatch(const string& s,int sf,const string& p,int pf) {
-    if(sf == s.size() && pf == p.size()) {
+  bool baseMatch(const string& s,const string& p) {
+    // how many ? it in.
+    int x = 0;
+    for(int i=0;i<p.size();i++) {
+      if(p[i] == '?') {
+        x++;
+      }
+    }
+    if(x <= s.size()) {
       return true;
-    } else if(sf == s.size() || pf == p.size()) {
-      return false;
     }
-    int index = getIndex(sf,pf);
-    if(dp[index] != -1) {
-      return dp[index] == 1;
+    return false;
+  }
+
+  int findx(const string& s,int* len) {
+    int p = 0;
+    while(p<s.size()) {
+      if(s[p]!='?' && s[p]!='*') {
+        break;
+      }
+      p++;
     }
-    bool res = false;
-    if(p[pf] == '*') {
-      if(pf == (p.size() - 1)) { // last one. exception. matches all.
-        res = true;
-      } else {
-        int c = valid[pf];        
-        for(int i=sf;(i+c)<=s.size();i++) {
-          if(isMatch(s,i,p,pf+1)) {
-            res = true;
-            break;
-          }
-        }
-      }
-    } else {
-      res = true;
-      while(pf < p.size() && sf < s.size()) {
-        if(p[pf]!='*') {
-          if(!(p[pf]=='?' || p[pf] == s[sf])) {
-            res = false;
-            break;
-          }
-          pf++;
-          sf++;
-        } else {          
-          break;
-        }        
-      }
-      if(res) {
-        res = isMatch(s,sf,p,pf);
-      }
+    if(p==s.size()) {
+      return -1;
     }
-    dp[index] = (res ? 1 : 0);
-    return res;
+    int q = p;
+    while(q<s.size() && s[q]!='?' && s[q]!='*') {
+      q++;
+    }
+    *len = (q-p);
+    return p;
+  }
+  
+  bool isMatch(const string& s,const string& p) {
+    if(p.empty()) {
+      return s.empty();
+    }
+    // find split pos in p;
+    int len;
+    int x = findx(p,&len);
+    if(x == -1) {      
+      return baseMatch(s,p);
+    }
+    string xs = p.substr(x,len);
+    string pu = p.substr(0,x);
+    string pv = p.substr(x+len);
+    int pos = 0;
+    for(;;) {
+      int p = s.find(xs,pos);
+      if(p == string::npos) {
+        break;
+      }      
+      // split.
+      string u = s.substr(0,p);
+      string v = s.substr(p+len);
+      if(isMatch(u,pu) && isMatch(v,pv)) {
+        return true;
+      }
+      pos++;
+    }
+    return false;
   }
 };
 
@@ -117,6 +95,7 @@ int main() {
   Solution s;
   assert(s.isMatch("aa","*"));
   assert(!s.isMatch("b","*?*?"));
+  assert(!s.isMatch("aa","a"));
   printf("%s\n",s.simplify("?**?").c_str());
   printf("%s\n",s.simplify("?*?").c_str());
   printf("%s\n",s.simplify("?**").c_str());
