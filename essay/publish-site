@@ -4,7 +4,10 @@
 gc && ssh dirlt-aws "./git-sync"
 
 # to github pages.
-rsync -avrzL $HOME/github/sperm/www $HOME/github/dirlt.com
-cd $HOME/github/dirlt.com 
+cd $HOME/github/dirlt.com
+# git checkout --orphan gh-pages
+# git remote add github git@github.com:dirtysalt/dirlt.com.git
+git pull github gh-pages
+rsync -avrzL $HOME/github/sperm/www/ $HOME/github/dirlt.com/
 git add * && git commit -a -m 'mirror' 
 git push github gh-pages
