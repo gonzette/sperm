@@ -2,8 +2,8 @@
  * Copyright (C) dirlt
  */
 
-#include "common/lockfree.h"
-typedef common::lockfree::SampleMemoryAllcator<int> IntSampleMemoryAllocator;
+#include "common/lkfree.h"
+typedef common::lkfree::SampleMemoryAllcator<int> IntSampleMemoryAllocator;
   
 int main() {
   IntSampleMemoryAllocator ma;
