@@ -41,10 +41,10 @@ ln -s $BINDIR/config $HOME/.ssh/config
 
 TARGETS="2utf8 cxxindent \
 oprof mysqldb syslog \
-local-install org2twiki \
- gc pom-create vpn-umeng-dp \
-vpn-dirlt-aws proc-netstat rhs go-doc-server pcrypt einstall uinstall clj lein
-patch-code imei2umid"
+pinstall org2twiki \
+gc tpom vpn-umeng-dp \
+vpn-dirlt-aws proc-netstat rhs golang pcrypt einstall uinstall clj lein
+scode imei2umid"
 
 INSTALLDIR=$HOME/utils/bin
 if [ ! -d $INSTALLDIR ]
