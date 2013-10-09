@@ -31,19 +31,18 @@ data platform team.
 
 - design umeng internal realtime+batch architecture. (aka. lambda architecture http://nathanmarz.com/blog/how-to-beat-the-cap-theorem.html) 
 
-- optimize hadoop cluster usage from perspectives of
-  1. 
+- optimize hadoop cluster usage.
 
 - performance tuning of mapreduce jobs from perspectives of
   1. application. use hbase bulk load instead of writing data to hbase directly for better throughput and stability.
-  2. algorithm. use HyperLogLog algorithm instead of using set to calculate cardinality for better performance and any-time-range query.
-  2. kernel. change kernel parameters like /proc/sys/vm/zone_reclaim_mode and /
-  3. language. use JNI instead of pure java code to accelerate cpu computation
-  4. system. turn off mapreduce speculative mode when read data from hbase)
+  2. algorithm. use HyperLogLog algorithm instead of using set to calculate cardinality for better performance and any-time-range query ability.
+  3. system. turn off mapreduce speculative mode when read data from hbase.
+  4. language. use JNI instead of pure java code to accelerate cpu computation.
+  5. kernel. change kernel parameters like /proc/sys/vm/zone_reclaim_mode and /sys/kernel/mm/redhat_transparent_hugepage/enabled.
 
-- fast-hbase-rest, a high-performance http server for easily accessing hbase in multiple languages by using google protocol-buffers. Since hbase only provides underlying block cache, fast-hbase-rest implements item cache on application level using google guava for better read performance. Comparing to 'hbase rest', the access latency is 20% lower and transfer size is 40% lower. Meanwhile it has more capabilities like request rewriting. https://github.com/dirtysalt/sperm/tree/master/code/java/fast-hbase-rest
+- fast-hbase-rest, a high-performance http server for easily accessing hbase in multiple languages by using google protocol-buffers. Since hbase only provides underlying block cache, fast-hbase-rest implements item cache on application level using google guava for better read performance. Comparing to hbase embedded http server(hbase rest), the access latency is 20% lower and transfer size is 40% lower. Meanwhile it has more capabilities like request rewriting. https://github.com/dirtysalt/sperm/tree/master/code/java/fast-hbase-rest
 
-- hscheduler, a internal job scheduler system written from scratch to arrange jobs which are codependent. It defines and implements a DSL called JDL(Job Description Language) which is used to describe dependencies between jobs and properties of jobs. hscheduler runs as a http server and provides a web console to manage jobs including submissions and running status dashbord etc. Thousand mapreduce jobs are scheduled by hscheduler each day while the latency is below 5sec.
+- hscheduler, a internal job scheduler system written from scratch to arrange jobs which are codependent. It defines and implements a DSL called JDL(Job Description Language) which is used to describe dependencies between jobs and properties of jobs. hscheduler runs as a http server and provides a web console to manage jobs including submissions and running status dashboard etc. Thousand mapreduce jobs are scheduled by hscheduler each day while the latency is below 5sec.
 
 **** 2011.8-2012.6
 Senior Software Engineer at Baidu.
