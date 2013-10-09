@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="resume"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-09 08:10:41 CST"/>
+<meta name="generated" content="2013-10-09 09:09:52 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -270,8 +270,6 @@ ibase com(component) team.
 </ul>
 
 
-
-
 </li>
 </ul>
 </div>
@@ -321,7 +319,7 @@ ibase com(component) team.
 软件架构师, 友盟, 2012.6 - now
 
 <ul>
-<li>推进realtime+batch架构(lambda架构). 利用批量计算结果来对实时计算结果进行补充。因为批量计算能够以全量数据作为输入能够获得更准确的结果并且容错性强但是延迟在小时级别，而实时计算虽然在延迟上在秒级别但是因为没有全量数据所以不能够进行更加深入分析。通过向realtime+batch架构演变，使得友盟统计能够在延迟和分析深入程度上都获得优势。
+<li>realtime+batch架构(lambda架构). 利用批量计算结果来对实时计算结果进行补充。因为批量计算能够以全量数据作为输入能够获得更准确的结果并且容错性强但是延迟在小时级别，而实时计算虽然在延迟上在秒级别但是因为没有全量数据所以不能够进行更加深入分析。通过向realtime+batch架构演变，使得友盟统计能够在延迟和分析深入程度上都获得优势。
 
 </li>
 <li>优化Hadoop集群使用。通过分析在Hadoop集群上存放数据以及运行任务的特征进行相关优化
@@ -333,9 +331,15 @@ ibase com(component) team.
 <li>使用HBase上 1)避免使用直接输出到hbase的方法而采用bulk-load方式提高吞吐 2)移除一些在hbase上的hash-join而替换成以hbase scan作为input的sort-merge join 3)在一些date prefix rowkey的table上，对rowkey头部增加hashcode来打散数据在region上分布
 </li>
 <li>使用HyperLogLog算法来计算独立设备等需要去重指标，提高效率同时使得跨任意时间段查询成为可能。使用jni(java native interface)来重写CPU密集型的计算。
+
 </li>
 </ul>
 
+</li>
+<li>支持多语言访问HBase的异步高性能服务FastHBaseRest. 传输协议使用HTTP, 数据交换格式使用protobuf来达到多语言访问目的，底层使用asynchbase对hbase进行异步访问来提高吞吐。因为hbase内部只有在block-cache而没有item-cache, 通过在服务内部使用guava编写的应用层级别LRU cache可以有效减少访问延迟。服务模块化易于扩展，支持rewrite request功能可以屏蔽底层hbase schema的变化。相比hbase rest, 传输延迟减少20%, 传输数据减少40%. 
+
+</li>
+<li>任务调度器usched. 通过调研一些业界已有的任务调度器比如oozie,azkaban等，然后结合友盟内部任务执行情况特点开发的任务调度器。系统定义了任务描述语言(JDL)允许指定任务之间的相互依赖关系，开始运行的时间以及一些触发条件，可以来对任务执行做精细化控制。usched通过HTTP请求提交任务和控制任务，有相对比较完善的web console来管理，并且内置任务报警，命令运行输出重定向等功能。友盟每天运行的几百个Hadoop任务都是通过usched来进行调度的，调度延迟在5s以内。
 </li>
 </ul>
 
@@ -375,7 +379,7 @@ ibase com(component) team.
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-10-09 08:10:41 CST</p>
+<p class="date">Date: 2013-10-09 09:09:52 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
