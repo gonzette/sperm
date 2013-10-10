@@ -233,6 +233,7 @@
 ;; sudo apt-get install ibus-el
 (if (not mac-system)
     (progn
+      (setq load-path (cons "~/.emacs.d/ibus-el-0.3.2" load-path))
       (require 'ibus)
       (add-hook 'after-init-hook 'ibus-mode-on)
       ;; Use C-SPC for Set Mark command

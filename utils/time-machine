@@ -1,0 +1,3 @@
+#!/bin/bash
+T=`date +'%F-%R'`
+sudo tar czf /root/$T.dirlt.tar.gz /home/dirlt/

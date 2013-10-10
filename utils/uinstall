@@ -7,7 +7,7 @@ import os
 import string
 import sys
 curdir=os.path.dirname(os.path.realpath(__file__))
-ubuntu=os.path.join(curdir,'essay','ubuntu.org')
+ubuntu=os.path.join(curdir,'../essay','ubuntu.org')
 xs=map(lambda x:string.strip(x),open(ubuntu).readlines())
 pkgs=[]
 prefix='- sudo apt-get install '
