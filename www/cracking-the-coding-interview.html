@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
+<title>Cracking The Coding Interview</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="Cracking The Coding Interview"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2013-10-10 10:17:58 CST"/>
+<meta name="author" content="dirtysalt"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style><link rel="stylesheet" type="text/css" href="./css/site.css" />
+
+
+</head>
+<body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">Cracking The Coding Interview</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 cracking-the-coding-interview</a>
+<ul>
+<li><a href="#sec-1-1">1.1 Foreword</a></li>
+<li><a href="#sec-1-2">1.2 Introduction</a></li>
+<li><a href="#sec-1-3">1.3 Behind the Scenes</a>
+<ul>
+<li><a href="#sec-1-3-1">1.3.1 The Microsoft Interview</a></li>
+<li><a href="#sec-1-3-2">1.3.2 The Amazon Interview</a></li>
+<li><a href="#sec-1-3-3">1.3.3 The Google Interview</a></li>
+<li><a href="#sec-1-3-4">1.3.4 The Apple Interview</a></li>
+<li><a href="#sec-1-3-5">1.3.5 The Yahoo Interview</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">1.4 Before the Interview</a>
+<ul>
+<li><a href="#sec-1-4-1">1.4.1 Resume Advice</a></li>
+<li><a href="#sec-1-4-2">1.4.2 Behavioral Preparation</a></li>
+<li><a href="#sec-1-4-3">1.4.3 Technical Preparation</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">1.5 The Interview and Beyond</a>
+<ul>
+<li><a href="#sec-1-5-1">1.5.1 Handling Behavioral Questions</a></li>
+<li><a href="#sec-1-5-2">1.5.2 Handling Technical Questions</a></li>
+<li><a href="#sec-1-5-3">1.5.3 Five Algorithm Approaches</a></li>
+<li><a href="#sec-1-5-4">1.5.4 The Offer and Beyond</a></li>
+<li><a href="#sec-1-5-5">1.5.5 Top Ten Mistakes Candidates Make</a></li>
+<li><a href="#sec-1-5-6">1.5.6 Frequently Asked Questions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> cracking-the-coding-interview</h2>
+<div class="outline-text-2" id="text-1">
+
+
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Foreword</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<p>As you get ready for your interviews, consider these suggestions:
+</p><ul>
+<li>Write Code on Paper
+</li>
+<li>Know Your Resume
+</li>
+<li>Don’t Memorize Solutions
+</li>
+<li>Talk Out Loud
+</li>
+</ul>
+
+
+<p>
+Receiving an offer is not about solving questions flawlessly (very few candidates do!), but rather, <b>it is about answering questions better than other candidates.</b> So don’t stress out when you get a tricky question - everyone else probably thought it was hard too!
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Introduction</h3>
+<div class="outline-text-3" id="text-1-2">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Behind the Scenes</h3>
+<div class="outline-text-3" id="text-1-3">
+
+
+</div>
+
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> The Microsoft Interview</h4>
+<div class="outline-text-4" id="text-1-3-1">
+
+<ul>
+<li>Microsoft wants smart people Geeks. People who are passionate about technology.
+</li>
+<li>You'll have a short interview with a recruiter where he or she will give you a sample question. Your recruiter is usually there to prep you, and not to grill you on techni- cal questions. Be nice to your recruiter. Your recruiter can be your biggest advocate, even pushing to re-interview you if you stumbled on your first interview. They can fight for you to be hired - or not!
+</li>
+<li>During the day, you'll do four or five interviews, often with two different teams Unlike many companies.
+</li>
+<li>Depending on the team, interviewers may or may not share their feedback on you with the rest of the interview loop.
+</li>
+<li>When you complete your interviews with a team, you might speak with a hiring manager. If so, that’s a great sign! It likely means that you passed the interviews with a particular team. It’s now down to the hiring manager’s decision.
+</li>
+<li>You might get a decision that day, or it might be a week. After one week of no word from HR, send them a friendly email asking for a status update.
+</li>
+</ul>
+
+
+<p>
+Definitely Prepare: <b>“Why do you want to work for Microsoft?”</b>
+</p>
+<p>
+In this question, Microsoft wants to see that you’re passionate about technology. A great answer might be, “I’ve been using Microsoft software as long as I can re- member, and I'm really impressed at how Microsoft manages to create a product that is universally excellent. For example, I’ve been using Visual Studio recently to learn game programming, and it’s APIs are excellent.” Note how this shows a passion for technology!
+</p>
+</div>
+
+</div>
+
+<div id="outline-container-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> The Amazon Interview</h4>
+<div class="outline-text-4" id="text-1-3-2">
+
+<ul>
+<li>Amazon’s recruiting process usually begins with one or two phone screens in which you in- terview with a specific team. The engineer who interviews you will usually ask you to write simple code and read it aloud on the phone They will ask a broad set of questions to explore what areas of technology you’re familiar with.
+</li>
+<li>Next, you fly to Seattle for four or five interviews with one or two teams which have selected you based on your resume and phone interviews. You will have to code on a whiteboard, and some interviewers will stress other skills. Interviewers are each assigned a specific area to probe and may seem very different from each other.
+</li>
+<li>They can not see other feedback until they have submitted their own and they are discouraged from discussing it until the hiring meeting.
+</li>
+<li>Amazon’s “bar raiser” interviewer is charged with keeping the interview bar high. If one interview seems significantly harder and different, that’s most like- ly the bar raiser This person has both significant experience with interviews and veto power in the hiring decision.
+</li>
+<li>While Amazon’s recruiters are excellent at following up with candidates, occa- sionally there are delays. If you haven’t heard from Amazon within a week, we recommend a friendly email.
+</li>
+</ul>
+
+
+<p>
+Definitely Prepare:
+</p><ul>
+<li>Amazon is a web-based company, and that means they care about scale. Make sure you prepare for questions in “Large Scale.” You don’t need a background in distributed systems to answer these questions. See our recommendations in the System Design and Memory Limits Chapter.
+</li>
+<li>Additionally, Amazon tends to ask a lot of questions about object oriented design. Check out the Object Oriented Design chapter for sample questions and suggestions.
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> The Google Interview</h4>
+<div class="outline-text-4" id="text-1-3-3">
+
+<ul>
+<li>However, because Google HR can be a little disorganized, we recommend being proactive in com- munication.
+</li>
+<li>A Google engineer performs the first phone screen, so expect tough technical questions.
+</li>
+<li>On your on-site interview, you'll interview with four to six people, one of whom will be a lunch interviewer. Interviewer feedback is kept confidential from the other interviewers, so you can be assured that you enter each interview with blank slate. Your lunch interviewer doesn’t submit feedback, so this is a great opportunity to ask honest questions.
+</li>
+<li>Written feedback is submitted to a hiring committee of engineers to make a hire/no-hire recommendation. Feedback is typically broken down into four categories (Analytical Ability, Coding, Experience and Communication) and you are given a score from 1.0 to 4.0 overall.
+</li>
+<li>The hiring committee understands that you can’t be expected to excel in every interview, but if multiple people raise the same red flag (arrogance, poor coding skills, etc), that can disqualify you. A hiring committee typically wants to see one interviewer who is an “enthusiastic en- dorser”. In other words, a packet with scores of 3.6, 3.1, 3.1 and 2.6 is better than all 3.1s. Your phone screen is usu- ally not a strong factor in the final deci- sion.
+</li>
+<li>The Google hiring process can be slow. If you don’t hear back within one week, politely ask your recruiter for an up- date. A lack of response says nothing about your performance.
+</li>
+</ul>
+
+
+<p>
+Definitely Prepare:
+</p><ul>
+<li>As a web-based company, Google cares about how to design a scalable system. So, make sure you prepare for questions from “System Design and Memory Limits” Additionally, many Google interviewers will ask questions involving Bit Ma- nipulation, so please brush up on these questions.
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4"><span class="section-number-4">1.3.4</span> The Apple Interview</h4>
+<div class="outline-text-4" id="text-1-3-4">
+
+<ul>
+<li>Much like the company itself, Apple’s interview process has minimal beaucracy.
+</li>
+<li>The inter- viewers will be looking for excellent technical skills, but a passion for the position and com- pany is also very important. While it’s not a prerequisite to be a Mac user, you should at least be familiar with the system.
+</li>
+<li>The interview process typically begins with a recruiter phone screen to get a basic sense of your skills, <b>followed up by a series of technical phone screens with team members.</b>
+</li>
+<li>Once you’re invited on campus, you'll typically be greeted by the recruiter who provides an overview of the process. You will then have 6-8 interviews with members of the team for which you’re interviewing, as well as key people with whom your team works.
+</li>
+<li>You can expect a mix of 1-on-1 and 2-on-1 interviews. Be ready to code on a whiteboard and make sure all of your thoughts are clearly communicated. Lunch is with your potential future manager and appears more casual, but is still an interview. Each interviewer is usually fo- cused on a different area and is discouraged from sharing feedback unless there’s something they want subsequent interviewers to drill into.
+</li>
+<li>Towards the end of the day, your inter- viewers will compare notes and if ev- eryone still feels you’re a viable candi- date, you'll interview with the director and then VP of the organization you’re applying to. While this decision is rath- er informal, it’s a very good sign if you make it. This decision also happens be- hind the scenes and if you don’t pass, you'll simply be escorted out of the building without ever having been the wiser (until now)
+</li>
+<li>If you made it to the director and VP interviews, all of your interviewers will gather in a conference room to give an official thumbs up or thumbs down The VP typically won’t be present, but can still veto the hire if they weren’t im- pressed.
+</li>
+<li>Your recruiter will usually fol- low up a few days later, but feel free to ping your recruiter for updates.
+</li>
+</ul>
+
+
+<p>
+Definitely Prepare:
+</p><ul>
+<li>If you know what team you’re interview- ing with, make sure you read up on that product. What do you like about it? What would you improve? Offering specific recommendations can show your passion for the job.
+</li>
+<li>Also, Apple employees are huge Apple fans. You should show this same passion in your interview.
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5"><span class="section-number-4">1.3.5</span> The Yahoo Interview</h4>
+<div class="outline-text-4" id="text-1-3-5">
+
+<ul>
+<li>While Yahoo tends to only recruit at the top 10 – 20 schools, other candidates can still get interviewed through Yahoo’s job board (or – better yet – if they can get an internal referral). If you’re one of the lucky ones selected, your interview process will start off with a phone screen. Your phone screen will be with a senior employee (tech lead, manager, etc)
+</li>
+<li>You will typically interview with 6 – 7 people on the same team for 45 minutes each Each interviewer will have an area of focus. Interviews will often be composed as follows:
+<ul>
+<li>5 minutes: General conversation Tell me about yourself, your projects, etc 
+</li>
+<li>20 minutes: Coding question For example, implement merge sort
+</li>
+<li>20 minutes: System design For example, design a large distributed cache These ques- tions will often focus on an area from your past experience or on something your interviewer is cur-rently working on
+</li>
+</ul>
+
+</li>
+<li>At the end of the day, you will likely meet with a Program Manag- er or someone else for a general con- versation (product demos, concerns about the company, your competing offers, etc). Meanwhile, your interview- ers will discuss your performance and attempt to come to a decision The hiring manager has the ultimate say and will weigh the positive feedback against the negative.
+</li>
+<li>If you have done well, you will often get a decision that day, but this is not always the case. There can be many reasons that you might not be told for several days – for example, the team may feel it needs to interview several other people.
+</li>
+</ul>
+
+
+<p>
+Definitely Prepare:
+</p><ul>
+<li>Yahoo, almost as a rule, asks questions about system design, so make sure you prepare for that. They want to know that you can not only write code, but that you can design software. Don’t worry if you don’t have a background in this - you can still reason your way through it!
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Before the Interview</h3>
+<div class="outline-text-3" id="text-1-4">
+
+
+</div>
+
+<div id="outline-container-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> Resume Advice</h4>
+<div class="outline-text-4" id="text-1-4-1">
+
+<p>Resume screeners look for the same things that interviewers do:
+</p><ul>
+<li><b>Are you smart?</b>
+</li>
+<li><b>Can you code?</b>
+</li>
+</ul>
+
+<p>That means that you should present your resume to show those two things. Your love of tennis, traveling, or magic cards won’t do much to show that, so it’s likely just wasting space.Keep in mind that recruiters only spend a fixed amount of time (about 20 seconds) looking at your resume. If you limit the content to the best, most impressive, most relevant items, they’ll jump out at the recruiter Weak items only dilute your resume and distract the re- cruiter from what you’d like them to see.
+</p>
+
+<hr/>
+
+<p>
+<b>Writing Strong Bullets:</b>
+</p><ul>
+<li>For each role, try to discuss your accomplishments with the following approach: “Accom- plished X by implementing Y which led to Z” Here’s an example:
+</li>
+<li>“Reduced object rendering time by 75% by applying Floyd’s algo- rithm, leading to a 10% reduction in system boot time”
+</li>
+<li>“Increased average match accu- racy from 1.2 to 1.5 by implement- ing a new comparison algorithm based on windiff”
+</li>
+</ul>
+
+<p>Not everything you did will fit into this approach, but the principle is the same: show what you did, how you did it, and what the results were Ideally, you should try to make the results “measurable” somehow.
+</p>
+
+<hr/>
+
+<p>
+<b>Advice for Non-Native English Speakers and Internationals:</b>
+</p><ul>
+<li>Proofreading: Some companies will throw out your resume just because of a typo. Please get at least one native English speaker to proofread your resume.
+</li>
+<li>Personal Information: For US positions, do not include age, marital status, or nationality. This sort of personal information is not appreciated by companies, as it creates a legal liabil- ity for them However, you may want to include your current work authorization / visa status, particularly when applying to smaller companies who may be unable to sponsor candidates.
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> Behavioral Preparation</h4>
+<div class="outline-text-4" id="text-1-4-2">
+
+<p>Behavioral questions are asked for a variety of reasons 
+</p><ul>
+<li>They can be asked either to get to know your personality, 
+</li>
+<li>to more deeply understand your resume, 
+</li>
+<li>or just to ease you into an interview Either way, 
+</li>
+</ul>
+
+<p>these questions are important and can be prepared for.
+</p>
+<p>
+Behavioral questions are usually of the form “tell me about a time when you ”, and may ask for an example from a specific project or position. I recommend filling in the following “preparation grid” as shown below:
+</p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left"></th><th scope="col" class="left">Project1</th><th scope="col" class="left">Project2</th><th scope="col" class="left">Project3</th><th scope="col" class="left">Project4</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">Most Challenging</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">What You Learned</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Most Interesting</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Hardest Bug</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Enjoyed Most</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td class="left">Conflicts with Teammates</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+</tbody>
+</table>
+
+
+<p>
+In each cell, put the corresponding story. We recommend reducing each story to just a couple keywords that you can write in each cell This will make the grid easier to study  
+</p>
+
+<hr/>
+
+<p>
+<b>What questions should you ask the interviewer?</b>
+</p><ul>
+<li>Genuine Questions: These are the questions you actually want to know ideas of questions that are valuable to many candidates:
+<ul>
+<li>“How much of your day do you spend coding?”
+</li>
+<li>“How many meetings do you have every week?”
+</li>
+<li>“What is the ratio of testers to developers to product managers? What is the interac- tion like? How does project planning happen on the team?”
+</li>
+</ul>
+
+</li>
+<li>Insightful Questions: These questions are designed to demonstrate your deep knowledge of programming or technologies.
+<ul>
+<li>“I noticed that you use technology X How do you handle problem Y?”
+</li>
+<li>“Why did the product choose to use the X protocol over the Y protocol? I know it has benefits like A, B, C, but many companies choose not to use it because of issue D”
+</li>
+</ul>
+
+</li>
+<li>Passion Questions: These questions are designed to demonstrate your passion for technol- ogy.
+<ul>
+<li>“I’m very interested in scalability Did you come in with a background in this, or what opportunities are there to learn about it?”
+</li>
+<li>“I’m not familiar with technology X, but it sounds like a very interesting solution Could you tell me a bit more about how it works?”
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> Technical Preparation</h4>
+<div class="outline-text-4" id="text-1-4-3">
+
+<ul>
+<li>Memorizing or trying to learn specific questions won’t help you! 
+</li>
+<li>Try to solve the problem on your own.
+</li>
+<li>Write the code for the algorithm on paper.
+</li>
+<li>Type your paper code as-is into a computer.
+</li>
+<li>*Do a mock interview. CareerCup offers a mock interview 
+</li>
+</ul>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">Data Structures</th><th scope="col" class="left">Algorithms</th><th scope="col" class="left">Concepts</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">Linked Lists</td><td class="left">Breadth First Search</td><td class="left">Bit Manipulation</td></tr>
+<tr><td class="left">Binary Trees</td><td class="left">Depth First Search</td><td class="left">Singleton Design Pattern</td></tr>
+<tr><td class="left">Tries</td><td class="left">Binary Search</td><td class="left">Factory Design Pattern</td></tr>
+<tr><td class="left">Stacks</td><td class="left">Merge Sort</td><td class="left">Memory (Stack vs Heap)</td></tr>
+<tr><td class="left">Queues</td><td class="left">Quick Sort</td><td class="left">Recursion</td></tr>
+<tr><td class="left">Vectors / ArrayLists</td><td class="left">Tree Insert / Find / etc</td><td class="left">Big-O Time</td></tr>
+<tr><td class="left">Hash Tables</td><td class="left"></td><td class="left"></td></tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> The Interview and Beyond</h3>
+<div class="outline-text-3" id="text-1-5">
+
+
+</div>
+
+<div id="outline-container-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> Handling Behavioral Questions</h4>
+<div class="outline-text-4" id="text-1-5-1">
+
+<ul>
+<li>Be Specific, Not Arrogant
+</li>
+<li>Limit Details
+</li>
+<li>Ask Good Questions
+</li>
+<li>Structure Answers Using S.A.R(Situation, Action, Response)
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> Handling Technical Questions</h4>
+<div class="outline-text-4" id="text-1-5-2">
+
+<p>A technical interview question can be solved utilizing a five step approach:
+</p><ol>
+<li>Ask your interviewer questions to resolve ambiguity
+</li>
+<li>Design an Algorithm
+</li>
+<li>Write pseudo-code first, but make sure to tell your interviewer that you’re writing pseudo-code! Otherwise, he/she may think that you’re never planning to write “real” code, and many interviewers will hold that against you
+</li>
+<li>Write your code, not too slow and not too fast
+</li>
+<li>Test your code and carefully fix any mistakes
+</li>
+</ol>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5-3" class="outline-4">
+<h4 id="sec-1-5-3"><span class="section-number-4">1.5.3</span> Five Algorithm Approaches</h4>
+<div class="outline-text-4" id="text-1-5-3">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5-4" class="outline-4">
+<h4 id="sec-1-5-4"><span class="section-number-4">1.5.4</span> The Offer and Beyond</h4>
+<div class="outline-text-4" id="text-1-5-4">
+
+<ul>
+<li><b>Negotiating.</b> It’s Always Negotiable! Ok, maybe not always, but usually an offer is negotiable even if a recruiter tells you otherwise. It helps if you have a competing offer But, <b>don’t lie – Microsoft knows what Google offers, so it just won’t be realistic if you make up numbers.</b> Also, technol- ogy is a small world, and people talk. Be honest.
+</li>
+<li><b>What’s the money like, really?</b> Think about the full offer package Many companies will have impressive salaries, but small annual bonuses Other companies will have huge annual bonuses, but lower salaries Make sure you look at the <b>full package (salary, signing bonus, health care benefits, raises, annual bonus, relocation, stock, promotions, etc)</b> It’s very confusing, and it’s often not clear which company is offering more
+</li>
+<li><b>What about your career options?</b> I can’t give you some magical formula to compute which offer to accept, but here’s what I’d recommend thinking about (in no particular order):
+<ul>
+<li>Career Path: Make a plan for your career What do you want to do 5, 10 and 15 years out? What skills will you need to develop? Which company or position will help you get there?
+</li>
+<li>Promotion Opportunity: Do you prefer to move into management, or would you prefer to become an increasingly senior developer?
+</li>
+<li>Money and Benefits: Of course, the money matters (but if you’re early in your career, it probably doesn’t matter much). As mentioned above, make sure you look at the full package.
+</li>
+<li>Happiness: Did you like the people? The products? The location? It’s hard to tell, of course, before you work there. What are the options to change teams if you’re unhappy?
+</li>
+<li>Brand Name: The company’s brand name can mean a lot for your future career Some company names will open doors, while others will not as much.
+</li>
+<li><b>What about company stability? Personally, I think it matters much less than most people think. There are so many software companies out there. If you get laid off and need to find a new job, will it be difficult to find a new one? Only you can answer that.</b>
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5-5" class="outline-4">
+<h4 id="sec-1-5-5"><span class="section-number-4">1.5.5</span> Top Ten Mistakes Candidates Make</h4>
+<div class="outline-text-4" id="text-1-5-5">
+
+<ul>
+<li>Practicing on a Computer
+</li>
+<li>Not Rehearsing Behavioral Questions
+</li>
+<li>Not Doing a Mock Interview
+</li>
+<li>Trying to Memorize Solutions
+</li>
+<li>Talking Too Much
+</li>
+<li>Talking Too Little
+</li>
+<li>Rushing
+</li>
+<li>Not Debugging
+</li>
+<li>Sloppy Coding
+</li>
+<li>Giving Up
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5-6" class="outline-4">
+<h4 id="sec-1-5-6"><span class="section-number-4">1.5.6</span> Frequently Asked Questions</h4>
+<div class="outline-text-4" id="text-1-5-6">
+
+<p><b>Should I tell my interviewer if I know a question?</b>
+</p>
+<p>
+Yes! You should definitely tell your interviewer if you’ve previously heard the question This seems silly to some people - if you already know the question (and answer), you could ace the question, right? Not quite
+</p>
+<p>
+Here’s why we strongly recommend that you tell your interviewer that you’ve heard the question:
+</p><ol>
+<li>Big honesty points. This shows a lot of integrity That’s huge. Remember that the interviewer is evaluating you as a potential teammate I don’t know about you, but I personally prefer to work with honest people!
+</li>
+<li>The question might have changed ever-so-slightly. You don’t want to risk repeating the wrong answer
+</li>
+<li>If you easily belt out the right answer, it’s obvious to the interviewer. They know how hard a problem is supposed to be. It’s very hard to “pretend” to struggle through a question, because you just can’t approach it the same way other candidates do.
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2013-10-10 10:17:58 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+<!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'cracking-the-coding-interview.html';var disqus_title = 'cracking-the-coding-interview.html';var disqus_url = 'http://dirlt.com/cracking-the-coding-interview.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
+</html>
