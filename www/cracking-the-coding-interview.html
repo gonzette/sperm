@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="Cracking The Coding Interview"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-10 17:12:03 CST"/>
+<meta name="generated" content="2013-10-10 22:04:12 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -119,6 +119,16 @@
 <li><a href="#sec-1-6-8">1.6.8 Recursion</a></li>
 <li><a href="#sec-1-6-9">1.6.9 Sorting and Searching</a></li>
 <li><a href="#sec-1-6-10">1.6.10 Mathematical</a></li>
+<li><a href="#sec-1-6-11">1.6.11 Testing</a></li>
+<li><a href="#sec-1-6-12">1.6.12 System Design and Memory Limits</a></li>
+<li><a href="#sec-1-6-13">1.6.13 C++</a></li>
+<li><a href="#sec-1-6-14">1.6.14 Java</a></li>
+<li><a href="#sec-1-6-15">1.6.15 Databases</a></li>
+<li><a href="#sec-1-6-16">1.6.16 Low Level</a></li>
+<li><a href="#sec-1-6-17">1.6.17 Networking</a></li>
+<li><a href="#sec-1-6-18">1.6.18 Threads and Locks</a></li>
+<li><a href="#sec-1-6-19">1.6.19 Moderate Additional Review Problems</a></li>
+<li><a href="#sec-1-6-20">1.6.20 Hard Additional Review Problems</a></li>
 </ul>
 </li>
 </ul>
@@ -681,6 +691,8 @@ Here’s why we strongly recommend that you tell your interviewer that you’ve 
 </li>
 <li>Knowledge Based
 </li>
+<li>Additional Review Problems
+</li>
 </ul>
 
 
@@ -974,7 +986,222 @@ Questions:
 </ul>
 
 </li>
-<li>
+<li>There are three ants on different vertices of a triangle What is the probability of colli- sion (between any two or all of them) if they start walking on the sides of the triangle? Similarly find the probability of collision with ‘n’ ants on an ‘n’ vertex polygon
+</li>
+<li>Write a method to implement *, - , / operations You should use only the + operator.
+</li>
+<li>Given two squares on a two dimensional plane, find a line that would cut these two squares in half.
+</li>
+<li>Given a two dimensional graph with points on it, find a line which passes the most number of points.
+</li>
+<li>Design an algorithm to find the kth number such that the only prime factors are 3, 5, and 7.
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-11" class="outline-4">
+<h4 id="sec-1-6-11"><span class="section-number-4">1.6.11</span> Testing</h4>
+<div class="outline-text-4" id="text-1-6-11">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-12" class="outline-4">
+<h4 id="sec-1-6-12"><span class="section-number-4">1.6.12</span> System Design and Memory Limits</h4>
+<div class="outline-text-4" id="text-1-6-12">
+
+<p>Questions:
+</p><ul>
+<li>How would you design the data structures for a very large social network (Facebook, LinkedIn, etc)? Describe how you would design an algorithm to show the connec- tion, or path, between two people (e g , Me -&gt; Bob -&gt; Susan -&gt; Jason -&gt; You).
+</li>
+<li>Given an input file with four billion integers, provide an algorithm to generate an integer which is not contained in the file Assume you have 1 GB of memory. What if you have only 10 MB of memory?
+</li>
+<li>If you were designing a web crawler, how would you avoid getting into infinite loops?
+</li>
+<li>You have a billion urls, where each is a huge page How do you detect the duplicate documents?
+</li>
+<li>You have to design a database that can store terabytes of data It should support ef- ficient range queries How would you do it?.
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-13" class="outline-4">
+<h4 id="sec-1-6-13"><span class="section-number-4">1.6.13</span> C++</h4>
+<div class="outline-text-4" id="text-1-6-13">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-14" class="outline-4">
+<h4 id="sec-1-6-14"><span class="section-number-4">1.6.14</span> Java</h4>
+<div class="outline-text-4" id="text-1-6-14">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-15" class="outline-4">
+<h4 id="sec-1-6-15"><span class="section-number-4">1.6.15</span> Databases</h4>
+<div class="outline-text-4" id="text-1-6-15">
+
+<p>Questions:
+</p><ul>
+<li>What are the different types of joins? Please explain how they differ and why certain types are better in certain situations.
+</li>
+<li>What is denormalization? Explain the pros and cons.
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-16" class="outline-4">
+<h4 id="sec-1-6-16"><span class="section-number-4">1.6.16</span> Low Level</h4>
+<div class="outline-text-4" id="text-1-6-16">
+
+<p>Questions:
+</p><ul>
+<li>Explain the following terms: virtual memory, page fault, thrashing.
+</li>
+<li>What is a Branch Target buffer? Explain how it can be used in reducing bubble cycles in cases of branch misprediction.
+</li>
+<li>Describe direct memory access (DMA). Can a user level buffer / pointer be used by kernel or drivers?
+</li>
+<li>Write a step by step execution of things that happen after a user presses a key on the keyboard Use as much detail as possible.
+</li>
+<li>Write a program to find whether a machine is big endian or little endian.
+</li>
+<li>Discuss how would you make sure that a process doesn’t access an unauthorized part of the stack.
+</li>
+<li>What are the best practices to prevent reverse engineering of DLLs?.
+</li>
+<li>A device boots with an empty FIFO queue In the first 400 ns period after startup, and in each subsequent 400 ns period, a maximum of 80 words will be written to the queue Each write takes 4 ns A worker thread requires 3 ns to read a word, and 2 ns to process it before reading the next word What is the shortest depth of the FIFO such that no data is lost?
+</li>
+<li>Write an aligned malloc &amp; free function that takes number of bytes and aligned byte (which is always power of 2).
+</li>
+<li>Write a function called my2DAlloc which allocates a two dimensional array. Minimize the number of calls to malloc and make sure that the memory is accessible by the notation arr[i][j].
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-17" class="outline-4">
+<h4 id="sec-1-6-17"><span class="section-number-4">1.6.17</span> Networking</h4>
+<div class="outline-text-4" id="text-1-6-17">
+
+<p>Questions:
+</p><ul>
+<li><b>Explain what happens, step by step, after you type a URL into a browser. Use as much detail as possible.</b>
+</li>
+<li>Explain any common routing protocol in detail For example: BGP, OSPF, RIP
+</li>
+<li>Compare and contrast the IPv4 and IPv6 protocols.
+</li>
+<li>What is a network / subnet mask? Explain how host A sends a message / packet to host B when: (a) both are on same network and (b) both are on different networks Explain which layer makes the routing decision and how.
+</li>
+<li><b>What are the differences between TCP and UDP? Explain how TCP handles reliable delivery (explain ACK mechanism), flow control (explain TCP sender’s / receiver’s win- dow) and congestion control.</b>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-18" class="outline-4">
+<h4 id="sec-1-6-18"><span class="section-number-4">1.6.18</span> Threads and Locks</h4>
+<div class="outline-text-4" id="text-1-6-18">
+
+<p>Questions:
+</p><ul>
+<li>What’s the difference between a thread and a process?
+</li>
+<li>How can you measure the time spent in a context switch?
+</li>
+<li>Implement a singleton design pattern as a template such that, for any given class Foo, you can call Singleton::instance() and get a pointer to an instance of a singleton of type Foo Assume the existence of a class Lock which has acquire() and release() methods. How could you make your implementation thread safe and exception safe?.
+</li>
+<li>Design a class which provides a lock only if there are no possible deadlocks.
+</li>
+<li>You are given a class with synchronized method A, and a normal method C If you have two threads in one instance of a program, can they call A at the same time? Can they call A and C at the same time?
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-19" class="outline-4">
+<h4 id="sec-1-6-19"><span class="section-number-4">1.6.19</span> Moderate Additional Review Problems</h4>
+<div class="outline-text-4" id="text-1-6-19">
+
+<p>Questions: 
+</p><ul>
+<li>Write a function to swap a number in place without temporary variables.
+</li>
+<li>Write an algorithm which computes the number of trailing zeros in n factorial.
+</li>
+<li>Write a method which finds the maximum of two numbers. You should not use if- else or any other comparison operator.
+</li>
+<li>You are given an array of integers (both positive and negative). Find the continuous sequence with the largest sum Return the sum.
+</li>
+<li>Design a method to find the frequency of occurrences of any given word in a book.
+</li>
+<li>Write a method to generate a random number between 1 and 7, given a method that generates a random number between 1 and 5 (i e , implement rand7() using rand5()).
+</li>
+<li>Design an algorithm to find all pairs of integers within an array which sum to a speci- fied value.
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6-20" class="outline-4">
+<h4 id="sec-1-6-20"><span class="section-number-4">1.6.20</span> Hard Additional Review Problems</h4>
+<div class="outline-text-4" id="text-1-6-20">
+
+<p>Questions:
+</p><ul>
+<li>Write a function that adds two numbers You should not use + or any arithmetic op- erators.
+</li>
+<li>Write a method to shuffle a deck of cards It must be a perfect shuffle - in other words, each 52! permutations of the deck has to be equally likely. Assume that you are given a random number generator which is perfect.
+</li>
+<li>Write a method to randomly generate a set of m integers from an array of size n Each element must have equal probability of being chosen.
+</li>
+<li>Write a method to count the number of 2s between 0 and n.
+</li>
+<li>You have a large text file containing words Given any two words, find the shortest distance (in terms of number of words) between them in the file. Can you make the searching operation in O(1) time? What about the space complexity for your solu- tion?
+</li>
+<li>Describe an algorithm to find the largest 1 million numbers in 1 billion numbers As- sume that the computer memory can hold all one billion numbers.
+</li>
+<li>Given a string s and an array of smaller strings T, design a method to search s for each small string in T.
+</li>
+<li>Numbers are randomly generated and passed to a method. Write a program to find and maintain the median value as new values are generated.
+</li>
+<li>Given two words of equal length that are in a dictionary, write a method to transform one word into another word by changing only one letter at a time. The new word you get in each step must be in the dictionary.
+</li>
+<li>Imagine you have a square matrix, where each cell is filled with either black or white Design an algorithm to find the maximum subsquare such that all four borders are filled with black pixels.
+</li>
+<li>Given an NxN matrix of positive and negative integers, write code to find the sub- matrix with the largest possible sum.
+</li>
+<li>Given a dictionary of millions of words, give an algorithm to find the largest possible rectangle of letters such that every row forms a word (reading left to right) and every column forms a word (reading top to bottom).
 </li>
 </ul>
 
@@ -985,7 +1212,7 @@ Questions:
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-10-10 17:12:03 CST</p>
+<p class="date">Date: 2013-10-10 22:04:12 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

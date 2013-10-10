@@ -196,6 +196,7 @@ Here’s why we strongly recommend that you tell your interviewer that you’ve 
    - Data Structures
    - Concepts and Algorithms
    - Knowledge Based
+   - Additional Review Problems
 
 *** Arrays and Strings
    - Design an algorithm and write code to remove the duplicate characters in a string without using any additional buffer.
@@ -295,4 +296,78 @@ Questions:
      - Game #1: You get one shot to make the hoop
      - Game #2: You get three shots and you have to make 2 of 3 shots
      - If p is the probability of making a particular shot, for which values of p should you pick one game or the other?
-   - 
+   - There are three ants on different vertices of a triangle What is the probability of colli- sion (between any two or all of them) if they start walking on the sides of the triangle? Similarly find the probability of collision with ‘n’ ants on an ‘n’ vertex polygon
+   - Write a method to implement *, - , / operations You should use only the + operator.
+   - Given two squares on a two dimensional plane, find a line that would cut these two squares in half.
+   - Given a two dimensional graph with points on it, find a line which passes the most number of points.
+   - Design an algorithm to find the kth number such that the only prime factors are 3, 5, and 7.
+
+*** Testing
+*** System Design and Memory Limits
+Questions:
+   - How would you design the data structures for a very large social network (Facebook, LinkedIn, etc)? Describe how you would design an algorithm to show the connec- tion, or path, between two people (e g , Me -> Bob -> Susan -> Jason -> You).
+   - Given an input file with four billion integers, provide an algorithm to generate an integer which is not contained in the file Assume you have 1 GB of memory. What if you have only 10 MB of memory?
+   - If you were designing a web crawler, how would you avoid getting into infinite loops?
+   - You have a billion urls, where each is a huge page How do you detect the duplicate documents?
+   - You have to design a database that can store terabytes of data It should support ef- ficient range queries How would you do it?.
+
+*** C++
+*** Java
+*** Databases
+Questions:
+   - What are the different types of joins? Please explain how they differ and why certain types are better in certain situations.
+   - What is denormalization? Explain the pros and cons.
+
+*** Low Level
+Questions:
+   - Explain the following terms: virtual memory, page fault, thrashing.
+   - What is a Branch Target buffer? Explain how it can be used in reducing bubble cycles in cases of branch misprediction.
+   - Describe direct memory access (DMA). Can a user level buffer / pointer be used by kernel or drivers?
+   - Write a step by step execution of things that happen after a user presses a key on the keyboard Use as much detail as possible.
+   - Write a program to find whether a machine is big endian or little endian.
+   - Discuss how would you make sure that a process doesn’t access an unauthorized part of the stack.
+   - What are the best practices to prevent reverse engineering of DLLs?.
+   - A device boots with an empty FIFO queue In the first 400 ns period after startup, and in each subsequent 400 ns period, a maximum of 80 words will be written to the queue Each write takes 4 ns A worker thread requires 3 ns to read a word, and 2 ns to process it before reading the next word What is the shortest depth of the FIFO such that no data is lost?
+   - Write an aligned malloc & free function that takes number of bytes and aligned byte (which is always power of 2).
+   - Write a function called my2DAlloc which allocates a two dimensional array. Minimize the number of calls to malloc and make sure that the memory is accessible by the notation arr[i][j].
+
+*** Networking
+Questions:
+   - *Explain what happens, step by step, after you type a URL into a browser. Use as much detail as possible.*
+   - Explain any common routing protocol in detail For example: BGP, OSPF, RIP
+   - Compare and contrast the IPv4 and IPv6 protocols.
+   - What is a network / subnet mask? Explain how host A sends a message / packet to host B when: (a) both are on same network and (b) both are on different networks Explain which layer makes the routing decision and how.
+   - *What are the differences between TCP and UDP? Explain how TCP handles reliable delivery (explain ACK mechanism), flow control (explain TCP sender’s / receiver’s win- dow) and congestion control.*
+
+*** Threads and Locks
+Questions:
+   - What’s the difference between a thread and a process?
+   - How can you measure the time spent in a context switch?
+   - Implement a singleton design pattern as a template such that, for any given class Foo, you can call Singleton::instance() and get a pointer to an instance of a singleton of type Foo Assume the existence of a class Lock which has acquire() and release() methods. How could you make your implementation thread safe and exception safe?.
+   - Design a class which provides a lock only if there are no possible deadlocks.
+   - You are given a class with synchronized method A, and a normal method C If you have two threads in one instance of a program, can they call A at the same time? Can they call A and C at the same time?
+
+*** Moderate Additional Review Problems
+Questions: 
+   - Write a function to swap a number in place without temporary variables.
+   - Write an algorithm which computes the number of trailing zeros in n factorial.
+   - Write a method which finds the maximum of two numbers. You should not use if- else or any other comparison operator.
+   - You are given an array of integers (both positive and negative). Find the continuous sequence with the largest sum Return the sum.
+   - Design a method to find the frequency of occurrences of any given word in a book.
+   - Write a method to generate a random number between 1 and 7, given a method that generates a random number between 1 and 5 (i e , implement rand7() using rand5()).
+   - Design an algorithm to find all pairs of integers within an array which sum to a speci- fied value.
+
+*** Hard Additional Review Problems
+Questions:
+   - Write a function that adds two numbers You should not use + or any arithmetic op- erators.
+   - Write a method to shuffle a deck of cards It must be a perfect shuffle - in other words, each 52! permutations of the deck has to be equally likely. Assume that you are given a random number generator which is perfect.
+   - Write a method to randomly generate a set of m integers from an array of size n Each element must have equal probability of being chosen.
+   - Write a method to count the number of 2s between 0 and n.
+   - You have a large text file containing words Given any two words, find the shortest distance (in terms of number of words) between them in the file. Can you make the searching operation in O(1) time? What about the space complexity for your solu- tion?
+   - Describe an algorithm to find the largest 1 million numbers in 1 billion numbers As- sume that the computer memory can hold all one billion numbers.
+   - Given a string s and an array of smaller strings T, design a method to search s for each small string in T.
+   - Numbers are randomly generated and passed to a method. Write a program to find and maintain the median value as new values are generated.
+   - Given two words of equal length that are in a dictionary, write a method to transform one word into another word by changing only one letter at a time. The new word you get in each step must be in the dictionary.
+   - Imagine you have a square matrix, where each cell is filled with either black or white Design an algorithm to find the maximum subsquare such that all four borders are filled with black pixels.
+   - Given an NxN matrix of positive and negative integers, write code to find the sub- matrix with the largest possible sum.
+   - Given a dictionary of millions of words, give an algorithm to find the largest possible rectangle of letters such that every row forms a word (reading left to right) and every column forms a word (reading top to bottom).
