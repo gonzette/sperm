@@ -437,14 +437,14 @@ class B{
 
 之后我在想，虽然这个方式不错消除继承完全按照基于对象的方式编程，但是如果对于对象所需要的接口非常多的话，并且虚函数本身就是语言内置的特性，相对来说使用起来会更加方便。下面是可编译的示例代码之后我在想，虽然这个方式不错消除继承完全按照基于对象的方式编程，但是如果对于对象所需要的接口非常多的话，并且虚函数本身就是语言内置的特性，相对来说使用起来会更加方便。
 
-具体代码可以参考 code/cc/playboard/test_bind.cc
+具体代码可以参考 [[https://github.com/dirtysalt/sperm/blob/master/code/cc/playboard/test_bind.cc][code/cc/playboard/test_bind.cc]]
 
 *** boost::spirit
 今天被Dr. Yang推荐使用boost::spirit，模板编程实现的语法解析器。Dr. Yang推荐我看看hypertable里面实现的hql，里面就是使用spirit实现的hql(hypertable query language)，在src/cc/Hypertable/Lib/HqlParser.h里面。粗看一下功能还是非常强大的，对于很多使用flex/bison完成的工作都可以通过spirit来完成。看上去是LALR解析器，现在不太清楚就是如果出现shift/reduce或者是reduce/reduce冲突的话spirit是怎么解决的。NOTE(dirlt):事实上是LL解析器，而且如果没有猜错应该是LL(1)解析器。
 
 对于action的话需要单独编写function object来完成，operator()是这个grammar对应的字符串。定义ParserState来构建语法树是一个好主意。对于里面更多的细节现在还是不太了解，关于入门使用可以查看代码中的链接或者documentation.
 
-具体代码可以参考 code/cc/playboard/test_spirit.cc
+具体代码可以参考 [[https://github.com/dirtysalt/sperm/blob/master/code/cc/playboard/test_spirit.cc][code/cc/playboard/test_spirit.cc]]
 
 *** google::protobuf dynamic usage
 使用google::protobuf如果我们不知道生成消息schema的话，那么就需要依赖于google::protobuf动态编译的能力了。google::protobuf支持动态地读取某个proto文件并且进行动态编译。其实这里说编译有点不太恰当，因为内部并没有生成native code,不过确实使得我们有能力去动态构造一个消息。
@@ -462,7 +462,7 @@ class B{
    - Reflection
    - FieldDescriptor
 
-具体代码可以参考 code/cc/common/proto_dynamic.h 以及 code/cc/common/test/test_proto_dynamic.cc
+具体代码可以参考 [[https://github.com/dirtysalt/sperm/blob/master/code/cc/common/proto_dynamic.h][code/cc/common/proto_dynamic.h]] 以及 [[https://github.com/dirtysalt/sperm/blob/master/code/cc/common/test/test_proto_dynamic.cc][code/cc/common/test/test_proto_dynamic.cc]]
 
 ** misc
 *** 诡异的性能问题

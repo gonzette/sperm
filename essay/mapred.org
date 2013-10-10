@@ -905,7 +905,7 @@ ENOENT: No such file or directory
 #+END_SRC
 
 **** 使用lzo
-关于如何使用lzo可以参看代码示例， com.dirlt.java.mr.ReadLzoInput . 下面几点需要说明：
+关于如何使用lzo可以参看代码示例 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/ReadLzoInput.java][com.dirlt.java.mr.ReadLzoInput]]. 下面几点需要说明：
    - LzoTextInputFormat用来处理lzo压缩的文本文件，
      - hadoop-lzo本身没有自带LzoTextOutputFormat，这样的话之能够输出TextOutputFormat然后通过lzop压缩
      - *elephant-bird提供了很多额外的InputFormat/OutputFormat.*
@@ -921,7 +921,7 @@ ENOENT: No such file or directory
    - hadoop jar /usr/lib/hadoop/lib/hadoop-lzo-0.4.14.jar com.hadoop.compression.lzo.DistributedLzoIndexer <output-dir>
 完成之后对于每一个lzo文件都会存在一个.index文件。如果重复运行上面命令的话，会检查.index文件是否存在，如果存在的话那么就不会重新进行索引。
 
-如果需要单独使用lzo而不是使用mapreduce来做压缩和解压缩的话，可以参考com.dirlt.java.mr.UseLzoStandadlone.
+如果需要单独使用lzo而不是使用mapreduce来做压缩和解压缩的话，可以参考 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/UseLzoStandadlone.java][com.dirlt.java.mr.UseLzoStandadlone]].
 
 **** 配合protobuf
 elephant-bird实现了protobuf+lzo组合使用方式。
@@ -944,7 +944,7 @@ message Message {
 使用protoc --java_out=<dir> message.proto就会在<dir>下面生成MessageProtos1.java文件。
 
 此外我们还需要为这个类写几个辅助类，但是索性的是辅助类并不是很复杂。
-   - InputFormat com.dirlt.java.mr.MessageLzoProtobufInputFormat
+   - InputFormat [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/MessageLzoProtobufInputFormat.java][com.dirlt.java.mr.MessageLzoProtobufInputFormat]]
 #+BEGIN_SRC Java
 public class MessageLzoProtobufInputFormat extends LzoProtobufBlockInputFormat<MessageProtos1.Message> {
     public MessageLzoProtobufInputFormat() {
@@ -954,7 +954,7 @@ public class MessageLzoProtobufInputFormat extends LzoProtobufBlockInputFormat<M
 }
 #+END_SRC
 
-   - OutputFormat com.dirlt.java.mr.MessageLzoProtobufOutputFormat
+   - OutputFormat [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/MessageLzoProtobufOutputFormat.java][com.dirlt.java.mr.MessageLzoProtobufOutputFormat]]
 #+BEGIN_SRC Java
 public class MessageLzoProtobufOutputFormat extends LzoProtobufBlockOutputFormat<MessageProtos1.Message> {
     public MessageLzoProtobufOutputFormat() {
@@ -964,7 +964,7 @@ public class MessageLzoProtobufOutputFormat extends LzoProtobufBlockOutputFormat
 }
 #+END_SRC
 
-   - Writable com.dirlt.java.mr.MessageLzoProtobufWritable
+   - Writable [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/MessageLzoProtobufWritable.java][com.dirlt.java.mr.MessageLzoProtobufWritable]]
 #+BEGIN_SRC Java
 public class MessageLzoProtobufWritable extends ProtobufWritable<MessageProtos1.Message> {
     public MessageLzoProtobufWritable() {
@@ -980,11 +980,11 @@ public class MessageLzoProtobufWritable extends ProtobufWritable<MessageProtos1.
 
 #+END_SRC
 
-关于如何使用lzo+protobuf可以参看代码示例， com.dirlt.java.mr.UseLzoProtobuf . 值得注意的是如果输入为lzo文件的话，那么类型是ProtobufWritable<M>（泛型），如果需要取值的话必须通过setConverter提供类信息。
+关于如何使用lzo+protobuf可以参看代码示例 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/UseLzoProtobuf.java][com.dirlt.java.mr.UseLzoProtobuf]]. 值得注意的是如果输入为lzo文件的话，那么类型是ProtobufWritable<M>（泛型），如果需要取值的话必须通过setConverter提供类信息。
 
 *** 多路输入
 **** MultipleInputs
-   - 参考代码 com.dirlt.java.mr.RunMultipleInputs1
+   - 参考代码 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleInputs1.java][com.dirlt.java.mr.RunMultipleInputs1]]
    - 支持一个htable和多个文件（但是对于htable不支持设置scan范围）
    - 代码大致过程：
      - 使用 TableMapReduceUtil.initTableMapperJob 初始化htable输入（作用就是为了指定htable的input table name）
@@ -997,8 +997,8 @@ public class MessageLzoProtobufWritable extends ProtobufWritable<MessageProtos1.
      - 而对于TableInputFormat没有使用这个inputPath，而是直接读取configuration里面设置的TableOutputFormat.OUTPUT_TABLE这个值 
 
 **** MultipleTableInputFormat
-   - 参考代码 com.dirlt.java.mr.RunMultipleInputs2
-   - *NOTE(dirlt):在cdh4.3.0下面运行的代码略有变动，存放在com.dirlt.java.mr2.RunMultipleInputs2*
+   - 参考代码 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleInputs2.java][com.dirlt.java.mr.RunMultipleInputs2]]
+   - *NOTE(dirlt):在cdh4.3.0下面运行的代码略有变动，存放在 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr2/src/main/java/com/dirlt/java/mr2/RunMultipleInputs2.java][com.dirlt.java.mr2.RunMultipleInputs2]]*
      - 需要配合MultipleInputs使用
      - 使用这个InputFormat可以同时支持多文件输入和多表输入
      - 多表输入还支持在一个table上面使用多个scan.
@@ -1014,7 +1014,7 @@ public class MessageLzoProtobufWritable extends ProtobufWritable<MessageProtos1.
 
 *** 多路输出
 **** MultipleOutputs
-   - 参考代码 com.dirlt.java.mr.RunMultipleOutputs
+   - 参考代码 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleOutputs.java][com.dirlt.java.mr.RunMultipleOutputs]]
    - 支持多个htable和多个文件
    - 如果使用write(String namedOutput, K key, V value)会写到FileOutputFormat设置的目录下面，文件附上前缀namedOutput-，
    - 如果使用write(String namedOutput, K key, V value, String baseOutputPath) 
@@ -1025,14 +1025,14 @@ public class MessageLzoProtobufWritable extends ProtobufWritable<MessageProtos1.
      - 可以通过MockMultipleOutputs来进行测试 参考代码 com.dirlt.java.mr.MockMultipleOutput
 
 **** MultipleTableOutputFormat
-   - 参考代码 com.dirlt.java.mr.RunMultipleTableOutput
+   - 参考代码 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleTableOutput.java][com.dirlt.java.mr.RunMultipleTableOutput]]
    - 支持多个htable
    - 调用context.write的key需要指定outputTable
      - 其实这也意味着如果是单表输出的话那么key为null即可
      - 前提是需要使用conf.set(TableOutputFormat.OUTPUT_TABLE,tableName);
 
 *** 获取集群运行状况
-  - 参考代码 com.dirlt.java.mr.ClusterSummary
+  - 参考代码 [[https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/ClusterSummary.java][com.dirlt.java.mr.ClusterSummary]]
   - 获取更多信息可以阅读JobClient API
 
 *** OutOfMemoryError

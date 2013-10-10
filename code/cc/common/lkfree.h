@@ -2,13 +2,13 @@
  * Copyright (C) dirlt
  */
 
-#ifndef __SPERM_CC_COMMON_LOCKFREE_H__
-#define __SPERM_CC_COMMON_LOCKFREE_H__
+#ifndef __SPERM_CC_COMMON_LKFREE_H__
+#define __SPERM_CC_COMMON_LKFREE_H__
 
 #include "atomic.h"
 
 namespace common {
-namespace lockfree {
+namespace lkfree {
 
 template<typename T, const int number = 1024* 1024>
 class SampleMemoryAllcator {
@@ -62,7 +62,7 @@ class SampleMemoryAllcator {
   }
 }; // class SampleMemoryAllcator
 
-} // namespace lockfree
+} // namespace lkfree
 } // namespace common
 
-#endif // __SPERM_CC_COMMON_LOCKFREE_H__
+#endif // __SPERM_CC_COMMON_LKFREE_H__

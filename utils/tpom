@@ -122,26 +122,12 @@ POM_TEMPLATE="""<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="ht
 </project>
 """
 
-MAKEFILE_TEMPLATE="""#coding:utf-8
-#Copyright (C) dirlt
-
-# # mostly this works.
-# copy-unpack-dependency:
-# 	mvn dependency:unpack-dependencies
-
-# # if the above command failed. please use this one.
-# copy-unpack-dependency2:
-# 	mvn dependency:copy-dependencies ; cd ./target/dependency ; for x in *.jar ; do echo "jar xf $$x ..." ; jar xf $$x ; done
-
-"""
-
 import os
 def generate(project,groupId,artifactId):
     cps=groupId.split('.')
     cps.append(artifactId)
     os.system('mkdir -p %s'%(project))
     open('%s/pom.xml'%(project),'w').write(POM_TEMPLATE%(locals()))
-    open('%s/Makefile'%(project),'w').write(MAKEFILE_TEMPLATE%(locals()))
     os.system('mkdir -p %s/src/main/java/%s/'%(project,'/'.join(cps)))
     os.system('mkdir -p %s/src/test/java/%s/'%(project,'/'.join(cps)))
     os.system('mkdir -p %s/src/main/resources/'%(project))

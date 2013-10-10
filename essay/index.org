@@ -50,6 +50,7 @@
 ** Algorithm Related
    - [[file:./algorithm.org][algorithm]] 算法还是非常重要的。记录的都是现实中使用到的算法或者是比较有趣的数学问题吧。
      - [[file:./probabilistic-data-structures-for-web-analytics-and-data-mining.org][Probabilistic Data Structures for Web Analytics and Data Mining]]
+     - [[file:./cracking-the-coding-interview.org][Cracking The Coding Interview]] 据说算法分为三种：面试算法，ACM算法，算法=D
    - [[file:./data-mining.org][data-mining]] 了解一些数据挖掘方面的知识还是比较有帮助的。其实我们每天都在不知不觉地进行数据挖掘。
    - [[file:recommender-system.org][recommender-system]] 推荐系统
      - [[file:./deconstructing-recommender-systems.org][Deconstructing Recommender Systems]]
@@ -168,9 +169,9 @@
    - [[file:./producing-open-source-software.org][Producing Open Source Software]]
      
 ** About Me
-My name is Zhang Yan. I graduated from [[http://www.sdu.edu.cn/][Shandong University]] as master, and currently work as Software Architect in Data Platform Team at [[http://www.umeng.com/][Umeng]] which focus on mobile analytics since 2012.5 where I manily work on building and improving the infrastructure of big data processing. From 2010.7 to 2012.5, I have been a Senior Software Engineer at [[http://www.baidu.com/][Baidu]] Infrastructure Tream where I wrote libraries, tools, services and distributed systems. From 2008.8 to 2010.7, I have been a Intern Software Engineer at [[http://www.baidu.com/][Baidu]] Component Tream where I wrote libraries and tools. My linkedin written below has more details, and for the sake of seeking job I maintain a [[file:resume.org][resume]]. 
+My name is Zhang Yan. I get MS. at [[http://www.sdu.edu.cn/][Shandong University]] on Computer Science and BEng. at [[http://www.sdu.edu.cn/][Shandong University]] on Electronic Engineering. I currently work as Software Architect in Data Platform Team at [[http://www.umeng.com/][Umeng]] which focus on mobile analytics since 2012.5 where I manily work on building the infrastructure of big data processing. From 2010.6 to 2012.6, I have been a Senior Software Engineer at [[http://www.baidu.com/][Baidu]] Infrastructure Tream where I wrote libraries, tools, services and distributed systems. From 2008.7 to 2010.6, I have been a Software Engineering Intern at [[http://www.baidu.com/][Baidu]] Component Tream where I wrote libraries and tools. You can dig me more on my linkedin(or [[file:./resume.org][resume]])
 
-[[file:note.org][Here]] are my some notes written casually to record my life footprint. I may will take them like treasure when 30 years is past:). 
+[[file:note.org][Here]] are my some notes written casually to record my life footprint. I think it will be fun to read them when I became old.
 
 My code name is dirtysalt or dirlt. It's translated from my chinese name. The translation works as following:
    - Zhang pronounce like 'dirty' in cn

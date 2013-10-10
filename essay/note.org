@@ -28,7 +28,8 @@
    - [[file:./note/virgin-swimming.org][初次游泳]]
    - [[file:./note/virgin-10km-running.org][初次10km跑步]]
    - [[file:./note/do-we-need-exercise.org][我们是否需要运动]]
-
+   - [[file:./note/neck-health.org][颈椎健康]]
+ 
 ** 印记
    - [[file:./note/todo.org][todo]] 记录自己日常需要完成的事情。
    - [[file:note/fun.org][挺搞笑的]]
@@ -45,6 +46,7 @@
      - [[file:./note/the-hurt-locker.org][拆弹部队(The Hurt Locker)]]
      - [[file:./note/the-prestige.org][致命魔术(The Prestige)]]
      - [[file:./note/lincoln.org][林肯(Lincoln)]]
+     - [[file:./note/jizhan.org][激战(JiZhan)]]
    - [[file:note/pregnancy.org][怀孕]] 做爸爸妈妈需要注意的一些事情。
    - [[file:note/health.org][健康]] 拥有健康的身体才能够更好地享受生活和工作。
    - [[file:note/book.org][书籍]] 自己看过的一些书，可能不太好分类所以全部放在这里了。
