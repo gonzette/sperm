@@ -7,45 +7,49 @@
      - [[file:./the-secret-to-10-million-concurrent-connections.org][The Secret To 10 Million Concurrent Connections -The Kernel Is The Problem, Not The Solution]] 
      - [[file:./a-tour-inside-cloudflare-latest-generation-servers.org][A Tour Inside CloudFlare's Latest Generation Servers]]
    - [[file:apue.org][APUE]] Unix环境高级编程(Advanced Programming Unix Environment),W. Richard Stevens的神作。笔记里面没有包含书最后的几个部分，比如终端，打印机等，因为我觉得可能大家都不太需要这个东西了。我还尝试将一些跨章节的概念整合到一起，这样比较容易从总体把握Unix编程环境。
-   - [[file:simd.org][SIMD]] SIMD(Single Instruction Muitple Data)单指令多数据。这个笔记其实是Intel Reference Manual中关于SIMD指令的总结。里面包含了一些理解SIMD指令需要的知识，以及对SIMD指令进行了分类。遗憾的是里面没有什么过多的例子，毕竟这个是结合场景来使用的。
-   - [[file:pic.org][PIC]] 分析了一下PIC位置无关代码内部的原理以及和动态库之间的关系。通过阅读<深入理解计算机系统>并且结合实际的例子总结出来的。
-   - [[file:gcc-asm.org][GCC-Assembly]] 如何编写GCC内嵌汇编，以及一些关于GCC内嵌汇编的文章，主要是参考了<GCC Manual>. 但是自己对这个依然不是很了解。 
-   - [[file:encoding.org][Encoding]] 介绍了GB2312/GBK/GB18030/Unicode/UTF16/UTF32/UTF8这几种字符编码格式。还是觉得UTF8在设计以及实现上都相对更加合理。
-   - [[file:tcmalloc.org][TCMalloc]] Google的开源线程缓存内存分配器，解决多线程下面内存分配效率问题。
-   - [[file:snappy.org][Snappy]] Google的开源压缩解压库。在满足一定压缩比率的条件下着重提升压缩和解压速度。
-   - [[file:lzf.org][lzf]] Redis使用的开源压缩解压库。轻量(两个文件), 可以很容易地独立纳入项目。
-   - [[file:./lzma.org][lzma]] Lempel-Ziv-Markov chain algorithm ，压缩速度相对较慢但是压缩比超高。
-   - [[file:build-system.org][BuildSystem]] 在实现Baidu in-house的构建工具Comake2之前，做过构建系统的调研总结出来的。在语法表达上面(非常重要)借鉴了SCons,考虑了其他构建系统提供的功能。
-   - [[file:maven.org][Maven]] 主要针对Java开发的基于工程对象模型(POM, Project Object Model)构建系统，主要记录了一些使用方面的问题和解决办法。
-   - [[file:oprofile.org][OProfile]] OProfile(系统级profiler)的原理和应用。不过说实话没有分析过源代码(或者是自己技术背景不行)终究觉得对这个东西理解不够深入，而且自己也仅仅是使用OProfile功能的子集。
-   - [[file:swig.org][SWIG]] C/C++多语言扩展接口生成器，使用起来非常方便(至于生成的代码没有看过效率如何).个人觉得比较适合quick & dirty的方案。
-   - [[file:git.org][Git]] 分布式版本控制系统。很多项目都在使用Git进行版本管理包括Linux Kernel, Ruby on Rails, WINE, X.org等。
-   - [[file:ubuntu.org][Ubuntu]] 如何更好地使用Ubuntu，[[file:note/struggle-with-ubuntu.org][之前有过痛苦的经历]] 。主要记录自己使用出现的问题。
-   - [[file:emacs.org][Emacs]] 如何更好地使用Emacs。自己依然只是使用一些简单功能，身边有很多牛人用Emacs那是相当的出神入化。
-   - [[file:linux.org][Linux]] 主要是介绍Linux下面一些工具使用以及和内核相关的知识。（将原来[[file:./APUE.org][APUE]] 和 [[file:./UNP.org][UNP]] 中的一部分内容放在这里面来了，这样可以保持这两篇内容比较稳定）
-   - [[file:cpu.org][CPU]] CPU相关
-   - [[file:coroutine.org][Coroutine]] 协程，轻量级线程。
-   - [[file:lock.org][Lock]] 锁的原理与不同实现
-   - [[file:memory.org][Memory]] 内存相关
-   - [[file:continuation.org][Continuation]] 延续，异步编程一种实现。
-   - [[file:sysperf.org][System-Peformance]] 系统性能相关
-   - [[file:concurrency.org][Concurrency]] 并发
-   - [[file:fvwm.org][FVWM]] F* Virtual Windows Manager.Linux下面高度可定制化的窗口管理器。
-   - [[file:mac.org][Macintosh]] 如何更好地使用Mac。以前使用Windows，后来转向Ubuntu，再后来买了个MBA. 熟悉它又需要一段时间了。
-   - [[file:license.org][License]] 一些常见的开源协议。不知道自己以后是否可以用得上：）
-   - [[file:eclipse.org][Eclipse]] 虽然我喜欢Emacs，但是似乎java方面开发似乎还是离不开它。
-   - [[file:intellij.org][Intellij]] Eclipse太慢了，看看Intellij怎么样。
-   - [[file:lcov.org][lcov]] the LTP(Linux Testing Project) GCOV extension.用来完成C/C++测试覆盖。
-   - [[file:web-misc.org][Web Misc]] Web开发遇到的一些问题。因为自己对于Web开发不太了解，所以内容上的话可能显得有点弱智。
-   - [[file:folly.org][Folly]] Folly is an open-source C++ library developed and used at Facebook.
-   - [[file:flex-bison.org][Flex/Bison]] 可以用来书写词法和语法分析器，Bison支持的语法是LALR（1）。
-   - [[file:valgrind.org][Valgrind]] CPU和内核模拟器，通过暴露接口可以构建动态分析工具，比如内存调试，检测内存泄露，多线程分析和性能分析等。
-   - [[file:systemtap.org][SystemTap]] 通过将观察语句编译成为内核驱动，和linux内核提供的接口匹配，来深度地观察linux操作系统。
-   - [[file:gperftools.org][gperftools]] Google的性能分析工具，[[file:tcmalloc.org][TCMalloc]] 实现也在里面。用来观察应用程序似乎是个不错的选择。
-   - [[file:perf.org][Perf]] Linux系统自带的性能分析工具，支持硬件以及软件事件计数器，支持profile kernel以及user code.
-   - [[file:protobuf.org][Protocol-Buffers]] Google的数据交换格式，能够高效地序列化和反序列化对象，同时考虑向后兼容问题。
-   - [[file:thrift.org][Thrift]] Facebook的数据交换格式，能够高效地序列化和反序列化对象，同时考虑向后兼容问题。
-   - [[file:gdb.org][GDB]] GNU Debugger, mainly on C/C++. 不过现在比较习惯打印日志方式来调试。
+   - OS
+     - [[file:linux.org][Linux]] 主要是介绍Linux下面一些工具使用以及和内核相关的知识。（将原来[[file:./APUE.org][APUE]] 和 [[file:./UNP.org][UNP]] 中的一部分内容放在这里面来了，这样可以保持这两篇内容比较稳定）
+     - [[file:pic.org][PIC]] 分析了一下PIC位置无关代码内部的原理以及和动态库之间的关系。通过阅读<深入理解计算机系统>并且结合实际的例子总结出来的。
+     - [[file:gcc-asm.org][GCC-Assembly]] 如何编写GCC内嵌汇编，以及一些关于GCC内嵌汇编的文章，主要是参考了<GCC Manual>. 但是自己对这个依然不是很了解。 
+     - [[file:encoding.org][Encoding]] 介绍了GB2312/GBK/GB18030/Unicode/UTF16/UTF32/UTF8这几种字符编码格式。还是觉得UTF8在设计以及实现上都相对更加合理。
+     - [[file:cpu.org][CPU]] CPU相关
+       - [[file:simd.org][SIMD]] SIMD(Single Instruction Muitple Data)单指令多数据。这个笔记其实是Intel Reference Manual中关于SIMD指令的总结。里面包含了一些理解SIMD指令需要的知识，以及对SIMD指令进行了分类。遗憾的是里面没有什么过多的例子，毕竟这个是结合场景来使用的。
+     - [[file:concurrency.org][Concurrency]] 并发
+     - [[file:coroutine.org][Coroutine]] 协程，轻量级线程。
+     - [[file:lock.org][Lock]] 锁的原理与不同实现
+     - [[file:memory.org][Memory]] 内存相关
+       - [[file:tcmalloc.org][TCMalloc]] Google的开源线程缓存内存分配器，解决多线程下面内存分配效率问题。
+     - [[file:continuation.org][Continuation]] 延续，异步编程一种实现。
+     - [[file:sysperf.org][System-Peformance]] 系统性能相关
+       - [[file:oprofile.org][OProfile]] OProfile(系统级profiler)的原理和应用。不过说实话没有分析过源代码(或者是自己技术背景不行)终究觉得对这个东西理解不够深入，而且自己也仅仅是使用OProfile功能的子集。
+       - [[file:systemtap.org][SystemTap]] 通过将观察语句编译成为内核驱动，和linux内核提供的接口匹配，来深度地观察linux操作系统。
+       - [[file:gperftools.org][gperftools]] Google的性能分析工具，[[file:tcmalloc.org][TCMalloc]] 实现也在里面。用来观察应用程序似乎是个不错的选择。
+       - [[file:perf.org][Perf]] Linux系统自带的性能分析工具，支持硬件以及软件事件计数器，支持profile kernel以及user code.
+   - Compression
+     - [[file:snappy.org][Snappy]] Google的开源压缩解压库。在满足一定压缩比率的条件下着重提升压缩和解压速度。
+     - [[file:lzf.org][Lzf]] Redis使用的开源压缩解压库。轻量(两个文件), 可以很容易地独立纳入项目。
+     - [[file:lzma.org][Lzma]] Lempel-Ziv-Markov chain algorithm ，压缩速度相对较慢但是压缩比超高。
+   - Tool
+     - [[file:swig.org][SWIG]] C/C++多语言扩展接口生成器，使用起来非常方便(至于生成的代码没有看过效率如何).个人觉得比较适合quick & dirty的方案。
+     - [[file:git.org][Git]] 分布式版本控制系统。很多项目都在使用Git进行版本管理包括Linux Kernel, Ruby on Rails, WINE, X.org等。
+     - [[file:folly.org][Folly]] Folly is an open-source C++ library developed and used at Facebook.
+     - [[file:flex-bison.org][Flex/Bison]] 可以用来书写词法和语法分析器，Bison支持的语法是LALR（1）。
+     - [[file:valgrind.org][Valgrind]] CPU和内核模拟器，通过暴露接口可以构建动态分析工具，比如内存调试，检测内存泄露，多线程分析和性能分析等。
+     - [[file:protobuf.org][Protocol-Buffers]] Google的数据交换格式，能够高效地序列化和反序列化对象，同时考虑向后兼容问题。
+     - [[file:thrift.org][Thrift]] Facebook的数据交换格式，能够高效地序列化和反序列化对象，同时考虑向后兼容问题。
+     - [[file:gdb.org][GDB]] GNU Debugger, mainly on C/C++. 不过现在比较习惯打印日志方式来调试。
+     - [[file:license.org][License]] 一些常见的开源协议。不知道自己以后是否可以用得上：）
+     - [[file:lcov.org][lcov]] the LTP(Linux Testing Project) GCOV extension.用来完成C/C++测试覆盖。
+     - [[file:web-misc.org][Web Misc]] Web开发遇到的一些问题。因为自己对于Web开发不太了解，所以内容上的话可能显得有点弱智。
+     - [[file:build-system.org][BuildSystem]] 在实现Baidu in-house的构建工具Comake2之前，做过构建系统的调研总结出来的。在语法表达上面(非常重要)借鉴了SCons,考虑了其他构建系统提供的功能。
+       - [[file:maven.org][Maven]] 主要针对Java开发的基于工程对象模型(POM, Project Object Model)构建系统，主要记录了一些使用方面的问题和解决办法。
+   - Desktop
+     - [[file:ubuntu.org][Ubuntu]] 如何更好地使用Ubuntu，[[file:note/struggle-with-ubuntu.org][之前有过痛苦的经历]] 。主要记录自己使用出现的问题。
+     - [[file:fvwm.org][FVWM]] F* Virtual Windows Manager.Linux下面高度可定制化的窗口管理器。
+     - [[file:mac.org][Macintosh]] 如何更好地使用Mac。以前使用Windows，后来转向Ubuntu，再后来买了个MBA. 熟悉它又需要一段时间了。
+     - [[file:emacs.org][Emacs]] 如何更好地使用Emacs。自己依然只是使用一些简单功能，身边有很多牛人用Emacs那是相当的出神入化。
+     - [[file:eclipse.org][Eclipse]] 虽然我喜欢Emacs，但是似乎java方面开发似乎还是离不开它。
+     - [[file:intellij.org][Intellij]] Eclipse太慢了，看看Intellij怎么样。
 
 ** Algorithm Related
    - [[file:algorithm.org][Algorithm]] 算法还是非常重要的。记录的都是现实中使用到的算法或者是比较有趣的数学问题吧。
@@ -61,10 +65,10 @@
    - [[file:unp.org][UNP]] Unix网络编程(Unix Network Programming),W. Richard Stevens的又一神作。笔记里面只是对于TCP原理有比较详细讨论，这部分笔记也包含了TCP Illustrated v1里面和TCP相关的章节内容。对于编程方面也着重TCP socket使用，毕竟在大部分应用场景下面我们选用TCP模型更多，并且TCP里面有很多非常琐碎的知识。
    - [[https://github.com/dirtysalt/sperm/tree/master/code/cc/itachi][itachi]] 自己两天时间写完的异步网络编程框架，当然有很多地方需要改进，但是内核基本稳定了。并且在上面做了asocket封装，编写网络程序非常方便。 *TODO(dirlt):是否需要专门写篇文章介绍*
    - [[file:./libev.org][libev]] 开源的事件触发器。被认为是更高效的libevent. [[https://github.com/dirtysalt/sperm/tree/master/code/cc/itachi][itachi]] 这个项目开始想自己编写事件触发器，但是发现工作比较琐碎枯燥，所以底层还是选择使用libev.
-   - [[file:hpserver.org][hpserver]] 开源的网络编程框架。可以当做一个入门级的网络编程框架阅读。这个是我最开始阅读的网络编程框架(1st).
-   - [[file:./nmstl.org][nmstl]] 开源的网络编程框架。一个很早期的作品，代码十分简洁。主要是内部实现了SEDA的思想。这个是我第二个阅读的网络编程框架(2nd).
-   - [[file:muduo.org][muduo]] 开源的网络编程框架。作者理想中的网络编程框架实现，里面有很多mina/netty的影子。这个是我三个阅读的网络编程框架(3rd).
-   - [[file:kylin.org][kylin]] Baidu in-house的异步编程框架，是[[http://weibo.com/linshiding][linsd(百度首席架构师林仕鼎)]]的神作，通过阅读这个框架的代码让我理解了异步编程模型。这个是我第四个阅读的网络编程框架(4th). 
+   - [[file:hpserver.org][HPServer]] 开源的网络编程框架。可以当做一个入门级的网络编程框架阅读。这个是我最开始阅读的网络编程框架(1st).
+   - [[file:nmstl.org][NMSTL]] 开源的网络编程框架。一个很早期的作品，代码十分简洁。主要是内部实现了SEDA的思想。这个是我第二个阅读的网络编程框架(2nd).
+   - [[file:muduo.org][Muduo]] 开源的网络编程框架。作者理想中的网络编程框架实现，里面有很多mina/netty的影子。这个是我三个阅读的网络编程框架(3rd).
+   - [[file:kylin.org][Kylin]] Baidu in-house的异步编程框架，是[[http://weibo.com/linshiding][linsd(百度首席架构师林仕鼎)]]的神作，通过阅读这个框架的代码让我理解了异步编程模型。这个是我第四个阅读的网络编程框架(4th). 
    - [[file:zeromq.org][ZeroMQ]] 开源的消息传输系统。颠覆我们思考和编写网络通信程序的方式。TODO(dirlt):只是阅读了文档和API，可以考虑阅读一下代码.
    - [[file:ace.org][ACE]] 开源的网络编程框架。非常重量级，也被人诟病为学术产物而不是适合生产实践。TODO(dirlt):只是有大概的了解，有待更深入的研究.
    - [[file:apache.org][Apache]] 历史悠久的开源HTTP服务器。 an effort to develop and maintain an open-source HTTP server for modern operating systems including UNIX and Windows NT
