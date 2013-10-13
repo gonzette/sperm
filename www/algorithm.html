@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="algorithm"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-03 15:09:16 CST"/>
+<meta name="generated" content="2013-10-13 22:22:35 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -376,9 +376,10 @@ def tree_dist(root):
         return (0,-1,-1)
     (a,b,c)=tree_dist(root.left)
     (d,e,f)=tree_dist(root.right)
-    ml=max(b,c)+1
-    mr=max(e,f)+1
-    return (max(a,d,ml+mr),ml,mr)
+    ml=max(b,c)+1 # &#24038;&#23376;&#26641;&#39640;&#24230;
+    mr=max(e,f)+1 # &#21491;&#23376;&#26641;&#39640;&#24230;
+    path=ml+mr+1 # root&#20869;&#37096;&#26368;&#38271;&#36317;&#31163;
+    return (max(a,d,path),ml,mr)
 
 def TreeDistance(root):
     return tree_dist(root)[0]
@@ -392,7 +393,7 @@ def TreeDistance(root):
 <hr/>
 
 <p>
-leetcode上也有类似的题目，但是考虑上了树节点值 <a href="http://oj.leetcode.com/problems/binary-tree-maximum-path-sum/">http://oj.leetcode.com/problems/binary-tree-maximum-path-sum/</a>
+leetcode上也有类似的题目，但是考虑上了树节点值 <a href="http://oj.leetcode.com/problems/binary-tree-maximum-path-sum/">http://oj.leetcode.com/problems/binary-tree-maximum-path-sum/</a> 情况就更加复杂，代码也更不容易写对。
 </p>
 
 
@@ -881,19 +882,91 @@ a1 a1 a1 a2 a2 a2 &hellip; an an an X
 <p>
 举个例子，假设有下面直方图 9，4，5，10，很明显最终9，10会两侧的水，并且水面高度为9，因此对于4来说的话就会容纳5单位，5就容纳4个单位，因此一共容纳9个单位。
 </p>
+
+<hr/>
+
 <p>
-这个问题我一开始的想法就是首先我们可以找出两个最高的点，这两个点之间肯定是可以存水的。然后以这两个点为划分，考虑剩余的区域。简单地说就是一个Divice and Conquer的方法。找出两个最高点时间复杂度为O（n)，然后两个点划分的话，类似于快排的时间复杂度，因此时间复杂度为O（nlgn）
+这个问题我一开始的想法就是首先我们可以找出两个最高的点，这两个点之间肯定是可以存水的。然后以这两个点为划分，考虑剩余的区域。简单地说就是一个Divide and Conquer的方法。找出两个最高点时间复杂度为O（n)，然后两个点划分的话，类似于快排的时间复杂度，因此时间复杂度为O（nlgn）
 </p>
 <p>
 另外一个比较好的办法就是只是考虑某一个直方图容纳水多少。对于这个点来说，它所容纳的高度取决于它的左右两边最大高度。因此我们可以先对这个直方图做一个预处理，求解得到left[i]表示第i个柱子左边最大高度，right[i]表示第i个柱子右边最大高度，这个预处理O（n)就可以计算完成。然后再一遍处理即可求解结果。
 </p>
+
+<hr/>
+
+<p>
+@2013-10-13 今天在leetcode也看到了相似的题目，<a href="http://oj.leetcode.com/problems/container-with-most-water/">http://oj.leetcode.com/problems/container-with-most-water/</a> 虽然题目意思不一样，但是我本能地按照这个问题也编写代码了。结果发现上面的解决办法还是有很多corner case的，比如如果每个线是递增的话怎么办？今天编写leetcode的时候我重新考虑了一下这个问题，然后有个应该是可行的实现。
+</p><ul>
+<li>dp[i]表示xi(包括xi)的右边最大高度
+</li>
+<li>p = 0
+<ul>
+<li>如果p+1右边有比h[p]高的话，那么找到第一个比这个h[p]高的点做计算，然后下面从这个点继续
+</li>
+<li>如果p+1右边没有比h[p]高的话，那么选择最高点计算，然后以最高点继续。
+</li>
+</ul>
+
+</li>
+<li>时间空间复杂度在O(n)
+</li>
+</ul>
+
+
+
+
+
+<pre class="src src-C++">class Solution {
+ public:
+  int n;
+  int* dp;
+  int maxArea(vector&lt;int&gt; &amp;height) {
+    // Note: The Solution object is instantiated only once and is reused by each test case.
+    n = height.size();
+    if(n == 0) {
+      return 0;
+    }
+    // dp[i] highest one since xi.
+    dp = new int[n];
+    dp[n-1]=n-1;
+    for(int i=n-1;i&gt;=1;i--) {
+      int h = height[i-1];
+      if(h &gt;= height[dp[i]]) {
+        dp[i-1] = i-1;
+      } else {
+        dp[i-1] = dp[i];
+      }
+    }
+    // solution.
+    int res = 0;
+    int p = 0;
+    while(p!=(n-1)) {
+      int np = p+1;
+      //printf(<span class="org-string">"%d %d\n"</span>,p,np);
+      int nph = height[dp[np]];
+      if(nph &gt;= height[p]) {
+        while(np &lt; n &amp;&amp; height[np] &lt; height[p]) np++;
+        res += (np - p) * height[p];
+        p = np;
+      } else {
+        res += (dp[np] - p) * nph;
+        p = dp[np];
+      }
+    }
+    delete[] dp;
+    return res;
+  }
+};
+</pre>
+
+
 </div>
 </div>
 </div>
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-10-03 15:09:16 CST</p>
+<p class="date">Date: 2013-10-13 22:22:35 CST</p>
 <p class="creator">Org version 7.8.11 with Emacs version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 

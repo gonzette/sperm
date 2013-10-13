@@ -39,7 +39,7 @@ rm -rf $HOME/.ssh/config
 ln -s $BINDIR/config $HOME/.ssh/config
 
 
-TARGETS="2utf8 cxxindent oprof mysqldb syslog pinstall gc tpom vpn-umeng-dp vpn-tunnel proc-netstat rhs golang pcrypt einstall uinstall clj lein scode imei2umid time-machine apt-update"
+TARGETS="2utf8 cxxindent oprof mysqldb syslog pinstall gc tpom vpn-umeng-dp proc-netstat rhs golang pcrypt einstall uinstall clj lein scode imei2umid time-machine apt-update"
 
 INSTALLDIR=$HOME/utils/bin
 if [ ! -d $INSTALLDIR ]
