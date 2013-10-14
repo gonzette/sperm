@@ -81,6 +81,7 @@
    - #sudo apt-get install sun-java6-jdk
    - sudo apt-get install openjdk-6-jdk
    - sudo apt-get install openvpn
+   - sudo apt-get install lzop
 
 ** 系统配置
 *** 察看ubuntu内部版本

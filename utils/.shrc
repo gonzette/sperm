@@ -23,7 +23,7 @@ then
     export HADOOP_CLASSPATH=.:$HADOOP_LZO/build/hadoop-lzo-0.4.17-SNAPSHOT.jar
     export JAVA_LIBRARY_PATH=$HADOOP_LZO/build/native/Mac_OS_X-x86_64-64/lib/
 else
-    export JAVA_HOME=/usr/lib/jvm/java-6-sun/
+    export JAVA_HOME=/usr/lib/jvm/java-6-openjdk-amd64/
    
     if [ $CDH3 = 1 ]
     then
