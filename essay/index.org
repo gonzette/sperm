@@ -46,7 +46,7 @@
      - [[file:build-system.org][BuildSystem]] 在实现Baidu in-house的构建工具Comake2之前，做过构建系统的调研总结出来的。在语法表达上面(非常重要)借鉴了SCons,考虑了其他构建系统提供的功能。
        - [[file:maven.org][Maven]] 主要针对Java开发的基于工程对象模型(POM, Project Object Model)构建系统，主要记录了一些使用方面的问题和解决办法。
    - Desktop 
-     - [[file:ubuntu.org][Ubuntu]] 如何更好地使用Ubuntu，[[file:note/struggle-with-ubuntu.org][之前有过痛苦的经历]] 。主要记录自己使用出现的问题。
+     - [[file:ubuntu.org][Ubuntu]] 如何更好地使用Ubuntu. [[file:note/struggle-with-ubuntu.org][之前有过痛苦的经历]] 。主要记录自己使用出现的问题。
      - [[file:fvwm.org][FVWM]] F* Virtual Windows Manager.Linux下面高度可定制化的窗口管理器。
      - [[file:mac.org][Macintosh]] 如何更好地使用Mac。以前使用Windows，后来转向Ubuntu，再后来买了个MBA. 熟悉它又需要一段时间了。
      - [[file:emacs.org][Emacs]] 如何更好地使用Emacs。自己依然只是使用一些简单功能，身边有很多牛人用Emacs那是相当的出神入化。
