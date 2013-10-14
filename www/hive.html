@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>hive</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="hive"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 15:19:20 CST"/>
+<meta name="generated" content="2013-10-14 12:28:05 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,9 +21,6 @@
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
-  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
-  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -34,23 +31,10 @@
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  td, th { vertical-align: top; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
-    background: #ffffcc;
-  }
-  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -61,15 +45,10 @@
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
-
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-
-<div id="preamble">
-
-</div>
-
 <div id="content">
+
 <h1 class="title">hive</h1>
 
 
@@ -77,15 +56,15 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 hive</a>
+<li><a href="#sec-1">1 hive </a>
 <ul>
-<li><a href="#sec-1-1">1.1 Getting Started</a>
+<li><a href="#sec-1.1">1.1 Getting Started </a>
 <ul>
-<li><a href="#sec-1-1-1">1.1.1 Configuration</a></li>
-<li><a href="#sec-1-1-2">1.1.2 Local Mode</a></li>
-<li><a href="#sec-1-1-3">1.1.3 Metadata Store</a></li>
-<li><a href="#sec-1-1-4">1.1.4 Example</a></li>
-<li><a href="#sec-1-1-5">1.1.5 TroubleShooting</a></li>
+<li><a href="#sec-1.1.1">1.1.1 Configuration </a></li>
+<li><a href="#sec-1.1.2">1.1.2 Local Mode </a></li>
+<li><a href="#sec-1.1.3">1.1.3 Metadata Store </a></li>
+<li><a href="#sec-1.1.4">1.1.4 Example </a></li>
+<li><a href="#sec-1.1.5">1.1.5 TroubleShooting </a></li>
 </ul>
 </li>
 </ul>
@@ -95,100 +74,109 @@
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> hive</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> hive </h2>
 <div class="outline-text-2" id="text-1">
 
 <ul>
-<li>Home - Apache Hive - Apache Software Foundation <a href="https://cwiki.apache.org/confluence/display/Hive/Home">https://cwiki.apache.org/confluence/display/Hive/Home</a>
+<li>
+Home - Apache Hive - Apache Software Foundation <a href="https://cwiki.apache.org/confluence/display/Hive/Home">https://cwiki.apache.org/confluence/display/Hive/Home</a>
+
 </li>
 </ul>
-
-
 
 </div>
 
-<div id="outline-container-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Getting Started</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Getting Started </h3>
+<div class="outline-text-3" id="text-1.1">
 
 <ul>
-<li><a href="https://cwiki.apache.org/confluence/display/Hive/GettingStarted">https://cwiki.apache.org/confluence/display/Hive/GettingStarted</a>
+<li>
+<a href="https://cwiki.apache.org/confluence/display/Hive/GettingStarted">https://cwiki.apache.org/confluence/display/Hive/GettingStarted</a>
+
 </li>
 </ul>
 
-
-<p>
-首先配置hdfs/mapred/hbase,然后配置hive.过程不是很麻烦。
+<p>首先配置hdfs/mapred/hbase,然后配置hive.过程不是很麻烦。
 </p>
 
 </div>
 
-<div id="outline-container-1-1-1" class="outline-4">
-<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Configuration</h4>
-<div class="outline-text-4" id="text-1-1-1">
+<div id="outline-container-1.1.1" class="outline-4">
+<h4 id="sec-1.1.1"><span class="section-number-4">1.1.1</span> Configuration </h4>
+<div class="outline-text-4" id="text-1.1.1">
 
 <ul>
-<li>默认配置文件是 &lt;install-dir&gt;/conf/hive-default.xml
+<li>
+默认配置文件是 &lt;install-dir&gt;/conf/hive-default.xml
 </li>
-<li>可以通过配置文件改写 &lt;install-dir&gt;/conf/hive-site.xml
+<li>
+可以通过配置文件改写 &lt;install-dir&gt;/conf/hive-site.xml
 </li>
-<li>配置文件路径 HIVE_CONF_DIR
+<li>
+配置文件路径 HIVE<sub>CONF</sub><sub>DIR</sub>
 </li>
-<li>日志配置文件 &lt;install-dir&gt;/conf/hive-log4j.properties
+<li>
+日志配置文件 &lt;install-dir&gt;/conf/hive-log4j.properties
 </li>
-<li>启动通过 bin/hive -hiveconf x1=y1 -hiveconf x2=y2 设置参数
+<li>
+启动通过 bin/hive -hiveconf x1=y1 -hiveconf x2=y2 设置参数
 </li>
-<li>运行时候通过 SET mapred.job.tracker=myhost.mycompany.com:50030; 修改参数
+<li>
+运行时候通过 SET mapred.job.tracker=myhost.mycompany.com:50030; 修改参数
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-1-2" class="outline-4">
-<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Local Mode</h4>
-<div class="outline-text-4" id="text-1-1-2">
+<div id="outline-container-1.1.2" class="outline-4">
+<h4 id="sec-1.1.2"><span class="section-number-4">1.1.2</span> Local Mode </h4>
+<div class="outline-text-4" id="text-1.1.2">
 
 <p>这里所谓的local-mode主要是指运行的mapreduce是在local node上面完成的，至于数据源还是和hdfs/hbase本身配置相关。可以通过设置 SET mapred.job.tracker=local; 强制修改mapreduce本地完成。
 </p>
 <p>
 hive0.7以后提供自动切换local-mode功能，设置 hive&gt; SET hive.exec.mode.local.auto=false; 那么对于下面三个情况满足的条件下就会自动切换到local-mode:
 </p><ul>
-<li>The total input size of the job is lower than: hive.exec.mode.local.auto.inputbytes.max (128MB by default)
+<li>
+The total input size of the job is lower than: hive.exec.mode.local.auto.inputbytes.max (128MB by default)
 </li>
-<li>The total number of map-tasks is less than: hive.exec.mode.local.auto.tasks.max (4 by default)
+<li>
+The total number of map-tasks is less than: hive.exec.mode.local.auto.tasks.max (4 by default)
 </li>
-<li>The total number of reduce tasks required is 1 or 0.
+<li>
+The total number of reduce tasks required is 1 or 0.
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-1-3" class="outline-4">
-<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> Metadata Store</h4>
-<div class="outline-text-4" id="text-1-1-3">
+<div id="outline-container-1.1.3" class="outline-4">
+<h4 id="sec-1.1.3"><span class="section-number-4">1.1.3</span> Metadata Store </h4>
+<div class="outline-text-4" id="text-1.1.3">
 
 <ul>
-<li><a href="https://cwiki.apache.org/confluence/display/Hive/AdminManual+MetastoreAdmin">https://cwiki.apache.org/confluence/display/Hive/AdminManual+MetastoreAdmin</a> <b>NOTE（dirlt）：配置remote server</b>
+<li>
+<a href="https://cwiki.apache.org/confluence/display/Hive/AdminManual+MetastoreAdmin">https://cwiki.apache.org/confluence/display/Hive/AdminManual+MetastoreAdmin</a> <b>NOTE（dirlt）：配置remote server</b>
+
 </li>
 </ul>
 
-
-<p>
-metadata store主要是用来存储数据库的一些元数据信息，有下面相关的配置参数：
+<p>metadata store主要是用来存储数据库的一些元数据信息，有下面相关的配置参数：
 </p><ul>
-<li>javax.jdo.option.ConnectionURL.
+<li>
+javax.jdo.option.ConnectionURL.
 </li>
-<li>javax.jdo.option.ConnectionDriverName.
+<li>
+javax.jdo.option.ConnectionDriverName.
 </li>
 </ul>
 
-<p>默认实现是在本地的derby db，默认存储位置是./metastore_db. metastore其他实现需要支持JPO（Java Persistent Object） Metastore can be stored in any database that is supported by JPOX. The database schema is defined in JDO metadata annotations file package.jdo at src/contrib/hive/metastore/src/model.
+<p>默认实现是在本地的derby db，默认存储位置是./metastore<sub>db</sub>. metastore其他实现需要支持JPO（Java Persistent Object） Metastore can be stored in any database that is supported by JPOX. The database schema is defined in JDO metadata annotations file package.jdo at src/contrib/hive/metastore/src/model.
 </p>
 
 <hr/>
@@ -203,43 +191,43 @@ remote metadata store server和client之间交互是通过thrift完成的，thri
 Server Configuration Parameters
 </p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
-<colgroup><col class="left" /><col class="left" /><col class="left" />
+<colgroup><col align="left" /><col align="left" /><col align="left" />
 </colgroup>
 <thead>
-<tr><th scope="col" class="left">Config Param</th><th scope="col" class="left">Config Value</th><th scope="col" class="left">Comment</th></tr>
+<tr><th scope="col">Config Param</th><th scope="col">Config Value</th><th scope="col">Comment</th></tr>
 </thead>
 <tbody>
-<tr><td class="left">javax.jdo.option.ConnectionURL</td><td class="left">jdbc:mysql://&lt;host name&gt;/&lt;database name&gt;?createDatabaseIfNotExist=true</td><td class="left">metadata is stored in a MySQL server</td></tr>
-<tr><td class="left">javax.jdo.option.ConnectionDriverName</td><td class="left">com.mysql.jdbc.Driver</td><td class="left">MySQL JDBC driver class</td></tr>
-<tr><td class="left">javax.jdo.option.ConnectionUserName</td><td class="left">&lt;user name&gt;</td><td class="left">user name for connecting to mysql server</td></tr>
-<tr><td class="left">javax.jdo.option.ConnectionPassword</td><td class="left">&lt;password&gt;</td><td class="left">password for connecting to mysql server</td></tr>
-<tr><td class="left">hive.metastore.warehouse.dir</td><td class="left">&lt;base hdfs path&gt;</td><td class="left">default location for Hive tables.</td></tr>
+<tr><td>javax.jdo.option.ConnectionURL</td><td>jdbc:mysql://&lt;host name&gt;/&lt;database name&gt;?createDatabaseIfNotExist=true</td><td>metadata is stored in a MySQL server</td></tr>
+<tr><td>javax.jdo.option.ConnectionDriverName</td><td>com.mysql.jdbc.Driver</td><td>MySQL JDBC driver class</td></tr>
+<tr><td>javax.jdo.option.ConnectionUserName</td><td>&lt;user name&gt;</td><td>user name for connecting to mysql server</td></tr>
+<tr><td>javax.jdo.option.ConnectionPassword</td><td>&lt;password&gt;</td><td>password for connecting to mysql server</td></tr>
+<tr><td>hive.metastore.warehouse.dir</td><td>&lt;base hdfs path&gt;</td><td>default location for Hive tables.</td></tr>
 </tbody>
 </table>
 
 
 <p>
-If you are using MySQL as the datastore for metadata, put MySQL client libraries in HIVE_HOME/lib before starting Hive Client or HiveMetastore Server. 如果使用ubuntu的话，可以直接使用 sudo apt-get install libmysql-java 安装，然后jar都在/usr/share/java下面。
+If you are using MySQL as the datastore for metadata, put MySQL client libraries in HIVE<sub>HOME</sub>/lib before starting Hive Client or HiveMetastore Server. 如果使用ubuntu的话，可以直接使用 sudo apt-get install libmysql-java 安装，然后jar都在/usr/share/java下面。
 </p>
 <p>
 Client Configuration Parameters
 </p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
-<colgroup><col class="left" /><col class="left" /><col class="left" />
+<colgroup><col align="left" /><col align="left" /><col align="left" />
 </colgroup>
 <thead>
-<tr><th scope="col" class="left">Config Param</th><th scope="col" class="left">Config Value</th><th scope="col" class="left">Comment</th></tr>
+<tr><th scope="col">Config Param</th><th scope="col">Config Value</th><th scope="col">Comment</th></tr>
 </thead>
 <tbody>
-<tr><td class="left">hive.metastore.uris</td><td class="left">thrift://&lt;host_name&gt;:&lt;port&gt;</td><td class="left">host and port for the thrift metastore server</td></tr>
-<tr><td class="left">hive.metastore.local</td><td class="left">false</td><td class="left">this is local store</td></tr>
-<tr><td class="left">hive.metastore.warehouse.dir</td><td class="left">&lt;base hdfs path&gt;</td><td class="left">default location for Hive tables.</td></tr>
+<tr><td>hive.metastore.uris</td><td>thrift://&lt;host<sub>name&gt</sub>;:&lt;port&gt;</td><td>host and port for the thrift metastore server</td></tr>
+<tr><td>hive.metastore.local</td><td>false</td><td>this is local store</td></tr>
+<tr><td>hive.metastore.warehouse.dir</td><td>&lt;base hdfs path&gt;</td><td>default location for Hive tables.</td></tr>
 </tbody>
 </table>
 
 
 <p>
-thrift server 通过 hive &ndash;service metastore 启动，port在9083上面. 环境变量METASTORE_PORT来配置。 <b>NOTE（dirlt）：hive-env.sh里面可以设置</b>
+thrift server 通过 hive &ndash;service metastore 启动，port在9083上面. 环境变量METASTORE<sub>PORT来配置。</sub> <b>NOTE（dirlt）：hive-env.sh里面可以设置</b>
 </p>
 
 
@@ -250,21 +238,23 @@ thrift server 通过 hive &ndash;service metastore 启动，port在9083上面. �
 </pre>
 
 
-</div>
+
 
 </div>
 
-<div id="outline-container-1-1-4" class="outline-4">
-<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> Example</h4>
-<div class="outline-text-4" id="text-1-1-4">
+</div>
+
+<div id="outline-container-1.1.4" class="outline-4">
+<h4 id="sec-1.1.4"><span class="section-number-4">1.1.4</span> Example </h4>
+<div class="outline-text-4" id="text-1.1.4">
 
 <ul>
-<li>数据默认是使用ctrl-a来做分割 <b>NOTE（dirlt）：how wierd:(</b>
+<li>
+数据默认是使用ctrl-a来做分割 <b>NOTE（dirlt）：how wierd:(</b>
+
+
 </li>
 </ul>
-
-
-
 
 
 <pre class="example">➜  bin  hadoop fs -copyFromLocal ../examples/files/kv1.txt /tmp/
@@ -299,26 +289,31 @@ OK
 Time taken: 5.787 seconds
 </pre>
 
+
+
 <ul>
-<li>copy to hdfs
+<li>
+copy to hdfs
 </li>
-<li>create table.
+<li>
+create table.
 </li>
-<li>load data.
+<li>
+load data.
 </li>
-<li>do select <b>NOTE(dirlt):可以看到这里运行了mr任务</b>
+<li>
+do select <b>NOTE(dirlt):可以看到这里运行了mr任务</b>
+
+
 </li>
 </ul>
-
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-1-5" class="outline-4">
-<h4 id="sec-1-1-5"><span class="section-number-4">1.1.5</span> TroubleShooting</h4>
-<div class="outline-text-4" id="text-1-1-5">
+<div id="outline-container-1.1.5" class="outline-4">
+<h4 id="sec-1.1.5"><span class="section-number-4">1.1.5</span> TroubleShooting </h4>
+<div class="outline-text-4" id="text-1.1.5">
 
 
 <hr/>
@@ -359,19 +354,18 @@ Job Submission failed with exception 'java.io.FileNotFoundException(File does no
 </pre>
 
 
+
+
 <p>
 这个问题我猜想应该Hive CDH4之后使用lean jar的方式，要求依赖jar文件存放在hdfs上面，运行时候然后下载到本地执行。把hive/lib下面的jar全部上传到HDFS上面之后这个问题解决。
 </p></div>
 </div>
 </div>
 </div>
-</div>
-
 <div id="postamble">
-<p class="date">Date: 2013-09-15 15:19:20 CST</p>
-<p class="creator">Org version 7.8.11 with Emacs version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
-
+<p class="date"> Date: 2013-10-14 12:28:05 CST</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'hive.html';var disqus_title = 'hive.html';var disqus_url = 'http://dirlt.com/hive.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

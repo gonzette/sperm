@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>Cracking The Coding Interview</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="Cracking The Coding Interview"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-10 22:04:12 CST"/>
+<meta name="generated" content="2013-10-14 12:28:14 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,9 +21,6 @@
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
-  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
-  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -34,23 +31,10 @@
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  td, th { vertical-align: top; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
-    background: #ffffcc;
-  }
-  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -61,15 +45,10 @@
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
-
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-
-<div id="preamble">
-
-</div>
-
 <div id="content">
+
 <h1 class="title">Cracking The Coding Interview</h1>
 
 
@@ -77,58 +56,58 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 cracking-the-coding-interview</a>
+<li><a href="#sec-1">1 cracking-the-coding-interview </a>
 <ul>
-<li><a href="#sec-1-1">1.1 Foreword</a></li>
-<li><a href="#sec-1-2">1.2 Introduction</a></li>
-<li><a href="#sec-1-3">1.3 Behind the Scenes</a>
+<li><a href="#sec-1.1">1.1 Foreword </a></li>
+<li><a href="#sec-1.2">1.2 Introduction </a></li>
+<li><a href="#sec-1.3">1.3 Behind the Scenes </a>
 <ul>
-<li><a href="#sec-1-3-1">1.3.1 The Microsoft Interview</a></li>
-<li><a href="#sec-1-3-2">1.3.2 The Amazon Interview</a></li>
-<li><a href="#sec-1-3-3">1.3.3 The Google Interview</a></li>
-<li><a href="#sec-1-3-4">1.3.4 The Apple Interview</a></li>
-<li><a href="#sec-1-3-5">1.3.5 The Yahoo Interview</a></li>
+<li><a href="#sec-1.3.1">1.3.1 The Microsoft Interview </a></li>
+<li><a href="#sec-1.3.2">1.3.2 The Amazon Interview </a></li>
+<li><a href="#sec-1.3.3">1.3.3 The Google Interview </a></li>
+<li><a href="#sec-1.3.4">1.3.4 The Apple Interview </a></li>
+<li><a href="#sec-1.3.5">1.3.5 The Yahoo Interview </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-4">1.4 Before the Interview</a>
+<li><a href="#sec-1.4">1.4 Before the Interview </a>
 <ul>
-<li><a href="#sec-1-4-1">1.4.1 Resume Advice</a></li>
-<li><a href="#sec-1-4-2">1.4.2 Behavioral Preparation</a></li>
-<li><a href="#sec-1-4-3">1.4.3 Technical Preparation</a></li>
+<li><a href="#sec-1.4.1">1.4.1 Resume Advice </a></li>
+<li><a href="#sec-1.4.2">1.4.2 Behavioral Preparation </a></li>
+<li><a href="#sec-1.4.3">1.4.3 Technical Preparation </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-5">1.5 The Interview and Beyond</a>
+<li><a href="#sec-1.5">1.5 The Interview and Beyond </a>
 <ul>
-<li><a href="#sec-1-5-1">1.5.1 Handling Behavioral Questions</a></li>
-<li><a href="#sec-1-5-2">1.5.2 Handling Technical Questions</a></li>
-<li><a href="#sec-1-5-3">1.5.3 Five Algorithm Approaches</a></li>
-<li><a href="#sec-1-5-4">1.5.4 The Offer and Beyond</a></li>
-<li><a href="#sec-1-5-5">1.5.5 Top Ten Mistakes Candidates Make</a></li>
-<li><a href="#sec-1-5-6">1.5.6 Frequently Asked Questions</a></li>
+<li><a href="#sec-1.5.1">1.5.1 Handling Behavioral Questions </a></li>
+<li><a href="#sec-1.5.2">1.5.2 Handling Technical Questions </a></li>
+<li><a href="#sec-1.5.3">1.5.3 Five Algorithm Approaches </a></li>
+<li><a href="#sec-1.5.4">1.5.4 The Offer and Beyond </a></li>
+<li><a href="#sec-1.5.5">1.5.5 Top Ten Mistakes Candidates Make </a></li>
+<li><a href="#sec-1.5.6">1.5.6 Frequently Asked Questions </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-6">1.6 Interview Questions</a>
+<li><a href="#sec-1.6">1.6 Interview Questions </a>
 <ul>
-<li><a href="#sec-1-6-1">1.6.1 Arrays and Strings</a></li>
-<li><a href="#sec-1-6-2">1.6.2 Linked Lists</a></li>
-<li><a href="#sec-1-6-3">1.6.3 Stacks and Queues</a></li>
-<li><a href="#sec-1-6-4">1.6.4 Trees and Graphs</a></li>
-<li><a href="#sec-1-6-5">1.6.5 Bit Manipulation</a></li>
-<li><a href="#sec-1-6-6">1.6.6 Brain Teasers</a></li>
-<li><a href="#sec-1-6-7">1.6.7 Object Oriented Design</a></li>
-<li><a href="#sec-1-6-8">1.6.8 Recursion</a></li>
-<li><a href="#sec-1-6-9">1.6.9 Sorting and Searching</a></li>
-<li><a href="#sec-1-6-10">1.6.10 Mathematical</a></li>
-<li><a href="#sec-1-6-11">1.6.11 Testing</a></li>
-<li><a href="#sec-1-6-12">1.6.12 System Design and Memory Limits</a></li>
-<li><a href="#sec-1-6-13">1.6.13 C++</a></li>
-<li><a href="#sec-1-6-14">1.6.14 Java</a></li>
-<li><a href="#sec-1-6-15">1.6.15 Databases</a></li>
-<li><a href="#sec-1-6-16">1.6.16 Low Level</a></li>
-<li><a href="#sec-1-6-17">1.6.17 Networking</a></li>
-<li><a href="#sec-1-6-18">1.6.18 Threads and Locks</a></li>
-<li><a href="#sec-1-6-19">1.6.19 Moderate Additional Review Problems</a></li>
-<li><a href="#sec-1-6-20">1.6.20 Hard Additional Review Problems</a></li>
+<li><a href="#sec-1.6.1">1.6.1 Arrays and Strings </a></li>
+<li><a href="#sec-1.6.2">1.6.2 Linked Lists </a></li>
+<li><a href="#sec-1.6.3">1.6.3 Stacks and Queues </a></li>
+<li><a href="#sec-1.6.4">1.6.4 Trees and Graphs </a></li>
+<li><a href="#sec-1.6.5">1.6.5 Bit Manipulation </a></li>
+<li><a href="#sec-1.6.6">1.6.6 Brain Teasers </a></li>
+<li><a href="#sec-1.6.7">1.6.7 Object Oriented Design </a></li>
+<li><a href="#sec-1.6.8">1.6.8 Recursion </a></li>
+<li><a href="#sec-1.6.9">1.6.9 Sorting and Searching </a></li>
+<li><a href="#sec-1.6.10">1.6.10 Mathematical </a></li>
+<li><a href="#sec-1.6.11">1.6.11 Testing </a></li>
+<li><a href="#sec-1.6.12">1.6.12 System Design and Memory Limits </a></li>
+<li><a href="#sec-1.6.13">1.6.13 C++ </a></li>
+<li><a href="#sec-1.6.14">1.6.14 Java </a></li>
+<li><a href="#sec-1.6.15">1.6.15 Databases </a></li>
+<li><a href="#sec-1.6.16">1.6.16 Low Level </a></li>
+<li><a href="#sec-1.6.17">1.6.17 Networking </a></li>
+<li><a href="#sec-1.6.18">1.6.18 Threads and Locks </a></li>
+<li><a href="#sec-1.6.19">1.6.19 Moderate Additional Review Problems </a></li>
+<li><a href="#sec-1.6.20">1.6.20 Hard Additional Review Problems </a></li>
 </ul>
 </li>
 </ul>
@@ -138,74 +117,82 @@
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> cracking-the-coding-interview</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> cracking-the-coding-interview </h2>
 <div class="outline-text-2" id="text-1">
 
 
 
 </div>
 
-<div id="outline-container-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Foreword</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Foreword </h3>
+<div class="outline-text-3" id="text-1.1">
 
 <p>As you get ready for your interviews, consider these suggestions:
 </p><ul>
-<li>Write Code on Paper
+<li>
+Write Code on Paper
 </li>
-<li>Know Your Resume
+<li>
+Know Your Resume
 </li>
-<li>Don’t Memorize Solutions
+<li>
+Don’t Memorize Solutions
 </li>
-<li>Talk Out Loud
+<li>
+Talk Out Loud
+
 </li>
 </ul>
 
-
-<p>
-Receiving an offer is not about solving questions flawlessly (very few candidates do!), but rather, <b>it is about answering questions better than other candidates.</b> So don’t stress out when you get a tricky question - everyone else probably thought it was hard too!
+<p>Receiving an offer is not about solving questions flawlessly (very few candidates do!), but rather, <b>it is about answering questions better than other candidates.</b> So don’t stress out when you get a tricky question - everyone else probably thought it was hard too!
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Introduction</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2"><span class="section-number-3">1.2</span> Introduction </h3>
+<div class="outline-text-3" id="text-1.2">
 
 </div>
 
 </div>
 
-<div id="outline-container-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Behind the Scenes</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-1.3" class="outline-3">
+<h3 id="sec-1.3"><span class="section-number-3">1.3</span> Behind the Scenes </h3>
+<div class="outline-text-3" id="text-1.3">
 
 
 </div>
 
-<div id="outline-container-1-3-1" class="outline-4">
-<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> The Microsoft Interview</h4>
-<div class="outline-text-4" id="text-1-3-1">
+<div id="outline-container-1.3.1" class="outline-4">
+<h4 id="sec-1.3.1"><span class="section-number-4">1.3.1</span> The Microsoft Interview </h4>
+<div class="outline-text-4" id="text-1.3.1">
 
 <ul>
-<li>Microsoft wants smart people Geeks. People who are passionate about technology.
+<li>
+Microsoft wants smart people Geeks. People who are passionate about technology.
 </li>
-<li>You'll have a short interview with a recruiter where he or she will give you a sample question. Your recruiter is usually there to prep you, and not to grill you on techni- cal questions. Be nice to your recruiter. Your recruiter can be your biggest advocate, even pushing to re-interview you if you stumbled on your first interview. They can fight for you to be hired - or not!
+<li>
+You'll have a short interview with a recruiter where he or she will give you a sample question. Your recruiter is usually there to prep you, and not to grill you on techni- cal questions. Be nice to your recruiter. Your recruiter can be your biggest advocate, even pushing to re-interview you if you stumbled on your first interview. They can fight for you to be hired - or not!
 </li>
-<li>During the day, you'll do four or five interviews, often with two different teams Unlike many companies.
+<li>
+During the day, you'll do four or five interviews, often with two different teams Unlike many companies.
 </li>
-<li>Depending on the team, interviewers may or may not share their feedback on you with the rest of the interview loop.
+<li>
+Depending on the team, interviewers may or may not share their feedback on you with the rest of the interview loop.
 </li>
-<li>When you complete your interviews with a team, you might speak with a hiring manager. If so, that’s a great sign! It likely means that you passed the interviews with a particular team. It’s now down to the hiring manager’s decision.
+<li>
+When you complete your interviews with a team, you might speak with a hiring manager. If so, that’s a great sign! It likely means that you passed the interviews with a particular team. It’s now down to the hiring manager’s decision.
 </li>
-<li>You might get a decision that day, or it might be a week. After one week of no word from HR, send them a friendly email asking for a status update.
+<li>
+You might get a decision that day, or it might be a week. After one week of no word from HR, send them a friendly email asking for a status update.
+
 </li>
 </ul>
 
-
-<p>
-Definitely Prepare: <b>“Why do you want to work for Microsoft?”</b>
+<p>Definitely Prepare: <b>“Why do you want to work for Microsoft?”</b>
 </p>
 <p>
 In this question, Microsoft wants to see that you’re passionate about technology. A great answer might be, “I’ve been using Microsoft software as long as I can re- member, and I'm really impressed at how Microsoft manages to create a product that is universally excellent. For example, I’ve been using Visual Studio recently to learn game programming, and it’s APIs are excellent.” Note how this shows a passion for technology!
@@ -214,162 +201,187 @@ In this question, Microsoft wants to see that you’re passionate about technolo
 
 </div>
 
-<div id="outline-container-1-3-2" class="outline-4">
-<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> The Amazon Interview</h4>
-<div class="outline-text-4" id="text-1-3-2">
+<div id="outline-container-1.3.2" class="outline-4">
+<h4 id="sec-1.3.2"><span class="section-number-4">1.3.2</span> The Amazon Interview </h4>
+<div class="outline-text-4" id="text-1.3.2">
 
 <ul>
-<li>Amazon’s recruiting process usually begins with one or two phone screens in which you in- terview with a specific team. The engineer who interviews you will usually ask you to write simple code and read it aloud on the phone They will ask a broad set of questions to explore what areas of technology you’re familiar with.
+<li>
+Amazon’s recruiting process usually begins with one or two phone screens in which you in- terview with a specific team. The engineer who interviews you will usually ask you to write simple code and read it aloud on the phone They will ask a broad set of questions to explore what areas of technology you’re familiar with.
 </li>
-<li>Next, you fly to Seattle for four or five interviews with one or two teams which have selected you based on your resume and phone interviews. You will have to code on a whiteboard, and some interviewers will stress other skills. Interviewers are each assigned a specific area to probe and may seem very different from each other.
+<li>
+Next, you fly to Seattle for four or five interviews with one or two teams which have selected you based on your resume and phone interviews. You will have to code on a whiteboard, and some interviewers will stress other skills. Interviewers are each assigned a specific area to probe and may seem very different from each other.
 </li>
-<li>They can not see other feedback until they have submitted their own and they are discouraged from discussing it until the hiring meeting.
+<li>
+They can not see other feedback until they have submitted their own and they are discouraged from discussing it until the hiring meeting.
 </li>
-<li>Amazon’s “bar raiser” interviewer is charged with keeping the interview bar high. If one interview seems significantly harder and different, that’s most like- ly the bar raiser This person has both significant experience with interviews and veto power in the hiring decision.
+<li>
+Amazon’s “bar raiser” interviewer is charged with keeping the interview bar high. If one interview seems significantly harder and different, that’s most like- ly the bar raiser This person has both significant experience with interviews and veto power in the hiring decision.
 </li>
-<li>While Amazon’s recruiters are excellent at following up with candidates, occa- sionally there are delays. If you haven’t heard from Amazon within a week, we recommend a friendly email.
+<li>
+While Amazon’s recruiters are excellent at following up with candidates, occa- sionally there are delays. If you haven’t heard from Amazon within a week, we recommend a friendly email.
+
 </li>
 </ul>
 
-
-<p>
-Definitely Prepare:
+<p>Definitely Prepare:
 </p><ul>
-<li>Amazon is a web-based company, and that means they care about scale. Make sure you prepare for questions in “Large Scale.” You don’t need a background in distributed systems to answer these questions. See our recommendations in the System Design and Memory Limits Chapter.
+<li>
+Amazon is a web-based company, and that means they care about scale. Make sure you prepare for questions in “Large Scale.” You don’t need a background in distributed systems to answer these questions. See our recommendations in the System Design and Memory Limits Chapter.
 </li>
-<li>Additionally, Amazon tends to ask a lot of questions about object oriented design. Check out the Object Oriented Design chapter for sample questions and suggestions.
+<li>
+Additionally, Amazon tends to ask a lot of questions about object oriented design. Check out the Object Oriented Design chapter for sample questions and suggestions.
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-3-3" class="outline-4">
-<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> The Google Interview</h4>
-<div class="outline-text-4" id="text-1-3-3">
+<div id="outline-container-1.3.3" class="outline-4">
+<h4 id="sec-1.3.3"><span class="section-number-4">1.3.3</span> The Google Interview </h4>
+<div class="outline-text-4" id="text-1.3.3">
 
 <ul>
-<li>However, because Google HR can be a little disorganized, we recommend being proactive in com- munication.
+<li>
+However, because Google HR can be a little disorganized, we recommend being proactive in com- munication.
 </li>
-<li>A Google engineer performs the first phone screen, so expect tough technical questions.
+<li>
+A Google engineer performs the first phone screen, so expect tough technical questions.
 </li>
-<li>On your on-site interview, you'll interview with four to six people, one of whom will be a lunch interviewer. Interviewer feedback is kept confidential from the other interviewers, so you can be assured that you enter each interview with blank slate. Your lunch interviewer doesn’t submit feedback, so this is a great opportunity to ask honest questions.
+<li>
+On your on-site interview, you'll interview with four to six people, one of whom will be a lunch interviewer. Interviewer feedback is kept confidential from the other interviewers, so you can be assured that you enter each interview with blank slate. Your lunch interviewer doesn’t submit feedback, so this is a great opportunity to ask honest questions.
 </li>
-<li>Written feedback is submitted to a hiring committee of engineers to make a hire/no-hire recommendation. Feedback is typically broken down into four categories (Analytical Ability, Coding, Experience and Communication) and you are given a score from 1.0 to 4.0 overall.
+<li>
+Written feedback is submitted to a hiring committee of engineers to make a hire/no-hire recommendation. Feedback is typically broken down into four categories (Analytical Ability, Coding, Experience and Communication) and you are given a score from 1.0 to 4.0 overall.
 </li>
-<li>The hiring committee understands that you can’t be expected to excel in every interview, but if multiple people raise the same red flag (arrogance, poor coding skills, etc), that can disqualify you. A hiring committee typically wants to see one interviewer who is an “enthusiastic en- dorser”. In other words, a packet with scores of 3.6, 3.1, 3.1 and 2.6 is better than all 3.1s. Your phone screen is usu- ally not a strong factor in the final deci- sion.
+<li>
+The hiring committee understands that you can’t be expected to excel in every interview, but if multiple people raise the same red flag (arrogance, poor coding skills, etc), that can disqualify you. A hiring committee typically wants to see one interviewer who is an “enthusiastic en- dorser”. In other words, a packet with scores of 3.6, 3.1, 3.1 and 2.6 is better than all 3.1s. Your phone screen is usu- ally not a strong factor in the final deci- sion.
 </li>
-<li>The Google hiring process can be slow. If you don’t hear back within one week, politely ask your recruiter for an up- date. A lack of response says nothing about your performance.
+<li>
+The Google hiring process can be slow. If you don’t hear back within one week, politely ask your recruiter for an up- date. A lack of response says nothing about your performance.
+
 </li>
 </ul>
 
-
-<p>
-Definitely Prepare:
+<p>Definitely Prepare:
 </p><ul>
-<li>As a web-based company, Google cares about how to design a scalable system. So, make sure you prepare for questions from “System Design and Memory Limits” Additionally, many Google interviewers will ask questions involving Bit Ma- nipulation, so please brush up on these questions.
+<li>
+As a web-based company, Google cares about how to design a scalable system. So, make sure you prepare for questions from “System Design and Memory Limits” Additionally, many Google interviewers will ask questions involving Bit Ma- nipulation, so please brush up on these questions.
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-3-4" class="outline-4">
-<h4 id="sec-1-3-4"><span class="section-number-4">1.3.4</span> The Apple Interview</h4>
-<div class="outline-text-4" id="text-1-3-4">
+<div id="outline-container-1.3.4" class="outline-4">
+<h4 id="sec-1.3.4"><span class="section-number-4">1.3.4</span> The Apple Interview </h4>
+<div class="outline-text-4" id="text-1.3.4">
 
 <ul>
-<li>Much like the company itself, Apple’s interview process has minimal beaucracy.
+<li>
+Much like the company itself, Apple’s interview process has minimal beaucracy.
 </li>
-<li>The inter- viewers will be looking for excellent technical skills, but a passion for the position and com- pany is also very important. While it’s not a prerequisite to be a Mac user, you should at least be familiar with the system.
+<li>
+The inter- viewers will be looking for excellent technical skills, but a passion for the position and com- pany is also very important. While it’s not a prerequisite to be a Mac user, you should at least be familiar with the system.
 </li>
-<li>The interview process typically begins with a recruiter phone screen to get a basic sense of your skills, <b>followed up by a series of technical phone screens with team members.</b>
+<li>
+The interview process typically begins with a recruiter phone screen to get a basic sense of your skills, <b>followed up by a series of technical phone screens with team members.</b>
 </li>
-<li>Once you’re invited on campus, you'll typically be greeted by the recruiter who provides an overview of the process. You will then have 6-8 interviews with members of the team for which you’re interviewing, as well as key people with whom your team works.
+<li>
+Once you’re invited on campus, you'll typically be greeted by the recruiter who provides an overview of the process. You will then have 6-8 interviews with members of the team for which you’re interviewing, as well as key people with whom your team works.
 </li>
-<li>You can expect a mix of 1-on-1 and 2-on-1 interviews. Be ready to code on a whiteboard and make sure all of your thoughts are clearly communicated. Lunch is with your potential future manager and appears more casual, but is still an interview. Each interviewer is usually fo- cused on a different area and is discouraged from sharing feedback unless there’s something they want subsequent interviewers to drill into.
+<li>
+You can expect a mix of 1-on-1 and 2-on-1 interviews. Be ready to code on a whiteboard and make sure all of your thoughts are clearly communicated. Lunch is with your potential future manager and appears more casual, but is still an interview. Each interviewer is usually fo- cused on a different area and is discouraged from sharing feedback unless there’s something they want subsequent interviewers to drill into.
 </li>
-<li>Towards the end of the day, your inter- viewers will compare notes and if ev- eryone still feels you’re a viable candi- date, you'll interview with the director and then VP of the organization you’re applying to. While this decision is rath- er informal, it’s a very good sign if you make it. This decision also happens be- hind the scenes and if you don’t pass, you'll simply be escorted out of the building without ever having been the wiser (until now)
+<li>
+Towards the end of the day, your inter- viewers will compare notes and if ev- eryone still feels you’re a viable candi- date, you'll interview with the director and then VP of the organization you’re applying to. While this decision is rath- er informal, it’s a very good sign if you make it. This decision also happens be- hind the scenes and if you don’t pass, you'll simply be escorted out of the building without ever having been the wiser (until now)
 </li>
-<li>If you made it to the director and VP interviews, all of your interviewers will gather in a conference room to give an official thumbs up or thumbs down The VP typically won’t be present, but can still veto the hire if they weren’t im- pressed.
+<li>
+If you made it to the director and VP interviews, all of your interviewers will gather in a conference room to give an official thumbs up or thumbs down The VP typically won’t be present, but can still veto the hire if they weren’t im- pressed.
 </li>
-<li>Your recruiter will usually fol- low up a few days later, but feel free to ping your recruiter for updates.
+<li>
+Your recruiter will usually fol- low up a few days later, but feel free to ping your recruiter for updates.
+
 </li>
 </ul>
 
-
-<p>
-Definitely Prepare:
+<p>Definitely Prepare:
 </p><ul>
-<li>If you know what team you’re interview- ing with, make sure you read up on that product. What do you like about it? What would you improve? Offering specific recommendations can show your passion for the job.
+<li>
+If you know what team you’re interview- ing with, make sure you read up on that product. What do you like about it? What would you improve? Offering specific recommendations can show your passion for the job.
 </li>
-<li>Also, Apple employees are huge Apple fans. You should show this same passion in your interview.
+<li>
+Also, Apple employees are huge Apple fans. You should show this same passion in your interview.
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-3-5" class="outline-4">
-<h4 id="sec-1-3-5"><span class="section-number-4">1.3.5</span> The Yahoo Interview</h4>
-<div class="outline-text-4" id="text-1-3-5">
+<div id="outline-container-1.3.5" class="outline-4">
+<h4 id="sec-1.3.5"><span class="section-number-4">1.3.5</span> The Yahoo Interview </h4>
+<div class="outline-text-4" id="text-1.3.5">
 
 <ul>
-<li>While Yahoo tends to only recruit at the top 10 – 20 schools, other candidates can still get interviewed through Yahoo’s job board (or – better yet – if they can get an internal referral). If you’re one of the lucky ones selected, your interview process will start off with a phone screen. Your phone screen will be with a senior employee (tech lead, manager, etc)
+<li>
+While Yahoo tends to only recruit at the top 10 – 20 schools, other candidates can still get interviewed through Yahoo’s job board (or – better yet – if they can get an internal referral). If you’re one of the lucky ones selected, your interview process will start off with a phone screen. Your phone screen will be with a senior employee (tech lead, manager, etc)
 </li>
-<li>You will typically interview with 6 – 7 people on the same team for 45 minutes each Each interviewer will have an area of focus. Interviews will often be composed as follows:
+<li>
+You will typically interview with 6 – 7 people on the same team for 45 minutes each Each interviewer will have an area of focus. Interviews will often be composed as follows:
 <ul>
-<li>5 minutes: General conversation Tell me about yourself, your projects, etc 
+<li>
+5 minutes: General conversation Tell me about yourself, your projects, etc 
 </li>
-<li>20 minutes: Coding question For example, implement merge sort
+<li>
+20 minutes: Coding question For example, implement merge sort
 </li>
-<li>20 minutes: System design For example, design a large distributed cache These ques- tions will often focus on an area from your past experience or on something your interviewer is cur-rently working on
+<li>
+20 minutes: System design For example, design a large distributed cache These ques- tions will often focus on an area from your past experience or on something your interviewer is cur-rently working on
+</li>
+</ul>
+</li>
+<li>
+At the end of the day, you will likely meet with a Program Manag- er or someone else for a general con- versation (product demos, concerns about the company, your competing offers, etc). Meanwhile, your interview- ers will discuss your performance and attempt to come to a decision The hiring manager has the ultimate say and will weigh the positive feedback against the negative.
+</li>
+<li>
+If you have done well, you will often get a decision that day, but this is not always the case. There can be many reasons that you might not be told for several days – for example, the team may feel it needs to interview several other people.
+
 </li>
 </ul>
 
-</li>
-<li>At the end of the day, you will likely meet with a Program Manag- er or someone else for a general con- versation (product demos, concerns about the company, your competing offers, etc). Meanwhile, your interview- ers will discuss your performance and attempt to come to a decision The hiring manager has the ultimate say and will weigh the positive feedback against the negative.
-</li>
-<li>If you have done well, you will often get a decision that day, but this is not always the case. There can be many reasons that you might not be told for several days – for example, the team may feel it needs to interview several other people.
-</li>
-</ul>
-
-
-<p>
-Definitely Prepare:
+<p>Definitely Prepare:
 </p><ul>
-<li>Yahoo, almost as a rule, asks questions about system design, so make sure you prepare for that. They want to know that you can not only write code, but that you can design software. Don’t worry if you don’t have a background in this - you can still reason your way through it!
+<li>
+Yahoo, almost as a rule, asks questions about system design, so make sure you prepare for that. They want to know that you can not only write code, but that you can design software. Don’t worry if you don’t have a background in this - you can still reason your way through it!
+
 </li>
 </ul>
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1-4" class="outline-3">
-<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Before the Interview</h3>
-<div class="outline-text-3" id="text-1-4">
+<div id="outline-container-1.4" class="outline-3">
+<h3 id="sec-1.4"><span class="section-number-3">1.4</span> Before the Interview </h3>
+<div class="outline-text-3" id="text-1.4">
 
 
 </div>
 
-<div id="outline-container-1-4-1" class="outline-4">
-<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> Resume Advice</h4>
-<div class="outline-text-4" id="text-1-4-1">
+<div id="outline-container-1.4.1" class="outline-4">
+<h4 id="sec-1.4.1"><span class="section-number-4">1.4.1</span> Resume Advice </h4>
+<div class="outline-text-4" id="text-1.4.1">
 
 <p>Resume screeners look for the same things that interviewers do:
 </p><ul>
-<li><b>Are you smart?</b>
+<li>
+<b>Are you smart?</b>
 </li>
-<li><b>Can you code?</b>
+<li>
+<b>Can you code?</b>
 </li>
 </ul>
 
@@ -381,11 +393,14 @@ Definitely Prepare:
 <p>
 <b>Writing Strong Bullets:</b>
 </p><ul>
-<li>For each role, try to discuss your accomplishments with the following approach: “Accom- plished X by implementing Y which led to Z” Here’s an example:
+<li>
+For each role, try to discuss your accomplishments with the following approach: “Accom- plished X by implementing Y which led to Z” Here’s an example:
 </li>
-<li>“Reduced object rendering time by 75% by applying Floyd’s algo- rithm, leading to a 10% reduction in system boot time”
+<li>
+“Reduced object rendering time by 75% by applying Floyd’s algo- rithm, leading to a 10% reduction in system boot time”
 </li>
-<li>“Increased average match accu- racy from 1.2 to 1.5 by implement- ing a new comparison algorithm based on windiff”
+<li>
+“Increased average match accu- racy from 1.2 to 1.5 by implement- ing a new comparison algorithm based on windiff”
 </li>
 </ul>
 
@@ -397,28 +412,32 @@ Definitely Prepare:
 <p>
 <b>Advice for Non-Native English Speakers and Internationals:</b>
 </p><ul>
-<li>Proofreading: Some companies will throw out your resume just because of a typo. Please get at least one native English speaker to proofread your resume.
+<li>
+Proofreading: Some companies will throw out your resume just because of a typo. Please get at least one native English speaker to proofread your resume.
 </li>
-<li>Personal Information: For US positions, do not include age, marital status, or nationality. This sort of personal information is not appreciated by companies, as it creates a legal liabil- ity for them However, you may want to include your current work authorization / visa status, particularly when applying to smaller companies who may be unable to sponsor candidates.
+<li>
+Personal Information: For US positions, do not include age, marital status, or nationality. This sort of personal information is not appreciated by companies, as it creates a legal liabil- ity for them However, you may want to include your current work authorization / visa status, particularly when applying to smaller companies who may be unable to sponsor candidates.
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-4-2" class="outline-4">
-<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> Behavioral Preparation</h4>
-<div class="outline-text-4" id="text-1-4-2">
+<div id="outline-container-1.4.2" class="outline-4">
+<h4 id="sec-1.4.2"><span class="section-number-4">1.4.2</span> Behavioral Preparation </h4>
+<div class="outline-text-4" id="text-1.4.2">
 
 <p>Behavioral questions are asked for a variety of reasons 
 </p><ul>
-<li>They can be asked either to get to know your personality, 
+<li>
+They can be asked either to get to know your personality, 
 </li>
-<li>to more deeply understand your resume, 
+<li>
+to more deeply understand your resume, 
 </li>
-<li>or just to ease you into an interview Either way, 
+<li>
+or just to ease you into an interview Either way, 
 </li>
 </ul>
 
@@ -428,18 +447,18 @@ Definitely Prepare:
 Behavioral questions are usually of the form “tell me about a time when you ”, and may ask for an example from a specific project or position. I recommend filling in the following “preparation grid” as shown below:
 </p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
-<colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" /><col class="left" />
+<colgroup><col align="left" /><col align="left" /><col align="left" /><col align="left" /><col align="left" />
 </colgroup>
 <thead>
-<tr><th scope="col" class="left"></th><th scope="col" class="left">Project1</th><th scope="col" class="left">Project2</th><th scope="col" class="left">Project3</th><th scope="col" class="left">Project4</th></tr>
+<tr><th scope="col"></th><th scope="col">Project1</th><th scope="col">Project2</th><th scope="col">Project3</th><th scope="col">Project4</th></tr>
 </thead>
 <tbody>
-<tr><td class="left">Most Challenging</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left">What You Learned</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left">Most Interesting</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left">Hardest Bug</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left">Enjoyed Most</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
-<tr><td class="left">Conflicts with Teammates</td><td class="left"></td><td class="left"></td><td class="left"></td><td class="left"></td></tr>
+<tr><td>Most Challenging</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>What You Learned</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Most Interesting</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Hardest Bug</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Enjoyed Most</td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Conflicts with Teammates</td><td></td><td></td><td></td><td></td></tr>
 </tbody>
 </table>
 
@@ -453,210 +472,243 @@ In each cell, put the corresponding story. We recommend reducing each story to j
 <p>
 <b>What questions should you ask the interviewer?</b>
 </p><ul>
-<li>Genuine Questions: These are the questions you actually want to know ideas of questions that are valuable to many candidates:
+<li>
+Genuine Questions: These are the questions you actually want to know ideas of questions that are valuable to many candidates:
 <ul>
-<li>“How much of your day do you spend coding?”
+<li>
+“How much of your day do you spend coding?”
 </li>
-<li>“How many meetings do you have every week?”
+<li>
+“How many meetings do you have every week?”
 </li>
-<li>“What is the ratio of testers to developers to product managers? What is the interac- tion like? How does project planning happen on the team?”
+<li>
+“What is the ratio of testers to developers to product managers? What is the interac- tion like? How does project planning happen on the team?”
 </li>
 </ul>
-
 </li>
-<li>Insightful Questions: These questions are designed to demonstrate your deep knowledge of programming or technologies.
+<li>
+Insightful Questions: These questions are designed to demonstrate your deep knowledge of programming or technologies.
 <ul>
-<li>“I noticed that you use technology X How do you handle problem Y?”
+<li>
+“I noticed that you use technology X How do you handle problem Y?”
 </li>
-<li>“Why did the product choose to use the X protocol over the Y protocol? I know it has benefits like A, B, C, but many companies choose not to use it because of issue D”
+<li>
+“Why did the product choose to use the X protocol over the Y protocol? I know it has benefits like A, B, C, but many companies choose not to use it because of issue D”
 </li>
 </ul>
-
 </li>
-<li>Passion Questions: These questions are designed to demonstrate your passion for technol- ogy.
+<li>
+Passion Questions: These questions are designed to demonstrate your passion for technol- ogy.
 <ul>
-<li>“I’m very interested in scalability Did you come in with a background in this, or what opportunities are there to learn about it?”
+<li>
+“I’m very interested in scalability Did you come in with a background in this, or what opportunities are there to learn about it?”
 </li>
-<li>“I’m not familiar with technology X, but it sounds like a very interesting solution Could you tell me a bit more about how it works?”
-</li>
-</ul>
+<li>
+“I’m not familiar with technology X, but it sounds like a very interesting solution Could you tell me a bit more about how it works?”
 
 </li>
 </ul>
-
-
+</li>
+</ul>
 </div>
 
 </div>
 
-<div id="outline-container-1-4-3" class="outline-4">
-<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> Technical Preparation</h4>
-<div class="outline-text-4" id="text-1-4-3">
+<div id="outline-container-1.4.3" class="outline-4">
+<h4 id="sec-1.4.3"><span class="section-number-4">1.4.3</span> Technical Preparation </h4>
+<div class="outline-text-4" id="text-1.4.3">
 
 <ul>
-<li>Memorizing or trying to learn specific questions won’t help you! 
+<li>
+Memorizing or trying to learn specific questions won’t help you! 
 </li>
-<li>Try to solve the problem on your own.
+<li>
+Try to solve the problem on your own.
 </li>
-<li>Write the code for the algorithm on paper.
+<li>
+Write the code for the algorithm on paper.
 </li>
-<li>Type your paper code as-is into a computer.
+<li>
+Type your paper code as-is into a computer.
 </li>
-<li>*Do a mock interview. CareerCup offers a mock interview 
-</li>
-</ul>
-
+<li>
+*Do a mock interview. CareerCup offers a mock interview 
 
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
-<colgroup><col class="left" /><col class="left" /><col class="left" />
+<colgroup><col align="left" /><col align="left" /><col align="left" />
 </colgroup>
 <thead>
-<tr><th scope="col" class="left">Data Structures</th><th scope="col" class="left">Algorithms</th><th scope="col" class="left">Concepts</th></tr>
+<tr><th scope="col">Data Structures</th><th scope="col">Algorithms</th><th scope="col">Concepts</th></tr>
 </thead>
 <tbody>
-<tr><td class="left">Linked Lists</td><td class="left">Breadth First Search</td><td class="left">Bit Manipulation</td></tr>
-<tr><td class="left">Binary Trees</td><td class="left">Depth First Search</td><td class="left">Singleton Design Pattern</td></tr>
-<tr><td class="left">Tries</td><td class="left">Binary Search</td><td class="left">Factory Design Pattern</td></tr>
-<tr><td class="left">Stacks</td><td class="left">Merge Sort</td><td class="left">Memory (Stack vs Heap)</td></tr>
-<tr><td class="left">Queues</td><td class="left">Quick Sort</td><td class="left">Recursion</td></tr>
-<tr><td class="left">Vectors / ArrayLists</td><td class="left">Tree Insert / Find / etc</td><td class="left">Big-O Time</td></tr>
-<tr><td class="left">Hash Tables</td><td class="left"></td><td class="left"></td></tr>
+<tr><td>Linked Lists</td><td>Breadth First Search</td><td>Bit Manipulation</td></tr>
+<tr><td>Binary Trees</td><td>Depth First Search</td><td>Singleton Design Pattern</td></tr>
+<tr><td>Tries</td><td>Binary Search</td><td>Factory Design Pattern</td></tr>
+<tr><td>Stacks</td><td>Merge Sort</td><td>Memory (Stack vs Heap)</td></tr>
+<tr><td>Queues</td><td>Quick Sort</td><td>Recursion</td></tr>
+<tr><td>Vectors / ArrayLists</td><td>Tree Insert / Find / etc</td><td>Big-O Time</td></tr>
+<tr><td>Hash Tables</td><td></td><td></td></tr>
 </tbody>
 </table>
 
 
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-1-5" class="outline-3">
-<h3 id="sec-1-5"><span class="section-number-3">1.5</span> The Interview and Beyond</h3>
-<div class="outline-text-3" id="text-1-5">
-
-
-</div>
-
-<div id="outline-container-1-5-1" class="outline-4">
-<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> Handling Behavioral Questions</h4>
-<div class="outline-text-4" id="text-1-5-1">
-
-<ul>
-<li>Be Specific, Not Arrogant
-</li>
-<li>Limit Details
-</li>
-<li>Ask Good Questions
-</li>
-<li>Structure Answers Using S.A.R(Situation, Action, Response)
 </li>
 </ul>
-
-
+</div>
 </div>
 
 </div>
 
-<div id="outline-container-1-5-2" class="outline-4">
-<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> Handling Technical Questions</h4>
-<div class="outline-text-4" id="text-1-5-2">
+<div id="outline-container-1.5" class="outline-3">
+<h3 id="sec-1.5"><span class="section-number-3">1.5</span> The Interview and Beyond </h3>
+<div class="outline-text-3" id="text-1.5">
+
+
+</div>
+
+<div id="outline-container-1.5.1" class="outline-4">
+<h4 id="sec-1.5.1"><span class="section-number-4">1.5.1</span> Handling Behavioral Questions </h4>
+<div class="outline-text-4" id="text-1.5.1">
+
+<ul>
+<li>
+Be Specific, Not Arrogant
+</li>
+<li>
+Limit Details
+</li>
+<li>
+Ask Good Questions
+</li>
+<li>
+Structure Answers Using S.A.R(Situation, Action, Response)
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.5.2" class="outline-4">
+<h4 id="sec-1.5.2"><span class="section-number-4">1.5.2</span> Handling Technical Questions </h4>
+<div class="outline-text-4" id="text-1.5.2">
 
 <p>A technical interview question can be solved utilizing a five step approach:
 </p><ol>
-<li>Ask your interviewer questions to resolve ambiguity
+<li>
+Ask your interviewer questions to resolve ambiguity
 </li>
-<li>Design an Algorithm
+<li>
+Design an Algorithm
 </li>
-<li>Write pseudo-code first, but make sure to tell your interviewer that you’re writing pseudo-code! Otherwise, he/she may think that you’re never planning to write “real” code, and many interviewers will hold that against you
+<li>
+Write pseudo-code first, but make sure to tell your interviewer that you’re writing pseudo-code! Otherwise, he/she may think that you’re never planning to write “real” code, and many interviewers will hold that against you
 </li>
-<li>Write your code, not too slow and not too fast
+<li>
+Write your code, not too slow and not too fast
 </li>
-<li>Test your code and carefully fix any mistakes
+<li>
+Test your code and carefully fix any mistakes
+
 </li>
 </ol>
+</div>
 
+</div>
+
+<div id="outline-container-1.5.3" class="outline-4">
+<h4 id="sec-1.5.3"><span class="section-number-4">1.5.3</span> Five Algorithm Approaches </h4>
+<div class="outline-text-4" id="text-1.5.3">
 
 </div>
 
 </div>
 
-<div id="outline-container-1-5-3" class="outline-4">
-<h4 id="sec-1-5-3"><span class="section-number-4">1.5.3</span> Five Algorithm Approaches</h4>
-<div class="outline-text-4" id="text-1-5-3">
-
-</div>
-
-</div>
-
-<div id="outline-container-1-5-4" class="outline-4">
-<h4 id="sec-1-5-4"><span class="section-number-4">1.5.4</span> The Offer and Beyond</h4>
-<div class="outline-text-4" id="text-1-5-4">
+<div id="outline-container-1.5.4" class="outline-4">
+<h4 id="sec-1.5.4"><span class="section-number-4">1.5.4</span> The Offer and Beyond </h4>
+<div class="outline-text-4" id="text-1.5.4">
 
 <ul>
-<li><b>Negotiating.</b> It’s Always Negotiable! Ok, maybe not always, but usually an offer is negotiable even if a recruiter tells you otherwise. It helps if you have a competing offer But, <b>don’t lie – Microsoft knows what Google offers, so it just won’t be realistic if you make up numbers.</b> Also, technol- ogy is a small world, and people talk. Be honest.
+<li>
+<b>Negotiating.</b> It’s Always Negotiable! Ok, maybe not always, but usually an offer is negotiable even if a recruiter tells you otherwise. It helps if you have a competing offer But, <b>don’t lie – Microsoft knows what Google offers, so it just won’t be realistic if you make up numbers.</b> Also, technol- ogy is a small world, and people talk. Be honest.
 </li>
-<li><b>What’s the money like, really?</b> Think about the full offer package Many companies will have impressive salaries, but small annual bonuses Other companies will have huge annual bonuses, but lower salaries Make sure you look at the <b>full package (salary, signing bonus, health care benefits, raises, annual bonus, relocation, stock, promotions, etc)</b> It’s very confusing, and it’s often not clear which company is offering more
+<li>
+<b>What’s the money like, really?</b> Think about the full offer package Many companies will have impressive salaries, but small annual bonuses Other companies will have huge annual bonuses, but lower salaries Make sure you look at the <b>full package (salary, signing bonus, health care benefits, raises, annual bonus, relocation, stock, promotions, etc)</b> It’s very confusing, and it’s often not clear which company is offering more
 </li>
-<li><b>What about your career options?</b> I can’t give you some magical formula to compute which offer to accept, but here’s what I’d recommend thinking about (in no particular order):
+<li>
+<b>What about your career options?</b> I can’t give you some magical formula to compute which offer to accept, but here’s what I’d recommend thinking about (in no particular order):
 <ul>
-<li>Career Path: Make a plan for your career What do you want to do 5, 10 and 15 years out? What skills will you need to develop? Which company or position will help you get there?
+<li>
+Career Path: Make a plan for your career What do you want to do 5, 10 and 15 years out? What skills will you need to develop? Which company or position will help you get there?
 </li>
-<li>Promotion Opportunity: Do you prefer to move into management, or would you prefer to become an increasingly senior developer?
+<li>
+Promotion Opportunity: Do you prefer to move into management, or would you prefer to become an increasingly senior developer?
 </li>
-<li>Money and Benefits: Of course, the money matters (but if you’re early in your career, it probably doesn’t matter much). As mentioned above, make sure you look at the full package.
+<li>
+Money and Benefits: Of course, the money matters (but if you’re early in your career, it probably doesn’t matter much). As mentioned above, make sure you look at the full package.
 </li>
-<li>Happiness: Did you like the people? The products? The location? It’s hard to tell, of course, before you work there. What are the options to change teams if you’re unhappy?
+<li>
+Happiness: Did you like the people? The products? The location? It’s hard to tell, of course, before you work there. What are the options to change teams if you’re unhappy?
 </li>
-<li>Brand Name: The company’s brand name can mean a lot for your future career Some company names will open doors, while others will not as much.
+<li>
+Brand Name: The company’s brand name can mean a lot for your future career Some company names will open doors, while others will not as much.
 </li>
-<li><b>What about company stability? Personally, I think it matters much less than most people think. There are so many software companies out there. If you get laid off and need to find a new job, will it be difficult to find a new one? Only you can answer that.</b>
-</li>
-</ul>
+<li>
+<b>What about company stability? Personally, I think it matters much less than most people think. There are so many software companies out there. If you get laid off and need to find a new job, will it be difficult to find a new one? Only you can answer that.</b>
 
 </li>
 </ul>
-
-
+</li>
+</ul>
 </div>
 
 </div>
 
-<div id="outline-container-1-5-5" class="outline-4">
-<h4 id="sec-1-5-5"><span class="section-number-4">1.5.5</span> Top Ten Mistakes Candidates Make</h4>
-<div class="outline-text-4" id="text-1-5-5">
+<div id="outline-container-1.5.5" class="outline-4">
+<h4 id="sec-1.5.5"><span class="section-number-4">1.5.5</span> Top Ten Mistakes Candidates Make </h4>
+<div class="outline-text-4" id="text-1.5.5">
 
 <ul>
-<li>Practicing on a Computer
+<li>
+Practicing on a Computer
 </li>
-<li>Not Rehearsing Behavioral Questions
+<li>
+Not Rehearsing Behavioral Questions
 </li>
-<li>Not Doing a Mock Interview
+<li>
+Not Doing a Mock Interview
 </li>
-<li>Trying to Memorize Solutions
+<li>
+Trying to Memorize Solutions
 </li>
-<li>Talking Too Much
+<li>
+Talking Too Much
 </li>
-<li>Talking Too Little
+<li>
+Talking Too Little
 </li>
-<li>Rushing
+<li>
+Rushing
 </li>
-<li>Not Debugging
+<li>
+Not Debugging
 </li>
-<li>Sloppy Coding
+<li>
+Sloppy Coding
 </li>
-<li>Giving Up
+<li>
+Giving Up
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-5-6" class="outline-4">
-<h4 id="sec-1-5-6"><span class="section-number-4">1.5.6</span> Frequently Asked Questions</h4>
-<div class="outline-text-4" id="text-1-5-6">
+<div id="outline-container-1.5.6" class="outline-4">
+<h4 id="sec-1.5.6"><span class="section-number-4">1.5.6</span> Frequently Asked Questions </h4>
+<div class="outline-text-4" id="text-1.5.6">
 
 <p><b>Should I tell my interviewer if I know a question?</b>
 </p>
@@ -666,556 +718,650 @@ Yes! You should definitely tell your interviewer if you’ve previously heard th
 <p>
 Here’s why we strongly recommend that you tell your interviewer that you’ve heard the question:
 </p><ol>
-<li>Big honesty points. This shows a lot of integrity That’s huge. Remember that the interviewer is evaluating you as a potential teammate I don’t know about you, but I personally prefer to work with honest people!
+<li>
+Big honesty points. This shows a lot of integrity That’s huge. Remember that the interviewer is evaluating you as a potential teammate I don’t know about you, but I personally prefer to work with honest people!
 </li>
-<li>The question might have changed ever-so-slightly. You don’t want to risk repeating the wrong answer
+<li>
+The question might have changed ever-so-slightly. You don’t want to risk repeating the wrong answer
 </li>
-<li>If you easily belt out the right answer, it’s obvious to the interviewer. They know how hard a problem is supposed to be. It’s very hard to “pretend” to struggle through a question, because you just can’t approach it the same way other candidates do.
+<li>
+If you easily belt out the right answer, it’s obvious to the interviewer. They know how hard a problem is supposed to be. It’s very hard to “pretend” to struggle through a question, because you just can’t approach it the same way other candidates do.
+
 </li>
 </ol>
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1-6" class="outline-3">
-<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Interview Questions</h3>
-<div class="outline-text-3" id="text-1-6">
+<div id="outline-container-1.6" class="outline-3">
+<h3 id="sec-1.6"><span class="section-number-3">1.6</span> Interview Questions </h3>
+<div class="outline-text-3" id="text-1.6">
 
 <ul>
-<li>Data Structures
+<li>
+Data Structures
 </li>
-<li>Concepts and Algorithms
+<li>
+Concepts and Algorithms
 </li>
-<li>Knowledge Based
+<li>
+Knowledge Based
 </li>
-<li>Additional Review Problems
+<li>
+Additional Review Problems
+
 </li>
 </ul>
 
-
-
 </div>
 
-<div id="outline-container-1-6-1" class="outline-4">
-<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Arrays and Strings</h4>
-<div class="outline-text-4" id="text-1-6-1">
+<div id="outline-container-1.6.1" class="outline-4">
+<h4 id="sec-1.6.1"><span class="section-number-4">1.6.1</span> Arrays and Strings </h4>
+<div class="outline-text-4" id="text-1.6.1">
 
 <ul>
-<li>Design an algorithm and write code to remove the duplicate characters in a string without using any additional buffer.
+<li>
+Design an algorithm and write code to remove the duplicate characters in a string without using any additional buffer.
 </li>
-<li>Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes, write a method to rotate the image by 90 degrees Can you do this in place?
+<li>
+Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes, write a method to rotate the image by 90 degrees Can you do this in place?
 </li>
-<li>Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column is set to 0.
+<li>
+Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column is set to 0.
 </li>
-<li>Assume you have a method isSubstring which checks if one word is a substring of another Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one call to isSubstring (i e , “waterbottle” is a rotation of “erbottlewat”).
+<li>
+Assume you have a method isSubstring which checks if one word is a substring of another Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one call to isSubstring (i e , “waterbottle” is a rotation of “erbottlewat”).
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-6-2" class="outline-4">
-<h4 id="sec-1-6-2"><span class="section-number-4">1.6.2</span> Linked Lists</h4>
-<div class="outline-text-4" id="text-1-6-2">
+<div id="outline-container-1.6.2" class="outline-4">
+<h4 id="sec-1.6.2"><span class="section-number-4">1.6.2</span> Linked Lists </h4>
+<div class="outline-text-4" id="text-1.6.2">
 
 <p>Questions:
 </p><ul>
-<li>Write code to remove duplicates from an unsorted linked list.
+<li>
+Write code to remove duplicates from an unsorted linked list.
 </li>
-<li>Implement an algorithm to find the nth to last element of a singly linked list.
+<li>
+Implement an algorithm to find the nth to last element of a singly linked list.
 </li>
-<li>Implement an algorithm to delete a node in the middle of a single linked list, given only access to that node.
+<li>
+Implement an algorithm to delete a node in the middle of a single linked list, given only access to that node.
 </li>
-<li>Given a circular linked list, implement an algorithm which returns node at the begin- ning of the loop.
+<li>
+Given a circular linked list, implement an algorithm which returns node at the begin- ning of the loop.
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-6-3" class="outline-4">
-<h4 id="sec-1-6-3"><span class="section-number-4">1.6.3</span> Stacks and Queues</h4>
-<div class="outline-text-4" id="text-1-6-3">
+<div id="outline-container-1.6.3" class="outline-4">
+<h4 id="sec-1.6.3"><span class="section-number-4">1.6.3</span> Stacks and Queues </h4>
+<div class="outline-text-4" id="text-1.6.3">
 
 <p>Questions:
 </p><ul>
-<li>How would you design a stack which, in addition to push and pop, also has a function min which returns the minimum element? Push, pop and min should all operate in O(1) time.
+<li>
+How would you design a stack which, in addition to push and pop, also has a function min which returns the minimum element? Push, pop and min should all operate in O(1) time.
 </li>
-<li>Implement a MyQueue class which implements a queue using two stacks.
+<li>
+Implement a MyQueue class which implements a queue using two stacks.
 </li>
-<li>Write a program to sort a stack in ascending order. You should not make any assump- tions about how the stack is implemented.
+<li>
+Write a program to sort a stack in ascending order. You should not make any assump- tions about how the stack is implemented.
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-6-4" class="outline-4">
-<h4 id="sec-1-6-4"><span class="section-number-4">1.6.4</span> Trees and Graphs</h4>
-<div class="outline-text-4" id="text-1-6-4">
+<div id="outline-container-1.6.4" class="outline-4">
+<h4 id="sec-1.6.4"><span class="section-number-4">1.6.4</span> Trees and Graphs </h4>
+<div class="outline-text-4" id="text-1.6.4">
 
 <ul>
-<li>Trees
+<li>
+Trees
 <ul>
-<li>Not all binary trees are binary search trees
+<li>
+Not all binary trees are binary search trees
 </li>
-<li>In-Order: Traverse left node, current node, then right
+<li>
+In-Order: Traverse left node, current node, then right
 </li>
-<li>Pre-Order: Traverse current node, then left node, then right node
+<li>
+Pre-Order: Traverse current node, then left node, then right node
 </li>
-<li>Post-Order: Traverse left node, then right node, then current node
+<li>
+Post-Order: Traverse left node, then right node, then current node
 </li>
-<li><b>AVL Tree, RB Tree.</b>
+<li>
+<b>AVL Tree, RB Tree.</b>
+</li>
+</ul>
+</li>
+<li>
+Graphs
+<ul>
+<li>
+Depth First Search
+</li>
+<li>
+Breadth First Search
+</li>
+<li>
+<b>Dijkstra,Floyd,Prim,Kruskal.</b>
+
+</li>
+</ul>
 </li>
 </ul>
 
-</li>
-<li>Graphs
-<ul>
-<li>Depth First Search
-</li>
-<li>Breadth First Search
-</li>
-<li><b>Dijkstra,Floyd,Prim,Kruskal.</b>
-</li>
-</ul>
-
-</li>
-</ul>
-
-
-<p>
-Questions:
+<p>Questions:
 </p><ul>
-<li>Given a sorted (increasing order) array, write an algorithm to create a binary tree with minimal height.
+<li>
+Given a sorted (increasing order) array, write an algorithm to create a binary tree with minimal height.
 </li>
-<li>Design an algorithm and write code to find the first common ancestor of two nodes in a binary tree. Avoid storing additional nodes in a data structure.
+<li>
+Design an algorithm and write code to find the first common ancestor of two nodes in a binary tree. Avoid storing additional nodes in a data structure.
 </li>
-<li>You have two very large binary trees: T1, with millions of nodes, and T2, with hun- dreds of nodes. Create an algorithm to decide if T2 is a subtree of T1.
+<li>
+You have two very large binary trees: T1, with millions of nodes, and T2, with hun- dreds of nodes. Create an algorithm to decide if T2 is a subtree of T1.
 </li>
-<li>You are given a binary tree in which each node contains a value Design an algorithm to print all paths which sum up to that value.
+<li>
+You are given a binary tree in which each node contains a value Design an algorithm to print all paths which sum up to that value.
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-6-5" class="outline-4">
-<h4 id="sec-1-6-5"><span class="section-number-4">1.6.5</span> Bit Manipulation</h4>
-<div class="outline-text-4" id="text-1-6-5">
+<div id="outline-container-1.6.5" class="outline-4">
+<h4 id="sec-1.6.5"><span class="section-number-4">1.6.5</span> Bit Manipulation </h4>
+<div class="outline-text-4" id="text-1.6.5">
 
 <p><img src="./images/bitop.png"  alt="./images/bitop.png" />
 </p>
 <p>
 Questions:
 </p><ul>
-<li>You are given two 32-bit numbers, N and M, and two bit positions, i and j Write a method to set all bits between i and j in N equal to M. Input: N = 10000000000, M = 10101, i = 2, j = 6. Output: N = 10001010100
+<li>
+You are given two 32-bit numbers, N and M, and two bit positions, i and j Write a method to set all bits between i and j in N equal to M. Input: N = 10000000000, M = 10101, i = 2, j = 6. Output: N = 10001010100
 </li>
-<li>Given a (decimal - e g 3 72) number that is passed in as a string, print the binary rep- resentation If the number can not be represented accurately in binary, print “ERROR”
+<li>
+Given a (decimal - e g 3 72) number that is passed in as a string, print the binary rep- resentation If the number can not be represented accurately in binary, print “ERROR”
 </li>
-<li>Given an integer, print the next smallest and next largest number that have the same number of 1 bits in their binary representation.
+<li>
+Given an integer, print the next smallest and next largest number that have the same number of 1 bits in their binary representation.
 </li>
-<li>Explain what the following code does: ((n &amp; (n-1)) == 0).
+<li>
+Explain what the following code does: ((n &amp; (n-1)) == 0).
 </li>
-<li>Write a function to determine the number of bits required to convert integer A to integer B.
+<li>
+Write a function to determine the number of bits required to convert integer A to integer B.
 </li>
-<li>Write a program to swap odd and even bits in an integer with as few instructions as possible (e g , bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, etc).
+<li>
+Write a program to swap odd and even bits in an integer with as few instructions as possible (e g , bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, etc).
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-6-6" class="outline-4">
-<h4 id="sec-1-6-6"><span class="section-number-4">1.6.6</span> Brain Teasers</h4>
-<div class="outline-text-4" id="text-1-6-6">
+<div id="outline-container-1.6.6" class="outline-4">
+<h4 id="sec-1.6.6"><span class="section-number-4">1.6.6</span> Brain Teasers </h4>
+<div class="outline-text-4" id="text-1.6.6">
 
 <ul>
-<li>Don’t panic when you get a brain teaser. Interviewers want to see how you tackle a problem; they don’t expect you to immediately know the answer. Start talking, and show the inter- viewer how you approach a problem
+<li>
+Don’t panic when you get a brain teaser. Interviewers want to see how you tackle a problem; they don’t expect you to immediately know the answer. Start talking, and show the inter- viewer how you approach a problem
 </li>
-<li>In many cases, you will also find that the brain teasers have some connection back to funda- mental laws or theories of computer science.
+<li>
+In many cases, you will also find that the brain teasers have some connection back to funda- mental laws or theories of computer science.
 </li>
-<li>If you’re stuck, we recommend simplifying the problem. Solve it for a small number of items or a special case, and then see if you can generalize it.
+<li>
+If you’re stuck, we recommend simplifying the problem. Solve it for a small number of items or a special case, and then see if you can generalize it.
+
 </li>
 </ul>
-
-
-<p>
-Questions:
-</p><ul>
-<li>There is an 8x8 chess board in which two diagonally opposite corners have been cut off. You are given 31 dominos, and a single domino can cover exactly two squares. Can you use the 31 dominos to cover the entire board?
-</li>
-<li>You have a five quart jug and a three quart jug, and an unlimited supply of water (but no measuring cups). How would you come up with exactly four quarts of water?
-</li>
-<li>A bunch of men are on an island A genie comes down and gathers everyone to- gether and places a magical hat on some people’s heads (i e , at least one person has a hat) The hat is magical: it can be seen by other people, but not by the wearer of the hat himself. To remove the hat,those(and only those who have a hat)must dunk themselves underwater at exactly midnight. If there are n people and c hats, how long does it take the men to remove the hats? The men cannot tell each other (in any way) that they have a hat.
-</li>
-<li>There is a building of 100 floors If an egg drops from the Nth floor or above it will break. If it’s dropped from any floor below, it will not break You’re given 2 eggs Find N, while minimizing the number of drops for the worst case.
-</li>
-<li>There are one hundred closed lockers in a hallway. A man begins by opening all one hundred lockers Next, he closes every second locker. Then he goes to every third locker and closes it if it is open or opens it if it is closed (e g , he toggles every third locker). After his one hundredth pass in the hallway, in which he toggles only locker number one hundred, how many lockers are open?
-</li>
-</ul>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-1-6-7" class="outline-4">
-<h4 id="sec-1-6-7"><span class="section-number-4">1.6.7</span> Object Oriented Design</h4>
-<div class="outline-text-4" id="text-1-6-7">
-
-</div>
-
-</div>
-
-<div id="outline-container-1-6-8" class="outline-4">
-<h4 id="sec-1-6-8"><span class="section-number-4">1.6.8</span> Recursion</h4>
-<div class="outline-text-4" id="text-1-6-8">
-
-<ul>
-<li>All problems that can be solved recursively can also be solved iteratively (though the code may be much more complicated). Before diving into a recursive code, ask yourself how hard it would be to implement this algorithm iteratively. Discuss the trade-offs with your interviewer.
-</li>
-<li>Recursive algorithms can be very space inefficient. Each recursive call adds a new layer to the stack, which means that if your algorithm has O(n) recursive calls then it uses O(n) memory Ouch! This is one reason why an iterative algorithm may be better.
-</li>
-</ul>
-
-
-<p>
-Questions:
-</p><ul>
-<li>Imagine a robot sitting on the upper left hand corner of an NxN grid The robot can only move in two directions: right and down How many possible paths are there for the robot?
-<ul>
-<li>Imagine certain squares are “off limits”, such that the robot can not step on them Design an algorithm to get all possible paths for the robot
-</li>
-</ul>
-
-</li>
-<li>Write a method that returns all subsets of a set.
-</li>
-<li>Write a method to compute all permutations of a string.
-</li>
-<li>Implement an algorithm to print all valid (e g , properly opened and closed) combi- nations of n-pairs of parentheses.
-</li>
-<li>Given an infinite number of quarters (25 cents), dimes (10 cents), nickels (5 cents) and pennies (1 cent), write code to calculate the number of ways of representing n cents.
-</li>
-<li>Write an algorithm to print all ways of arranging eight queens on a chess board so that none of them share the same row, column or diagonal.
-</li>
-</ul>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-1-6-9" class="outline-4">
-<h4 id="sec-1-6-9"><span class="section-number-4">1.6.9</span> Sorting and Searching</h4>
-<div class="outline-text-4" id="text-1-6-9">
-
-<ul>
-<li>Bubble Sort
-</li>
-<li>Selection Sort
-</li>
-<li>Merge Sort
-</li>
-<li>Quick Sort
-</li>
-<li>Bucket Sort
-</li>
-<li><b>Binary Search</b>
-</li>
-</ul>
-
-
-<p>
-Questions:
-</p><ul>
-<li>You are given two sorted arrays, A and B, and A has a large enough buffer at the end to hold B Write a method to merge B into A in sorted order.
-</li>
-<li>Given a sorted array of n integers that has been rotated an unknown number of times,give an O(logn) algorithm that finds an element in the array. You may assume that the array was originally sorted in increasing order. EXAMPLE: Input: find 5 in array (15 16 19 20 25 1 3 4 5 7 10 14) Output: 8 (the index of 5 in the array)
-</li>
-<li>If you have a 2 GB file with one string per line, which sorting algorithm would you use to sort the file and why?
-</li>
-<li>Given a sorted array of strings which is interspersed with empty strings, write a meth- od to find the location of a given string
-<ul>
-<li>Example: find “ball” in [“at”, “”, “”, “”, “ball”, “”, “”, “car”, “”, “”, “dad”, “”, “”] will return 4 
-</li>
-<li>Example: find “ballcar” in [“at”, “”, “”, “”, “”, “ball”, “car”, “”, “”, “dad”, “”, “”] will return -1
-</li>
-</ul>
-
-</li>
-<li>Given a matrix in which each row and each column is sorted, write a method to find an element in it.
-</li>
-<li>A circus is designing a tower routine consisting of people standing atop one anoth- er’s shoulders. For practical and aesthetic reasons, each person must be both shorter and lighter than the person below him or her. Given the heights and weights of each person in the circus, write a method to compute the largest possible number of peo- ple in such a tower. EXAMPLE: Input (ht, wt): (65, 100) (70, 150) (56, 90) (75, 190) (60, 95) (68, 110) Output: The longest tower is length 6 and includes from top to bottom: (56, 90) (60,95) (65,100) (68,110) (70,150) (75,190)
-</li>
-</ul>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-1-6-10" class="outline-4">
-<h4 id="sec-1-6-10"><span class="section-number-4">1.6.10</span> Mathematical</h4>
-<div class="outline-text-4" id="text-1-6-10">
 
 <p>Questions:
 </p><ul>
-<li>You have a basketball hoop and someone says that you can play 1 of 2 games 
+<li>
+There is an 8x8 chess board in which two diagonally opposite corners have been cut off. You are given 31 dominos, and a single domino can cover exactly two squares. Can you use the 31 dominos to cover the entire board?
+</li>
+<li>
+You have a five quart jug and a three quart jug, and an unlimited supply of water (but no measuring cups). How would you come up with exactly four quarts of water?
+</li>
+<li>
+A bunch of men are on an island A genie comes down and gathers everyone to- gether and places a magical hat on some people’s heads (i e , at least one person has a hat) The hat is magical: it can be seen by other people, but not by the wearer of the hat himself. To remove the hat,those(and only those who have a hat)must dunk themselves underwater at exactly midnight. If there are n people and c hats, how long does it take the men to remove the hats? The men cannot tell each other (in any way) that they have a hat.
+</li>
+<li>
+There is a building of 100 floors If an egg drops from the Nth floor or above it will break. If it’s dropped from any floor below, it will not break You’re given 2 eggs Find N, while minimizing the number of drops for the worst case.
+</li>
+<li>
+There are one hundred closed lockers in a hallway. A man begins by opening all one hundred lockers Next, he closes every second locker. Then he goes to every third locker and closes it if it is open or opens it if it is closed (e g , he toggles every third locker). After his one hundredth pass in the hallway, in which he toggles only locker number one hundred, how many lockers are open?
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.6.7" class="outline-4">
+<h4 id="sec-1.6.7"><span class="section-number-4">1.6.7</span> Object Oriented Design </h4>
+<div class="outline-text-4" id="text-1.6.7">
+
+</div>
+
+</div>
+
+<div id="outline-container-1.6.8" class="outline-4">
+<h4 id="sec-1.6.8"><span class="section-number-4">1.6.8</span> Recursion </h4>
+<div class="outline-text-4" id="text-1.6.8">
+
 <ul>
-<li>Game #1: You get one shot to make the hoop
+<li>
+All problems that can be solved recursively can also be solved iteratively (though the code may be much more complicated). Before diving into a recursive code, ask yourself how hard it would be to implement this algorithm iteratively. Discuss the trade-offs with your interviewer.
 </li>
-<li>Game #2: You get three shots and you have to make 2 of 3 shots
-</li>
-<li>If p is the probability of making a particular shot, for which values of p should you pick one game or the other?
+<li>
+Recursive algorithms can be very space inefficient. Each recursive call adds a new layer to the stack, which means that if your algorithm has O(n) recursive calls then it uses O(n) memory Ouch! This is one reason why an iterative algorithm may be better.
+
 </li>
 </ul>
-
-</li>
-<li>There are three ants on different vertices of a triangle What is the probability of colli- sion (between any two or all of them) if they start walking on the sides of the triangle? Similarly find the probability of collision with ‘n’ ants on an ‘n’ vertex polygon
-</li>
-<li>Write a method to implement *, - , / operations You should use only the + operator.
-</li>
-<li>Given two squares on a two dimensional plane, find a line that would cut these two squares in half.
-</li>
-<li>Given a two dimensional graph with points on it, find a line which passes the most number of points.
-</li>
-<li>Design an algorithm to find the kth number such that the only prime factors are 3, 5, and 7.
-</li>
-</ul>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-1-6-11" class="outline-4">
-<h4 id="sec-1-6-11"><span class="section-number-4">1.6.11</span> Testing</h4>
-<div class="outline-text-4" id="text-1-6-11">
-
-</div>
-
-</div>
-
-<div id="outline-container-1-6-12" class="outline-4">
-<h4 id="sec-1-6-12"><span class="section-number-4">1.6.12</span> System Design and Memory Limits</h4>
-<div class="outline-text-4" id="text-1-6-12">
 
 <p>Questions:
 </p><ul>
-<li>How would you design the data structures for a very large social network (Facebook, LinkedIn, etc)? Describe how you would design an algorithm to show the connec- tion, or path, between two people (e g , Me -&gt; Bob -&gt; Susan -&gt; Jason -&gt; You).
-</li>
-<li>Given an input file with four billion integers, provide an algorithm to generate an integer which is not contained in the file Assume you have 1 GB of memory. What if you have only 10 MB of memory?
-</li>
-<li>If you were designing a web crawler, how would you avoid getting into infinite loops?
-</li>
-<li>You have a billion urls, where each is a huge page How do you detect the duplicate documents?
-</li>
-<li>You have to design a database that can store terabytes of data It should support ef- ficient range queries How would you do it?.
+<li>
+Imagine a robot sitting on the upper left hand corner of an NxN grid The robot can only move in two directions: right and down How many possible paths are there for the robot?
+<ul>
+<li>
+Imagine certain squares are “off limits”, such that the robot can not step on them Design an algorithm to get all possible paths for the robot
 </li>
 </ul>
+</li>
+<li>
+Write a method that returns all subsets of a set.
+</li>
+<li>
+Write a method to compute all permutations of a string.
+</li>
+<li>
+Implement an algorithm to print all valid (e g , properly opened and closed) combi- nations of n-pairs of parentheses.
+</li>
+<li>
+Given an infinite number of quarters (25 cents), dimes (10 cents), nickels (5 cents) and pennies (1 cent), write code to calculate the number of ways of representing n cents.
+</li>
+<li>
+Write an algorithm to print all ways of arranging eight queens on a chess board so that none of them share the same row, column or diagonal.
 
-
+</li>
+</ul>
 </div>
 
 </div>
 
-<div id="outline-container-1-6-13" class="outline-4">
-<h4 id="sec-1-6-13"><span class="section-number-4">1.6.13</span> C++</h4>
-<div class="outline-text-4" id="text-1-6-13">
+<div id="outline-container-1.6.9" class="outline-4">
+<h4 id="sec-1.6.9"><span class="section-number-4">1.6.9</span> Sorting and Searching </h4>
+<div class="outline-text-4" id="text-1.6.9">
 
-</div>
+<ul>
+<li>
+Bubble Sort
+</li>
+<li>
+Selection Sort
+</li>
+<li>
+Merge Sort
+</li>
+<li>
+Quick Sort
+</li>
+<li>
+Bucket Sort
+</li>
+<li>
+<b>Binary Search</b>
 
-</div>
-
-<div id="outline-container-1-6-14" class="outline-4">
-<h4 id="sec-1-6-14"><span class="section-number-4">1.6.14</span> Java</h4>
-<div class="outline-text-4" id="text-1-6-14">
-
-</div>
-
-</div>
-
-<div id="outline-container-1-6-15" class="outline-4">
-<h4 id="sec-1-6-15"><span class="section-number-4">1.6.15</span> Databases</h4>
-<div class="outline-text-4" id="text-1-6-15">
+</li>
+</ul>
 
 <p>Questions:
 </p><ul>
-<li>What are the different types of joins? Please explain how they differ and why certain types are better in certain situations.
+<li>
+You are given two sorted arrays, A and B, and A has a large enough buffer at the end to hold B Write a method to merge B into A in sorted order.
 </li>
-<li>What is denormalization? Explain the pros and cons.
+<li>
+Given a sorted array of n integers that has been rotated an unknown number of times,give an O(logn) algorithm that finds an element in the array. You may assume that the array was originally sorted in increasing order. EXAMPLE: Input: find 5 in array (15 16 19 20 25 1 3 4 5 7 10 14) Output: 8 (the index of 5 in the array)
+</li>
+<li>
+If you have a 2 GB file with one string per line, which sorting algorithm would you use to sort the file and why?
+</li>
+<li>
+Given a sorted array of strings which is interspersed with empty strings, write a meth- od to find the location of a given string
+<ul>
+<li>
+Example: find “ball” in [“at”, “”, “”, “”, “ball”, “”, “”, “car”, “”, “”, “dad”, “”, “”] will return 4 
+</li>
+<li>
+Example: find “ballcar” in [“at”, “”, “”, “”, “”, “ball”, “car”, “”, “”, “dad”, “”, “”] will return -1
 </li>
 </ul>
+</li>
+<li>
+Given a matrix in which each row and each column is sorted, write a method to find an element in it.
+</li>
+<li>
+A circus is designing a tower routine consisting of people standing atop one anoth- er’s shoulders. For practical and aesthetic reasons, each person must be both shorter and lighter than the person below him or her. Given the heights and weights of each person in the circus, write a method to compute the largest possible number of peo- ple in such a tower. EXAMPLE: Input (ht, wt): (65, 100) (70, 150) (56, 90) (75, 190) (60, 95) (68, 110) Output: The longest tower is length 6 and includes from top to bottom: (56, 90) (60,95) (65,100) (68,110) (70,150) (75,190)
 
-
+</li>
+</ul>
 </div>
 
 </div>
 
-<div id="outline-container-1-6-16" class="outline-4">
-<h4 id="sec-1-6-16"><span class="section-number-4">1.6.16</span> Low Level</h4>
-<div class="outline-text-4" id="text-1-6-16">
+<div id="outline-container-1.6.10" class="outline-4">
+<h4 id="sec-1.6.10"><span class="section-number-4">1.6.10</span> Mathematical </h4>
+<div class="outline-text-4" id="text-1.6.10">
 
 <p>Questions:
 </p><ul>
-<li>Explain the following terms: virtual memory, page fault, thrashing.
+<li>
+You have a basketball hoop and someone says that you can play 1 of 2 games 
+<ul>
+<li>
+Game #1: You get one shot to make the hoop
 </li>
-<li>What is a Branch Target buffer? Explain how it can be used in reducing bubble cycles in cases of branch misprediction.
+<li>
+Game #2: You get three shots and you have to make 2 of 3 shots
 </li>
-<li>Describe direct memory access (DMA). Can a user level buffer / pointer be used by kernel or drivers?
-</li>
-<li>Write a step by step execution of things that happen after a user presses a key on the keyboard Use as much detail as possible.
-</li>
-<li>Write a program to find whether a machine is big endian or little endian.
-</li>
-<li>Discuss how would you make sure that a process doesn’t access an unauthorized part of the stack.
-</li>
-<li>What are the best practices to prevent reverse engineering of DLLs?.
-</li>
-<li>A device boots with an empty FIFO queue In the first 400 ns period after startup, and in each subsequent 400 ns period, a maximum of 80 words will be written to the queue Each write takes 4 ns A worker thread requires 3 ns to read a word, and 2 ns to process it before reading the next word What is the shortest depth of the FIFO such that no data is lost?
-</li>
-<li>Write an aligned malloc &amp; free function that takes number of bytes and aligned byte (which is always power of 2).
-</li>
-<li>Write a function called my2DAlloc which allocates a two dimensional array. Minimize the number of calls to malloc and make sure that the memory is accessible by the notation arr[i][j].
+<li>
+If p is the probability of making a particular shot, for which values of p should you pick one game or the other?
 </li>
 </ul>
+</li>
+<li>
+There are three ants on different vertices of a triangle What is the probability of colli- sion (between any two or all of them) if they start walking on the sides of the triangle? Similarly find the probability of collision with ‘n’ ants on an ‘n’ vertex polygon
+</li>
+<li>
+Write a method to implement *, - , / operations You should use only the + operator.
+</li>
+<li>
+Given two squares on a two dimensional plane, find a line that would cut these two squares in half.
+</li>
+<li>
+Given a two dimensional graph with points on it, find a line which passes the most number of points.
+</li>
+<li>
+Design an algorithm to find the kth number such that the only prime factors are 3, 5, and 7.
 
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.6.11" class="outline-4">
+<h4 id="sec-1.6.11"><span class="section-number-4">1.6.11</span> Testing </h4>
+<div class="outline-text-4" id="text-1.6.11">
 
 </div>
 
 </div>
 
-<div id="outline-container-1-6-17" class="outline-4">
-<h4 id="sec-1-6-17"><span class="section-number-4">1.6.17</span> Networking</h4>
-<div class="outline-text-4" id="text-1-6-17">
+<div id="outline-container-1.6.12" class="outline-4">
+<h4 id="sec-1.6.12"><span class="section-number-4">1.6.12</span> System Design and Memory Limits </h4>
+<div class="outline-text-4" id="text-1.6.12">
 
 <p>Questions:
 </p><ul>
-<li><b>Explain what happens, step by step, after you type a URL into a browser. Use as much detail as possible.</b>
+<li>
+How would you design the data structures for a very large social network (Facebook, LinkedIn, etc)? Describe how you would design an algorithm to show the connec- tion, or path, between two people (e g , Me -&gt; Bob -&gt; Susan -&gt; Jason -&gt; You).
 </li>
-<li>Explain any common routing protocol in detail For example: BGP, OSPF, RIP
+<li>
+Given an input file with four billion integers, provide an algorithm to generate an integer which is not contained in the file Assume you have 1 GB of memory. What if you have only 10 MB of memory?
 </li>
-<li>Compare and contrast the IPv4 and IPv6 protocols.
+<li>
+If you were designing a web crawler, how would you avoid getting into infinite loops?
 </li>
-<li>What is a network / subnet mask? Explain how host A sends a message / packet to host B when: (a) both are on same network and (b) both are on different networks Explain which layer makes the routing decision and how.
+<li>
+You have a billion urls, where each is a huge page How do you detect the duplicate documents?
 </li>
-<li><b>What are the differences between TCP and UDP? Explain how TCP handles reliable delivery (explain ACK mechanism), flow control (explain TCP sender’s / receiver’s win- dow) and congestion control.</b>
+<li>
+You have to design a database that can store terabytes of data It should support ef- ficient range queries How would you do it?.
+
 </li>
 </ul>
+</div>
 
+</div>
+
+<div id="outline-container-1.6.13" class="outline-4">
+<h4 id="sec-1.6.13"><span class="section-number-4">1.6.13</span> C++ </h4>
+<div class="outline-text-4" id="text-1.6.13">
 
 </div>
 
 </div>
 
-<div id="outline-container-1-6-18" class="outline-4">
-<h4 id="sec-1-6-18"><span class="section-number-4">1.6.18</span> Threads and Locks</h4>
-<div class="outline-text-4" id="text-1-6-18">
+<div id="outline-container-1.6.14" class="outline-4">
+<h4 id="sec-1.6.14"><span class="section-number-4">1.6.14</span> Java </h4>
+<div class="outline-text-4" id="text-1.6.14">
+
+</div>
+
+</div>
+
+<div id="outline-container-1.6.15" class="outline-4">
+<h4 id="sec-1.6.15"><span class="section-number-4">1.6.15</span> Databases </h4>
+<div class="outline-text-4" id="text-1.6.15">
 
 <p>Questions:
 </p><ul>
-<li>What’s the difference between a thread and a process?
+<li>
+What are the different types of joins? Please explain how they differ and why certain types are better in certain situations.
 </li>
-<li>How can you measure the time spent in a context switch?
-</li>
-<li>Implement a singleton design pattern as a template such that, for any given class Foo, you can call Singleton::instance() and get a pointer to an instance of a singleton of type Foo Assume the existence of a class Lock which has acquire() and release() methods. How could you make your implementation thread safe and exception safe?.
-</li>
-<li>Design a class which provides a lock only if there are no possible deadlocks.
-</li>
-<li>You are given a class with synchronized method A, and a normal method C If you have two threads in one instance of a program, can they call A at the same time? Can they call A and C at the same time?
+<li>
+What is denormalization? Explain the pros and cons.
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-6-19" class="outline-4">
-<h4 id="sec-1-6-19"><span class="section-number-4">1.6.19</span> Moderate Additional Review Problems</h4>
-<div class="outline-text-4" id="text-1-6-19">
+<div id="outline-container-1.6.16" class="outline-4">
+<h4 id="sec-1.6.16"><span class="section-number-4">1.6.16</span> Low Level </h4>
+<div class="outline-text-4" id="text-1.6.16">
+
+<p>Questions:
+</p><ul>
+<li>
+Explain the following terms: virtual memory, page fault, thrashing.
+</li>
+<li>
+What is a Branch Target buffer? Explain how it can be used in reducing bubble cycles in cases of branch misprediction.
+</li>
+<li>
+Describe direct memory access (DMA). Can a user level buffer / pointer be used by kernel or drivers?
+</li>
+<li>
+Write a step by step execution of things that happen after a user presses a key on the keyboard Use as much detail as possible.
+</li>
+<li>
+Write a program to find whether a machine is big endian or little endian.
+</li>
+<li>
+Discuss how would you make sure that a process doesn’t access an unauthorized part of the stack.
+</li>
+<li>
+What are the best practices to prevent reverse engineering of DLLs?.
+</li>
+<li>
+A device boots with an empty FIFO queue In the first 400 ns period after startup, and in each subsequent 400 ns period, a maximum of 80 words will be written to the queue Each write takes 4 ns A worker thread requires 3 ns to read a word, and 2 ns to process it before reading the next word What is the shortest depth of the FIFO such that no data is lost?
+</li>
+<li>
+Write an aligned malloc &amp; free function that takes number of bytes and aligned byte (which is always power of 2).
+</li>
+<li>
+Write a function called my2DAlloc which allocates a two dimensional array. Minimize the number of calls to malloc and make sure that the memory is accessible by the notation arr[i][j].
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.6.17" class="outline-4">
+<h4 id="sec-1.6.17"><span class="section-number-4">1.6.17</span> Networking </h4>
+<div class="outline-text-4" id="text-1.6.17">
+
+<p>Questions:
+</p><ul>
+<li>
+<b>Explain what happens, step by step, after you type a URL into a browser. Use as much detail as possible.</b>
+</li>
+<li>
+Explain any common routing protocol in detail For example: BGP, OSPF, RIP
+</li>
+<li>
+Compare and contrast the IPv4 and IPv6 protocols.
+</li>
+<li>
+What is a network / subnet mask? Explain how host A sends a message / packet to host B when: (a) both are on same network and (b) both are on different networks Explain which layer makes the routing decision and how.
+</li>
+<li>
+<b>What are the differences between TCP and UDP? Explain how TCP handles reliable delivery (explain ACK mechanism), flow control (explain TCP sender’s / receiver’s win- dow) and congestion control.</b>
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.6.18" class="outline-4">
+<h4 id="sec-1.6.18"><span class="section-number-4">1.6.18</span> Threads and Locks </h4>
+<div class="outline-text-4" id="text-1.6.18">
+
+<p>Questions:
+</p><ul>
+<li>
+What’s the difference between a thread and a process?
+</li>
+<li>
+How can you measure the time spent in a context switch?
+</li>
+<li>
+Implement a singleton design pattern as a template such that, for any given class Foo, you can call Singleton::instance() and get a pointer to an instance of a singleton of type Foo Assume the existence of a class Lock which has acquire() and release() methods. How could you make your implementation thread safe and exception safe?.
+</li>
+<li>
+Design a class which provides a lock only if there are no possible deadlocks.
+</li>
+<li>
+You are given a class with synchronized method A, and a normal method C If you have two threads in one instance of a program, can they call A at the same time? Can they call A and C at the same time?
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.6.19" class="outline-4">
+<h4 id="sec-1.6.19"><span class="section-number-4">1.6.19</span> Moderate Additional Review Problems </h4>
+<div class="outline-text-4" id="text-1.6.19">
 
 <p>Questions: 
 </p><ul>
-<li>Write a function to swap a number in place without temporary variables.
+<li>
+Write a function to swap a number in place without temporary variables.
 </li>
-<li>Write an algorithm which computes the number of trailing zeros in n factorial.
+<li>
+Write an algorithm which computes the number of trailing zeros in n factorial.
 </li>
-<li>Write a method which finds the maximum of two numbers. You should not use if- else or any other comparison operator.
+<li>
+Write a method which finds the maximum of two numbers. You should not use if- else or any other comparison operator.
 </li>
-<li>You are given an array of integers (both positive and negative). Find the continuous sequence with the largest sum Return the sum.
+<li>
+You are given an array of integers (both positive and negative). Find the continuous sequence with the largest sum Return the sum.
 </li>
-<li>Design a method to find the frequency of occurrences of any given word in a book.
+<li>
+Design a method to find the frequency of occurrences of any given word in a book.
 </li>
-<li>Write a method to generate a random number between 1 and 7, given a method that generates a random number between 1 and 5 (i e , implement rand7() using rand5()).
+<li>
+Write a method to generate a random number between 1 and 7, given a method that generates a random number between 1 and 5 (i e , implement rand7() using rand5()).
 </li>
-<li>Design an algorithm to find all pairs of integers within an array which sum to a speci- fied value.
+<li>
+Design an algorithm to find all pairs of integers within an array which sum to a speci- fied value.
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-6-20" class="outline-4">
-<h4 id="sec-1-6-20"><span class="section-number-4">1.6.20</span> Hard Additional Review Problems</h4>
-<div class="outline-text-4" id="text-1-6-20">
+<div id="outline-container-1.6.20" class="outline-4">
+<h4 id="sec-1.6.20"><span class="section-number-4">1.6.20</span> Hard Additional Review Problems </h4>
+<div class="outline-text-4" id="text-1.6.20">
 
 <p>Questions:
 </p><ul>
-<li>Write a function that adds two numbers You should not use + or any arithmetic op- erators.
+<li>
+Write a function that adds two numbers You should not use + or any arithmetic op- erators.
 </li>
-<li>Write a method to shuffle a deck of cards It must be a perfect shuffle - in other words, each 52! permutations of the deck has to be equally likely. Assume that you are given a random number generator which is perfect.
+<li>
+Write a method to shuffle a deck of cards It must be a perfect shuffle - in other words, each 52! permutations of the deck has to be equally likely. Assume that you are given a random number generator which is perfect.
 </li>
-<li>Write a method to randomly generate a set of m integers from an array of size n Each element must have equal probability of being chosen.
+<li>
+Write a method to randomly generate a set of m integers from an array of size n Each element must have equal probability of being chosen.
 </li>
-<li>Write a method to count the number of 2s between 0 and n.
+<li>
+Write a method to count the number of 2s between 0 and n.
 </li>
-<li>You have a large text file containing words Given any two words, find the shortest distance (in terms of number of words) between them in the file. Can you make the searching operation in O(1) time? What about the space complexity for your solu- tion?
+<li>
+You have a large text file containing words Given any two words, find the shortest distance (in terms of number of words) between them in the file. Can you make the searching operation in O(1) time? What about the space complexity for your solu- tion?
 </li>
-<li>Describe an algorithm to find the largest 1 million numbers in 1 billion numbers As- sume that the computer memory can hold all one billion numbers.
+<li>
+Describe an algorithm to find the largest 1 million numbers in 1 billion numbers As- sume that the computer memory can hold all one billion numbers.
 </li>
-<li>Given a string s and an array of smaller strings T, design a method to search s for each small string in T.
+<li>
+Given a string s and an array of smaller strings T, design a method to search s for each small string in T.
 </li>
-<li>Numbers are randomly generated and passed to a method. Write a program to find and maintain the median value as new values are generated.
+<li>
+Numbers are randomly generated and passed to a method. Write a program to find and maintain the median value as new values are generated.
 </li>
-<li>Given two words of equal length that are in a dictionary, write a method to transform one word into another word by changing only one letter at a time. The new word you get in each step must be in the dictionary.
+<li>
+Given two words of equal length that are in a dictionary, write a method to transform one word into another word by changing only one letter at a time. The new word you get in each step must be in the dictionary.
 </li>
-<li>Imagine you have a square matrix, where each cell is filled with either black or white Design an algorithm to find the maximum subsquare such that all four borders are filled with black pixels.
+<li>
+Imagine you have a square matrix, where each cell is filled with either black or white Design an algorithm to find the maximum subsquare such that all four borders are filled with black pixels.
 </li>
-<li>Given an NxN matrix of positive and negative integers, write code to find the sub- matrix with the largest possible sum.
+<li>
+Given an NxN matrix of positive and negative integers, write code to find the sub- matrix with the largest possible sum.
 </li>
-<li>Given a dictionary of millions of words, give an algorithm to find the largest possible rectangle of letters such that every row forms a word (reading left to right) and every column forms a word (reading top to bottom).
+<li>
+Given a dictionary of millions of words, give an algorithm to find the largest possible rectangle of letters such that every row forms a word (reading left to right) and every column forms a word (reading top to bottom).
 </li>
 </ul>
-
 </div>
 </div>
 </div>
 </div>
-</div>
-
 <div id="postamble">
-<p class="date">Date: 2013-10-10 22:04:12 CST</p>
-<p class="creator">Org version 7.8.11 with Emacs version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
-
+<p class="date"> Date: 2013-10-14 12:28:14 CST</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'cracking-the-coding-interview.html';var disqus_title = 'cracking-the-coding-interview.html';var disqus_url = 'http://dirlt.com/cracking-the-coding-interview.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

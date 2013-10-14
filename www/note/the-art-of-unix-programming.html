@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>Unix程序设计艺术(The Art of Unix Programming)</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="Unix程序设计艺术(The Art of Unix Programming)"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 15:19:59 CST"/>
+<meta name="generated" content="2013-10-14 12:28:24 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,9 +21,6 @@
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
-  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
-  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -34,23 +31,10 @@
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  td, th { vertical-align: top; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
-    background: #ffffcc;
-  }
-  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -61,15 +45,10 @@
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="../css/site.css" />
 
-
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-
-<div id="preamble">
-
-</div>
-
 <div id="content">
+
 <h1 class="title">Unix程序设计艺术(The Art of Unix Programming)</h1>
 
 
@@ -77,13 +56,13 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 the-art-of-unix-programming</a></li>
+<li><a href="#sec-1">1 the-art-of-unix-programming </a></li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> the-art-of-unix-programming</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> the-art-of-unix-programming </h2>
 <div class="outline-text-2" id="text-1">
 
 
@@ -92,18 +71,23 @@
 <b>McIlroy</b>
 </p>
 <ul>
-<li>make each program do one thing well.to do a new job,build a fresh rather than complicate the old programs by adding new features.每个程序只需要做一件事情但是应该做好，尽可能的重新构造新的程序而不再原来的程序里面添加新功能
+<li>
+make each program do one thing well.to do a new job,build a fresh rather than complicate the old programs by adding new features.每个程序只需要做一件事情但是应该做好，尽可能的重新构造新的程序而不再原来的程序里面添加新功能
 </li>
-<li>expect the output of every program to become the input to another.as yet unknown,program.Don’t clutter output with extraneous information.Avoid stringently columnar of binary input formats.Don’t insist on interactive input.宽输入严输出，并且不要使用交互行为
+<li>
+expect the output of every program to become the input to another.as yet unknown,program.Don’t clutter output with extraneous information.Avoid stringently columnar of binary input formats.Don’t insist on interactive input.宽输入严输出，并且不要使用交互行为
 </li>
-<li>Design and build software,even operating systems,to be tried early,ideally within weeks.Don’t hesitate to throw away the clumsy parts and rebuild them(well,i can’t do this at least right now)尽可能早的开始设计和动手编写
+<li>
+Design and build software,even operating systems,to be tried early,ideally within weeks.Don’t hesitate to throw away the clumsy parts and rebuild them(well,i can’t do this at least right now)尽可能早的开始设计和动手编写
 </li>
-<li>Use tools in preference to unskilled help to lighten a programming task,even if your have to detour to build the tools and expect to throw some of them out after you have finished using them.学习使用一些工具即使这个项目完成之后你也不需要它了
+<li>
+Use tools in preference to unskilled help to lighten a programming task,even if your have to detour to build the tools and expect to throw some of them out after you have finished using them.学习使用一些工具即使这个项目完成之后你也不需要它了
 </li>
-<li>this is the unix philosophy:write program that do one thing and do it well,write programs to work together.write programs to handle the text streams,because that is universal interface. 每个程序只做一件事情但是做好，并且只是处理text，因为纯文本才是通于的界面
+<li>
+this is the unix philosophy:write program that do one thing and do it well,write programs to work together.write programs to handle the text streams,because that is universal interface. 每个程序只做一件事情但是做好，并且只是处理text，因为纯文本才是通于的界面
+
 </li>
 </ul>
-
 
 
 <hr/>
@@ -111,62 +95,85 @@
 <b>Rob Pike</b>
 </p>
 <ul>
-<li>you can’t tell where a program is going the spend its time.Bottlenecks occus in surprising places,so don’t try to second guess and put in a speed hack until you’ve proven that’s where the bottlenecks is.先测量程序找出瓶颈然后再考虑优化
+<li>
+you can’t tell where a program is going the spend its time.Bottlenecks occus in surprising places,so don’t try to second guess and put in a speed hack until you’ve proven that’s where the bottlenecks is.先测量程序找出瓶颈然后再考虑优化
 </li>
-<li>measure.don’t tune for speed until you’ve measured,and even then don’t unless one part of the code overwhelms the rest 优化之前进行测量
+<li>
+measure.don’t tune for speed until you’ve measured,and even then don’t unless one part of the code overwhelms the rest 优化之前进行测量
 </li>
-<li>fancy algorithms are slow when n is small,and n is usually small.fancy algorithms have big constants.until you know that n is frequently going to be big.don’t get fancy(even if n does get big,use the rule 2 first)尽管时间复杂度是一个好东西，但是永远别忘了常数因子。
+<li>
+fancy algorithms are slow when n is small,and n is usually small.fancy algorithms have big constants.until you know that n is frequently going to be big.don’t get fancy(even if n does get big,use the rule 2 first)尽管时间复杂度是一个好东西，但是永远别忘了常数因子。
 </li>
-<li>fancy algorithms are buggier than simple ones,and they’re much harder to implement.use simple algorithm as well as simple data structures.复杂的算法总是更容易出bug，所以尽可能在数据结构和算法设计上都简单一些
+<li>
+fancy algorithms are buggier than simple ones,and they’re much harder to implement.use simple algorithm as well as simple data structures.复杂的算法总是更容易出bug，所以尽可能在数据结构和算法设计上都简单一些
 </li>
-<li>data dominates.if you’ve chosen the right data structures and organized things well,the algorithms will almost be self-evident.data structures,not algorithms,are central to programming使用数据驱动而不是代码驱动，这样算法能够自表示
+<li>
+data dominates.if you’ve chosen the right data structures and organized things well,the algorithms will almost be self-evident.data structures,not algorithms,are central to programming使用数据驱动而不是代码驱动，这样算法能够自表示
 </li>
-<li>there is no rule 6 前面5条就是全部
+<li>
+there is no rule 6 前面5条就是全部
+
 </li>
 </ul>
-
 
 
 <hr/>
 <p>
 <b>17 rules from eric raymond in the the art of unix programming</b>
 </p><ul>
-<li>rule of modularity:write simple parts connected by clean interfaces 模块接口
+<li>
+rule of modularity:write simple parts connected by clean interfaces 模块接口
 </li>
-<li>rule of clarity:clarity is better than cleveness 清晰
+<li>
+rule of clarity:clarity is better than cleveness 清晰
 </li>
-<li>ruls of composition:design programs to be connected to the other programs 程序之间接口
+<li>
+ruls of composition:design programs to be connected to the other programs 程序之间接口
 </li>
-<li>rule of separation:separate policy from mechnasim;separate interfaces from engines 分离
+<li>
+rule of separation:separate policy from mechnasim;separate interfaces from engines 分离
 </li>
-<li>rule of simplicity:design for simplicity;add complexity only where you must 简单
+<li>
+rule of simplicity:design for simplicity;add complexity only where you must 简单
 </li>
-<li>rule of parsimony:write a big program only when it’s clear by demonstration that nothing else will do 节省
+<li>
+rule of parsimony:write a big program only when it’s clear by demonstration that nothing else will do 节省
 </li>
-<li>rule transparency:design for visibility to make inspection and debugging easier 透明
+<li>
+rule transparency:design for visibility to make inspection and debugging easier 透明
 </li>
-<li>rule of robustness:robustness is the child of transparency and simplicity 健壮
+<li>
+rule of robustness:robustness is the child of transparency and simplicity 健壮
 </li>
-<li>rule of representation:fold knowledge into data so program logic can be stupid and robust 数据驱动
+<li>
+rule of representation:fold knowledge into data so program logic can be stupid and robust 数据驱动
 </li>
-<li>rule of least surprise:in the interface design,always do the least surprising thing 别让人吃惊
+<li>
+rule of least surprise:in the interface design,always do the least surprising thing 别让人吃惊
 </li>
-<li>rule of silence:when a program has nothing surprising to say,ut should say nothing 该沉默时就沉默
+<li>
+rule of silence:when a program has nothing surprising to say,ut should say nothing 该沉默时就沉默
 </li>
-<li>rule of repair:when you must fail,fail noisily and as soon as possible 自修复
+<li>
+rule of repair:when you must fail,fail noisily and as soon as possible 自修复
 </li>
-<li>rule of economy:programmer time is expensive;conserver it in preference to machine time 人的时间比机器时间宝贵
+<li>
+rule of economy:programmer time is expensive;conserver it in preference to machine time 人的时间比机器时间宝贵
 </li>
-<li>rulf of generation:avoid hand-hacking;write programs to write programs when you can(well,i think it’s right,there is many useful programs in unix generating programs for you like yacc(bison),lex(flex),twig,texinfo,ect) 让机器帮助你写程序
+<li>
+rulf of generation:avoid hand-hacking;write programs to write programs when you can(well,i think it’s right,there is many useful programs in unix generating programs for you like yacc(bison),lex(flex),twig,texinfo,ect) 让机器帮助你写程序
 </li>
-<li>rule of optimization:prototype before polishing.get it working before you optimize it 优化的准则
+<li>
+rule of optimization:prototype before polishing.get it working before you optimize it 优化的准则
 </li>
-<li>rule of diversity:distrust all claims for “one true way” 多样
+<li>
+rule of diversity:distrust all claims for “one true way” 多样
 </li>
-<li>rulf of extensibility:design for the future,because it will be here sooner than you think. 扩展
+<li>
+rulf of extensibility:design for the future,because it will be here sooner than you think. 扩展
+
 </li>
 </ul>
-
 
 
 <hr/>
@@ -181,18 +188,21 @@ Unix程序员大都是这些手册的编写者，因此对于入门或者是刚�
 <p>
 <b>Best Pactices For Writing Unix Documentation</b>
 </p><ul>
-<li>When your write documentation for people within the Unix curlture,don’t dumb it down.If you write as if for idiots,you will be written off as an idiot yourself.Dumbing documnetation down is very different from makeing it accessible.The former is lazy and moits important things,where as the latter requires careful thought and ruthless editing
+<li>
+When your write documentation for people within the Unix curlture,don’t dumb it down.If you write as if for idiots,you will be written off as an idiot yourself.Dumbing documnetation down is very different from makeing it accessible.The former is lazy and moits important things,where as the latter requires careful thought and ruthless editing
 </li>
-<li>Don’t think for a moment that volume will be mistaken for quality.And especially,never ever omit
+<li>
+Don’t think for a moment that volume will be mistaken for quality.And especially,never ever omit
 </li>
 </ul>
 
 <p>functional details because you frear they might be confusing,nor warnings about problems because you don’t wnat to look bad.It’s unanticipated problems that will cost you credibility and users,not the prblems you wew honest about. 一点就是永远不要把文档写成给idiot看的，易懂和这种事由很大分别的. 二点就是需要将所有的功能全部写清楚，即使这样看上去不好，但是这是你的honesty，而且能够让用户能清楚地了解现在软件所能够提供的功能
 </p><ul>
-<li>Good Documentation is usually the most visible sign of what separates a solid contribution from a quick and dirty hack.If you have the time and care necessary to produce it,you will find you’are already 85% of the way to having your patch accepted by most developers. 对于文档的态度，好的文档立刻就和差的东西区分开来，所以如果一旦编写了好的文档，那么85%的成功已经到手了:-)
+<li>
+Good Documentation is usually the most visible sign of what separates a solid contribution from a quick and dirty hack.If you have the time and care necessary to produce it,you will find you’are already 85% of the way to having your patch accepted by most developers. 对于文档的态度，好的文档立刻就和差的东西区分开来，所以如果一旦编写了好的文档，那么85%的成功已经到手了:-)
+
 </li>
 </ul>
-
 
 
 <hr/>
@@ -207,50 +217,66 @@ release early,release often.a rapid release tempo means quick and effective feed
 <p>
 <b>Unix Interface Design Patterns</b> Unix接口的设计模式(这个东西教会我很多:-)，重点推荐)
 </p><ul>
-<li>The Filter Pattern 这种过滤器模式，Text-&gt;Filter-&gt;Text，格式需要尽量的统一，采用标准输入和输出
+<li>
+The Filter Pattern 这种过滤器模式，Text-&gt;Filter-&gt;Text，格式需要尽量的统一，采用标准输入和输出
 </li>
-<li>The Cantrip Pattern没有任何输入输出的，但是有一定的特定动作执行
+<li>
+The Cantrip Pattern没有任何输入输出的，但是有一定的特定动作执行
 </li>
-<li>The Source Pattern这是模式没有任何输入，只存在输出的模式
+<li>
+The Source Pattern这是模式没有任何输入，只存在输出的模式
 </li>
-<li>The Sink Pattern这种模式是制进行输出的或者是不需要输入文件的模式
+<li>
+The Sink Pattern这种模式是制进行输出的或者是不需要输入文件的模式
 </li>
-<li>The Compiler Pattern从命令行中指定配置的参数，然后从文件中输入向文件输出，这里面指通过命令行进行一些选项的开关是至关重要的
+<li>
+The Compiler Pattern从命令行中指定配置的参数，然后从文件中输入向文件输出，这里面指通过命令行进行一些选项的开关是至关重要的
 </li>
-<li>The ed Pattern这种事一种交互式的操作，输入一个键值能执行特定的操作并且返回特定的执行信息
+<li>
+The ed Pattern这种事一种交互式的操作，输入一个键值能执行特定的操作并且返回特定的执行信息
 </li>
-<li>The Rogue Pattern 这也是一种交互式的的操作，输入一个键值但是能从Character Cell界面上看到对应的效果。这种比GUI好的方式在如果只是传送Character Cell数据更小
+<li>
+The Rogue Pattern 这也是一种交互式的的操作，输入一个键值但是能从Character Cell界面上看到对应的效果。这种比GUI好的方式在如果只是传送Character Cell数据更小
 </li>
-<li>The ‘Separated Engine and Interface’ Pattern分离的引擎和界面，但是对于下面还有更细的划分，
+<li>
+The ‘Separated Engine and Interface’ Pattern分离的引擎和界面，但是对于下面还有更细的划分，
 <ul>
-<li>Configurator/Actor Pair存在一个编写配置程序和执行这个配置的程序，将interface的内容写在config文件在中然后执行
+<li>
+Configurator/Actor Pair存在一个编写配置程序和执行这个配置的程序，将interface的内容写在config文件在中然后执行
 </li>
-<li>Spooler/Darmon Pair类似于消费者和生产者模型，对于批量式是很有用的
+<li>
+Spooler/Darmon Pair类似于消费者和生产者模型，对于批量式是很有用的
 </li>
-<li>Driver/Engine Pair这种可以通过提供多种UI方式的Driver来操作Driver，是一种非常理想的方式,GIMP实现的方式
+<li>
+Driver/Engine Pair这种可以通过提供多种UI方式的Driver来操作Driver，是一种非常理想的方式,GIMP实现的方式
 </li>
-<li>Client/Server Pair这种模式就不说了CS模式
-</li>
-</ul>
-
-</li>
-<li>CLI Server这个没有看懂，书上面说是针对于POP,IMAP协议
-</li>
-<li>Language-Based Interface Pairl这种模式也是非常通用的而且超强大，需要图利编写一门交互式的语言，最好还是选用Scheme，现在又一些实现比如GNU的guile或者是Emacs中那样使用Elisp
+<li>
+Client/Server Pair这种模式就不说了CS模式
 </li>
 </ul>
+</li>
+<li>
+CLI Server这个没有看懂，书上面说是针对于POP,IMAP协议
+</li>
+<li>
+Language-Based Interface Pairl这种模式也是非常通用的而且超强大，需要图利编写一门交互式的语言，最好还是选用Scheme，现在又一些实现比如GNU的guile或者是Emacs中那样使用Elisp
 
+</li>
+</ul>
 
 
 <hr/>
 <p>
 polyvalent program pattern这个是针对一个程序提供多种开发方式,理想的方式是
 </p><ul>
-<li>Xuers -&gt; graphical user inteface -&gt; service library
+<li>
+Xuers -&gt; graphical user inteface -&gt; service library
 </li>
-<li>termial users -&gt; command line interface -&gt; service library
+<li>
+termial users -&gt; command line interface -&gt; service library
 </li>
-<li>scripts -&gt; scipting interface -&gt; service library
+<li>
+scripts -&gt; scipting interface -&gt; service library
 </li>
 </ul>
 
@@ -289,11 +315,14 @@ Tradeoffs between interface and implementation complexity. 这里提到了两种
 <p>
 书里面提到的complexity包括三种essential complexity,accidental complexity,and optional complexity.
 </p><ul>
-<li>对于第一种complexity肯定是不能够回避的，这个就是关键的问题。就像是书里面提到的，对于编写一个飞机航线的程序不可能只用10行搞定，这个复杂度是不可避免的
+<li>
+对于第一种complexity肯定是不能够回避的，这个就是关键的问题。就像是书里面提到的，对于编写一个飞机航线的程序不可能只用10行搞定，这个复杂度是不可避免的
 </li>
-<li>对于accidental complexity是因为没有找到好的设计，就像是在做的这个项目直到快完工时才发现一种更好的解决方案。accidental complexity happens because someone didn’t find the simplest way to implement a specified set of features.Accidental Complexity can be eliminated by good design,or good redesign
+<li>
+对于accidental complexity是因为没有找到好的设计，就像是在做的这个项目直到快完工时才发现一种更好的解决方案。accidental complexity happens because someone didn’t find the simplest way to implement a specified set of features.Accidental Complexity can be eliminated by good design,or good redesign
 </li>
-<li>对于optional complexity是因为需要加一些亮丽的特性，这个问题可以通过降低objective来解决 optional complexity on the other hand,is tied to some desiable feature.Optional Complexity can be eliminated only by changing the projects’ objectives
+<li>
+对于optional complexity是因为需要加一些亮丽的特性，这个问题可以通过降低objective来解决 optional complexity on the other hand,is tied to some desiable feature.Optional Complexity can be eliminated only by changing the projects’ objectives
 </li>
 </ul>
 
@@ -346,13 +375,10 @@ the (re)invention of open source has has a significant impact on the standards p
 规范只是一个DNA，我们允许在DNA上面进行扩展，但是关键部分还是需要坚持规范。
 </p></div>
 </div>
-</div>
-
 <div id="postamble">
-<p class="date">Date: 2013-09-15 15:19:59 CST</p>
-<p class="creator">Org version 7.8.11 with Emacs version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
-
+<p class="date"> Date: 2013-10-14 12:28:24 CST</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'note/the-art-of-unix-programming.html';var disqus_title = 'note/the-art-of-unix-programming.html';var disqus_url = 'http://dirlt.com/note/the-art-of-unix-programming.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

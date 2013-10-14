@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>mapred</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="mapred"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-07 21:12:23 CST"/>
+<meta name="generated" content="2013-10-14 12:27:55 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,9 +21,6 @@
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
-  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
-  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -34,23 +31,10 @@
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  td, th { vertical-align: top; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
-    background: #ffffcc;
-  }
-  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -61,15 +45,10 @@
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
-
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-
-<div id="preamble">
-
-</div>
-
 <div id="content">
+
 <h1 class="title">mapred</h1>
 
 
@@ -77,83 +56,83 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 mapred</a>
+<li><a href="#sec-1">1 mapred </a>
 <ul>
-<li><a href="#sec-1-1">1.1 Topic</a>
+<li><a href="#sec-1.1">1.1 Topic </a>
 <ul>
-<li><a href="#sec-1-1-1">1.1.1 YARN</a>
+<li><a href="#sec-1.1.1">1.1.1 YARN </a>
 <ul>
-<li><a href="#sec-1-1-1-1">1.1.1.1 Introducing Apache Hadoop YARN | Hortonworks</a></li>
-<li><a href="#sec-1-1-1-2">1.1.1.2 Apache Hadoop YARN – Background and an Overview | Hortonworks</a></li>
-<li><a href="#sec-1-1-1-3">1.1.1.3 Apache Hadoop YARN – Concepts and Applications | Hortonworks</a></li>
-<li><a href="#sec-1-1-1-4">1.1.1.4 Apache Mesos (Twitter Open Source Open House)</a></li>
-<li><a href="#sec-1-1-1-5">1.1.1.5 Apache Hadoop YARN – NodeManager | Hortonworks</a></li>
-<li><a href="#sec-1-1-1-6">1.1.1.6 Apache Hadoop YARN – ResourceManager | Hortonworks</a></li>
+<li><a href="#sec-1.1.1.1">1.1.1.1 Introducing Apache Hadoop YARN | Hortonworks </a></li>
+<li><a href="#sec-1.1.1.2">1.1.1.2 Apache Hadoop YARN – Background and an Overview | Hortonworks </a></li>
+<li><a href="#sec-1.1.1.3">1.1.1.3 Apache Hadoop YARN – Concepts and Applications | Hortonworks </a></li>
+<li><a href="#sec-1.1.1.4">1.1.1.4 Apache Mesos (Twitter Open Source Open House) </a></li>
+<li><a href="#sec-1.1.1.5">1.1.1.5 Apache Hadoop YARN – NodeManager | Hortonworks </a></li>
+<li><a href="#sec-1.1.1.6">1.1.1.6 Apache Hadoop YARN – ResourceManager | Hortonworks </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-1-2">1.1.2 HowManyMapsAndReduces - Hadoop Wiki</a></li>
-<li><a href="#sec-1-1-3">1.1.3 7 Tips for Improving MapReduce Performance | Apache Hadoop for the Enterprise | Cloudera</a></li>
-<li><a href="#sec-1-1-4">1.1.4 Under the Hood: Scheduling MapReduce jobs more efficiently with Corona | Facebook</a></li>
-<li><a href="#sec-1-1-5">1.1.5 MapReduce Patterns, Algorithms, and Use Cases | Highly Scalable Blog</a></li>
+<li><a href="#sec-1.1.2">1.1.2 HowManyMapsAndReduces - Hadoop Wiki </a></li>
+<li><a href="#sec-1.1.3">1.1.3 7 Tips for Improving MapReduce Performance | Apache Hadoop for the Enterprise | Cloudera </a></li>
+<li><a href="#sec-1.1.4">1.1.4 Under the Hood: Scheduling MapReduce jobs more efficiently with Corona | Facebook </a></li>
+<li><a href="#sec-1.1.5">1.1.5 MapReduce Patterns, Algorithms, and Use Cases | Highly Scalable Blog </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-2">1.2 Scheduler</a></li>
-<li><a href="#sec-1-3">1.3 代码分析</a>
+<li><a href="#sec-1.2">1.2 Scheduler </a></li>
+<li><a href="#sec-1.3">1.3 代码分析 </a>
 <ul>
-<li><a href="#sec-1-3-1">1.3.1 task heartbeat</a></li>
-<li><a href="#sec-1-3-2">1.3.2 Partitioner</a></li>
-<li><a href="#sec-1-3-3">1.3.3 shuffle in memory</a></li>
-<li><a href="#sec-1-3-4">1.3.4 lzo index format</a>
+<li><a href="#sec-1.3.1">1.3.1 task heartbeat </a></li>
+<li><a href="#sec-1.3.2">1.3.2 Partitioner </a></li>
+<li><a href="#sec-1.3.3">1.3.3 shuffle in memory </a></li>
+<li><a href="#sec-1.3.4">1.3.4 lzo index format </a>
 <ul>
-<li><a href="#sec-1-3-4-1">1.3.4.1 DistributedLzoIndexer</a></li>
-<li><a href="#sec-1-3-4-2">1.3.4.2 LzoTextInputFormat</a></li>
+<li><a href="#sec-1.3.4.1">1.3.4.1 DistributedLzoIndexer </a></li>
+<li><a href="#sec-1.3.4.2">1.3.4.2 LzoTextInputFormat </a></li>
 </ul></li>
 </ul>
 </li>
-<li><a href="#sec-1-4">1.4 日志分析</a>
+<li><a href="#sec-1.4">1.4 日志分析 </a>
 <ul>
-<li><a href="#sec-1-4-1">1.4.1 getMapOutput failed</a>
+<li><a href="#sec-1.4.1">1.4.1 getMapOutput failed </a>
 <ul>
-<li><a href="#sec-1-4-1-1">1.4.1.1 normal case</a></li>
-<li><a href="#sec-1-4-1-2">1.4.1.2 bas case</a></li>
+<li><a href="#sec-1.4.1.1">1.4.1.1 normal case </a></li>
+<li><a href="#sec-1.4.1.2">1.4.1.2 bas case </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-4-2">1.4.2 Error initializing</a>
+<li><a href="#sec-1.4.2">1.4.2 Error initializing </a>
 <ul>
-<li><a href="#sec-1-4-2-1">1.4.2.1 No such file or directory</a></li>
+<li><a href="#sec-1.4.2.1">1.4.2.1 No such file or directory </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-4-3">1.4.3 shuffleInMemory OutOfMemoryError</a></li>
+<li><a href="#sec-1.4.3">1.4.3 shuffleInMemory OutOfMemoryError </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-5">1.5 使用问题</a>
+<li><a href="#sec-1.5">1.5 使用问题 </a>
 <ul>
-<li><a href="#sec-1-5-1">1.5.1 hadoop-lzo</a>
+<li><a href="#sec-1.5.1">1.5.1 hadoop-lzo </a>
 <ul>
-<li><a href="#sec-1-5-1-1">1.5.1.1 安装配置</a></li>
-<li><a href="#sec-1-5-1-2">1.5.1.2 使用lzo</a></li>
-<li><a href="#sec-1-5-1-3">1.5.1.3 配合protobuf</a></li>
+<li><a href="#sec-1.5.1.1">1.5.1.1 安装配置 </a></li>
+<li><a href="#sec-1.5.1.2">1.5.1.2 使用lzo </a></li>
+<li><a href="#sec-1.5.1.3">1.5.1.3 配合protobuf </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-5-2">1.5.2 多路输入</a>
+<li><a href="#sec-1.5.2">1.5.2 多路输入 </a>
 <ul>
-<li><a href="#sec-1-5-2-1">1.5.2.1 MultipleInputs</a></li>
-<li><a href="#sec-1-5-2-2">1.5.2.2 MultipleTableInputFormat</a></li>
+<li><a href="#sec-1.5.2.1">1.5.2.1 MultipleInputs </a></li>
+<li><a href="#sec-1.5.2.2">1.5.2.2 MultipleTableInputFormat </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-5-3">1.5.3 多路输出</a>
+<li><a href="#sec-1.5.3">1.5.3 多路输出 </a>
 <ul>
-<li><a href="#sec-1-5-3-1">1.5.3.1 MultipleOutputs</a></li>
-<li><a href="#sec-1-5-3-2">1.5.3.2 MultipleTableOutputFormat</a></li>
+<li><a href="#sec-1.5.3.1">1.5.3.1 MultipleOutputs </a></li>
+<li><a href="#sec-1.5.3.2">1.5.3.2 MultipleTableOutputFormat </a></li>
 </ul>
 </li>
-<li><a href="#sec-1-5-4">1.5.4 获取集群运行状况</a></li>
-<li><a href="#sec-1-5-5">1.5.5 OutOfMemoryError</a></li>
-<li><a href="#sec-1-5-6">1.5.6 topology rack awareness</a></li>
-<li><a href="#sec-1-5-7">1.5.7 streaming</a></li>
-<li><a href="#sec-1-5-8">1.5.8 Too many fetch-failures</a></li>
-<li><a href="#sec-1-5-9">1.5.9 blacklist</a></li>
-<li><a href="#sec-1-5-10">1.5.10 磁盘空间</a></li>
+<li><a href="#sec-1.5.4">1.5.4 获取集群运行状况 </a></li>
+<li><a href="#sec-1.5.5">1.5.5 OutOfMemoryError </a></li>
+<li><a href="#sec-1.5.6">1.5.6 topology rack awareness </a></li>
+<li><a href="#sec-1.5.7">1.5.7 streaming </a></li>
+<li><a href="#sec-1.5.8">1.5.8 Too many fetch-failures </a></li>
+<li><a href="#sec-1.5.9">1.5.9 blacklist </a></li>
+<li><a href="#sec-1.5.10">1.5.10 磁盘空间 </a></li>
 </ul>
 </li>
 </ul>
@@ -163,29 +142,29 @@
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> mapred</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> mapred </h2>
 <div class="outline-text-2" id="text-1">
 
 
 </div>
 
-<div id="outline-container-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Topic</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Topic </h3>
+<div class="outline-text-3" id="text-1.1">
 
 
 </div>
 
-<div id="outline-container-1-1-1" class="outline-4">
-<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> YARN</h4>
-<div class="outline-text-4" id="text-1-1-1">
+<div id="outline-container-1.1.1" class="outline-4">
+<h4 id="sec-1.1.1"><span class="section-number-4">1.1.1</span> YARN </h4>
+<div class="outline-text-4" id="text-1.1.1">
 
 
 </div>
 
-<div id="outline-container-1-1-1-1" class="outline-5">
-<h5 id="sec-1-1-1-1"><span class="section-number-5">1.1.1.1</span> Introducing Apache Hadoop YARN | Hortonworks</h5>
-<div class="outline-text-5" id="text-1-1-1-1">
+<div id="outline-container-1.1.1.1" class="outline-5">
+<h5 id="sec-1.1.1.1"><span class="section-number-5">1.1.1.1</span> Introducing Apache Hadoop YARN | Hortonworks </h5>
+<div class="outline-text-5" id="text-1.1.1.1">
 
 <p><a href="http://hortonworks.com/blog/introducing-apache-hadoop-yarn/">http://hortonworks.com/blog/introducing-apache-hadoop-yarn/</a> 
 </p>
@@ -197,40 +176,46 @@
 
 </div>
 
-<div id="outline-container-1-1-1-2" class="outline-5">
-<h5 id="sec-1-1-1-2"><span class="section-number-5">1.1.1.2</span> Apache Hadoop YARN – Background and an Overview | Hortonworks</h5>
-<div class="outline-text-5" id="text-1-1-1-2">
+<div id="outline-container-1.1.1.2" class="outline-5">
+<h5 id="sec-1.1.1.2"><span class="section-number-5">1.1.1.2</span> Apache Hadoop YARN – Background and an Overview | Hortonworks </h5>
+<div class="outline-text-5" id="text-1.1.1.2">
 
 <p><a href="http://hortonworks.com/blog/apache-hadoop-yarn-background-and-an-overview/">http://hortonworks.com/blog/apache-hadoop-yarn-background-and-an-overview/</a>
 </p>
 <p>
 对于MR来说，最关键的一点就是lack of data motion。通过将任务放在数据所在的机器上面，而不是将数据移动到任务所在的机器上面，可以节省带宽提高计算效率。现在来说MR分为下面三个部分：
 </p><ul>
-<li>The end-user <b>MapReduce API</b> for programming the desired MapReduce application. 
+<li>
+The end-user <b>MapReduce API</b> for programming the desired MapReduce application. 
 </li>
-<li>The <b>MapReduce framework</b>, which is the runtime implementation of various phases such as the map phase, the sort/shuffle/merge aggregation and the reduce phase. （framework做的事情是runtime的工作，比如怎么划分数据，怎么进行reducer上面的拉数据等）
+<li>
+The <b>MapReduce framework</b>, which is the runtime implementation of various phases such as the map phase, the sort/shuffle/merge aggregation and the reduce phase. （framework做的事情是runtime的工作，比如怎么划分数据，怎么进行reducer上面的拉数据等）
 </li>
-<li>The <b>MapReduce system</b>, which is the backend infrastructure required to run the user’s MapReduce application, manage cluster resources, schedule thousands of concurrent jobs etc. （system做的事情是确保runtime可以work的工作，集群管理如何调度）
+<li>
+The <b>MapReduce system</b>, which is the backend infrastructure required to run the user’s MapReduce application, manage cluster resources, schedule thousands of concurrent jobs etc. （system做的事情是确保runtime可以work的工作，集群管理如何调度）
+
 </li>
 </ul>
 
-
-<p>
-<img src="./images/MRArch.png"  alt="./images/MRArch.png" />
+<p><img src="./images/MRArch.png"  alt="./images/MRArch.png" />
 </p>
 <p>
 For a while, we have understood that the Apache Hadoop MapReduce framework needed an overhaul. In particular, with regards to the JobTracker, we needed to address several aspects regarding scalability, cluster utilization, ability for customers to control upgrades to the stack i.e. customer agility and equally importantly, supporting workloads other than MapReduce itself. 考虑对于MR framework需要做下面这些改进，尤其是对于JobTracker来说：
 </p><ul>
-<li>扩展性。我的理解是master有更好的处理能力，应该来支持更多的节点加入集群。2009年产品部署上能够达到5k个节点。
+<li>
+扩展性。我的理解是master有更好的处理能力，应该来支持更多的节点加入集群。2009年产品部署上能够达到5k个节点。
 </li>
-<li>集群利用。现在hadoop是将所有的nodes看作是distince map-reduce slots的，并且两者是不可替换的。可能mapper使用非常多而reducer非常少（或者相反），这样的情况会限制集群利用效率。
+<li>
+集群利用。现在hadoop是将所有的nodes看作是distince map-reduce slots的，并且两者是不可替换的。可能mapper使用非常多而reducer非常少（或者相反），这样的情况会限制集群利用效率。
 </li>
-<li>灵活地控制software stack。我的理解是对于软件的升级，可能不能够完全替换，因此需要支持集群中有多个版本的MR运行。主要还是兼容性问题。
+<li>
+灵活地控制software stack。我的理解是对于软件的升级，可能不能够完全替换，因此需要支持集群中有多个版本的MR运行。主要还是兼容性问题。
 </li>
-<li>服务不同的workload而非MR。比如MPI，graph-processing，realtime-processing，并且减少HDFS到自己存储系统之间数据的迁移（现在MR输入一定要在HDFS上面）
+<li>
+服务不同的workload而非MR。比如MPI，graph-processing，realtime-processing，并且减少HDFS到自己存储系统之间数据的迁移（现在MR输入一定要在HDFS上面）
+
 </li>
 </ul>
-
 
 
 <hr/>
@@ -238,32 +223,35 @@ For a while, we have understood that the Apache Hadoop MapReduce framework neede
 <p>
 YARN主要做的工作就是在资源利用的改进上面，将资源利用已经workflow分离：
 </p><ul>
-<li>资源利用通过引入的ResouceManager（RM）以及NodeManager（NM）来管理。
+<li>
+资源利用通过引入的ResouceManager（RM）以及NodeManager（NM）来管理。
 <ul>
-<li>NM主要做单机上面的资源收集汇报给RM
+<li>
+NM主要做单机上面的资源收集汇报给RM
 </li>
-<li>RM能够用来了解整个集群的资源使用情况，通过收集NM以及AM汇报信息。
+<li>
+RM能够用来了解整个集群的资源使用情况，通过收集NM以及AM汇报信息。
 </li>
-<li>RM提供pluggable Scheduler来计算资源分配。
+<li>
+RM提供pluggable Scheduler来计算资源分配。
+</li>
+</ul>
+</li>
+<li>
+workflow方面将MR和其他类型workflow分离，抽象成为ApplicationManager（AM）以及Container（既有ResourceAllocation概念，也有ApplicationNode概念）
+
 </li>
 </ul>
 
-</li>
-<li>workflow方面将MR和其他类型workflow分离，抽象成为ApplicationManager（AM）以及Container（既有ResourceAllocation概念，也有ApplicationNode概念）
-</li>
-</ul>
-
-
-<p>     
-<img src="./images/YARNArch.png"  alt="./images/YARNArch.png" />
+<p><img src="./images/YARNArch.png"  alt="./images/YARNArch.png" />
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1-1-1-3" class="outline-5">
-<h5 id="sec-1-1-1-3"><span class="section-number-5">1.1.1.3</span> Apache Hadoop YARN – Concepts and Applications | Hortonworks</h5>
-<div class="outline-text-5" id="text-1-1-1-3">
+<div id="outline-container-1.1.1.3" class="outline-5">
+<h5 id="sec-1.1.1.3"><span class="section-number-5">1.1.1.3</span> Apache Hadoop YARN – Concepts and Applications | Hortonworks </h5>
+<div class="outline-text-5" id="text-1.1.1.3">
 
 <p><a href="http://hortonworks.com/blog/apache-hadoop-yarn-concepts-and-applications/">http://hortonworks.com/blog/apache-hadoop-yarn-concepts-and-applications/</a>
 </p>
@@ -273,89 +261,109 @@ YARN主要做的工作就是在资源利用的改进上面，将资源利用已�
 <p>
 AM对RM提供Resource Request。对于Resource Model定义包括下面几个方面：
 </p><ul>
-<li>Resource-name (hostname, rackname – we are in the process of generalizing this further to support more complex network topologies with YARN-18).（我需要哪些机器，可以制定host，rack，或者是*/any）
+<li>
+Resource-name (hostname, rackname – we are in the process of generalizing this further to support more complex network topologies with YARN-18).（我需要哪些机器，可以制定host，rack，或者是*/any）
 </li>
-<li>Memory (in MB)（需要使用的内存大小）
+<li>
+Memory (in MB)（需要使用的内存大小）
 </li>
-<li>CPU (cores, for now)（CPU的个数）
+<li>
+CPU (cores, for now)（CPU的个数）
 </li>
-<li>In future, expect us to add more resource-types such as disk/network I/O, GPUs etc.（各种IO参数）
+<li>
+In future, expect us to add more resource-types such as disk/network I/O, GPUs etc.（各种IO参数）
 </li>
 </ul>
 
 <p>每一个Resource Model如果满足之后在一个机器上面形成一个Container。Resource Request包括下面几个部分：
 </p><ul>
-<li>&lt;resource-name, priority, resource-requirement, number-of-containers&gt;
+<li>
+&lt;resource-name, priority, resource-requirement, number-of-containers&gt;
 </li>
-<li>resource-name is either hostname, rackname or * to indicate no preference. In future, we expect to support even more complex topologies for virtual machines on a host, more complex networks etc.
+<li>
+resource-name is either hostname, rackname or * to indicate no preference. In future, we expect to support even more complex topologies for virtual machines on a host, more complex networks etc.
 </li>
-<li>priority is intra-application priority for this request (to stress, this isn’t across multiple applications).
+<li>
+priority is intra-application priority for this request (to stress, this isn’t across multiple applications).
 </li>
-<li>resource-requirement is required capabilities such as memory, cpu etc. (at the time of writing YARN only supports memory and cpu).
+<li>
+resource-requirement is required capabilities such as memory, cpu etc. (at the time of writing YARN only supports memory and cpu).
 </li>
-<li>number-of-containers is just a multiple of such containers.（我需要多少个这样的container？）
+<li>
+number-of-containers is just a multiple of such containers.（我需要多少个这样的container？）
+
 </li>
 </ul>
 
-
-<p>
-ApplicationMaster需要通知Container来执行任务，因为现在的任务不限于MR，需要提供下面这些信息：
+<p>ApplicationMaster需要通知Container来执行任务，因为现在的任务不限于MR，需要提供下面这些信息：
 </p><ul>
-<li>Command line to launch the process within the container. 命令行
+<li>
+Command line to launch the process within the container. 命令行
 </li>
-<li>Environment variables. 环境变量
+<li>
+Environment variables. 环境变量
 </li>
-<li>Local resources necessary on the machine prior to launch, such as jars, shared-objects, auxiliary data files etc. 一些本地资源
+<li>
+Local resources necessary on the machine prior to launch, such as jars, shared-objects, auxiliary data files etc. 一些本地资源
 </li>
-<li>Security-related tokens. 安全token
+<li>
+Security-related tokens. 安全token
+
 </li>
 </ul>
 
-
-<p>
-整个YARN执行任务的步骤包括下面这几步： Application execution consists of the following steps:
+<p>整个YARN执行任务的步骤包括下面这几步： Application execution consists of the following steps:
 </p><ul>
-<li>Application submission. 提交任务
+<li>
+Application submission. 提交任务
 </li>
-<li>Bootstrapping the ApplicationMaster instance for the application. 启动AM
+<li>
+Bootstrapping the ApplicationMaster instance for the application. 启动AM
 </li>
-<li>Application execution managed by the ApplicationMaster instance. AM在不同的Container启动task
+<li>
+Application execution managed by the ApplicationMaster instance. AM在不同的Container启动task
+
 </li>
 </ul>
 
-
-<p>
-Let’s walk through an application execution sequence (steps are illustrated in the diagram):
+<p>Let’s walk through an application execution sequence (steps are illustrated in the diagram):
 </p><ul>
-<li>A client program submits the application, including the necessary specifications to launch the application-specific ApplicationMaster itself. （用户首先提交AM）
+<li>
+A client program submits the application, including the necessary specifications to launch the application-specific ApplicationMaster itself. （用户首先提交AM）
 </li>
-<li>The ResourceManager assumes the responsibility to negotiate a specified container in which to start the ApplicationMaster and then launches the ApplicationMaster.（RM为AM分配所需要的Container，并且启动AM）
+<li>
+The ResourceManager assumes the responsibility to negotiate a specified container in which to start the ApplicationMaster and then launches the ApplicationMaster.（RM为AM分配所需要的Container，并且启动AM）
 </li>
-<li>The ApplicationMaster, on boot-up, registers with the ResourceManager – the registration allows the client program to query the ResourceManager for details, which allow it to  directly communicate with its own ApplicationMaster.（AM向RM进行注册）
+<li>
+The ApplicationMaster, on boot-up, registers with the ResourceManager – the registration allows the client program to query the ResourceManager for details, which allow it to  directly communicate with its own ApplicationMaster.（AM向RM进行注册）
 </li>
-<li>During normal operation the ApplicationMaster negotiates appropriate resource containers via the resource-request protocol.（AM通过Resouce Request和RM进行资源协调，获得所需要的Container）
+<li>
+During normal operation the ApplicationMaster negotiates appropriate resource containers via the resource-request protocol.（AM通过Resouce Request和RM进行资源协调，获得所需要的Container）
 </li>
-<li>On successful container allocations, the ApplicationMaster launches the container by providing the container launch specification to the NodeManager. The launch specification, typically, includes the necessary information to allow the container to communicate with the ApplicationMaster itself.（AM通知Container所处的NM启动task）
+<li>
+On successful container allocations, the ApplicationMaster launches the container by providing the container launch specification to the NodeManager. The launch specification, typically, includes the necessary information to allow the container to communicate with the ApplicationMaster itself.（AM通知Container所处的NM启动task）
 </li>
-<li>The application code executing within the container then provides necessary information (progress, status etc.) to its ApplicationMaster via an application-specific protocol.（Container会定时和AM进行通信，通知进度等）
+<li>
+The application code executing within the container then provides necessary information (progress, status etc.) to its ApplicationMaster via an application-specific protocol.（Container会定时和AM进行通信，通知进度等）
 </li>
-<li>During the application execution, the client that submitted the program communicates directly with the ApplicationMaster to get status, progress updates etc. via an application-specific protocol.（client直接和AM进行通信了解整个任务进度）
+<li>
+During the application execution, the client that submitted the program communicates directly with the ApplicationMaster to get status, progress updates etc. via an application-specific protocol.（client直接和AM进行通信了解整个任务进度）
 </li>
-<li>Once the application is complete, and all necessary work has been finished, the ApplicationMaster deregisters with the ResourceManager and shuts down, allowing its own container to be repurposed.（任务完成之后AM通知RM注销并且释放所持有的Container）
+<li>
+Once the application is complete, and all necessary work has been finished, the ApplicationMaster deregisters with the ResourceManager and shuts down, allowing its own container to be repurposed.（任务完成之后AM通知RM注销并且释放所持有的Container）
+
 </li>
 </ul>
 
-
-<p>
-<img src="./images/yarnflow.png"  alt="./images/yarnflow.png" />
+<p><img src="./images/yarnflow.png"  alt="./images/yarnflow.png" />
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1-1-1-4" class="outline-5">
-<h5 id="sec-1-1-1-4"><span class="section-number-5">1.1.1.4</span> Apache Mesos (Twitter Open Source Open House)</h5>
-<div class="outline-text-5" id="text-1-1-1-4">
+<div id="outline-container-1.1.1.4" class="outline-5">
+<h5 id="sec-1.1.1.4"><span class="section-number-5">1.1.1.4</span> Apache Mesos (Twitter Open Source Open House) </h5>
+<div class="outline-text-5" id="text-1.1.1.4">
 
 <p><a href="https://speakerdeck.com/u/benh/p/apache-mesos-twitter-open-source-open-house">https://speakerdeck.com/u/benh/p/apache-mesos-twitter-open-source-open-house</a>
 </p>
@@ -363,9 +371,9 @@ Let’s walk through an application execution sequence (steps are illustrated in
 
 </div>
 
-<div id="outline-container-1-1-1-5" class="outline-5">
-<h5 id="sec-1-1-1-5"><span class="section-number-5">1.1.1.5</span> Apache Hadoop YARN – NodeManager | Hortonworks</h5>
-<div class="outline-text-5" id="text-1-1-1-5">
+<div id="outline-container-1.1.1.5" class="outline-5">
+<h5 id="sec-1.1.1.5"><span class="section-number-5">1.1.1.5</span> Apache Hadoop YARN – NodeManager | Hortonworks </h5>
+<div class="outline-text-5" id="text-1.1.1.5">
 
 <p><a href="http://hortonworks.com/blog/apache-hadoop-yarn-nodemanager/">http://hortonworks.com/blog/apache-hadoop-yarn-nodemanager/</a>
 </p>
@@ -373,50 +381,61 @@ Let’s walk through an application execution sequence (steps are illustrated in
 <img src="./images/yarn-nodemanager-arch.png"  alt="./images/yarn-nodemanager-arch.png" />
 </p>
 <ul>
-<li>NodeStatusUpdater 做一些资源状态汇报，并且接收RM请求停止已经运行的container
+<li>
+NodeStatusUpdater 做一些资源状态汇报，并且接收RM请求停止已经运行的container
 </li>
-<li>ContainerManager <b>核心部分</b>
+<li>
+ContainerManager <b>核心部分</b>
 <ul>
-<li>RPC server 接收AM的命令运行或停止container，和ContainerTokenSecretManager协作完成请求认证。所有操作会记录在audit-log
+<li>
+RPC server 接收AM的命令运行或停止container，和ContainerTokenSecretManager协作完成请求认证。所有操作会记录在audit-log
 </li>
-<li>ResourceLocalizationService 准备一些applicaiton所需要的资源
+<li>
+ResourceLocalizationService 准备一些applicaiton所需要的资源
 </li>
-<li>ContainersLauncher 维护container线程池，接收RM/AM的请求来运行和停止container
+<li>
+ContainersLauncher 维护container线程池，接收RM/AM的请求来运行和停止container
 </li>
-<li>AuxServices 提供额外服务。当application在这个node上面第一个container运行或者是application结束的时候会收到通知。
+<li>
+AuxServices 提供额外服务。当application在这个node上面第一个container运行或者是application结束的时候会收到通知。
 </li>
-<li>ContainersMonitor 监控container运行状况，如果资源使用超限的话会kill container
+<li>
+ContainersMonitor 监控container运行状况，如果资源使用超限的话会kill container
 </li>
-<li>LogHandler 收集application本地产生的日志进行聚合并且上传到hdfs
+<li>
+LogHandler 收集application本地产生的日志进行聚合并且上传到hdfs
 </li>
 </ul>
-
 </li>
-<li>ContainerExecutor 执行container
+<li>
+ContainerExecutor 执行container
 </li>
-<li>NodeHealthCheckerService 对于node做一些健康检查，将一些资源数据给NodeStatusUpdater
+<li>
+NodeHealthCheckerService 对于node做一些健康检查，将一些资源数据给NodeStatusUpdater
 </li>
-<li>Security
+<li>
+Security
 <ul>
-<li>ApplicationACLsManagerNM
+<li>
+ApplicationACLsManagerNM
 </li>
-<li>ContainerTokenSecretManager
-</li>
-</ul>
-
-</li>
-<li>WebServer 当前运行的application以及对应的container，资源利用状况以及聚合的log
+<li>
+ContainerTokenSecretManager
 </li>
 </ul>
+</li>
+<li>
+WebServer 当前运行的application以及对应的container，资源利用状况以及聚合的log
 
-
+</li>
+</ul>
 </div>
 
 </div>
 
-<div id="outline-container-1-1-1-6" class="outline-5">
-<h5 id="sec-1-1-1-6"><span class="section-number-5">1.1.1.6</span> Apache Hadoop YARN – ResourceManager | Hortonworks</h5>
-<div class="outline-text-5" id="text-1-1-1-6">
+<div id="outline-container-1.1.1.6" class="outline-5">
+<h5 id="sec-1.1.1.6"><span class="section-number-5">1.1.1.6</span> Apache Hadoop YARN – ResourceManager | Hortonworks </h5>
+<div class="outline-text-5" id="text-1.1.1.6">
 
 <p><a href="http://hortonworks.com/blog/apache-hadoop-yarn-resourcemanager/">http://hortonworks.com/blog/apache-hadoop-yarn-resourcemanager/</a>
 </p>
@@ -424,259 +443,304 @@ Let’s walk through an application execution sequence (steps are illustrated in
 <img src="./images/yarn-resourcemanager-arch.png"  alt="./images/yarn-resourcemanager-arch.png" />
 </p>
 <ul>
-<li>Components interfacing RM to the clients:
+<li>
+Components interfacing RM to the clients:
 <ul>
-<li>ClientService 用户接口用来提交删除application以及获得当前集群的状况等数据
+<li>
+ClientService 用户接口用来提交删除application以及获得当前集群的状况等数据
 </li>
-<li>AdminService 管理接口可以用来调整queue的优先级或者是增加node等
+<li>
+AdminService 管理接口可以用来调整queue的优先级或者是增加node等
 </li>
 </ul>
-
 </li>
-<li>Components connecting RM to the nodes:
+<li>
+Components connecting RM to the nodes:
 <ul>
-<li>ResourceTrackerService 用来和NodeManager做RPC
+<li>
+ResourceTrackerService 用来和NodeManager做RPC
 </li>
-<li>NMLivelinessMonitor 检测NM是否存活
+<li>
+NMLivelinessMonitor 检测NM是否存活
 </li>
-<li>NodesListManager 维护当前所有的NM节点
+<li>
+NodesListManager 维护当前所有的NM节点
 </li>
 </ul>
-
 </li>
-<li>Components interacting with the per-application AMs 
+<li>
+Components interacting with the per-application AMs 
 <ul>
-<li>ApplicationMasterService 用来和AM交互部分接口，AM的资源请求通过这个接口提交，然后转向YarnScheduler处理
+<li>
+ApplicationMasterService 用来和AM交互部分接口，AM的资源请求通过这个接口提交，然后转向YarnScheduler处理
 </li>
-<li>AMLivelinessMonitor 检测AM是否存活
+<li>
+AMLivelinessMonitor 检测AM是否存活
 </li>
 </ul>
-
 </li>
-<li>The core of the ResourceManager <b>核心部分</b>
+<li>
+The core of the ResourceManager <b>核心部分</b>
 <ul>
-<li>ApplicationsManager 维护当所有提交的Application
+<li>
+ApplicationsManager 维护当所有提交的Application
 </li>
-<li>ApplicationACLsManager
+<li>
+ApplicationACLsManager
 </li>
-<li>ApplicationMasterLauncher 负责AM的启动
+<li>
+ApplicationMasterLauncher 负责AM的启动
 </li>
-<li>YarnScheduler <b>NOTE（dirlt）：似乎这个调度行为是在一开始就决定的</b>
+<li>
+YarnScheduler <b>NOTE（dirlt）：似乎这个调度行为是在一开始就决定的</b>
 <ul>
-<li>The Scheduler is responsible for allocating resources to the various running applications subject to constraints of capacities, queues etc. It performs its scheduling function based on the resource requirements of the applications such as memory, CPU, disk, network etc. Currently, only memory is supported and support for CPU is close to completion.
+<li>
+The Scheduler is responsible for allocating resources to the various running applications subject to constraints of capacities, queues etc. It performs its scheduling function based on the resource requirements of the applications such as memory, CPU, disk, network etc. Currently, only memory is supported and support for CPU is close to completion.
 </li>
 </ul>
-
 </li>
-<li>ContainerAllocationExpirer application可能占用container但是却不使用。可以用来检测哪些container没有使用。
+<li>
+ContainerAllocationExpirer application可能占用container但是却不使用。可以用来检测哪些container没有使用。
 </li>
 </ul>
-
 </li>
-<li>TokenSecretManagers
+<li>
+TokenSecretManagers
 <ul>
-<li>ApplicationTokenSecretManager
+<li>
+ApplicationTokenSecretManager
 </li>
-<li>ContainerTokenSecretManager
+<li>
+ContainerTokenSecretManager
 </li>
-<li>RMDelegationTokenSecretManager
-</li>
-</ul>
-
-</li>
-<li>DelegationTokenRenewer
+<li>
+RMDelegationTokenSecretManager
 </li>
 </ul>
+</li>
+<li>
+DelegationTokenRenewer
 
-
+</li>
+</ul>
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1-1-2" class="outline-4">
-<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> HowManyMapsAndReduces - Hadoop Wiki</h4>
-<div class="outline-text-4" id="text-1-1-2">
+<div id="outline-container-1.1.2" class="outline-4">
+<h4 id="sec-1.1.2"><span class="section-number-4">1.1.2</span> HowManyMapsAndReduces - Hadoop Wiki </h4>
+<div class="outline-text-4" id="text-1.1.2">
 
 <p><a href="http://wiki.apache.org/hadoop/HowManyMapsAndReduces">http://wiki.apache.org/hadoop/HowManyMapsAndReduces</a>
 </p>
 <p>
 Number of Maps：
 </p><ul>
-<li>The number of maps is usually driven by the number of DFS blocks in the input files. Although that causes people to adjust their DFS block size to adjust the number of maps. (map数量通常都是由输入文件的blocks决定的，因此可以通过调整blocksize来调整map的数量）
+<li>
+The number of maps is usually driven by the number of DFS blocks in the input files. Although that causes people to adjust their DFS block size to adjust the number of maps. (map数量通常都是由输入文件的blocks决定的，因此可以通过调整blocksize来调整map的数量）
 </li>
-<li>The right level of parallelism for maps seems to be around 10-100 maps/node, although we have taken it up to 300 or so for very cpu-light map tasks. Task setup takes awhile, so it is best if the maps take at least a minute to execute. （因为map启动需要花费一些时间，因此map执行时间最好至少1min不然overhead太高。通常map数量是在10-100/node但是如果cpu-light的话那么可以设置到300左右）
+<li>
+The right level of parallelism for maps seems to be around 10-100 maps/node, although we have taken it up to 300 or so for very cpu-light map tasks. Task setup takes awhile, so it is best if the maps take at least a minute to execute. （因为map启动需要花费一些时间，因此map执行时间最好至少1min不然overhead太高。通常map数量是在10-100/node但是如果cpu-light的话那么可以设置到300左右）
 </li>
-<li>The number of map tasks can also be increased manually using the JobConf's conf.setNumMapTasks(int num). This can be used to increase the number of map tasks, but will not set the number below that which Hadoop determines via splitting the input data. （使用API可以增加map数量但是却不能够减少）
+<li>
+The number of map tasks can also be increased manually using the JobConf's conf.setNumMapTasks(int num). This can be used to increase the number of map tasks, but will not set the number below that which Hadoop determines via splitting the input data. （使用API可以增加map数量但是却不能够减少）
+
 </li>
 </ul>
 
-
-<p>
-Number of Reduces：
+<p>Number of Reduces：
 </p><ul>
-<li>The right number of reduces seems to be 0.95 or 1.75 * (nodes * mapred.tasktracker.tasks.maximum). At 0.95 all of the reduces can launch immediately and start transfering map outputs as the maps finish. At 1.75 the faster nodes will finish their first round of reduces and launch a second round of reduces doing a much better job of load balancing. （将reduce数量设置在允许同时运行最大reduce数量的0.95/1.75. 0.95可以让map完成之后所有reduce都可以理解启动就传输数据，而1.75的话可以让比较快的节点在第一轮就运算完成，而在第二轮做更好的load-balance)
+<li>
+The right number of reduces seems to be 0.95 or 1.75 * (nodes * mapred.tasktracker.tasks.maximum). At 0.95 all of the reduces can launch immediately and start transfering map outputs as the maps finish. At 1.75 the faster nodes will finish their first round of reduces and launch a second round of reduces doing a much better job of load balancing. （将reduce数量设置在允许同时运行最大reduce数量的0.95/1.75. 0.95可以让map完成之后所有reduce都可以理解启动就传输数据，而1.75的话可以让比较快的节点在第一轮就运算完成，而在第二轮做更好的load-balance)
 </li>
-<li>The number of reduces also controls the number of output files in the output directory, but usually that is not important because the next map/reduce step will split them into even smaller splits for the maps. (虽然reduce数量会影响到输出文件的数量，但是通常并不重要）
+<li>
+The number of reduces also controls the number of output files in the output directory, but usually that is not important because the next map/reduce step will split them into even smaller splits for the maps. (虽然reduce数量会影响到输出文件的数量，但是通常并不重要）
 </li>
-<li>The number of reduce tasks can also be increased in the same way as the map tasks, via JobConf's conf.setNumReduceTasks(int num). （可以设置reduce数目）
+<li>
+The number of reduce tasks can also be increased in the same way as the map tasks, via JobConf's conf.setNumReduceTasks(int num). （可以设置reduce数目）
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-1-3" class="outline-4">
-<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> 7 Tips for Improving MapReduce Performance | Apache Hadoop for the Enterprise | Cloudera</h4>
-<div class="outline-text-4" id="text-1-1-3">
+<div id="outline-container-1.1.3" class="outline-4">
+<h4 id="sec-1.1.3"><span class="section-number-4">1.1.3</span> 7 Tips for Improving MapReduce Performance | Apache Hadoop for the Enterprise | Cloudera </h4>
+<div class="outline-text-4" id="text-1.1.3">
 
 <p><a href="http://blog.cloudera.com/blog/2009/12/7-tips-for-improving-mapreduce-performance/">http://blog.cloudera.com/blog/2009/12/7-tips-for-improving-mapreduce-performance/</a>
 </p>
 <ul>
-<li>Configure your cluster correctly
+<li>
+Configure your cluster correctly
 <ul>
-<li>文件系统取消 noatime 属性。
+<li>
+文件系统取消 noatime 属性。
 </li>
-<li>使用JBOD而不是用RAID或者是LVM，尤其是在TT和DN上。
+<li>
+使用JBOD而不是用RAID或者是LVM，尤其是在TT和DN上。
 </li>
-<li>mapred.local.dir and dfs.data.dir
+<li>
+mapred.local.dir and dfs.data.dir
 </li>
-<li>If you find that a particular TaskTracker becomes blacklisted on many job invocations, it may have a failing drive.
+<li>
+If you find that a particular TaskTracker becomes blacklisted on many job invocations, it may have a failing drive.
 </li>
-<li>If you see swap being used, reduce the amount of RAM allocated to each task in mapred.child.java.opts.
+<li>
+If you see swap being used, reduce the amount of RAM allocated to each task in mapred.child.java.opts.
 </li>
 </ul>
-
 </li>
-<li>Use LZO Compression
+<li>
+Use LZO Compression
 </li>
-<li>Tune the number of map and reduce tasks appropriately
+<li>
+Tune the number of map and reduce tasks appropriately
 <ul>
-<li>distcp -Ddfs.block.size=$[256*1024*1024] /path/to/inputdata /path/to/inputdata-with-largeblocks 可以修改block size.
+<li>
+distcp -Ddfs.block.size=$[256*1024*1024] /path/to/inputdata /path/to/inputdata-with-largeblocks 可以修改block size.
 </li>
 </ul>
-
 </li>
-<li>Write a Combiner
+<li>
+Write a Combiner
 <ul>
-<li>A job performs aggregation of some sort, and the Reduce input groups counter is significantly smaller than the Reduce input records counter. 这个场景非常适合使用combiner. input records非常多但是groups非常少。
+<li>
+A job performs aggregation of some sort, and the Reduce input groups counter is significantly smaller than the Reduce input records counter. 这个场景非常适合使用combiner. input records非常多但是groups非常少。
 </li>
-<li>The number of spilled records is many times larger than the number of map output records as seen in the Job counters.
+<li>
+The number of spilled records is many times larger than the number of map output records as seen in the Job counters.
 </li>
 </ul>
-
 </li>
-<li>Use the most appropriate and compact Writable type for your data
+<li>
+Use the most appropriate and compact Writable type for your data
 </li>
-<li>Reuse Writables 重用序列化对象
+<li>
+Reuse Writables 重用序列化对象
 <ul>
-<li>Add -verbose:gc -XX:+PrintGCDetails to mapred.child.java.opts. Then inspect the logs for some tasks. If garbage collection is frequent and represents a lot of time, you may be allocating unnecessary objects. 观察GC情况
+<li>
+Add -verbose:gc -XX:+PrintGCDetails to mapred.child.java.opts. Then inspect the logs for some tasks. If garbage collection is frequent and represents a lot of time, you may be allocating unnecessary objects. 观察GC情况
 </li>
-<li>it may not bring you a gain for every job, but if you’re low on memory it can make a huge difference. 重用序列化对象可以减少内存分配次数，显著改善GC带来的影响
-</li>
-</ul>
-
-</li>
-<li>Use “Poor Man’s Profiling” to see what your tasks are doing
+<li>
+it may not bring you a gain for every job, but if you’re low on memory it can make a huge difference. 重用序列化对象可以减少内存分配次数，显著改善GC带来的影响
 </li>
 </ul>
+</li>
+<li>
+Use “Poor Man’s Profiling” to see what your tasks are doing
 
-
+</li>
+</ul>
 </div>
 
 </div>
 
-<div id="outline-container-1-1-4" class="outline-4">
-<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> Under the Hood: Scheduling MapReduce jobs more efficiently with Corona | Facebook</h4>
-<div class="outline-text-4" id="text-1-1-4">
+<div id="outline-container-1.1.4" class="outline-4">
+<h4 id="sec-1.1.4"><span class="section-number-4">1.1.4</span> Under the Hood: Scheduling MapReduce jobs more efficiently with Corona | Facebook </h4>
+<div class="outline-text-4" id="text-1.1.4">
 
 <ul>
-<li><a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-scheduling-mapreduce-jobs-more-efficiently-with-corona/10151142560538920">https://www.facebook.com/notes/facebook-engineering/under-the-hood-scheduling-mapreduce-jobs-more-efficiently-with-corona/10151142560538920</a>
+<li>
+<a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-scheduling-mapreduce-jobs-more-efficiently-with-corona/10151142560538920">https://www.facebook.com/notes/facebook-engineering/under-the-hood-scheduling-mapreduce-jobs-more-efficiently-with-corona/10151142560538920</a>
+
 </li>
 </ul>
 
-
-<p>
-原有MapReduce框架存在的限制是：
+<p>原有MapReduce框架存在的限制是：
 </p><ul>
-<li>The job tracker has two primary responsibilities: 1) managing the cluster resources and 2) scheduling all user jobs. As the cluster size and the number of jobs at Facebook grew, the scalability limitations of this design became clear. The job tracker could not handle its dual responsibilities adequately. At peak load, cluster utilization would drop precipitously due to scheduling overhead.（JobTracker同时管理集群资源以及做任务调度，但是这样的做法限制了scalability.jobtracker成为bottleneck除非能够将两个责任完全分开）
+<li>
+The job tracker has two primary responsibilities: 1) managing the cluster resources and 2) scheduling all user jobs. As the cluster size and the number of jobs at Facebook grew, the scalability limitations of this design became clear. The job tracker could not handle its dual responsibilities adequately. At peak load, cluster utilization would drop precipitously due to scheduling overhead.（JobTracker同时管理集群资源以及做任务调度，但是这样的做法限制了scalability.jobtracker成为bottleneck除非能够将两个责任完全分开）
 </li>
-<li>Another limitation of the Hadoop MapReduce framework was its pull-based scheduling model. Task trackers provide a heartbeat status to the job tracker in order to get tasks to run. Since the heartbeat is periodic, there is always a pre-defined delay when scheduling tasks for any job. For small jobs this delay was problematic.（调度策略现在采用的是pull-based调度模型。tasktracker通过设置心跳定时和jt通信请求任务处理，所以存在一定的延迟，这对于小任务来说存在实时性问题）
+<li>
+Another limitation of the Hadoop MapReduce framework was its pull-based scheduling model. Task trackers provide a heartbeat status to the job tracker in order to get tasks to run. Since the heartbeat is periodic, there is always a pre-defined delay when scheduling tasks for any job. For small jobs this delay was problematic.（调度策略现在采用的是pull-based调度模型。tasktracker通过设置心跳定时和jt通信请求任务处理，所以存在一定的延迟，这对于小任务来说存在实时性问题）
 </li>
-<li>Hadoop MapReduce is also constrained by its static slot-based resource management model. Rather than using a true resource management system, a MapReduce cluster is divided into a fixed number of map and reduce slots based on a static configuration – so slots are wasted anytime the cluster workload does not fit the static configuration. Furthermore, the slot-based model makes it hard for non-MapReduce applications to be scheduled appropriately.（slot-based资源模型这种模型相对于resource-based模型略显模型）
+<li>
+Hadoop MapReduce is also constrained by its static slot-based resource management model. Rather than using a true resource management system, a MapReduce cluster is divided into a fixed number of map and reduce slots based on a static configuration – so slots are wasted anytime the cluster workload does not fit the static configuration. Furthermore, the slot-based model makes it hard for non-MapReduce applications to be scheduled appropriately.（slot-based资源模型这种模型相对于resource-based模型略显模型）
 </li>
-<li>Finally, the original job tracker design required hard downtime (all running jobs are killed) during a software upgrade, which meant that every software upgrade resulted in significant wasted computation.（软件升级需要重启整个集群）
+<li>
+Finally, the original job tracker design required hard downtime (all running jobs are killed) during a software upgrade, which meant that every software upgrade resulted in significant wasted computation.（软件升级需要重启整个集群）
+
 </li>
 </ul>
 
-
-<p>
-Facebook’s solution: Corona 
+<p>Facebook’s solution: Corona 
 <img src="./images/facebook-corona.jpg"  alt="./images/facebook-corona.jpg" />
 </p>
 <ul>
-<li>Corona introduces a cluster manager whose only purpose is to track the nodes in the cluster and the amount of free resources. 将资源管理和调度管理想分离，单独分离出Cluster Manager来管理集群资源。
+<li>
+Corona introduces a cluster manager whose only purpose is to track the nodes in the cluster and the amount of free resources. 将资源管理和调度管理想分离，单独分离出Cluster Manager来管理集群资源。
 </li>
-<li>A dedicated job tracker is created for each job, and can run either in the same process as the client (for small jobs) or as a separate process in the cluster (for large jobs). JobTracker可以单独在client里面存在也可以作为一个进程运行。
+<li>
+A dedicated job tracker is created for each job, and can run either in the same process as the client (for small jobs) or as a separate process in the cluster (for large jobs). JobTracker可以单独在client里面存在也可以作为一个进程运行。
 </li>
-<li>One major difference from our previous Hadoop MapReduce implementation is that Corona uses push-based, rather than pull-based, scheduling. 使用push-based模型
+<li>
+One major difference from our previous Hadoop MapReduce implementation is that Corona uses push-based, rather than pull-based, scheduling. 使用push-based模型
 <ul>
-<li>After the cluster manager receives resource requests from the job tracker, it pushes the resource grants back to the job tracker. jobTracker立刻向cluster manager申请资源，而CM立刻给jobtracker分配资源。
+<li>
+After the cluster manager receives resource requests from the job tracker, it pushes the resource grants back to the job tracker. jobTracker立刻向cluster manager申请资源，而CM立刻给jobtracker分配资源。
 </li>
-<li>Also, once the job tracker gets resource grants, it creates tasks and then pushes these tasks to the task trackers for running. There is no periodic heartbeat involved in this scheduling, so the scheduling latency is minimized 一旦jobtracker得到资源之后立刻将任务分派到tt上就可以执行
+<li>
+Also, once the job tracker gets resource grants, it creates tasks and then pushes these tasks to the task trackers for running. There is no periodic heartbeat involved in this scheduling, so the scheduling latency is minimized 一旦jobtracker得到资源之后立刻将任务分派到tt上就可以执行
 </li>
 </ul>
-
 </li>
-<li>The cluster manager also has a new implementation of fair-share scheduling. 
+<li>
+The cluster manager also has a new implementation of fair-share scheduling. 
 <ul>
-<li>This scheduler is able to provide better fairness guarantees because it has access to the full snapshot of the cluster and jobs when making scheduling decisions. 
+<li>
+This scheduler is able to provide better fairness guarantees because it has access to the full snapshot of the cluster and jobs when making scheduling decisions. 
 </li>
-<li>It also provides better support for multi-tenant usage by providing the ability to group the scheduler pools into pool groups. 通过pool group机制来为多用户服务。
+<li>
+It also provides better support for multi-tenant usage by providing the ability to group the scheduler pools into pool groups. 通过pool group机制来为多用户服务。
 </li>
-<li>A pool group can be assigned to a team that can then in turn manage the pools within its pool group. The pool group concept gives every team fine-grained control over their assigned resource allocation.
+<li>
+A pool group can be assigned to a team that can then in turn manage the pools within its pool group. The pool group concept gives every team fine-grained control over their assigned resource allocation.
 </li>
-<li><b>NOTE(dirlt):refers to Borg and Mesos</b>
-</li>
-</ul>
+<li>
+<b>NOTE(dirlt):refers to Borg and Mesos</b>
 
 </li>
 </ul>
+</li>
+</ul>
 
-
-<p>
-Corona在fb部署过程是这样的
+<p>Corona在fb部署过程是这样的
 </p><ol>
-<li>Rollout to 500 nodes. Our first step was to deploy Corona on 500 of the machines in the cluster. This let us get feedback from early adopters. 部署500节点集群做反馈。
+<li>
+Rollout to 500 nodes. Our first step was to deploy Corona on 500 of the machines in the cluster. This let us get feedback from early adopters. 部署500节点集群做反馈。
 </li>
-<li>Handle all non-critical workloads. Next, we started moving the non-critical workloads for each team to the Corona cluster, along with their compute capacity. This let us monitor the system performance with increasing load. When the cluster had 1,000 nodes, we saw our first Facebook-scale problem - the cluster manager scheduler had a bug that slowed it down. We were able to make the fix without much disruption because of the staged deployment. 然后将non-critical workload迁移到corona上面。到达1000节点的时候cluster manager还出现一个bug并且导致整个集群变慢
+<li>
+Handle all non-critical workloads. Next, we started moving the non-critical workloads for each team to the Corona cluster, along with their compute capacity. This let us monitor the system performance with increasing load. When the cluster had 1,000 nodes, we saw our first Facebook-scale problem - the cluster manager scheduler had a bug that slowed it down. We were able to make the fix without much disruption because of the staged deployment. 然后将non-critical workload迁移到corona上面。到达1000节点的时候cluster manager还出现一个bug并且导致整个集群变慢
 </li>
-<li>Corona takes over all MapReduce jobs. The final step was to move the mission-critical workloads to Corona as well; eventually the old MapReduce cluster was reduced to 60 nodes. At this point we removed the Hive hook and made the new cluster the default for all workloads. 然后将所有的mapreduce迁移到corona上面
+<li>
+Corona takes over all MapReduce jobs. The final step was to move the mission-critical workloads to Corona as well; eventually the old MapReduce cluster was reduced to 60 nodes. At this point we removed the Hive hook and made the new cluster the default for all workloads. 然后将所有的mapreduce迁移到corona上面
 </li>
-<li>By mid-2012, we had successfully deployed Corona across all our production systems. The entire process took about three months. 整个过程花费3个月。
+<li>
+By mid-2012, we had successfully deployed Corona across all our production systems. The entire process took about three months. 整个过程花费3个月。
+
 </li>
 </ol>
 
-
-<p>
-为什么fb不使用YARN:
+<p>为什么fb不使用YARN:
 </p><ul>
-<li>It’s worth noting that we considered Apache YARN as a possible alternative to Corona. However, after investigating the use of YARN on top of our version of HDFS (a strong requirement due to our many petabytes of archived data) we found numerous incompatibilities that would be time-prohibitive and risky to fix. Also, it is unknown when YARN would be ready to work at Facebook-scale workloads.
+<li>
+It’s worth noting that we considered Apache YARN as a possible alternative to Corona. However, after investigating the use of YARN on top of our version of HDFS (a strong requirement due to our many petabytes of archived data) we found numerous incompatibilities that would be time-prohibitive and risky to fix. Also, it is unknown when YARN would be ready to work at Facebook-scale workloads.
 </li>
-<li>没有升级到YARN一方面是考虑到兼容性问题，另外一方面是考虑到风险性
+<li>
+没有升级到YARN一方面是考虑到兼容性问题，另外一方面是考虑到风险性
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-1-5" class="outline-4">
-<h4 id="sec-1-1-5"><span class="section-number-4">1.1.5</span> MapReduce Patterns, Algorithms, and Use Cases | Highly Scalable Blog</h4>
-<div class="outline-text-4" id="text-1-1-5">
+<div id="outline-container-1.1.5" class="outline-4">
+<h4 id="sec-1.1.5"><span class="section-number-4">1.1.5</span> MapReduce Patterns, Algorithms, and Use Cases | Highly Scalable Blog </h4>
+<div class="outline-text-4" id="text-1.1.5">
 
 <p><a href="http://highlyscalable.wordpress.com/2012/02/01/mapreduce-patterns/">http://highlyscalable.wordpress.com/2012/02/01/mapreduce-patterns/</a>
 </p>
@@ -684,126 +748,156 @@ Corona在fb部署过程是这样的
 <a href="http://blog.nosqlfan.com/html/4179.html">http://blog.nosqlfan.com/html/4179.html</a>
 </p>
 <ul>
-<li>基本MapReduce模式
+<li>
+基本MapReduce模式
 <ul>
-<li>计数与求和 # 在mapper里面使用hashmap以及使用combiner来减少传输数据量
+<li>
+计数与求和 # 在mapper里面使用hashmap以及使用combiner来减少传输数据量
 </li>
-<li>整理归类 # 类似倒排索引性质
+<li>
+整理归类 # 类似倒排索引性质
 </li>
-<li>过滤 (文本查找)，解析和校验 # 每个mapper单独处理
+<li>
+过滤 (文本查找)，解析和校验 # 每个mapper单独处理
 </li>
-<li>分布式任务执行 # mapper处理小任务使用一个reducer做汇总
+<li>
+分布式任务执行 # mapper处理小任务使用一个reducer做汇总
 </li>
-<li>排序 # 使用CompositeKey,Group来做扩展
+<li>
+排序 # 使用CompositeKey,Group来做扩展
 </li>
 </ul>
-
 </li>
-<li>非基本MapReduce模式
+<li>
+非基本MapReduce模式
 <ul>
-<li>迭代消息传递 (图处理) # 多轮迭代物化每轮中间结果
+<li>
+迭代消息传递 (图处理) # 多轮迭代物化每轮中间结果
 </li>
-<li>值去重 （对唯一项计数） # 扩展排序
+<li>
+值去重 （对唯一项计数） # 扩展排序
 </li>
-<li>互相关 
+<li>
+互相关 
 </li>
 </ul>
-
 </li>
-<li>用MapReduce表达关系模式
+<li>
+用MapReduce表达关系模式
 <ul>
-<li>筛选（Selection）
+<li>
+筛选（Selection）
 </li>
-<li>投影（Projection）
+<li>
+投影（Projection）
 </li>
-<li>合并（Union） 
+<li>
+合并（Union） 
 </li>
-<li>交集（Intersection）
+<li>
+交集（Intersection）
 </li>
-<li>差异（Difference）
+<li>
+差异（Difference）
 </li>
-<li>分组聚合（GroupBy and Aggregation）
+<li>
+分组聚合（GroupBy and Aggregation）
 </li>
-<li>连接（Joining）
+<li>
+连接（Joining）
 <ul>
-<li>分配后连接 （Reduce端连接,排序-合并连接）
+<li>
+分配后连接 （Reduce端连接,排序-合并连接）
 </li>
-<li>复制链接Replicated Join （Mapper端连接, Hash 连接） # 一路数据作为hashmap存放在mapper里面做连接
+<li>
+复制链接Replicated Join （Mapper端连接, Hash 连接） # 一路数据作为hashmap存放在mapper里面做连接
 </li>
-<li><a href="http://www.inf.ed.ac.uk/publications/thesis/online/IM100859.pdf">Join Algorithms using Map/Reduce</a>
+<li>
+<a href="http://www.inf.ed.ac.uk/publications/thesis/online/IM100859.pdf">Join Algorithms using Map/Reduce</a>
 </li>
-<li><a href="#Optimizing-Joins-in-a-MapReduce-Environment">Optimizing Joins in a MapReduce Environment</a>
+<li>
+<a href="#sec-1.1.5">Optimizing Joins in a MapReduce Environment</a>
 </li>
 </ul>
-
 </li>
 </ul>
-
 </li>
-<li>reference
+<li>
+reference
 <ul>
-<li>C. T. Chu et al provides an excellent description of  machine learning algorithms for MapReduce in the article Map-Reduce for Machine Learning on Multicore.
+<li>
+C. T. Chu et al provides an excellent description of  machine learning algorithms for MapReduce in the article Map-Reduce for Machine Learning on Multicore.
 </li>
-<li>FFT using MapReduce:  <a href="http://www.slideshare.net/hortonworks/large-scale-math-with-hadoop-mapreduce">http://www.slideshare.net/hortonworks/large-scale-math-with-hadoop-mapreduce</a>
+<li>
+FFT using MapReduce:  <a href="http://www.slideshare.net/hortonworks/large-scale-math-with-hadoop-mapreduce">http://www.slideshare.net/hortonworks/large-scale-math-with-hadoop-mapreduce</a>
 </li>
-<li>MapReduce for integer factorization: <a href="http://www.javiertordable.com/files/MapreduceForIntegerFactorization.pdf">http://www.javiertordable.com/files/MapreduceForIntegerFactorization.pdf</a>
+<li>
+MapReduce for integer factorization: <a href="http://www.javiertordable.com/files/MapreduceForIntegerFactorization.pdf">http://www.javiertordable.com/files/MapreduceForIntegerFactorization.pdf</a>
 </li>
-<li>Matrix multiplication with MapReduce: <a href="http://csl.skku.edu/papers/CS-TR-2010-330.pdf">http://csl.skku.edu/papers/CS-TR-2010-330.pdf</a> and <a href="http://www.norstad.org/matrix-multiply/index.html">http://www.norstad.org/matrix-multiply/index.html</a>
-</li>
-</ul>
+<li>
+Matrix multiplication with MapReduce: <a href="http://csl.skku.edu/papers/CS-TR-2010-330.pdf">http://csl.skku.edu/papers/CS-TR-2010-330.pdf</a> and <a href="http://www.norstad.org/matrix-multiply/index.html">http://www.norstad.org/matrix-multiply/index.html</a>
 
 </li>
 </ul>
-
-
+</li>
+</ul>
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Scheduler</h3>
-<div class="outline-text-3" id="text-1-2">
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2"><span class="section-number-3">1.2</span> Scheduler </h3>
+<div class="outline-text-3" id="text-1.2">
 
 <ul>
-<li>Fair Scheduler Guide <a href="http://archive.cloudera.com/cdh/3/hadoop/fair_scheduler.html">http://archive.cloudera.com/cdh/3/hadoop/fair_scheduler.html</a>
+<li>
+Fair Scheduler Guide <a href="http://archive.cloudera.com/cdh/3/hadoop/fair_scheduler.html">http://archive.cloudera.com/cdh/3/hadoop/fair_scheduler.html</a>
 </li>
-<li>Job Scheduling in Hadoop | Apache Hadoop for the Enterprise | Cloudera <a href="http://www.cloudera.com/blog/2008/11/job-scheduling-in-hadoop/">http://www.cloudera.com/blog/2008/11/job-scheduling-in-hadoop/</a>
+<li>
+Job Scheduling in Hadoop | Apache Hadoop for the Enterprise | Cloudera <a href="http://www.cloudera.com/blog/2008/11/job-scheduling-in-hadoop/">http://www.cloudera.com/blog/2008/11/job-scheduling-in-hadoop/</a>
 </li>
-<li>Understanding Apache Hadoop’s Capacity Scheduler | Hortonworks <a href="http://hortonworks.com/blog/understanding-apache-hadoops-capacity-scheduler/">http://hortonworks.com/blog/understanding-apache-hadoops-capacity-scheduler/</a>
+<li>
+Understanding Apache Hadoop’s Capacity Scheduler | Hortonworks <a href="http://hortonworks.com/blog/understanding-apache-hadoops-capacity-scheduler/">http://hortonworks.com/blog/understanding-apache-hadoops-capacity-scheduler/</a>
 </li>
-<li>Upcoming Functionality in “Fair Scheduler 2.0″ | Apache Hadoop for the Enterprise | Cloudera <a href="http://www.cloudera.com/blog/2009/04/upcoming-functionality-in-fair-scheduler-20/">http://www.cloudera.com/blog/2009/04/upcoming-functionality-in-fair-scheduler-20/</a>
+<li>
+Upcoming Functionality in “Fair Scheduler 2.0″ | Apache Hadoop for the Enterprise | Cloudera <a href="http://www.cloudera.com/blog/2009/04/upcoming-functionality-in-fair-scheduler-20/">http://www.cloudera.com/blog/2009/04/upcoming-functionality-in-fair-scheduler-20/</a>
 </li>
-<li>Hadoop公平调度器指南(zz) - 星星的日志 - 网易博客 : <a href="http://duanple.blog.163.com/blog/static/709717672011713111832580/">http://duanple.blog.163.com/blog/static/709717672011713111832580/</a>
+<li>
+Hadoop公平调度器指南(zz) - 星星的日志 - 网易博客 : <a href="http://duanple.blog.163.com/blog/static/709717672011713111832580/">http://duanple.blog.163.com/blog/static/709717672011713111832580/</a>
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 代码分析</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-1.3" class="outline-3">
+<h3 id="sec-1.3"><span class="section-number-3">1.3</span> 代码分析 </h3>
+<div class="outline-text-3" id="text-1.3">
 
 
 </div>
 
-<div id="outline-container-1-3-1" class="outline-4">
-<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> task heartbeat</h4>
-<div class="outline-text-4" id="text-1-3-1">
+<div id="outline-container-1.3.1" class="outline-4">
+<h4 id="sec-1.3.1"><span class="section-number-4">1.3.1</span> task heartbeat </h4>
+<div class="outline-text-4" id="text-1.3.1">
 
 <ul>
-<li>task不管是mapper还是reducer，和mr框架相关的内容都包含在了Context里面。
+<li>
+task不管是mapper还是reducer，和mr框架相关的内容都包含在了Context里面。
 </li>
-<li>Context初始化里面需要传入一个Reporter类，这个类主要用来和tasktracker汇报信息。Reporter本身是一个抽象类，一个具体实现类有TaskReporter
+<li>
+Context初始化里面需要传入一个Reporter类，这个类主要用来和tasktracker汇报信息。Reporter本身是一个抽象类，一个具体实现类有TaskReporter
 </li>
-<li>TaskReporter本身实现了一个run方法，代码里面可以看到在和tasktracker通信。如果任务每个完成的话，那么会不断检查sendProgress这个标志位，这个标志位也被progress方法设置.
+<li>
+TaskReporter本身实现了一个run方法，代码里面可以看到在和tasktracker通信。如果任务每个完成的话，那么会不断检查sendProgress这个标志位，这个标志位也被progress方法设置.
 </li>
-<li>在MapTask以及ReduceTask里面的run方法，首先会创建reporter对象并且启动（startCommunicationThread），然后执行具体的map或者是reduce过程。（runNewMapper/runNewReducer） ，最后回到了Context.run
+<li>
+在MapTask以及ReduceTask里面的run方法，首先会创建reporter对象并且启动（startCommunicationThread），然后执行具体的map或者是reduce过程。（runNewMapper/runNewReducer） ，最后回到了Context.run
 </li>
-<li>在Context.run里面本质工作是在不断地读取kv然后交给appcode来进行处理，在每次调用nextKeyValue里面，实际上调用了report.progress方法。
+<li>
+在Context.run里面本质工作是在不断地读取kv然后交给appcode来进行处理，在每次调用nextKeyValue里面，实际上调用了report.progress方法。
 </li>
 </ul>
 
@@ -813,9 +907,9 @@ Corona在fb部署过程是这样的
 
 </div>
 
-<div id="outline-container-1-3-2" class="outline-4">
-<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Partitioner</h4>
-<div class="outline-text-4" id="text-1-3-2">
+<div id="outline-container-1.3.2" class="outline-4">
+<h4 id="sec-1.3.2"><span class="section-number-4">1.3.2</span> Partitioner </h4>
+<div class="outline-text-4" id="text-1.3.2">
 
 <p>将kv分配到哪个reduce上，接口是
 </p>
@@ -824,16 +918,19 @@ Corona在fb部署过程是这样的
 <pre class="src src-Java">public abstract int getPartition(KEY key, VALUE value, int numPartitions);
 </pre>
 
+
+
 <ul>
-<li>key/value是输入的kv
+<li>
+key/value是输入的kv
 </li>
-<li>numPartitions是有总共多少reduce
+<li>
+numPartitions是有总共多少reduce
+
 </li>
 </ul>
 
-
-<p>
-通常我们可能不设置这个partitioner,所以我们需要知道默认实现是HashPartitioner
+<p>通常我们可能不设置这个partitioner,所以我们需要知道默认实现是HashPartitioner
 </p>
 
 
@@ -844,16 +941,19 @@ Corona在fb部署过程是这样的
 </pre>
 
 
-</div>
+
 
 </div>
 
-<div id="outline-container-1-3-3" class="outline-4">
-<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> shuffle in memory</h4>
-<div class="outline-text-4" id="text-1-3-3">
+</div>
+
+<div id="outline-container-1.3.3" class="outline-4">
+<h4 id="sec-1.3.3"><span class="section-number-4">1.3.3</span> shuffle in memory </h4>
+<div class="outline-text-4" id="text-1.3.3">
 
 <ul>
-<li>Users - Shuffle In Memory OutOfMemoryError : <a href="http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-td433197.html">http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-td433197.html</a>
+<li>
+Users - Shuffle In Memory OutOfMemoryError : <a href="http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-td433197.html">http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-td433197.html</a>
 </li>
 </ul>
 
@@ -869,6 +969,8 @@ Corona在fb部署过程是这样的
                 requestedSize &lt; maxSingleShuffleLimit);
       }
 </pre>
+
+
 
 
 <p>
@@ -893,51 +995,60 @@ Corona在fb部署过程是这样的
 }
 </pre>
 
+
+
 <ul>
-<li>maxInMemCopyUse shuffle占用内存的比率
+<li>
+maxInMemCopyUse shuffle占用内存的比率
 </li>
-<li>maxSize 单个shuffle允许使用内存上限
+<li>
+maxSize 单个shuffle允许使用内存上限
 </li>
-<li>maxSingleShuffleLimit 考虑到多个shuffle并行，所以需要乘一个比率  MAX_SINGLE_SHUFFLE_SEGMENT_FRACTION = 0.25f
+<li>
+maxSingleShuffleLimit 考虑到多个shuffle并行，所以需要乘一个比率  MAX<sub>SINGLE</sub><sub>SHUFFLE</sub><sub>SEGMENT</sub><sub>FRACTION</sub> = 0.25f
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-3-4" class="outline-4">
-<h4 id="sec-1-3-4"><span class="section-number-4">1.3.4</span> lzo index format</h4>
-<div class="outline-text-4" id="text-1-3-4">
+<div id="outline-container-1.3.4" class="outline-4">
+<h4 id="sec-1.3.4"><span class="section-number-4">1.3.4</span> lzo index format </h4>
+<div class="outline-text-4" id="text-1.3.4">
 
 <p>主要分析elephant-bird的lzo index方面的代码，了解原理之后就可以做一些简单的扩展或者以此为参考做一些索引工作。分析包含几个实现文件
 </p><ul>
-<li>DistributedLzoIndexer // 在lzo文件上建立索引index文件，是一个MapReduce任务。因为lzo本身是不可切割的，建立索引文件之后就可以切分开了。
+<li>
+DistributedLzoIndexer // 在lzo文件上建立索引index文件，是一个MapReduce任务。因为lzo本身是不可切割的，建立索引文件之后就可以切分开了。
 </li>
-<li>LzoTextInputFormat // 如何配合index文件来读取lzo文件。相对LzoProtobufBlockInputFormat这些实现来说，LzoTextInputFormat比较简单，但是原理是类似的，差别就是判断使用什么类型来进一步做反序列化。
+<li>
+LzoTextInputFormat // 如何配合index文件来读取lzo文件。相对LzoProtobufBlockInputFormat这些实现来说，LzoTextInputFormat比较简单，但是原理是类似的，差别就是判断使用什么类型来进一步做反序列化。
+
 </li>
 </ul>
-
-
 
 </div>
 
-<div id="outline-container-1-3-4-1" class="outline-5">
-<h5 id="sec-1-3-4-1"><span class="section-number-5">1.3.4.1</span> DistributedLzoIndexer</h5>
-<div class="outline-text-5" id="text-1-3-4-1">
+<div id="outline-container-1.3.4.1" class="outline-5">
+<h5 id="sec-1.3.4.1"><span class="section-number-5">1.3.4.1</span> DistributedLzoIndexer </h5>
+<div class="outline-text-5" id="text-1.3.4.1">
 
 <ul>
-<li>调用walkPath尝试得到所有的输入文件，使用nonTemporaryFilter来过滤临时文件，然后添加到job输入路径里面。
+<li>
+调用walkPath尝试得到所有的输入文件，使用nonTemporaryFilter来过滤临时文件，然后添加到job输入路径里面。
 </li>
-<li>mapred.map.tasks.speculative.execution = false 关闭预测执行。
+<li>
+mapred.map.tasks.speculative.execution = false 关闭预测执行。
 </li>
-<li>mapper没有做任何事情就是直接输出输入，没有reducer. 工作主要集中在LzoSplitInputFormat和LzoIndexOutputFormat这两个类上。
+<li>
+mapper没有做任何事情就是直接输出输入，没有reducer. 工作主要集中在LzoSplitInputFormat和LzoIndexOutputFormat这两个类上。
 </li>
-<li>output key = Path, output value = LongWritable，key表示输入的文件，value表示每个lzo可以decompress的起始offset. 
+<li>
+output key = Path, output value = LongWritable，key表示输入的文件，value表示每个lzo可以decompress的起始offset. 
+
 </li>
 </ul>
-
 
 
 <hr/>
@@ -964,6 +1075,8 @@ Corona在fb部署过程是这样的
 </pre>
 
 
+
+
 <p>
 然后不断地写入offset
 </p>
@@ -980,6 +1093,8 @@ public void write(Path path, LongWritable offset) throws IOException, Interrupte
 }
 
 </pre>
+
+
 
 
 <p>
@@ -1002,13 +1117,17 @@ public void close(TaskAttemptContext taskAttemptContext) throws IOException, Int
 
 
 
+
+
 <hr/>
 <p>
 主要工作还是在LzoSplitInputFormat上面。记住这个input format给出的key是Path，value是offset. 主要工作也是LzoSplitRecordReader完成的。从代码上来看，主要的两个函数分别是
 </p><ul>
-<li>initialize. 这个函数会初始化lzo decompressor input stream用来准备读数据，并且首先读取一些元信息。
+<li>
+initialize. 这个函数会初始化lzo decompressor input stream用来准备读数据，并且首先读取一些元信息。
 </li>
-<li>nextKeyValue. 这个函数则用input stream来读数据。但是注意实际上它只是在寻找split point，也就是block boundary. 这个算法和lzo压缩格式本身相关。
+<li>
+nextKeyValue. 这个函数则用input stream来读数据。但是注意实际上它只是在寻找split point，也就是block boundary. 这个算法和lzo压缩格式本身相关。
 </li>
 </ul>
 
@@ -1023,6 +1142,8 @@ protected boolean isSplitable(JobContext context, Path filename) {
   return false;
 }
 </pre>
+
+
 
 
 <p>
@@ -1059,6 +1180,8 @@ public void initialize(InputSplit genericSplit, TaskAttemptContext taskAttemptCo
   numDecompressedChecksums = lzopDecompressor.getDecompressedChecksumsCount();
 }
 </pre>
+
+
 
 <p>
 最后面的checksum是指，对于compressed block有几个checksum, 对于decompressed block有几个checksum. 
@@ -1107,29 +1230,35 @@ public boolean nextKeyValue() throws IOException {
 }
 </pre>
 
+
+
 <p>
 从代码里面可以推测格式了
 </p><ul>
-<li>未压缩大小（4字节）
+<li>
+未压缩大小（4字节）
 </li>
-<li>压缩大小（4字节）
+<li>
+压缩大小（4字节）
 </li>
-<li>数据 + checksum count
+<li>
+数据 + checksum count
 <ul>
-<li>如果未压缩大小 == 压缩大小，那么checksum count == numDecompressedChecksums
+<li>
+如果未压缩大小 == 压缩大小，那么checksum count == numDecompressedChecksums
 </li>
-<li>如果未压缩大小 != 压缩大小，那么checksum count == numDecompressedChecksums + numCompressedChecksums
+<li>
+如果未压缩大小 != 压缩大小，那么checksum count == numDecompressedChecksums + numCompressedChecksums
 </li>
-<li>每个checksum是4字节
-</li>
-</ul>
+<li>
+每个checksum是4字节
 
 </li>
 </ul>
+</li>
+</ul>
 
-
-<p>
-提供key和value函数就是
+<p>提供key和value函数就是
 </p>
 
 
@@ -1145,29 +1274,34 @@ public LongWritable getCurrentValue() {
 </pre>
 
 
-</div>
+
 
 </div>
 
-<div id="outline-container-1-3-4-2" class="outline-5">
-<h5 id="sec-1-3-4-2"><span class="section-number-5">1.3.4.2</span> LzoTextInputFormat</h5>
-<div class="outline-text-5" id="text-1-3-4-2">
+</div>
+
+<div id="outline-container-1.3.4.2" class="outline-5">
+<h5 id="sec-1.3.4.2"><span class="section-number-5">1.3.4.2</span> LzoTextInputFormat </h5>
+<div class="outline-text-5" id="text-1.3.4.2">
 
 <p>首先说明一下大致逻辑
 </p><ul>
-<li>初始化的时候会尝试读取输入lzo文件对应的index,保存在map里面。key是Path,value是LzoIndex对象。
+<li>
+初始化的时候会尝试读取输入lzo文件对应的index,保存在map里面。key是Path,value是LzoIndex对象。
 </li>
-<li>尝试判断文件是否可分割的时候，判断Path是否有对应的LzoIndex对象。如果有的话说明有对应的index文件，那么就是可切割的，否则就不可切割。
+<li>
+尝试判断文件是否可分割的时候，判断Path是否有对应的LzoIndex对象。如果有的话说明有对应的index文件，那么就是可切割的，否则就不可切割。
 </li>
-<li>getSplits阶段首先调用TextInputFormat根据splitsize来对文件切分。很明显就这个切分来说不一定能够完全解压缩。得到这个切分之后查询LzoIndex对象，round到可以切割的offset.
+<li>
+getSplits阶段首先调用TextInputFormat根据splitsize来对文件切分。很明显就这个切分来说不一定能够完全解压缩。得到这个切分之后查询LzoIndex对象，round到可以切割的offset.
 </li>
-<li>得到可以自解压缩的block之后，使用LzoLineRecordReader创建decompressor input stream就可以输入了。
+<li>
+得到可以自解压缩的block之后，使用LzoLineRecordReader创建decompressor input stream就可以输入了。
+
 </li>
 </ul>
 
-
-<p>
-后面结合代码看看。首先初始化阶段调用listStatus预处理所有的输入文件
+<p>后面结合代码看看。首先初始化阶段调用listStatus预处理所有的输入文件
 </p>
 
 
@@ -1203,6 +1337,8 @@ protected List&lt;FileStatus&gt; listStatus(JobContext job) throws IOException {
   return files;
 }
 </pre>
+
+
 
 <p>
 可以看到LzoIndex.readIndex会读取对应的index文件。具体LzoIndex里面存储是什么东西呢？其实里面存储的就是顺序排列的offset. 这个类里面最重要的两个方法是下面两个，可以用来round到可切割的offset.
@@ -1274,6 +1410,8 @@ public long findNextPosition(long pos) {
 </pre>
 
 
+
+
 <p>
 然后看看getSplits代码
 </p>
@@ -1326,6 +1464,8 @@ public List&lt;InputSplit&gt; getSplits(JobContext job) throws IOException {
 }
 </pre>
 
+
+
 <p>
 整个过程就非常清晰了。fileSplit.getStart()和fileSplit.getLength()是原始分片，如果按照这个信息是不能够解压缩的。但是在LzoIndex的帮助下面定位到了lzoStart和lzoEnd, 这个区间内的数据是可以自解压缩的。
 </p>
@@ -1335,41 +1475,43 @@ public List&lt;InputSplit&gt; getSplits(JobContext job) throws IOException {
 
 </div>
 
-<div id="outline-container-1-4" class="outline-3">
-<h3 id="sec-1-4"><span class="section-number-3">1.4</span> 日志分析</h3>
-<div class="outline-text-3" id="text-1-4">
+<div id="outline-container-1.4" class="outline-3">
+<h3 id="sec-1.4"><span class="section-number-3">1.4</span> 日志分析 </h3>
+<div class="outline-text-3" id="text-1.4">
 
 
 </div>
 
-<div id="outline-container-1-4-1" class="outline-4">
-<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> getMapOutput failed</h4>
-<div class="outline-text-4" id="text-1-4-1">
+<div id="outline-container-1.4.1" class="outline-4">
+<h4 id="sec-1.4.1"><span class="section-number-4">1.4.1</span> getMapOutput failed </h4>
+<div class="outline-text-4" id="text-1.4.1">
 
 <ul>
-<li><a href="http://stackoverflow.com/questions/10799143/hadoop-mapreduce-getmapoutput-failed">http://stackoverflow.com/questions/10799143/hadoop-mapreduce-getmapoutput-failed</a> (bad case)
+<li>
+<a href="http://stackoverflow.com/questions/10799143/hadoop-mapreduce-getmapoutput-failed">http://stackoverflow.com/questions/10799143/hadoop-mapreduce-getmapoutput-failed</a> (bad case)
 </li>
-<li><a href="https://issues.apache.org/jira/browse/MAPREDUCE-5">https://issues.apache.org/jira/browse/MAPREDUCE-5</a> (bad case)
+<li>
+<a href="https://issues.apache.org/jira/browse/MAPREDUCE-5">https://issues.apache.org/jira/browse/MAPREDUCE-5</a> (bad case)
+
 </li>
 </ul>
 
-
-
 </div>
 
-<div id="outline-container-1-4-1-1" class="outline-5">
-<h5 id="sec-1-4-1-1"><span class="section-number-5">1.4.1.1</span> normal case</h5>
-<div class="outline-text-5" id="text-1-4-1-1">
+<div id="outline-container-1.4.1.1" class="outline-5">
+<h5 id="sec-1.4.1.1"><span class="section-number-5">1.4.1.1</span> normal case </h5>
+<div class="outline-text-5" id="text-1.4.1.1">
 
 <p>dp41上面出现如下错误日志，可以看到dp41在作为map output server时候，dp16从这些取数据但是失败，并且可以分析
 </p><ul>
-<li>map task attempt_201301231102_33841_m_000331_0
+<li>
+map task attempt<sub>201301231102</sub><sub>33841</sub><sub>m</sub><sub>000331</sub><sub>0</sub>
 </li>
-<li>reduce task id = 15
+<li>
+reduce task id = 15
+
 </li>
 </ul>
-
-
 
 
 <pre class="example">2013-05-13 12:23:06,708 WARN org.apache.hadoop.mapred.TaskTracker: getMapOutput(attempt_201301231102_33841_m_000331_0,15) failed :
@@ -1485,6 +1627,8 @@ java.lang.IllegalStateException: Committed
 </pre>
 
 
+
+
 <p>
 <b>NOTE（dirlt）：开始我以为会存在什么问题，所以仔细分析了两个task的情况</b>
 </p>
@@ -1523,6 +1667,8 @@ Records Read    3,155,527
 </pre>
 
 
+
+
 <p>
 reducer in dp16
 </p>
@@ -1547,8 +1693,10 @@ Reduce input records    321,140,243
 </pre>
 
 
+
+
 <p>
-性能数据非常正常. 然后察看dp16对应时刻的日志，发现这个getMapOutput只不过是一个偶然的失败。但是其实从dp16上面的日志来看，可能只是取map output部分block没有成功，但是后续还是成功的，观察 <b>attempt_201301231102_33841_r_000015_0</b> 传输百分比和block数目。
+性能数据非常正常. 然后察看dp16对应时刻的日志，发现这个getMapOutput只不过是一个偶然的失败。但是其实从dp16上面的日志来看，可能只是取map output部分block没有成功，但是后续还是成功的，观察 <b>attempt<sub>201301231102</sub><sub>33841</sub><sub>r</sub><sub>000015</sub><sub>0</sub></b> 传输百分比和block数目。
 </p>
 
 
@@ -1565,29 +1713,31 @@ Reduce input records    321,140,243
 </pre>
 
 
-</div>
-
-</div>
-
-<div id="outline-container-1-4-1-2" class="outline-5">
-<h5 id="sec-1-4-1-2"><span class="section-number-5">1.4.1.2</span> bas case</h5>
-<div class="outline-text-5" id="text-1-4-1-2">
-
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-1-4-2" class="outline-4">
-<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> Error initializing</h4>
-<div class="outline-text-4" id="text-1-4-2">
 
 
 </div>
 
-<div id="outline-container-1-4-2-1" class="outline-5">
-<h5 id="sec-1-4-2-1"><span class="section-number-5">1.4.2.1</span> No such file or directory</h5>
-<div class="outline-text-5" id="text-1-4-2-1">
+</div>
+
+<div id="outline-container-1.4.1.2" class="outline-5">
+<h5 id="sec-1.4.1.2"><span class="section-number-5">1.4.1.2</span> bas case </h5>
+<div class="outline-text-5" id="text-1.4.1.2">
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1.4.2" class="outline-4">
+<h4 id="sec-1.4.2"><span class="section-number-4">1.4.2</span> Error initializing </h4>
+<div class="outline-text-4" id="text-1.4.2">
+
+
+</div>
+
+<div id="outline-container-1.4.2.1" class="outline-5">
+<h5 id="sec-1.4.2.1"><span class="section-number-5">1.4.2.1</span> No such file or directory </h5>
+<div class="outline-text-5" id="text-1.4.2.1">
 
 <p>dp31出现如下日志，这个过程是非常诡异的。从stacktrace上面可以看到过程是在创建job directory时候正要修改权限，但是文件找不到了。从dp31的df -h可以看到剩余磁盘空间如下
 </p>
@@ -1601,6 +1751,8 @@ Reduce input records    321,140,243
 /dev/sdh1       1.8T  1.7T  1.1G 100% /data/data7
 /dev/sde1       1.8T  346G  1.4T  20% /data/data4
 </pre>
+
+
 
 <p>
 所以我怀疑是因为磁盘过满出现的一些诡异问题。 <b>NOTE（dirlt）：容易造成node被cross job的blacklist</b>
@@ -1653,21 +1805,23 @@ ENOENT: No such file or directory
 </pre>
 
 
+
+
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1-4-3" class="outline-4">
-<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> shuffleInMemory OutOfMemoryError</h4>
-<div class="outline-text-4" id="text-1-4-3">
+<div id="outline-container-1.4.3" class="outline-4">
+<h4 id="sec-1.4.3"><span class="section-number-4">1.4.3</span> shuffleInMemory OutOfMemoryError </h4>
+<div class="outline-text-4" id="text-1.4.3">
 
 <ul>
-<li>Users - Shuffle In Memory OutOfMemoryError : <a href="http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-td433197.html">http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-td433197.html</a>
+<li>
+Users - Shuffle In Memory OutOfMemoryError : <a href="http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-td433197.html">http://hadoop-common.472056.n3.nabble.com/Shuffle-In-Memory-OutOfMemoryError-td433197.html</a>
+
 </li>
 </ul>
-
-
 
 
 <pre class="example">2013-06-19 07:16:17,180 FATAL org.apache.hadoop.mapred.Task: attempt_201306141608_1574_r_009039_0 : Map output copy failure : java.lang.OutOfMemoryError: Java heap space
@@ -1678,6 +1832,8 @@ ENOENT: No such file or directory
 </pre>
 
 
+
+
 <p>
 将参数mapred.job.shuffle.input.buffer.percent设置成为0.2或者是更小。关于这个问题实际上应该是一个bug，framework应该是能够智能决定shuffle在memory还是在disk上面的。可以参考代码分析一节的shuffle in memory.
 </p>
@@ -1686,63 +1842,72 @@ ENOENT: No such file or directory
 
 </div>
 
-<div id="outline-container-1-5" class="outline-3">
-<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 使用问题</h3>
-<div class="outline-text-3" id="text-1-5">
+<div id="outline-container-1.5" class="outline-3">
+<h3 id="sec-1.5"><span class="section-number-3">1.5</span> 使用问题 </h3>
+<div class="outline-text-3" id="text-1.5">
 
 
 </div>
 
-<div id="outline-container-1-5-1" class="outline-4">
-<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> hadoop-lzo</h4>
-<div class="outline-text-4" id="text-1-5-1">
+<div id="outline-container-1.5.1" class="outline-4">
+<h4 id="sec-1.5.1"><span class="section-number-4">1.5.1</span> hadoop-lzo </h4>
+<div class="outline-text-4" id="text-1.5.1">
 
 
 </div>
 
-<div id="outline-container-1-5-1-1" class="outline-5">
-<h5 id="sec-1-5-1-1"><span class="section-number-5">1.5.1.1</span> 安装配置</h5>
-<div class="outline-text-5" id="text-1-5-1-1">
+<div id="outline-container-1.5.1.1" class="outline-5">
+<h5 id="sec-1.5.1.1"><span class="section-number-5">1.5.1.1</span> 安装配置 </h5>
+<div class="outline-text-5" id="text-1.5.1.1">
 
 <ul>
-<li>安装liblzo2库，sudo apt-get install liblzo2-2(liblzo2-dev)
+<li>
+安装liblzo2库，sudo apt-get install liblzo2-2(liblzo2-dev)
 </li>
-<li>安装lzop程序，sudo apt-get install lzop
+<li>
+安装lzop程序，sudo apt-get install lzop
 <ul>
-<li>for MAC. brew install lzop
+<li>
+for MAC. brew install lzop
 </li>
 </ul>
-
 </li>
-<li>下载hadoop-lzo. git clone git://github.com/kevinweil/hadoop-lzo.git
+<li>
+下载hadoop-lzo. git clone git://github.com/kevinweil/hadoop-lzo.git
 <ul>
-<li><a href="https://github.com/kevinweil/hadoop-lzo">https://github.com/kevinweil/hadoop-lzo</a>
+<li>
+<a href="https://github.com/kevinweil/hadoop-lzo">https://github.com/kevinweil/hadoop-lzo</a>
 </li>
-<li><a href="https://github.com/twitter/hadoop-lzo">https://github.com/twitter/hadoop-lzo</a> <b>提供maven地址</b>
+<li>
+<a href="https://github.com/twitter/hadoop-lzo">https://github.com/twitter/hadoop-lzo</a> <b>提供maven地址</b>
 </li>
-<li><a href="http://code.google.com/a/apache-extras.org/p/hadoop-gpl-compression/">http://code.google.com/a/apache-extras.org/p/hadoop-gpl-compression/</a>
+<li>
+<a href="http://code.google.com/a/apache-extras.org/p/hadoop-gpl-compression/">http://code.google.com/a/apache-extras.org/p/hadoop-gpl-compression/</a>
 </li>
 </ul>
-
 </li>
-<li>编译，ant compile-native tar 
+<li>
+编译，ant compile-native tar 
 </li>
-<li>将结果build/hadoop-lzo-0.4.14的hadoop-lzo-0.4.14.jar复制到 $HADOOP_HOME/lib，将build/hadoop-lzo-0.4.14/lib/native下的文件复制到$HADOOP_HOME/lib/native (native/Linux-amd64-64)
+<li>
+将结果build/hadoop-lzo-0.4.14的hadoop-lzo-0.4.14.jar复制到 $HADOOP<sub>HOME</sub>/lib，将build/hadoop-lzo-0.4.14/lib/native下的文件复制到$HADOOP<sub>HOME</sub>/lib/native (native/Linux-amd64-64)
 <ul>
-<li>如果没有安装hadoop只是打算本地编译然后提交任务的话，那么可以设置下面两个环境变量
+<li>
+如果没有安装hadoop只是打算本地编译然后提交任务的话，那么可以设置下面两个环境变量
 </li>
-<li>export HADOOP_CLASSPATH=/path/to/your/hadoop-lzo-lib.jar
+<li>
+export HADOOP<sub>CLASSPATH</sub>=/path/to/your/hadoop-lzo-lib.jar
 </li>
-<li>export JAVA_LIBRARY_PATH=/path/to/hadoop-lzo-native-libs:/path/to/standard-hadoop-native-libs
-</li>
-</ul>
-
-</li>
-<li>修改core-site.xml配置
+<li>
+export JAVA<sub>LIBRARY</sub><sub>PATH</sub>=/path/to/hadoop-lzo-native-libs:/path/to/standard-hadoop-native-libs
 </li>
 </ul>
+</li>
+<li>
+修改core-site.xml配置
 
-
+</li>
+</ul>
 
 
 <pre class="src src-XML">&lt;property&gt;
@@ -1756,52 +1921,61 @@ ENOENT: No such file or directory
 </pre>
 
 
-</div>
+
 
 </div>
 
-<div id="outline-container-1-5-1-2" class="outline-5">
-<h5 id="sec-1-5-1-2"><span class="section-number-5">1.5.1.2</span> 使用lzo</h5>
-<div class="outline-text-5" id="text-1-5-1-2">
+</div>
+
+<div id="outline-container-1.5.1.2" class="outline-5">
+<h5 id="sec-1.5.1.2"><span class="section-number-5">1.5.1.2</span> 使用lzo </h5>
+<div class="outline-text-5" id="text-1.5.1.2">
 
 <p>关于如何使用lzo可以参看代码示例 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/ReadLzoInput.java">com.dirlt.java.mr.ReadLzoInput</a>. 下面几点需要说明：
 </p><ul>
-<li>LzoTextInputFormat用来处理lzo压缩的文本文件，
+<li>
+LzoTextInputFormat用来处理lzo压缩的文本文件，
 <ul>
-<li>hadoop-lzo本身没有自带LzoTextOutputFormat，这样的话之能够输出TextOutputFormat然后通过lzop压缩
+<li>
+hadoop-lzo本身没有自带LzoTextOutputFormat，这样的话之能够输出TextOutputFormat然后通过lzop压缩
 </li>
-<li><b>elephant-bird提供了很多额外的InputFormat/OutputFormat.</b>
+<li>
+<b>elephant-bird提供了很多额外的InputFormat/OutputFormat.</b>
 </li>
 </ul>
-
 </li>
-<li>如果使用本地测试集群的话，那么需要提供lzo encoder/decoder. 
+<li>
+如果使用本地测试集群的话，那么需要提供lzo encoder/decoder. 
 <ul>
-<li>Configuration conf = new Configuration(); // 如果是本地测试集群的话，那么是没有读取core-site.xml的，因此也就是没有编码解码信息，需要通过下面语句提供
+<li>
+Configuration conf = new Configuration(); // 如果是本地测试集群的话，那么是没有读取core-site.xml的，因此也就是没有编码解码信息，需要通过下面语句提供
 </li>
-<li>conf.set("io.compression.codecs", "org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.GzipCodec,com.hadoop.compression.lzo.LzopCodec");
+<li>
+conf.set("io.compression.codecs", "org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.GzipCodec,com.hadoop.compression.lzo.LzopCodec");
 </li>
-<li>conf.set("io.compression.codec.lzo.class", "com.hadoop.compression.lzo.LzoCodec");
+<li>
+conf.set("io.compression.codec.lzo.class", "com.hadoop.compression.lzo.LzoCodec");
 </li>
 </ul>
-
 </li>
-<li>LzoIndexer.main(new String[]{kOutputFileName}); // 如果需要在程序里面进行indexer的话，那么可以直接调用LzoIndexer
+<li>
+LzoIndexer.main(new String[]{kOutputFileName}); // 如果需要在程序里面进行indexer的话，那么可以直接调用LzoIndexer
 <ul>
-<li>如果是分布式的话可以调用 DistributedLzoIndexer.main
+<li>
+如果是分布式的话可以调用 DistributedLzoIndexer.main
 </li>
-<li>当然也可以按照下面的方法通过程序调用
-</li>
-</ul>
+<li>
+当然也可以按照下面的方法通过程序调用
 
 </li>
 </ul>
+</li>
+</ul>
 
-
-<p>
-之后在输出目录下面会存在很多lzo文件，但是这些文件并不能够直接作为输入使用（因为hadoop不知道如何对这些lzo文件进行切分），需要对这些lzo文件进行索引。使用下面的命令来进行索引：
+<p>之后在输出目录下面会存在很多lzo文件，但是这些文件并不能够直接作为输入使用（因为hadoop不知道如何对这些lzo文件进行切分），需要对这些lzo文件进行索引。使用下面的命令来进行索引：
 </p><ul>
-<li>hadoop jar /usr/lib/hadoop/lib/hadoop-lzo-0.4.14.jar com.hadoop.compression.lzo.DistributedLzoIndexer &lt;output-dir&gt;
+<li>
+hadoop jar /usr/lib/hadoop/lib/hadoop-lzo-0.4.14.jar com.hadoop.compression.lzo.DistributedLzoIndexer &lt;output-dir&gt;
 </li>
 </ul>
 
@@ -1814,9 +1988,9 @@ ENOENT: No such file or directory
 
 </div>
 
-<div id="outline-container-1-5-1-3" class="outline-5">
-<h5 id="sec-1-5-1-3"><span class="section-number-5">1.5.1.3</span> 配合protobuf</h5>
-<div class="outline-text-5" id="text-1-5-1-3">
+<div id="outline-container-1.5.1.3" class="outline-5">
+<h5 id="sec-1.5.1.3"><span class="section-number-5">1.5.1.3</span> 配合protobuf </h5>
+<div class="outline-text-5" id="text-1.5.1.3">
 
 <p>elephant-bird实现了protobuf+lzo组合使用方式。
 </p>
@@ -1837,23 +2011,27 @@ message Message {
 }
 </pre>
 
+
+
 <ul>
-<li>package 名字空间
+<li>
+package 名字空间
 </li>
-<li>java_outer_classname 具体输出类名称
+<li>
+java<sub>outer</sub><sub>classname</sub> 具体输出类名称
 </li>
 </ul>
 
-<p>使用protoc &ndash;java_out=&lt;dir&gt; message.proto就会在&lt;dir&gt;下面生成MessageProtos1.java文件。
+<p>使用protoc &ndash;java<sub>out</sub>=&lt;dir&gt; message.proto就会在&lt;dir&gt;下面生成MessageProtos1.java文件。
 </p>
 <p>
 此外我们还需要为这个类写几个辅助类，但是索性的是辅助类并不是很复杂。
 </p><ul>
-<li>InputFormat <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/MessageLzoProtobufInputFormat.java">com.dirlt.java.mr.MessageLzoProtobufInputFormat</a>
+<li>
+InputFormat <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/MessageLzoProtobufInputFormat.java">com.dirlt.java.mr.MessageLzoProtobufInputFormat</a>
+
 </li>
 </ul>
-
-
 
 
 <pre class="src src-Java">public class MessageLzoProtobufInputFormat extends LzoProtobufBlockInputFormat&lt;MessageProtos1.Message&gt; {
@@ -1865,12 +2043,14 @@ message Message {
 </pre>
 
 
+
+
 <ul>
-<li>OutputFormat <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/MessageLzoProtobufOutputFormat.java">com.dirlt.java.mr.MessageLzoProtobufOutputFormat</a>
+<li>
+OutputFormat <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/MessageLzoProtobufOutputFormat.java">com.dirlt.java.mr.MessageLzoProtobufOutputFormat</a>
+
 </li>
 </ul>
-
-
 
 
 <pre class="src src-Java">public class MessageLzoProtobufOutputFormat extends LzoProtobufBlockOutputFormat&lt;MessageProtos1.Message&gt; {
@@ -1882,12 +2062,14 @@ message Message {
 </pre>
 
 
+
+
 <ul>
-<li>Writable <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/MessageLzoProtobufWritable.java">com.dirlt.java.mr.MessageLzoProtobufWritable</a>
+<li>
+Writable <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/MessageLzoProtobufWritable.java">com.dirlt.java.mr.MessageLzoProtobufWritable</a>
+
 </li>
 </ul>
-
-
 
 
 <pre class="src src-Java">public class MessageLzoProtobufWritable extends ProtobufWritable&lt;MessageProtos1.Message&gt; {
@@ -1905,6 +2087,8 @@ message Message {
 </pre>
 
 
+
+
 <p>
 关于如何使用lzo+protobuf可以参看代码示例 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/UseLzoProtobuf.java">com.dirlt.java.mr.UseLzoProtobuf</a>. 值得注意的是如果输入为lzo文件的话，那么类型是ProtobufWritable&lt;M&gt;（泛型），如果需要取值的话必须通过setConverter提供类信息。
 </p>
@@ -1913,241 +2097,273 @@ message Message {
 
 </div>
 
-<div id="outline-container-1-5-2" class="outline-4">
-<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> 多路输入</h4>
-<div class="outline-text-4" id="text-1-5-2">
+<div id="outline-container-1.5.2" class="outline-4">
+<h4 id="sec-1.5.2"><span class="section-number-4">1.5.2</span> 多路输入 </h4>
+<div class="outline-text-4" id="text-1.5.2">
 
 
 </div>
 
-<div id="outline-container-1-5-2-1" class="outline-5">
-<h5 id="sec-1-5-2-1"><span class="section-number-5">1.5.2.1</span> MultipleInputs</h5>
-<div class="outline-text-5" id="text-1-5-2-1">
+<div id="outline-container-1.5.2.1" class="outline-5">
+<h5 id="sec-1.5.2.1"><span class="section-number-5">1.5.2.1</span> MultipleInputs </h5>
+<div class="outline-text-5" id="text-1.5.2.1">
 
 <ul>
-<li>参考代码 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleInputs1.java">com.dirlt.java.mr.RunMultipleInputs1</a>
+<li>
+参考代码 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleInputs1.java">com.dirlt.java.mr.RunMultipleInputs1</a>
 </li>
-<li>支持一个htable和多个文件（但是对于htable不支持设置scan范围）
+<li>
+支持一个htable和多个文件（但是对于htable不支持设置scan范围）
 </li>
-<li>代码大致过程：
+<li>
+代码大致过程：
 <ul>
-<li>使用 TableMapReduceUtil.initTableMapperJob 初始化htable输入（作用就是为了指定htable的input table name）
+<li>
+使用 TableMapReduceUtil.initTableMapperJob 初始化htable输入（作用就是为了指定htable的input table name）
 </li>
-<li>之后在调用一次 MultipleInputs.addInputPath(job, new Path(kInTableName1), TableInputFormat.class, TMapper.class); 这里的kInTableName1可以随便定义，但是不要和接下来的hdfs路径重名。（作用是为了能够调整input format）
+<li>
+之后在调用一次 MultipleInputs.addInputPath(job, new Path(kInTableName1), TableInputFormat.class, TMapper.class); 这里的kInTableName1可以随便定义，但是不要和接下来的hdfs路径重名。（作用是为了能够调整input format）
 </li>
-<li>接下来就是添加hdfs输入  MultipleInputs.addInputPath(job, new Path(kInFileName1), TextInputFormat.class, FMapper.class); 可以调用多次来添加多个hdfs输入源。
+<li>
+接下来就是添加hdfs输入  MultipleInputs.addInputPath(job, new Path(kInFileName1), TextInputFormat.class, FMapper.class); 可以调用多次来添加多个hdfs输入源。
 </li>
 </ul>
-
 </li>
-<li>原理解释：
+<li>
+原理解释：
 <ul>
-<li>使用MultipleInputs的话，hadoop会在环境变量中将输入内容设置成为inputPath=className, inputPath=className这样的字符串
+<li>
+使用MultipleInputs的话，hadoop会在环境变量中将输入内容设置成为inputPath=className, inputPath=className这样的字符串
 </li>
-<li>MultipleInputs底层将InputFormat替换成为了自己的DelegateInputFormat.
+<li>
+MultipleInputs底层将InputFormat替换成为了自己的DelegateInputFormat.
 </li>
-<li>DelegateInputFormat根据每个className初始化实例并且将inputPath给这个实例，这些对于FileInputFormat工作很好
+<li>
+DelegateInputFormat根据每个className初始化实例并且将inputPath给这个实例，这些对于FileInputFormat工作很好
 </li>
-<li>而对于TableInputFormat没有使用这个inputPath，而是直接读取configuration里面设置的TableOutputFormat.OUTPUT_TABLE这个值 
-</li>
-</ul>
+<li>
+而对于TableInputFormat没有使用这个inputPath，而是直接读取configuration里面设置的TableOutputFormat.OUTPUT<sub>TABLE这个值</sub> 
 
 </li>
 </ul>
-
-
+</li>
+</ul>
 </div>
 
 </div>
 
-<div id="outline-container-1-5-2-2" class="outline-5">
-<h5 id="sec-1-5-2-2"><span class="section-number-5">1.5.2.2</span> MultipleTableInputFormat</h5>
-<div class="outline-text-5" id="text-1-5-2-2">
+<div id="outline-container-1.5.2.2" class="outline-5">
+<h5 id="sec-1.5.2.2"><span class="section-number-5">1.5.2.2</span> MultipleTableInputFormat </h5>
+<div class="outline-text-5" id="text-1.5.2.2">
 
 <ul>
-<li>参考代码 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleInputs2.java">com.dirlt.java.mr.RunMultipleInputs2</a>
+<li>
+参考代码 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleInputs2.java">com.dirlt.java.mr.RunMultipleInputs2</a>
 </li>
-<li>*NOTE(dirlt):在cdh4.3.0下面运行的代码略有变动，存放在 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr2/src/main/java/com/dirlt/java/mr2/RunMultipleInputs2.java">com.dirlt.java.mr2.RunMultipleInputs2</a>*
+<li>
+*NOTE(dirlt):在cdh4.3.0下面运行的代码略有变动，存放在 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr2/src/main/java/com/dirlt/java/mr2/RunMultipleInputs2.java">com.dirlt.java.mr2.RunMultipleInputs2</a>*
 <ul>
-<li>需要配合MultipleInputs使用
+<li>
+需要配合MultipleInputs使用
 </li>
-<li>使用这个InputFormat可以同时支持多文件输入和多表输入
+<li>
+使用这个InputFormat可以同时支持多文件输入和多表输入
 </li>
-<li>多表输入还支持在一个table上面使用多个scan.
+<li>
+多表输入还支持在一个table上面使用多个scan.
 </li>
 </ul>
-
 </li>
-<li>大致原理如下：
+<li>
+大致原理如下：
 <ul>
-<li>MultipleInputs底层使用Delegate模式，将inputFormat以及mapper和Path关联，然后将InputFormat实例化来对path进行切片得到InputSplit以及RecordReader.      
+<li>
+MultipleInputs底层使用Delegate模式，将inputFormat以及mapper和Path关联，然后将InputFormat实例化来对path进行切片得到InputSplit以及RecordReader.      
 </li>
-<li>为了能够和MultipleInputs兼容使用，代码实现上将TableInput转换成为String然后表示成为Path（TableInput包括tableName以及多个scan对象）
+<li>
+为了能够和MultipleInputs兼容使用，代码实现上将TableInput转换成为String然后表示成为Path（TableInput包括tableName以及多个scan对象）
 <ul>
-<li>string格式为 &lt;tableName&gt; ! hexString(scan) ! hexString(scan) 
+<li>
+string格式为 &lt;tableName&gt; ! hexString(scan) ! hexString(scan) 
 </li>
-<li>从path中将TableInput字符串分离的代码是 path.toString().substring(path.getParent().toString().length() + 1); <b>TODO（dirlt）：对于大部分的情况是可以正常handle的</b>
+<li>
+从path中将TableInput字符串分离的代码是 path.toString().substring(path.getParent().toString().length() + 1); <b>TODO（dirlt）：对于大部分的情况是可以正常handle的</b>
 </li>
 </ul>
-
 </li>
-<li>MultipleTableInputFormat进行切片的时候将path取出内容进行解析，分离出TableInput出来，然后调用TableInputFormatBase的分片策略进行分片
+<li>
+MultipleTableInputFormat进行切片的时候将path取出内容进行解析，分离出TableInput出来，然后调用TableInputFormatBase的分片策略进行分片
 <ul>
-<li>setConf空实现是因为在ReflectionUtils.newInstance创建实例的时候会调用，而MultipleTableInputFormat本身没有使用到。
+<li>
+setConf空实现是因为在ReflectionUtils.newInstance创建实例的时候会调用，而MultipleTableInputFormat本身没有使用到。
 </li>
 </ul>
-
 </li>
-<li>MultipleTableSplit的引入主要是因为TableSplit没有包含scan对象，而这个对象需要在TableRecordReader里面使用到。
+<li>
+MultipleTableSplit的引入主要是因为TableSplit没有包含scan对象，而这个对象需要在TableRecordReader里面使用到。
 <ul>
-<li>InputSplit需要实现序列化的接口，因为切片信息生成是JobTracker完成保存在hdfs的，然后TaskTracker从hdfs中读取。
-</li>
-</ul>
-
-</li>
-</ul>
-
-</li>
-</ul>
-
-
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-1-5-3" class="outline-4">
-<h4 id="sec-1-5-3"><span class="section-number-4">1.5.3</span> 多路输出</h4>
-<div class="outline-text-4" id="text-1-5-3">
-
-
-</div>
-
-<div id="outline-container-1-5-3-1" class="outline-5">
-<h5 id="sec-1-5-3-1"><span class="section-number-5">1.5.3.1</span> MultipleOutputs</h5>
-<div class="outline-text-5" id="text-1-5-3-1">
-
-<ul>
-<li>参考代码 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleOutputs.java">com.dirlt.java.mr.RunMultipleOutputs</a>
-</li>
-<li>支持多个htable和多个文件
-</li>
-<li>如果使用write(String namedOutput, K key, V value)会写到FileOutputFormat设置的目录下面，文件附上前缀namedOutput-，
-</li>
-<li>如果使用write(String namedOutput, K key, V value, String baseOutputPath) 
-<ul>
-<li>如果baseOutputPath以/开头的话比如/a/b/c的话，那么输出文件为/a/b/c-m-00000
-</li>
-<li>如果baseOutputPath以/结尾的话比如/ab/c/的话，那么输出文件为/a/b/c/-m-00000.
-</li>
-<li>如果baseOutputPath没有以/开头的话，那么写到FileOutputFormat设置的目录下面，文件附上前缀baseOutputPath-.
-</li>
-</ul>
-
-</li>
-<li>因为最后输出是调用MultipleOutputs.write而非Context.write，因此和mrunit配合不太好
-<ul>
-<li>可以通过MockMultipleOutputs来进行测试 参考代码 com.dirlt.java.mr.MockMultipleOutput
-</li>
-</ul>
+<li>
+InputSplit需要实现序列化的接口，因为切片信息生成是JobTracker完成保存在hdfs的，然后TaskTracker从hdfs中读取。
 
 </li>
 </ul>
-
-
-</div>
-
-</div>
-
-<div id="outline-container-1-5-3-2" class="outline-5">
-<h5 id="sec-1-5-3-2"><span class="section-number-5">1.5.3.2</span> MultipleTableOutputFormat</h5>
-<div class="outline-text-5" id="text-1-5-3-2">
-
-<ul>
-<li>参考代码 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleTableOutput.java">com.dirlt.java.mr.RunMultipleTableOutput</a>
-</li>
-<li>支持多个htable
-</li>
-<li>调用context.write的key需要指定outputTable
-<ul>
-<li>其实这也意味着如果是单表输出的话那么key为null即可
-</li>
-<li>前提是需要使用conf.set(TableOutputFormat.OUTPUT_TABLE,tableName);
 </li>
 </ul>
-
 </li>
 </ul>
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1-5-4" class="outline-4">
-<h4 id="sec-1-5-4"><span class="section-number-4">1.5.4</span> 获取集群运行状况</h4>
-<div class="outline-text-4" id="text-1-5-4">
-
-<ul>
-<li>参考代码 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/ClusterSummary.java">com.dirlt.java.mr.ClusterSummary</a>
-</li>
-<li>获取更多信息可以阅读JobClient API
-</li>
-</ul>
+<div id="outline-container-1.5.3" class="outline-4">
+<h4 id="sec-1.5.3"><span class="section-number-4">1.5.3</span> 多路输出 </h4>
+<div class="outline-text-4" id="text-1.5.3">
 
 
 </div>
 
-</div>
-
-<div id="outline-container-1-5-5" class="outline-4">
-<h4 id="sec-1-5-5"><span class="section-number-4">1.5.5</span> OutOfMemoryError</h4>
-<div class="outline-text-4" id="text-1-5-5">
+<div id="outline-container-1.5.3.1" class="outline-5">
+<h5 id="sec-1.5.3.1"><span class="section-number-5">1.5.3.1</span> MultipleOutputs </h5>
+<div class="outline-text-5" id="text-1.5.3.1">
 
 <ul>
-<li>hadoop的mapreduce作业中经常出现Java heap space解决方案 <a href="http://blog.sina.com.cn/s/blog_6345041c01011bjq.html">http://blog.sina.com.cn/s/blog_6345041c01011bjq.html</a>
+<li>
+参考代码 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleOutputs.java">com.dirlt.java.mr.RunMultipleOutputs</a>
 </li>
-<li>Hadoop troubleshooting <a href="http://ww2.cs.fsu.edu/~czhang/errors.html">http://ww2.cs.fsu.edu/~czhang/errors.html</a>
+<li>
+支持多个htable和多个文件
 </li>
-<li>Thomas Jungblut's Blog: Dealing with "OutOfMemoryError" in Hadoop <a href="http://codingwiththomas.blogspot.jp/2011/07/dealing-with-outofmemoryerror-in-hadoop.html">http://codingwiththomas.blogspot.jp/2011/07/dealing-with-outofmemoryerror-in-hadoop.html</a>
+<li>
+如果使用write(String namedOutput, K key, V value)会写到FileOutputFormat设置的目录下面，文件附上前缀namedOutput-，
 </li>
-<li>NoSQL | Hadoop <a href="http://www.nosql.se/tags/hadoop/">http://www.nosql.se/tags/hadoop/</a>
+<li>
+如果使用write(String namedOutput, K key, V value, String baseOutputPath) 
+<ul>
+<li>
+如果baseOutputPath以/开头的话比如/a/b/c的话，那么输出文件为/a/b/c-m-00000
+</li>
+<li>
+如果baseOutputPath以/结尾的话比如/ab/c/的话，那么输出文件为/a/b/c/-m-00000.
+</li>
+<li>
+如果baseOutputPath没有以/开头的话，那么写到FileOutputFormat设置的目录下面，文件附上前缀baseOutputPath-.
+</li>
+</ul>
+</li>
+<li>
+因为最后输出是调用MultipleOutputs.write而非Context.write，因此和mrunit配合不太好
+<ul>
+<li>
+可以通过MockMultipleOutputs来进行测试 参考代码 com.dirlt.java.mr.MockMultipleOutput
+
+</li>
+</ul>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.5.3.2" class="outline-5">
+<h5 id="sec-1.5.3.2"><span class="section-number-5">1.5.3.2</span> MultipleTableOutputFormat </h5>
+<div class="outline-text-5" id="text-1.5.3.2">
+
+<ul>
+<li>
+参考代码 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/RunMultipleTableOutput.java">com.dirlt.java.mr.RunMultipleTableOutput</a>
+</li>
+<li>
+支持多个htable
+</li>
+<li>
+调用context.write的key需要指定outputTable
+<ul>
+<li>
+其实这也意味着如果是单表输出的话那么key为null即可
+</li>
+<li>
+前提是需要使用conf.set(TableOutputFormat.OUTPUT<sub>TABLE</sub>,tableName);
+
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1.5.4" class="outline-4">
+<h4 id="sec-1.5.4"><span class="section-number-4">1.5.4</span> 获取集群运行状况 </h4>
+<div class="outline-text-4" id="text-1.5.4">
+
+<ul>
+<li>
+参考代码 <a href="https://github.com/dirtysalt/sperm/blob/master/code/java/mr/src/main/java/com/dirlt/java/mr/ClusterSummary.java">com.dirlt.java.mr.ClusterSummary</a>
+</li>
+<li>
+获取更多信息可以阅读JobClient API
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-1.5.5" class="outline-4">
+<h4 id="sec-1.5.5"><span class="section-number-4">1.5.5</span> OutOfMemoryError </h4>
+<div class="outline-text-4" id="text-1.5.5">
+
+<ul>
+<li>
+hadoop的mapreduce作业中经常出现Java heap space解决方案 <a href="http://blog.sina.com.cn/s/blog_6345041c01011bjq.html">http://blog.sina.com.cn/s/blog_6345041c01011bjq.html</a>
+</li>
+<li>
+Hadoop troubleshooting <a href="http://ww2.cs.fsu.edu/~czhang/errors.html">http://ww2.cs.fsu.edu/~czhang/errors.html</a>
+</li>
+<li>
+Thomas Jungblut's Blog: Dealing with "OutOfMemoryError" in Hadoop <a href="http://codingwiththomas.blogspot.jp/2011/07/dealing-with-outofmemoryerror-in-hadoop.html">http://codingwiththomas.blogspot.jp/2011/07/dealing-with-outofmemoryerror-in-hadoop.html</a>
+</li>
+<li>
+NoSQL | Hadoop <a href="http://www.nosql.se/tags/hadoop/">http://www.nosql.se/tags/hadoop/</a>
+
 </li>
 </ul>
 
-
-<p>
-总结起来大致就是以下几种原因吧：
+<p>总结起来大致就是以下几种原因吧：
 </p><ul>
-<li>Increase the heap size for the TaskTracker, I did this by changing HADOOP_HEAPSIZE to 4096 in /etc/hadoop/conf/hadoop-env.sh to test.  This did not solve it.（增加TaskTracker的heapsize）
+<li>
+Increase the heap size for the TaskTracker, I did this by changing HADOOP<sub>HEAPSIZE</sub> to 4096 in /etc/hadoop/conf/hadoop-env.sh to test.  This did not solve it.（增加TaskTracker的heapsize）
 </li>
-<li>Increase the heap size for the spawned child.  Add -Xmx1024 in mapred-site.xml for mapred.map.child.java.opts.  This did not solve it. （增加task的heapsize）
+<li>
+Increase the heap size for the spawned child.  Add -Xmx1024 in mapred-site.xml for mapred.map.child.java.opts.  This did not solve it. （增加task的heapsize）
 </li>
-<li>Make sure that the limit of open files is not reached, I had already done this by adding “mapred – nofile 65536″ in /etc/security/limits.conf.  This did not solve it. （增加文件数目限制）
+<li>
+Make sure that the limit of open files is not reached, I had already done this by adding “mapred – nofile 65536″ in /etc/security/limits.conf.  This did not solve it. （增加文件数目限制）
 </li>
-<li>Adding the following to /etc/security/limits.conf and restarting the TaskTracker solved it "mapred – nproc 8192" （增加开辟子进程的数目） 
+<li>
+Adding the following to /etc/security/limits.conf and restarting the TaskTracker solved it "mapred – nproc 8192" （增加开辟子进程的数目） 
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-5-6" class="outline-4">
-<h4 id="sec-1-5-6"><span class="section-number-4">1.5.6</span> topology rack awareness</h4>
-<div class="outline-text-4" id="text-1-5-6">
+<div id="outline-container-1.5.6" class="outline-4">
+<h4 id="sec-1.5.6"><span class="section-number-4">1.5.6</span> topology rack awareness </h4>
+<div class="outline-text-4" id="text-1.5.6">
 
 <p>有两种方式实现，主要是实现DNS-name/IP到network path映射，network path是如下格式的字符串
 </p><ul>
-<li>/switch/rack
+<li>
+/switch/rack
+
 </li>
 </ul>
 
-
-<p>
-第一种可以通过设置topology.node.switch.mapping.impl来设定DNSToSwitchMapping类
+<p>第一种可以通过设置topology.node.switch.mapping.impl来设定DNSToSwitchMapping类
 </p>
 
 
@@ -2155,6 +2371,8 @@ message Message {
   public List&lt;String&gt; resolve(List&lt;String&gt; names);
 }
 </pre>
+
+
 
 <p>
 实现这个类来完成DNS-name/IP-name到network path的映射.
@@ -2168,80 +2386,99 @@ message Message {
 
 </div>
 
-<div id="outline-container-1-5-7" class="outline-4">
-<h4 id="sec-1-5-7"><span class="section-number-4">1.5.7</span> streaming</h4>
-<div class="outline-text-4" id="text-1-5-7">
+<div id="outline-container-1.5.7" class="outline-4">
+<h4 id="sec-1.5.7"><span class="section-number-4">1.5.7</span> streaming </h4>
+<div class="outline-text-4" id="text-1.5.7">
 
 <ul>
-<li>Hadoop Streaming <a href="http://hadoop.apache.org/docs/r1.1.2/streaming.html">http://hadoop.apache.org/docs/r1.1.2/streaming.html</a>
+<li>
+Hadoop Streaming <a href="http://hadoop.apache.org/docs/r1.1.2/streaming.html">http://hadoop.apache.org/docs/r1.1.2/streaming.html</a>
+
 </li>
 </ul>
 
-
-<p>
-streaming允许用户使用脚本来编写mapper/reducer，使用stdin/stdout作为通信接口。tasktracker spwan一个特殊的task, 这个task将mapper/reducer数据通过pipe传递给脚本。 <b>NOTE(dirlt):hadoop pipes则是使用unix socket和C++处理程序通信，基本思想是相同的</b>
+<p>streaming允许用户使用脚本来编写mapper/reducer，使用stdin/stdout作为通信接口。tasktracker spwan一个特殊的task, 这个task将mapper/reducer数据通过pipe传递给脚本。 <b>NOTE(dirlt):hadoop pipes则是使用unix socket和C++处理程序通信，基本思想是相同的</b>
 </p>
 <p>
-调用方式：hadoop $HADOOP_HOME/contrib/streaming/hadoop-streaming-*.jar &lt;OPTIONS&gt; 其中OPTIONS如下：
+调用方式：hadoop $HADOOP<sub>HOME</sub>/contrib/streaming/hadoop-streaming-*.jar &lt;OPTIONS&gt; 其中OPTIONS如下：
 </p><ul>
-<li>-input 
+<li>
+-input 
 </li>
-<li>-output
+<li>
+-output
 </li>
-<li>-mapper # 执行命令比如cat,grep等，也可以是脚本但是必须+x 
+<li>
+-mapper # 执行命令比如cat,grep等，也可以是脚本但是必须+x 
 </li>
-<li>-reducer
+<li>
+-reducer
 </li>
-<li>-libjars 
+<li>
+-libjars 
 </li>
-<li>-file # 执行任务中需要的文件. 如果是运行脚本的话那么脚本必须在这里也指定，这样才能分发到所有机器上
+<li>
+-file # 执行任务中需要的文件. 如果是运行脚本的话那么脚本必须在这里也指定，这样才能分发到所有机器上
 </li>
-<li>-partitioner # 必须是java class
+<li>
+-partitioner # 必须是java class
 </li>
-<li>-combiner # 必须是java class
+<li>
+-combiner # 必须是java class
 </li>
-<li>-D # 作业属性等
+<li>
+-D # 作业属性等
 </li>
-<li>-numReduceTasks # reduce数目
+<li>
+-numReduceTasks # reduce数目
 </li>
-<li>-inputformat
+<li>
+-inputformat
 </li>
-<li>-outputformat
+<li>
+-outputformat
 </li>
-<li>-verbose # 详细输出
+<li>
+-verbose # 详细输出
 </li>
-<li>-cmdenv # 环境变量
+<li>
+-cmdenv # 环境变量
 </li>
-<li>-mapdebug  # Script to call when map task fails
+<li>
+-mapdebug  # Script to call when map task fails
 </li>
-<li>-reducedebug # Script to call when reduce task fails 
+<li>
+-reducedebug # Script to call when reduce task fails 
+
 </li>
 </ul>
 
-
-<p>
-作业属性里面除了在编写Java MapReduce里面会涉及的属性外，一些和streaming相关的属性如下：
+<p>作业属性里面除了在编写Java MapReduce里面会涉及的属性外，一些和streaming相关的属性如下：
 </p><ul>
-<li>stream.map.input.field.seperator / stream.map.output.field.seperator # map input/output kv分隔符，默认是\t
+<li>
+stream.map.input.field.seperator / stream.map.output.field.seperator # map input/output kv分隔符，默认是\t
 </li>
-<li>stream.map.output.key.fields # map task输出记录中key所占域数目
+<li>
+stream.map.output.key.fields # map task输出记录中key所占域数目
 </li>
-<li>stream.reduce.input.field.seperator / stream.reduce.outout.field.separator
+<li>
+stream.reduce.input.field.seperator / stream.reduce.outout.field.separator
 </li>
-<li>stream.reduce.output.key.fields 
+<li>
+stream.reduce.output.key.fields 
 </li>
-<li>stream.non.zero.exit.is.failure = false # 默认返回0正常，但是也可以忽略
+<li>
+stream.non.zero.exit.is.failure = false # 默认返回0正常，但是也可以忽略
+
 </li>
 </ul>
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1-5-8" class="outline-4">
-<h4 id="sec-1-5-8"><span class="section-number-4">1.5.8</span> Too many fetch-failures</h4>
-<div class="outline-text-4" id="text-1-5-8">
+<div id="outline-container-1.5.8" class="outline-4">
+<h4 id="sec-1.5.8"><span class="section-number-4">1.5.8</span> Too many fetch-failures </h4>
+<div class="outline-text-4" id="text-1.5.8">
 
 <p>集群中出现job中少数几个任务卡在reduce的copy阶段，并且这几个任务都是在同一个机器执行。tasktracker log日志如下： <b>可以看到有两个task,49和50</b>
 </p>
@@ -2253,6 +2490,8 @@ streaming允许用户使用脚本来编写mapper/reducer，使用stdin/stdout作
 2013-04-26 13:57:04,179 INFO org.apache.hadoop.mapred.TaskTracker: attempt_201301231102_24403_r_000050_1 0.1976251% reduce &gt; copy (466 of 786 at 24.13 MB/s) &gt; 
 2013-04-26 13:57:09,620 INFO org.apache.hadoop.mapred.TaskTracker: attempt_201301231102_24403_r_000049_1 0.1976251% reduce &gt; copy (466 of 786 at 24.40 MB/s) &gt; 
 </pre>
+
+
 
 
 <p>
@@ -2457,6 +2696,8 @@ Heap
 </pre>
 
 
+
+
 <p>
 从日志上看都非常正常，但是看failed map里面出现非常多的Too many fetch-failures，并且这些机器都是最近上的一批机器。Too many fetch-failures这个错误通常表明 <b>网络联通情况不是很顺畅</b> ，检查之后发现新上的 <b>这批机器没有出现在这个机器的hosts里面</b>
 </p>
@@ -2464,58 +2705,69 @@ Heap
 
 </div>
 
-<div id="outline-container-1-5-9" class="outline-4">
-<h4 id="sec-1-5-9"><span class="section-number-4">1.5.9</span> blacklist</h4>
-<div class="outline-text-4" id="text-1-5-9">
+<div id="outline-container-1.5.9" class="outline-4">
+<h4 id="sec-1.5.9"><span class="section-number-4">1.5.9</span> blacklist </h4>
+<div class="outline-text-4" id="text-1.5.9">
 
 <ul>
-<li><a href="http://www.mapr.com/doc/display/MapR/TaskTracker+Blacklisting">http://www.mapr.com/doc/display/MapR/TaskTracker+Blacklisting</a>
+<li>
+<a href="http://www.mapr.com/doc/display/MapR/TaskTracker+Blacklisting">http://www.mapr.com/doc/display/MapR/TaskTracker+Blacklisting</a>
 </li>
-<li><b>NOTE(dirlt):blacklist是一个策略问题，会经常变动</b>
+<li>
+<b>NOTE(dirlt):blacklist是一个策略问题，会经常变动</b>
 
 </li>
-<li>Per-Job Blacklisting
+<li>
+Per-Job Blacklisting
 <ul>
-<li>The configuration value mapred.max.tracker.failures in mapred-site.xml specifies a number of task failures in a specific job after which the TaskTracker is blacklisted for that job. The TaskTracker can still accept tasks from other jobs, as long as it is not blacklisted cluster-wide (see below).
+<li>
+The configuration value mapred.max.tracker.failures in mapred-site.xml specifies a number of task failures in a specific job after which the TaskTracker is blacklisted for that job. The TaskTracker can still accept tasks from other jobs, as long as it is not blacklisted cluster-wide (see below).
 </li>
-<li>A job can only blacklist up to 25% of TaskTrackers in the cluster.
+<li>
+A job can only blacklist up to 25% of TaskTrackers in the cluster.
+</li>
+</ul>
+</li>
+<li>
+Cluster-Wide Blacklisting
+<ul>
+<li>
+A TaskTracker can be blacklisted cluster-wide for any of the following reasons:
+<ul>
+<li>
+The number of blacklists from successful jobs (the fault count) exceeds mapred.max.tracker.blacklists
+</li>
+<li>
+The TaskTracker has been manually blacklisted using hadoop job -blacklist-tracker &lt;host&gt;
+</li>
+<li>
+The status of the TaskTracker (as reported by a user-provided health-check script) is not healthy
+</li>
+</ul>
+</li>
+<li>
+If a TaskTracker is blacklisted, any currently running tasks are allowed to finish, but no further tasks are scheduled. If a TaskTracker has been blacklisted due to mapred.max.tracker.blacklists or using the hadoop job -blacklist-tracker &lt;host&gt; command, un-blacklisting requires a TaskTracker restart.
+</li>
+<li>
+Only 50% of the TaskTrackers in a cluster can be blacklisted at any one time.
+</li>
+<li>
+After 24 hours, the TaskTracker is automatically removed from the blacklist and can accept jobs again.
+
+</li>
+</ul>
 </li>
 </ul>
 
-</li>
-<li>Cluster-Wide Blacklisting
-<ul>
-<li>A TaskTracker can be blacklisted cluster-wide for any of the following reasons:
-<ul>
-<li>The number of blacklists from successful jobs (the fault count) exceeds mapred.max.tracker.blacklists
-</li>
-<li>The TaskTracker has been manually blacklisted using hadoop job -blacklist-tracker &lt;host&gt;
-</li>
-<li>The status of the TaskTracker (as reported by a user-provided health-check script) is not healthy
-</li>
-</ul>
-
-</li>
-<li>If a TaskTracker is blacklisted, any currently running tasks are allowed to finish, but no further tasks are scheduled. If a TaskTracker has been blacklisted due to mapred.max.tracker.blacklists or using the hadoop job -blacklist-tracker &lt;host&gt; command, un-blacklisting requires a TaskTracker restart.
-</li>
-<li>Only 50% of the TaskTrackers in a cluster can be blacklisted at any one time.
-</li>
-<li>After 24 hours, the TaskTracker is automatically removed from the blacklist and can accept jobs again.
-</li>
-</ul>
-
-</li>
-</ul>
-
-
-<p>
-一旦tt被blacklist之后，会出现如下日志。从语义上看就是删除在这个tt上面所有执行的job(in purgeJob)
+<p>一旦tt被blacklist之后，会出现如下日志。从语义上看就是删除在这个tt上面所有执行的job(in purgeJob)
 </p>
 
 
 <pre class="example">2013-05-02 11:55:18,170 INFO org.apache.hadoop.mapred.TaskTracker: Received 'KillJobAction' for job: job_201301231102_25218
 2013-05-02 11:55:18,170 WARN org.apache.hadoop.mapred.TaskTracker: Unknown job job_201301231102_25218 being deleted.
 </pre>
+
+
 
 
 <p>
@@ -2528,13 +2780,15 @@ Heap
 </pre>
 
 
-</div>
+
 
 </div>
 
-<div id="outline-container-1-5-10" class="outline-4">
-<h4 id="sec-1-5-10"><span class="section-number-4">1.5.10</span> 磁盘空间</h4>
-<div class="outline-text-4" id="text-1-5-10">
+</div>
+
+<div id="outline-container-1.5.10" class="outline-4">
+<h4 id="sec-1.5.10"><span class="section-number-4">1.5.10</span> 磁盘空间 </h4>
+<div class="outline-text-4" id="text-1.5.10">
 
 <p>随着我们以5T/day数据量曾长，很多机器磁盘都已经出现饱和情况（可能是某个data目录已经饱和），对我们的tasktracker也造成了一定的影响。我抽取了了今天所有挂掉的tt来做post-mortem. 结果是这样的。其中有几个tt前几天已经是被blacklist的。这些机器有 dp24,dp31,dp34,dp36,dp41. 我们后续对磁盘规划的话，一定需要预留一部分磁盘空间出来给tt（不知道现在是否预留足够），另外一个就是我们调研一下如何tt是否可以强制清理，自己腾出一部分磁盘空间。
 </p>
@@ -2573,6 +2827,8 @@ none             24G     0   24G   0% /run/shm
 </pre>
 
 
+
+
 <p>
 dp34
 </p>
@@ -2594,6 +2850,8 @@ none             24G     0   24G   0% /run/shm
 /dev/sdh1       1.9T  1.8T  236M 100% /data/data7
 /dev/sdg1       1.8T  691G  1.1T  40% /data/data6
 </pre>
+
+
 
 
 <p>
@@ -2620,6 +2878,8 @@ none             24G     0   24G   0% /run/shm
 </pre>
 
 
+
+
 <p>
 dp41
 </p>
@@ -2642,17 +2902,16 @@ none             24G     0   24G   0% /run/shm
 /dev/sde1       1.9T  535G  1.3T  31% /data/data4
 </pre>
 
-</div>
-</div>
-</div>
-</div>
-</div>
 
+
+</div>
+</div>
+</div>
+</div>
 <div id="postamble">
-<p class="date">Date: 2013-10-07 21:12:23 CST</p>
-<p class="creator">Org version 7.8.11 with Emacs version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
-
+<p class="date"> Date: 2013-10-14 12:27:55 CST</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'mapred.html';var disqus_title = 'mapred.html';var disqus_url = 'http://dirlt.com/mapred.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

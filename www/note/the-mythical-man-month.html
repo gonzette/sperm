@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>人月神话(The Mythical Man-Month)</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="人月神话(The Mythical Man-Month)"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 15:19:58 CST"/>
+<meta name="generated" content="2013-10-14 12:28:24 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,9 +21,6 @@
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
-  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
-  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -34,23 +31,10 @@
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  td, th { vertical-align: top; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
-    background: #ffffcc;
-  }
-  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -61,15 +45,10 @@
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="../css/site.css" />
 
-
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-
-<div id="preamble">
-
-</div>
-
 <div id="content">
+
 <h1 class="title">人月神话(The Mythical Man-Month)</h1>
 
 
@@ -77,41 +56,50 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 the-mythical-man-month</a></li>
+<li><a href="#sec-1">1 the-mythical-man-month </a></li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> the-mythical-man-month</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> the-mythical-man-month </h2>
 <div class="outline-text-2" id="text-1">
 
 <p>作者讲的是为什么有这么多软件业项目像是陷入了焦油坑一样，越想摆脱越被束缚，这个关系到这个职业的乐趣的苦恼. 职业的乐趣
 </p><ul>
-<li>首先这种快乐是创造一种新事物的纯粹的快乐
+<li>
+首先这种快乐是创造一种新事物的纯粹的快乐
 </li>
-<li>这种快乐来自于开发对其它人有用的东西
+<li>
+这种快乐来自于开发对其它人有用的东西
 </li>
-<li>快乐来自于整个过程体现的强大魅力，部件耦合在一起
+<li>
+快乐来自于整个过程体现的强大魅力，部件耦合在一起
 </li>
-<li>这种快乐是学习的快乐
+<li>
+这种快乐是学习的快乐
 </li>
-<li>这种快乐来自于在易于驾驭的介质上工作
+<li>
+这种快乐来自于在易于驾驭的介质上工作
 </li>
 </ul>
 
 <p>职业的苦恼
 </p><ul>
-<li>苦恼来自于对完美的追求
+<li>
+苦恼来自于对完美的追求
 </li>
-<li>苦恼来自由他人来设定目标，供给资源，提供信息
+<li>
+苦恼来自由他人来设定目标，供给资源，提供信息
 </li>
-<li>概念性设计有趣但是寻找琐碎的bug确实一项重复性的劳动
+<li>
+概念性设计有趣但是寻找琐碎的bug确实一项重复性的劳动
 </li>
-<li>当花去大量的时间之后发现编写的东西过时
+<li>
+当花去大量的时间之后发现编写的东西过时
+
 </li>
 </ul>
-
 
 
 <hr/>
@@ -123,31 +111,40 @@
 <p>
 为什么缺乏合理的进度安排如此普遍
 </p><ul>
-<li>我们对于估算技术缺乏有效的研究
+<li>
+我们对于估算技术缺乏有效的研究
 </li>
-<li>估算技术假设人和月可以进行交换
+<li>
+估算技术假设人和月可以进行交换
 </li>
-<li>对于自己的估算缺乏信息，软件经理通常不会持续估算这项工作
+<li>
+对于自己的估算缺乏信息，软件经理通常不会持续估算这项工作
 </li>
-<li>对进度缺少跟踪和监督
+<li>
+对进度缺少跟踪和监督
 </li>
-<li>当意识到进度的延缓下意识反应就是增加人力
+<li>
+当意识到进度的延缓下意识反应就是增加人力
+
 </li>
 </ul>
-
 
 
 <hr/>
 <p>
 软件进度安排经验法则
 </p><ul>
-<li>1/3计划
+<li>
+1/3计划
 </li>
-<li>1/6编码
+<li>
+1/6编码
 </li>
-<li>1/4单元测试和构建测试
+<li>
+1/4单元测试和构建测试
 </li>
-<li>1/4系统测试
+<li>
+1/4系统测试
 </li>
 </ul>
 
@@ -178,16 +175,20 @@
 <p>
 想要成功，结构师必须注意
 </p><ul>
-<li>牢记是开发人员承担创造性和发明性的实现责任，所以结构师只能够建议而不能够支配
+<li>
+牢记是开发人员承担创造性和发明性的实现责任，所以结构师只能够建议而不能够支配
 </li>
-<li>时刻准备为所制定的说明建议一种实现方法，同时准备接受其它任何可能到达目标的办法
+<li>
+时刻准备为所制定的说明建议一种实现方法，同时准备接受其它任何可能到达目标的办法
 </li>
-<li>对上述的建议保持低调和不公开
+<li>
+对上述的建议保持低调和不公开
 </li>
-<li>准备放弃坚持所做的改进建议
+<li>
+准备放弃坚持所做的改进建议
+
 </li>
 </ul>
-
 
 
 <hr/>
@@ -239,16 +240,20 @@
 <p>
 所有软件活动包括根本任务-打造构成抽象软件实体的复杂概念结构，次要任务-使用编程语言表达这些抽象实体，在时间和空间限制内将它们映射成为机器语言. 我认为软件开发中最困难的部分是规格说明，设计和测试这些概念的结构，而不是对概念进行表达和对实现逼真程度进行验证。从4个内在特性可以反映出来：复杂性，一致性，可变性和不可见性。
 </p><ul>
-<li>复杂性。数字计算机本身就比人类构造的大多数东西复杂，计算机拥有大量的状态，使得构思描述和测试非常困难。而软件系统的状态又比计算机的状态多了几个数量级。并且软件实体是以非线性递增家户的，所以软件复杂度..
+<li>
+复杂性。数字计算机本身就比人类构造的大多数东西复杂，计算机拥有大量的状态，使得构思描述和测试非常困难。而软件系统的状态又比计算机的状态多了几个数量级。并且软件实体是以非线性递增家户的，所以软件复杂度..
 </li>
-<li>一致性。开发最新的软件需要遵循各种接口，并且需要在一定程度上保持向后兼容
+<li>
+一致性。开发最新的软件需要遵循各种接口，并且需要在一定程度上保持向后兼容
 </li>
-<li>可变性。对于机器，汽车等物体人们造出来就不会也不能够在进行修改，但是软件不一样，人们总是希望去修改软件，因此软件也被迫去被修改满足不同的需求。简而言之，软件产品扎根于文化的母体中，如各种应用，自然以及社会规律，计算机硬件等。后者持续不断地变化着，这些变化无情地强迫着软件也随之变化
+<li>
+可变性。对于机器，汽车等物体人们造出来就不会也不能够在进行修改，但是软件不一样，人们总是希望去修改软件，因此软件也被迫去被修改满足不同的需求。简而言之，软件产品扎根于文化的母体中，如各种应用，自然以及社会规律，计算机硬件等。后者持续不断地变化着，这些变化无情地强迫着软件也随之变化
 </li>
-<li>不可见性。软件不可见也无法可视化，客观存在不具有空间的形体特征，剥夺了一些具有强大功能的概念工具的构造创意，限制了个人的设计过程也严重阻碍了思路相互之间的交流
+<li>
+不可见性。软件不可见也无法可视化，客观存在不具有空间的形体特征，剥夺了一些具有强大功能的概念工具的构造创意，限制了个人的设计过程也严重阻碍了思路相互之间的交流
+
 </li>
 </ul>
-
 
 
 <hr/>
@@ -258,13 +263,10 @@
 
 </div>
 </div>
-</div>
-
 <div id="postamble">
-<p class="date">Date: 2013-09-15 15:19:58 CST</p>
-<p class="creator">Org version 7.8.11 with Emacs version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
-
+<p class="date"> Date: 2013-10-14 12:28:24 CST</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'note/the-mythical-man-month.html';var disqus_title = 'note/the-mythical-man-month.html';var disqus_url = 'http://dirlt.com/note/the-mythical-man-month.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>coroutine</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="coroutine"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-12 15:10:21 CST"/>
+<meta name="generated" content="2013-10-14 12:28:15 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,9 +21,6 @@
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
-  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
-  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -34,23 +31,10 @@
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  td, th { vertical-align: top; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
-    background: #ffffcc;
-  }
-  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -61,15 +45,10 @@
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
-
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-
-<div id="preamble">
-
-</div>
-
 <div id="content">
+
 <h1 class="title">coroutine</h1>
 
 
@@ -77,50 +56,63 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 coroutine</a></li>
+<li><a href="#sec-1">1 coroutine </a></li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> coroutine</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> coroutine </h2>
 <div class="outline-text-2" id="text-1">
 
 <ul>
-<li><a href="http://en.wikipedia.org/wiki/Coroutine">Wikipedia Coroutine</a>
+<li>
+<a href="http://en.wikipedia.org/wiki/Coroutine">Wikipedia Coroutine</a>
 </li>
-<li><a href="http://en.wikipedia.org/wiki/Continuation">Wikipedia Continuation</a>
+<li>
+<a href="http://en.wikipedia.org/wiki/Continuation">Wikipedia Continuation</a>
 </li>
-<li><a href="http://en.wikipedia.org/wiki/Green_threads">Wikipedia Green Threads（绿色线程）</a>
+<li>
+<a href="http://en.wikipedia.org/wiki/Green_threads">Wikipedia Green Threads（绿色线程）</a>
 </li>
-<li><a href="http://www.gnu.org/software/pth/">GNU portable thread（比较重）</a>
+<li>
+<a href="http://www.gnu.org/software/pth/">GNU portable thread（比较重）</a>
 </li>
-<li><a href="http://www.xmailserver.org/libpcl.html">portable coroutine library(个人比较推荐）</a>
+<li>
+<a href="http://www.xmailserver.org/libpcl.html">portable coroutine library(个人比较推荐）</a>
 </li>
-<li><a href="http://software.schmorp.de/pkg/libcoro.html">libcoro</a>
+<li>
+<a href="http://software.schmorp.de/pkg/libcoro.html">libcoro</a>
 </li>
-<li><a href="http://www.goron.de/~froese/coro/">coro</a>
+<li>
+<a href="http://www.goron.de/~froese/coro/">coro</a>
 </li>
-<li><a href="http://code.google.com/p/libconcurrency/">libconcurrency</a>
+<li>
+<a href="http://code.google.com/p/libconcurrency/">libconcurrency</a>
 </li>
-<li><a href="http://swtch.com/libtask/">libtask（封装了阻塞接口配合coroutine）</a>
+<li>
+<a href="http://swtch.com/libtask/">libtask（封装了阻塞接口配合coroutine）</a>
 </li>
-<li><a href="http://www.dekorte.com/projects/opensource/libcoroutine/">libcoroutine</a>
+<li>
+<a href="http://www.dekorte.com/projects/opensource/libcoroutine/">libcoroutine</a>
 </li>
-<li><a href="http://www.csl.mtu.edu/cs4411.ck/www/NOTES/non-local-goto/coroutine.html">coroutine过程演示（推荐阅读）</a>
+<li>
+<a href="http://www.csl.mtu.edu/cs4411.ck/www/NOTES/non-local-goto/coroutine.html">coroutine过程演示（推荐阅读）</a>
 </li>
-<li><a href="http://blog.rethinkdb.com/improving-a-large-c-project-with-coroutines">Improving a large C++ project with coroutines（如何使用coroutine实践）</a>
+<li>
+<a href="http://blog.rethinkdb.com/improving-a-large-c-project-with-coroutines">Improving a large C++ project with coroutines（如何使用coroutine实践）</a>
 </li>
-<li>Building Coroutines <a href="http://www.csl.mtu.edu/cs4411.ck/www/NOTES/non-local-goto/coroutine.html">http://www.csl.mtu.edu/cs4411.ck/www/NOTES/non-local-goto/coroutine.html</a>
+<li>
+Building Coroutines <a href="http://www.csl.mtu.edu/cs4411.ck/www/NOTES/non-local-goto/coroutine.html">http://www.csl.mtu.edu/cs4411.ck/www/NOTES/non-local-goto/coroutine.html</a>
+
 </li>
 </ul>
-
 
 
 <hr/>
 
 <p>
-libpcl里面的co_exit/co_exit_to/co_resume里面存放了caller和restarget这两个变量，表示调用者和应该恢复到的coroutine.但是一旦使用这种实现的话，那么调用者只能够按照stack的方式来调用coroutine,不然函数调用完成返回之后是会存在问题的，但是这样也就失去了coroutine意义了。而co_call还使用了co_exit这个函数，导致整个libpcl可以说不是很可用。不过里面设计上考虑了多线程环境使用了specific,并且使用了co_runner来做trampoline,这个在实现上面是非常巧妙的。此外文档也说了在处理线程的时候需要调用sigaltstack不然信号处理部分可能会和和你的coroutine的stack重合。其实只需要pth里面这些接口即可，create/delete/switch/exit(这个语义通知另外一个coroutine选择另外一个coroutine执行).pth可以看看但是比较大但是仅仅是覆盖thread部分内容(第三推荐)，而libtask涵盖了线程IO网络各个部分也可以看看(第二推荐)。
+libpcl里面的co<sub>exit</sub>/co<sub>exit</sub><sub>to</sub>/co<sub>resume里面存放了caller和restarget这两个变量，表示调用者和应该恢复到的coroutine</sub>.但是一旦使用这种实现的话，那么调用者只能够按照stack的方式来调用coroutine,不然函数调用完成返回之后是会存在问题的，但是这样也就失去了coroutine意义了。而co<sub>call还使用了co</sub><sub>exit这个函数，导致整个libpcl可以说不是很可用。不过里面设计上考虑了多线程环境使用了specific</sub>,并且使用了co<sub>runner来做trampoline</sub>,这个在实现上面是非常巧妙的。此外文档也说了在处理线程的时候需要调用sigaltstack不然信号处理部分可能会和和你的coroutine的stack重合。其实只需要pth里面这些接口即可，create/delete/switch/exit(这个语义通知另外一个coroutine选择另外一个coroutine执行).pth可以看看但是比较大但是仅仅是覆盖thread部分内容(第三推荐)，而libtask涵盖了线程IO网络各个部分也可以看看(第二推荐)。
 </p>
 
 <hr/>
@@ -128,24 +120,29 @@ libpcl里面的co_exit/co_exit_to/co_resume里面存放了caller和restarget这�
 <p>
 coroutine，windows编程里面的纤程（fiber）,绿色线程（green thread），Erlang里面的轻量进程(lightweight process)，其实实现上就是从栈空间跳转到另外一个栈空间进行执行，并且这个触发动作是由用户发起的。当然线程也是这样实现的，只不过linux NTPL是内核态线程实现(coroutine也可以认为是用户态线程，所以GNU portable thread就是这个理念），之间切换是由内核来触发的。内核态触发通常是由于线程时间片到，发现阻塞。内核态的切换都是强制切换。但是内核态切换太耗了，如果可以在用户态做就好了。
 </p><ol>
-<li>检测到阻塞，这个用户态可以完成。比如发起网络磁盘IO的话，如果会阻塞，我们就可以切换到其他coroutine直到发现不会阻塞再切换回来（当然实现上需要有一个调度coroutine).
+<li>
+检测到阻塞，这个用户态可以完成。比如发起网络磁盘IO的话，如果会阻塞，我们就可以切换到其他coroutine直到发现不会阻塞再切换回来（当然实现上需要有一个调度coroutine).
 </li>
-<li>检测时间片进行强制切换，这点在用户态是做不到的。所以试图在C/C++引入coroutine的话，如果一个coroutine CPU时间很长的话，那么可能会影响到其他coroutine的时间，因为在用户态做不到公平。但是如果引入虚拟机的话，这个问题就可以解决了，虚拟机代替我们的操作系统来进行时间分片。
+<li>
+检测时间片进行强制切换，这点在用户态是做不到的。所以试图在C/C++引入coroutine的话，如果一个coroutine CPU时间很长的话，那么可能会影响到其他coroutine的时间，因为在用户态做不到公平。但是如果引入虚拟机的话，这个问题就可以解决了，虚拟机代替我们的操作系统来进行时间分片。
+
 </li>
 </ol>
-
 
 
 <hr/>
 
 <p>
-coroutine框架必须在每个线程可以启动一个调度coroutine.然后create_fiber之后将coroutine丢到随机的一个线程coroutine的等待Q里面。调度coroutine的动作非常简单，检查哪些coroutine ready了然后switch到对应的coroutine上面去。这些工作的coroutine触发出来的时机可能有下面几个：
+coroutine框架必须在每个线程可以启动一个调度coroutine.然后create<sub>fiber之后将coroutine丢到随机的一个线程coroutine的等待Q里面。调度coroutine的动作非常简单，检查哪些coroutine</sub> ready了然后switch到对应的coroutine上面去。这些工作的coroutine触发出来的时机可能有下面几个：
 </p><ul>
-<li>read/write阻塞.对于fd需要判断如果为net的话那么丢入epoll,disk的话丢入nativeio或者是自己的线程池。
+<li>
+read/write阻塞.对于fd需要判断如果为net的话那么丢入epoll,disk的话丢入nativeio或者是自己的线程池。
 </li>
-<li>futex_wait锁的等待. // 这个可以让系统禁用或者什么的
+<li>
+futex<sub>wait锁的等待</sub>. // 这个可以让系统禁用或者什么的
 </li>
-<li>定时器 // sleep或者是futex_wait使用的定时器。
+<li>
+定时器 // sleep或者是futex<sub>wait使用的定时器。</sub>
 </li>
 </ul>
 
@@ -156,13 +153,10 @@ coroutine这种user thread只是做到的了cooperative thread,而preemptive thr
 </p>
 </div>
 </div>
-</div>
-
 <div id="postamble">
-<p class="date">Date: 2013-10-12 15:10:21 CST</p>
-<p class="creator">Org version 7.8.11 with Emacs version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
-
+<p class="date"> Date: 2013-10-14 12:28:15 CST</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'coroutine.html';var disqus_title = 'coroutine.html';var disqus_url = 'http://dirlt.com/coroutine.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

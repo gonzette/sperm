@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>hpserver</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="hpserver"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 15:19:20 CST"/>
+<meta name="generated" content="2013-10-14 12:28:04 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,9 +21,6 @@
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
-  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
-  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -34,23 +31,10 @@
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  td, th { vertical-align: top; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
-    background: #ffffcc;
-  }
-  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -61,15 +45,10 @@
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
-
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-
-<div id="preamble">
-
-</div>
-
 <div id="content">
+
 <h1 class="title">hpserver</h1>
 
 
@@ -77,16 +56,16 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 hpserver</a>
+<li><a href="#sec-1">1 hpserver </a>
 <ul>
-<li><a href="#sec-1-1">1.1 Reactor</a></li>
-<li><a href="#sec-1-2">1.2 IReactor</a></li>
-<li><a href="#sec-1-3">1.3 DTEV_ITEM</a></li>
-<li><a href="#sec-1-4">1.4 EventScheduler</a></li>
-<li><a href="#sec-1-5">1.5 DemuxTable</a></li>
-<li><a href="#sec-1-6">1.6 SignalSet</a></li>
-<li><a href="#sec-1-7">1.7 SignalInfo</a></li>
-<li><a href="#sec-1-8">1.8 How it works</a></li>
+<li><a href="#sec-1.1">1.1 Reactor </a></li>
+<li><a href="#sec-1.2">1.2 IReactor </a></li>
+<li><a href="#sec-1.3">1.3 DTEV<sub>ITEM</sub> </a></li>
+<li><a href="#sec-1.4">1.4 EventScheduler </a></li>
+<li><a href="#sec-1.5">1.5 DemuxTable </a></li>
+<li><a href="#sec-1.6">1.6 SignalSet </a></li>
+<li><a href="#sec-1.7">1.7 SignalInfo </a></li>
+<li><a href="#sec-1.8">1.8 How it works </a></li>
 </ul>
 </li>
 </ul>
@@ -94,7 +73,7 @@
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> hpserver</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> hpserver </h2>
 <div class="outline-text-2" id="text-1">
 
 
@@ -105,19 +84,26 @@
 虽然主页上介绍"HPServer is a free, open-source light-weighted framework for concurrent networking software. "，但是实际上hpserver完成事情是相当有限的。
 类似于libevent,没有管理线程，内部也没有异步队列的实现。所以基本上可以认为就是一个libevent的简单实现。hpserver的特点有下面这些：
 </p><ul>
-<li>object-oriented;
+<li>
+object-oriented;
 </li>
-<li>high-performance;
+<li>
+high-performance;
 </li>
-<li>cross-platform, support windows &amp; linux;
+<li>
+cross-platform, support windows &amp; linux;
 </li>
-<li>event-driven;
+<li>
+event-driven;
 </li>
-<li>support I/O events, timer, and signals;  // 支持IO事件，定时器和信号
+<li>
+support I/O events, timer, and signals;  // 支持IO事件，定时器和信号
 </li>
-<li>support acceptor-connector pattern internally, which will faciliates your programming;
+<li>
+support acceptor-connector pattern internally, which will faciliates your programming;
 </li>
-<li>support multithread; // 这里所谓的支持多线程猜想意思应该就是允许我们开辟多个reactor对象在多个线程里面使用
+<li>
+support multithread; // 这里所谓的支持多线程猜想意思应该就是允许我们开辟多个reactor对象在多个线程里面使用
 </li>
 </ul>
 
@@ -128,9 +114,9 @@ event handler,event item,handle(fd或者是信号编号)分开了，但是阅读
 
 </div>
 
-<div id="outline-container-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Reactor</h3>
-<div class="outline-text-3" id="text-1-1">
+<div id="outline-container-1.1" class="outline-3">
+<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Reactor </h3>
+<div class="outline-text-3" id="text-1.1">
 
 
 
@@ -153,13 +139,15 @@ event handler,event item,handle(fd或者是信号编号)分开了，但是阅读
 </pre>
 
 
-</div>
+
 
 </div>
 
-<div id="outline-container-1-2" class="outline-3">
-<h3 id="sec-1-2"><span class="section-number-3">1.2</span> IReactor</h3>
-<div class="outline-text-3" id="text-1-2">
+</div>
+
+<div id="outline-container-1.2" class="outline-3">
+<h3 id="sec-1.2"><span class="section-number-3">1.2</span> IReactor </h3>
+<div class="outline-text-3" id="text-1.2">
 
 
 
@@ -182,17 +170,19 @@ event handler,event item,handle(fd或者是信号编号)分开了，但是阅读
 };
 </pre>
 
+
+
 <p>
 对于这里面Register和Unregsiter内部实现来说会根据pEvItem以前是否在Poller里面注册了来决定是Add,Mod还是Del.从接口上来说还是比较好用的。
-在include目录下面有一个IReactor_Imp的实现，有select和epoll两个版本实现。对于我们来说没有必要仔细阅读，了解到这个接口就足够了。
+在include目录下面有一个IReactor<sub>Imp的实现，有select和epoll两个版本实现。对于我们来说没有必要仔细阅读，了解到这个接口就足够了。</sub>
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1-3" class="outline-3">
-<h3 id="sec-1-3"><span class="section-number-3">1.3</span> DTEV_ITEM</h3>
-<div class="outline-text-3" id="text-1-3">
+<div id="outline-container-1.3" class="outline-3">
+<h3 id="sec-1.3"><span class="section-number-3">1.3</span> DTEV<sub>ITEM</sub> </h3>
+<div class="outline-text-3" id="text-1.3">
 
 
 
@@ -212,13 +202,15 @@ event handler,event item,handle(fd或者是信号编号)分开了，但是阅读
 </pre>
 
 
-</div>
+
 
 </div>
 
-<div id="outline-container-1-4" class="outline-3">
-<h3 id="sec-1-4"><span class="section-number-3">1.4</span> EventScheduler</h3>
-<div class="outline-text-3" id="text-1-4">
+</div>
+
+<div id="outline-container-1.4" class="outline-3">
+<h3 id="sec-1.4"><span class="section-number-3">1.4</span> EventScheduler </h3>
+<div class="outline-text-3" id="text-1.4">
 
 
 
@@ -234,6 +226,8 @@ event handler,event item,handle(fd或者是信号编号)分开了，但是阅读
     CReactor *m_pReactor;
 };
 </pre>
+
+
 
 <p>
 参数就是按照优先级区分的活动链表，然后hpserver内部实现了一个默认的Scheduler非常简单，就是按照优先级然后遍历活动event即可。
@@ -253,6 +247,8 @@ event handler,event item,handle(fd或者是信号编号)分开了，但是阅读
 }
 </pre>
 
+
+
 <p>
 这个过程调用的时机，应该是在Reactor每次循环收集到活动事情之后，然后使用这个Scheduler来决定活动事件处理的顺序是怎么样的。
 </p>
@@ -260,9 +256,9 @@ event handler,event item,handle(fd或者是信号编号)分开了，但是阅读
 
 </div>
 
-<div id="outline-container-1-5" class="outline-3">
-<h3 id="sec-1-5"><span class="section-number-3">1.5</span> DemuxTable</h3>
-<div class="outline-text-3" id="text-1-5">
+<div id="outline-container-1.5" class="outline-3">
+<h3 id="sec-1.5"><span class="section-number-3">1.5</span> DemuxTable </h3>
+<div class="outline-text-3" id="text-1.5">
 
 <p>我们注册fd和对应的event handler的时候，那么event item在什么地方开辟呢？这个event item就是在DemuxTable上面开辟。DemuxTable就是一个
 将fd映射到event item的地方并且提供每个fd相关的event item.对于内部实现的话非常简单，因为在Linux上面fd都是连续的，所以我们可以使用
@@ -283,19 +279,21 @@ class CDemuxTable
 };
 </pre>
 
+
+
 <p>
-实现上来看是一个二维数组，然后可以动态地进行分配。每一个DTEV_ITEM开辟的数组内容为4096个，所以fd上限在1048576=1M=1024K.不过对于现在
+实现上来看是一个二维数组，然后可以动态地进行分配。每一个DTEV<sub>ITEM开辟的数组内容为4096个，所以fd上限在1048576</sub>=1M=1024K.不过对于现在
 的网络服务来说的话，通常连接数还不会达到这个数量级别，所以完全OK.
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1-6" class="outline-3">
-<h3 id="sec-1-6"><span class="section-number-3">1.6</span> SignalSet</h3>
-<div class="outline-text-3" id="text-1-6">
+<div id="outline-container-1.6" class="outline-3">
+<h3 id="sec-1.6"><span class="section-number-3">1.6</span> SignalSet </h3>
+<div class="outline-text-3" id="text-1.6">
 
-<p>对于信号来说，并不是将fd和DTEV_ITEM进行绑定，而是将EventHandler和DTEV_ITEM进行绑定。映射关系就维护在SignalSet里面
+<p>对于信号来说，并不是将fd和DTEV<sub>ITEM进行绑定，而是将EventHandler和DTEV</sub><sub>ITEM进行绑定。映射关系就维护在SignalSet里面</sub>
 </p>
 
 
@@ -313,17 +311,19 @@ class CDemuxTable
 </pre>
 
 
-</div>
+
 
 </div>
 
-<div id="outline-container-1-7" class="outline-3">
-<h3 id="sec-1-7"><span class="section-number-3">1.7</span> SignalInfo</h3>
-<div class="outline-text-3" id="text-1-7">
+</div>
 
-<p>对于我们关心的信号都往这里面注册即可。我们注册的对象是DTEV_ITEM,但是我们可以根据DTEV_ITEM找到对应的handler,然后
-找到对应的信号量，然后注册我们关注这个信号。然后SignalInfo里面有ProcessSignals能够遍历捕获到的信号，然后feed_event调用
-reactor的active_event函数。SignalInfo应该会自己安装自己的信号处理函数，然后再自己的信号处理函数里进行标记，然后统一交给Reactor处理。
+<div id="outline-container-1.7" class="outline-3">
+<h3 id="sec-1.7"><span class="section-number-3">1.7</span> SignalInfo </h3>
+<div class="outline-text-3" id="text-1.7">
+
+<p>对于我们关心的信号都往这里面注册即可。我们注册的对象是DTEV<sub>ITEM</sub>,但是我们可以根据DTEV<sub>ITEM找到对应的handler</sub>,然后
+找到对应的信号量，然后注册我们关注这个信号。然后SignalInfo里面有ProcessSignals能够遍历捕获到的信号，然后feed<sub>event调用</sub>
+reactor的active<sub>event函数。SignalInfo应该会自己安装自己的信号处理函数，然后再自己的信号处理函数里进行标记，然后统一交给Reactor处理。</sub>
 </p>
 
 
@@ -345,8 +345,10 @@ reactor的active_event函数。SignalInfo应该会自己安装自己的信号处
 };
 </pre>
 
+
+
 <p>
-我们看看sig_handler里面做了什么事情
+我们看看sig<sub>handler里面做了什么事情</sub>
 </p>
 
 
@@ -370,29 +372,28 @@ reactor的active_event函数。SignalInfo应该会自己安装自己的信号处
 </pre>
 
 
-</div>
+
 
 </div>
 
-<div id="outline-container-1-8" class="outline-3">
-<h3 id="sec-1-8"><span class="section-number-3">1.8</span> How it works</h3>
-<div class="outline-text-3" id="text-1-8">
+</div>
+
+<div id="outline-container-1.8" class="outline-3">
+<h3 id="sec-1.8"><span class="section-number-3">1.8</span> How it works </h3>
+<div class="outline-text-3" id="text-1.8">
 
 <p>我们主要关注Reactor的RunForever.RunForever里面会一遍一遍地调用EventLoopOnce这个过程，每次调用的时候都会检查是否需要退出。
 在EventLoopOnce里面会根据定时器最小堆计算出到下一个定时器触发需要等待多长时间tv,然后调用Poller的Dispatch(tv)方法。
 在Dispatch方法里面会使用epoll等待io并且等待tv时间，然后调用SignalInfo::ProcessSignals处理信号，然后调用Reactor::ExpireTimerEvents来处理超时事件，
-然后调用ActiveEvent将所有可读可写事件加入m_vecActiveList里面来，然后调用scheduler进行调度。对于ScheduleActiveEvent这个函数，
+然后调用ActiveEvent将所有可读可写事件加入m<sub>vecActiveList里面来，然后调用scheduler进行调度。对于ScheduleActiveEvent这个函数，</sub>
 无非就是分析每个event item是否取消，如果没有取消的话那么调用绑定的handler对应的回调函数。整个过程就是这样的。
 </p></div>
 </div>
 </div>
-</div>
-
 <div id="postamble">
-<p class="date">Date: 2013-09-15 15:19:20 CST</p>
-<p class="creator">Org version 7.8.11 with Emacs version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
-
+<p class="date"> Date: 2013-10-14 12:28:04 CST</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'hpserver.html';var disqus_title = 'hpserver.html';var disqus_url = 'http://dirlt.com/hpserver.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

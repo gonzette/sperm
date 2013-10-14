@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
+#include <cstdio>
 using namespace std;
 
 class Solution {
@@ -13,9 +14,15 @@ class Solution {
       return 0;
     }
     int res = 0;
+    int lm = 0;
     for(int i=0;i<n;i++) {
-      for(int j=i+1;j<n;j++) {
+      if(height[i] <= lm) continue; // prune.
+      lm = height[i];
+      for(int j=n-1;j>i;j--) {
         res = max(res,(j-i) * min(height[i],height[j]));
+        if(height[j] >= height[i]) {
+          break;
+        }
       }
     }
     return res;

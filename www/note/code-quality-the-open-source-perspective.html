@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>高质量程序设计艺术(Code Quality The Open Source Perspective)</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-<meta name="title" content="高质量程序设计艺术(Code Quality The Open Source Perspective)"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-09-15 15:20:16 CST"/>
+<meta name="generated" content="2013-10-14 12:28:34 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,9 +21,6 @@
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
-  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
-  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
-  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -34,23 +31,10 @@
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top;  }
-  th.right  { text-align:center;  }
-  th.left   { text-align:center;   }
-  th.center { text-align:center; }
-  td.right  { text-align:right;  }
-  td.left   { text-align:left;   }
-  td.center { text-align:center; }
+  td, th { vertical-align: top; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
-  div.inlinetask {
-    padding:10px;
-    border:2px solid gray;
-    margin:10px;
-    background: #ffffcc;
-  }
-  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -61,15 +45,10 @@
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="../css/site.css" />
 
-
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-
-<div id="preamble">
-
-</div>
-
 <div id="content">
+
 <h1 class="title">高质量程序设计艺术(Code Quality The Open Source Perspective)</h1>
 
 
@@ -77,107 +56,132 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 code-quality-the-open-source-perspective</a></li>
+<li><a href="#sec-1">1 code-quality-the-open-source-perspective </a></li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> code-quality-the-open-source-perspective</h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> code-quality-the-open-source-perspective </h2>
 <div class="outline-text-2" id="text-1">
 
 <p>现实中的软件质量能够从4个方面观察
 </p><ol>
-<li>使用质量，比如使用的体验
+<li>
+使用质量，比如使用的体验
 </li>
-<li>外部质量，外部进行测试所体现的质量
+<li>
+外部质量，外部进行测试所体现的质量
 </li>
-<li>内部质量，就是单纯对于单个部件进行评估
+<li>
+内部质量，就是单纯对于单个部件进行评估
 </li>
-<li>过程质量。关注过程而不是产品本身有可能是值得的，而且有时候还是不可或缺的。想象一下如果需要制造一个航空母舰，海军绝对不可能知识通过检查完工的航空母舰就确定它是否符合需求，海军需要做的是检查与航母的建造过程相关的过程元素，这可能包括设计师的资质证明，焊点的X光板以及所有的组装好的部件的验收测试结果。但是千万不要把这个过程走向了极端，不管我们就会过分关注过程质量
+<li>
+过程质量。关注过程而不是产品本身有可能是值得的，而且有时候还是不可或缺的。想象一下如果需要制造一个航空母舰，海军绝对不可能知识通过检查完工的航空母舰就确定它是否符合需求，海军需要做的是检查与航母的建造过程相关的过程元素，这可能包括设计师的资质证明，焊点的X光板以及所有的组装好的部件的验收测试结果。但是千万不要把这个过程走向了极端，不管我们就会过分关注过程质量
+
 </li>
 </ol>
-
 
 
 <hr/>
 <p>
 对于软件质量能够从几个方面进行反应，下面就是软件质量具体的体现方面，这些内容都是相互影响的，在软件设计中我们需要做适当的权衡：
 </p><ol>
-<li>功能性
+<li>
+功能性
 <ul>
-<li>相配度，软件功能和用户是否相配
+<li>
+ 相配度，软件功能和用户是否相配
 </li>
-<li>准确性，计算结果的准确性
+<li>
+ 准确性，计算结果的准确性
 </li>
-<li>互操作性，和其他软件的互操作性
+<li>
+ 互操作性，和其他软件的互操作性
 </li>
-<li>安全性，软件数据的安全保障
+<li>
+ 安全性，软件数据的安全保障
 </li>
 </ul>
-
 </li>
-<li>可靠性
+<li>
+可靠性
 <ul>
-<li>成熟，软件不容易出故障
+<li>
+ 成熟，软件不容易出故障
 </li>
-<li>容错，软件出现错误情况下依然能够继续工作
+<li>
+ 容错，软件出现错误情况下依然能够继续工作
 </li>
-<li>可恢复性，恢复数据并且继续执行
+<li>
+ 可恢复性，恢复数据并且继续执行
 </li>
 </ul>
-
 </li>
-<li>可用性
+<li>
+可用性
 <ul>
-<li>易懂，用户能够非常容易快速使用
+<li>
+ 易懂，用户能够非常容易快速使用
 </li>
-<li>可掌握性，掌握它需要付出的努力少
+<li>
+ 可掌握性，掌握它需要付出的努力少
 </li>
-<li>可操作性，操作这个软件需要的精力少
+<li>
+ 可操作性，操作这个软件需要的精力少
 </li>
-<li>吸引力，用户愿意使用这个软件
+<li>
+ 吸引力，用户愿意使用这个软件
 </li>
 </ul>
-
 </li>
-<li>效率
+<li>
+效率
 <ul>
-<li>时间和空间的权衡
+<li>
+ 时间和空间的权衡
 </li>
-<li>资源的使用，对于CPU，内存还有磁盘，网络这些使用需要越少越好
+<li>
+ 资源的使用，对于CPU，内存还有磁盘，网络这些使用需要越少越好
 </li>
 </ul>
-
 </li>
-<li>可维护性
+<li>
+可维护性
 <ul>
-<li>可分析性，找到修正和改进地方的难易程度
+<li>
+ 可分析性，找到修正和改进地方的难易程度
 </li>
-<li>可变性，完成一个修改的难易程度
+<li>
+ 可变性，完成一个修改的难易程度
 </li>
-<li>稳定性，修改之后出现问题的程度
+<li>
+ 稳定性，修改之后出现问题的程度
 </li>
-<li>易测性，是否能够验证修改的结果
+<li>
+ 易测性，是否能够验证修改的结果
 </li>
 </ul>
-
 </li>
-<li>可移植性
+<li>
+可移植性
 <ul>
-<li>适应性，软件代码在不同环境中运行的能力
+<li>
+ 适应性，软件代码在不同环境中运行的能力
 </li>
-<li>可安装型，软件在各种环境中安装可行性
+<li>
+ 可安装型，软件在各种环境中安装可行性
 </li>
-<li>共存，软件在拥挤的环境中表现如何
+<li>
+ 共存，软件在拥挤的环境中表现如何
 </li>
-<li>可替代性，软件某个部分是否能够通过其他部分来代替 
+<li>
+ 可替代性，软件某个部分是否能够通过其他部分来代替 
+
 </li>
 </ul>
-
 </li>
 </ol>
-
 
 
 <hr/>
@@ -234,21 +238,27 @@
 <p>
 程序被装载到系统之后,任意时刻都是在下面3种状态下面运行
 </p><ol>
-<li>直接执行代码.这执行代码所消耗的时间是user time,进程在用户的上下文中执行
+<li>
+直接执行代码.这执行代码所消耗的时间是user time,进程在用户的上下文中执行
 </li>
-<li>内核为该程序直接执行代码。这个部分所消耗时间是sys time
+<li>
+内核为该程序直接执行代码。这个部分所消耗时间是sys time
 </li>
-<li>等待某个外部操作结束。一般是读写某个慢速外设，可能是磁盘，打印机或者是网络，这部分是idle time。
+<li>
+等待某个外部操作结束。一般是读写某个慢速外设，可能是磁盘，打印机或者是网络，这部分是idle time。
 </li>
 </ol>
 
 <p>real time=user time+sys time+idle time. 所以可以分析出下面3种情况:
 </p><ol>
-<li>real time&gt;&gt;user time+sys time.这就表明受限于I/O，诊断工具就是使用一些磁盘，网络虚拟内存统计工具或者是系统调用跟踪。可以考虑进行高速缓存或者是做更好的IO工作
+<li>
+real time&gt;&gt;user time+sys time.这就表明受限于I/O，诊断工具就是使用一些磁盘，网络虚拟内存统计工具或者是系统调用跟踪。可以考虑进行高速缓存或者是做更好的IO工作
 </li>
-<li>sys time&gt;user time，那么表明受限于内核。那么改进内核或者是采用高速缓存或者是好的CPU
+<li>
+sys time&gt;user time，那么表明受限于内核。那么改进内核或者是采用高速缓存或者是好的CPU
 </li>
-<li>user time=real time.那么表明受限于计算，如果需要改进的话那么只有采用更好的算法了或者是好的CPU
+<li>
+user time=real time.那么表明受限于计算，如果需要改进的话那么只有采用更好的算法了或者是好的CPU
 </li>
 </ol>
 
@@ -259,14 +269,17 @@
 <p>
 系统颠簸主要和程序访问局部性相关，解决系统颠簸的问题
 </p><ol>
-<li>减少系统的内存使用
+<li>
+减少系统的内存使用
 </li>
-<li>使用配有大量物理内存的系统
+<li>
+使用配有大量物理内存的系统
 </li>
-<li>改善系统的访问局部性，采用更大的高速缓存
+<li>
+改善系统的访问局部性，采用更大的高速缓存
+
 </li>
 </ol>
-
 
 
 <hr/>
@@ -283,68 +296,86 @@
 <p>
 可移植性分为:
 </p><ol>
-<li>操作系统.
+<li>
+操作系统.
 <ul>
-<li>可选的程序,gcc,awk,sed,install,ln,ranlib
+<li>
+ 可选的程序,gcc,awk,sed,install,ln,ranlib
 </li>
-<li>库的存在curses,dbm,mp
+<li>
+ 库的存在curses,dbm,mp
 </li>
-<li>特性库函数的支持alloca,getpgr,mmap,strcol
+<li>
+ 特性库函数的支持alloca,getpgr,mmap,strcol
 </li>
-<li>某些头文件的存在signal.h,dirent.h
-      e. 某些结构如何定义的st_dev,st_blocks
-      f. 各种类型的支持size_t,pid_t
-      g. C编译器的支持，比如const,inline,##,long long
-      h. 操作系统服务，如对X窗口的支持等
+<li>
+ 某些头文件的存在signal.h,dirent.h
+e. 某些结构如何定义的st<sub>dev</sub>,st<sub>blocks</sub>
+f. 各种类型的支持size<sub>t</sub>,pid<sub>t</sub>
+g. C编译器的支持，比如const,inline,##,long long
+h. 操作系统服务，如对X窗口的支持等
 </li>
 </ul>
-
 </li>
-<li>处理器体系结构
+<li>
+处理器体系结构
 <ul>
-<li>数据的大小和长度
+<li>
+ 数据的大小和长度
 </li>
-<li>数据存储的方式big endian或者是little endian
+<li>
+ 数据存储的方式big endian或者是little endian
 </li>
-<li>特定的汇编指令
+<li>
+ 特定的汇编指令
 </li>
 </ul>
-
 </li>
-<li>编译器与语言特性
+<li>
+编译器与语言特性
 <ul>
-<li>编译器错误
+<li>
+ 编译器错误
 </li>
-<li>非标准的扩展
+<li>
+ 非标准的扩展
 </li>
-<li>新语言的特性
+<li>
+ 新语言的特性
 </li>
-<li>二进制兼容性
+<li>
+ 二进制兼容性
 </li>
 </ul>
-
 </li>
-<li>图形界面用户环境(这个部分从来就没有统一过,跨平台的开发工具有)
+<li>
+图形界面用户环境(这个部分从来就没有统一过,跨平台的开发工具有)
 <ul>
-<li>Java
+<li>
+ Java
 </li>
-<li>Tcl/Tk
+<li>
+ Tcl/Tk
 </li>
-<li>Qt
+<li>
+ Qt
 </li>
-<li>GTK
+<li>
+ GTK
 </li>
-<li>wxWindows
+<li>
+ wxWindows
 </li>
 </ul>
+</li>
+<li>
+区域(这个没有看)
+</li>
+<li>
+硬件设备与平台 
 
-</li>
-<li>区域(这个没有看)
-</li>
-<li>硬件设备与平台 
 </li>
 </ol>
-
 
 
 <hr/>
@@ -360,13 +391,10 @@
 
 </div>
 </div>
-</div>
-
 <div id="postamble">
-<p class="date">Date: 2013-09-15 15:20:16 CST</p>
-<p class="creator">Org version 7.8.11 with Emacs version 24</p>
-<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
-
+<p class="date"> Date: 2013-10-14 12:28:34 CST</p>
+<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
+</div>
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'note/code-quality-the-open-source-perspective.html';var disqus_title = 'note/code-quality-the-open-source-perspective.html';var disqus_url = 'http://dirlt.com/note/code-quality-the-open-source-perspective.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

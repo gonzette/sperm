@@ -2,6 +2,11 @@
 
 # do publish
 emacs --batch --script publish.el
+if [ $? != 0 ]
+then
+    echo "publish failed"
+    exit 1
+fi
 ./addcode
 cd ../www/
 rm -rf images css
