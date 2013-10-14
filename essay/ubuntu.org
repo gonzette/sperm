@@ -66,6 +66,7 @@
    - sudo apt-get install google-chrome-stable # 稳定版本
    - #sudo apt-get install firefox
    - #sudo apt-get install thunderbird
+   - sudo apt-get install dkms 
    - sudo apt-get install virtualbox
    - sudo apt-get install virtualbox-guest-additions # 设置windows虚拟机共享文件夹
    - sudo apt-get install ntp
@@ -322,6 +323,8 @@ NOTE(dirlt):这里对于0 0不太清楚是什么意思，只是知道分别是du
 
 使用virtualbox，通过加载windows xp的镜像安装，这个非常简单。
 或者是直接使用别人生成好的.vdi文件。vdi全称应该是virtual disk image。
+
+*NOTE（dirlt）：升级内核或者是重装系统的话，可能会造成内核版本与默认源的virtualbox不匹配，可以从官网下载最新版本。参考链接 https://www.virtualbox.org/wiki/Linux_Downloads*
 
 *** virtualbox设置共享文件夹
 设置共享文件夹主要是为了数据可以进行同步。通过windows虚拟机，安装同步软件比如GDrive。

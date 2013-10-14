@@ -1,5 +1,19 @@
 #!/bin/bash
+sudo hostname dirlt-ubuntu
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
 sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian raring contrib" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian quantal contrib" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian precise contrib" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian oneiric contrib" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian natty contrib" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian maverick contrib non-free" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian lucid contrib non-free" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian karmic contrib non-free" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian hardy contrib non-free" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian wheezy contrib" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian squeeze contrib non-free" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian lenny contrib non-free" >> /etc/apt/sources.list.d/oracle.list'
 sudo apt-get update
 
