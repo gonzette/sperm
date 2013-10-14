@@ -190,6 +190,7 @@ drwxrwxr-x 3 dirlt dirlt 4096  6月 24 22:36 xml-apis
        - id(profile id)
    - activeProfiles
      - activeProfile(激活的profile通过id识别)
+
 #+BEGIN_SRC XML
 <settings>  
   ...  
@@ -348,6 +349,9 @@ nexus有下面几种repo：
        - 有时候上面这个命令可能不work因为可能会将一些pom引入，这样的话可以通过下面命令来解决
        - mvn dependency:copy-dependencies ; cd ./target/dependency ; for x in *.jar ; do echo "jar xf $$x ..." ; jar xf $$x ; done
    - mvn <command> -P # 激活使用某个profile. profile能够区分不同的构建环境。
+   - mvn -U <command> # 强制检查远端仓库
+     - *[ERROR] Failed to execute goal on project iceberg: Could not resolve dependencies for project com.umeng.dp:iceberg:jar:4.1.5: Failure to find kafka:kafka:jar:0.7.0 in http://nexus:8088/nexus/content/groups/public/ was cached in the local repository, resolution will no t be reattempted until the update interval of umeng.public has elapsed or updates are forced -> [Help 1]*
+     - 可以看出maven对于仓库检查是有一定时间间隔的，在一定时间间隔内不会重复检查仓库，这样可以减少网络延迟。但是如果我们更新了仓库希望maven强制检测的话，那么就要使用这个选项。
 
 *** 常用插件
    - Maven Surefire Plugin http://maven.apache.org/surefire/maven-surefire-plugin/ 单元测试
