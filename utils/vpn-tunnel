@@ -1,6 +1,0 @@
-#!/bin/bash
-function start() {
-    ssh -N -D 7070 -p 3843 zhangyan@wwangcg.com
-}
-
-start

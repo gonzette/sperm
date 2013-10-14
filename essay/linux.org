@@ -1602,7 +1602,9 @@ TODO（dirlt）：
 TODO(dirlt):
 
 *** dstat
-TODO(dirlt): http://dag.wieers.com/rpm/packages/dstat/
+TODO(dirlt): https://github.com/dagwieers/dstat
+
+http://weibo.com/1840408525/AdGkO3uEL dstat -lamps
 
 *** slurm
 Simple Linux Utility for Resource Management 

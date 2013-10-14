@@ -147,7 +147,7 @@ PATH=$GOROOT/bin:$PATH
 # scala
 export SCALA_HOME=$HOME/utils/scala-2.10.2
 PATH=$SCALA_HOME/bin:$PATH
-MANPATH=$SCALA_HOME/man:$PATH
+MANPATH=$SCALA_HOME/man:$MANPATH
 
 # sbt
 export SBT_HOME=$HOME/utils/sbt

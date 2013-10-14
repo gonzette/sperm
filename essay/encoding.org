@@ -1,4 +1,4 @@
-* encode
+* encoding
 #+OPTIONS: H:4
 
 ** 参考文献

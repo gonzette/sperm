@@ -1,4 +1,4 @@
-* pic-code
+* pic
 #+OPTIONS: H:5
 
 ** 什么是PIC
