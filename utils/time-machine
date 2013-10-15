@@ -1,5 +1,11 @@
 #!/bin/bash
 pwd=`pwd`
+if [ ! -d "$pwd/dirlt" ]
+then
+    echo "Are you at right backup directory???"
+    exit 1
+fi
+    
 # files.
 for f in private.tar.gz
 do
