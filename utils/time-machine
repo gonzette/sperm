@@ -1,3 +1,18 @@
 #!/bin/bash
-T=`date +'%F-%R'`
-sudo tar czf /root/$T.dirlt.tar.gz /home/dirlt/
+pwd=`pwd`
+# files.
+for f in private.tar.gz
+do
+    sudo rsync -az $HOME/$f "$pwd/dirlt/$f"
+done
+
+# dirs.
+for d in doc \
+    ".m2" \
+    github \
+    utils \
+    "VirtualBox VMs" \
+    vmshare
+do
+    sudo rsync -arz "$HOME/$d/" "$pwd/dirlt/$d/"
+done

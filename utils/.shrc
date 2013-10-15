@@ -9,9 +9,10 @@ then
     MAC=1
 fi
 
-# basic paths.
+# basic path.
 PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/sbin:$PATH
 
+# cdh path.
 CDH3=0
 CDH4_2_0=0
 CDH4_3_0=1
@@ -65,14 +66,9 @@ else
 
 fi
 
-# add to system.
-LD_LIBRARY_PATH=$JAVA_LIBRARY_PATH:$LD_LIBRARY_PATH
-CLASSPATH=$HADOOP_CLASSPATH:$CLASSPATH
-
-# add jdk classpath.
-export M2_REPO=$HOME/.m2/repository/
-export CLASSPATH=.:./target/classes:./target/dependency:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:$CLASSPATH
-export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
+# jdk path.
+export CLASSPATH=.:./target/classes:./target/dependency:$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:$HADOOP_CLASSPATH:$CLASSPATH
+export LD_LIBRARY_PATH=.:$JAVA_LIBRARY_PATH:$LD_LIBRARY_PATH
 
 # basic settings.
 PATH=$HOME/utils/bin:$JAVA_HOME/bin:$PATH
