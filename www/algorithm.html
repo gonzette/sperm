@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>algorithm</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="algorithm"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:28:21 CST"/>
+<meta name="generated" content="2013-10-15 09:48:00 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">algorithm</h1>
 
 
@@ -56,30 +77,30 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 algorithm </a>
+<li><a href="#sec-1">1 algorithm</a>
 <ul>
-<li><a href="#sec-1.1">1.1 工程算法 </a>
+<li><a href="#sec-1-1">1.1 工程算法</a>
 <ul>
-<li><a href="#sec-1.1.1">1.1.1 strlen in glibc </a></li>
-<li><a href="#sec-1.1.2">1.1.2 consistent hashing </a></li>
-<li><a href="#sec-1.1.3">1.1.3 rsync core algorithm </a></li>
-<li><a href="#sec-1.1.4">1.1.4 simhash core algorithm </a></li>
-<li><a href="#sec-1.1.5">1.1.5 HyperLogLog </a></li>
-<li><a href="#sec-1.1.6">1.1.6 CONCISE </a></li>
+<li><a href="#sec-1-1-1">1.1.1 strlen in glibc</a></li>
+<li><a href="#sec-1-1-2">1.1.2 consistent hashing</a></li>
+<li><a href="#sec-1-1-3">1.1.3 rsync core algorithm</a></li>
+<li><a href="#sec-1-1-4">1.1.4 simhash core algorithm</a></li>
+<li><a href="#sec-1-1-5">1.1.5 HyperLogLog</a></li>
+<li><a href="#sec-1-1-6">1.1.6 CONCISE</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2">1.2 面试算法 </a>
+<li><a href="#sec-1-2">1.2 面试算法</a>
 <ul>
-<li><a href="#sec-1.2.1">1.2.1 树最长距离问题 </a></li>
-<li><a href="#sec-1.2.2">1.2.2 开门抽奖问题 </a></li>
-<li><a href="#sec-1.2.3">1.2.3 等概率选取未知长度的链表中的元素问题 </a></li>
-<li><a href="#sec-1.2.4">1.2.4 查找非重复数字问题 </a></li>
-<li><a href="#sec-1.2.5">1.2.5 水池最大蓄水问题 </a></li>
+<li><a href="#sec-1-2-1">1.2.1 树最长距离问题</a></li>
+<li><a href="#sec-1-2-2">1.2.2 开门抽奖问题</a></li>
+<li><a href="#sec-1-2-3">1.2.3 等概率选取未知长度的链表中的元素问题</a></li>
+<li><a href="#sec-1-2-4">1.2.4 查找非重复数字问题</a></li>
+<li><a href="#sec-1-2-5">1.2.5 水池最大蓄水问题</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.3">1.3 TopCoder算法 </a>
+<li><a href="#sec-1-3">1.3 TopCoder算法</a>
 <ul>
-<li><a href="#sec-1.3.1">1.3.1 安装和配置topcoder </a></li>
+<li><a href="#sec-1-3-1">1.3.1 安装和配置topcoder</a></li>
 </ul>
 </li>
 </ul>
@@ -89,23 +110,23 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> algorithm </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> algorithm</h2>
 <div class="outline-text-2" id="text-1">
 
 
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> 工程算法 </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 工程算法</h3>
+<div class="outline-text-3" id="text-1-1">
 
 
 </div>
 
-<div id="outline-container-1.1.1" class="outline-4">
-<h4 id="sec-1.1.1"><span class="section-number-4">1.1.1</span> strlen in glibc </h4>
-<div class="outline-text-4" id="text-1.1.1">
+<div id="outline-container-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> strlen in glibc</h4>
+<div class="outline-text-4" id="text-1-1-1">
 
 <p>参考链接 <a href="http://www.kuqin.com/language/20071113/2308.html">http://www.kuqin.com/language/20071113/2308.html</a>. 这里和链接有点不太一样的就是，这个版本glibc实现考虑了非ASCII字符。
 </p>
@@ -118,11 +139,11 @@ const char *str;
   const char *char_ptr;
   const unsigned long int *longword_ptr;
   unsigned long int longword, himagic, lomagic;
-  
+
   // &#39318;&#20808;&#26159;&#38656;&#35201;&#23545;&#40784;&#21040;unsigned long int&#36825;&#20010;&#38271;&#24230;.
   // &#20043;&#21518;&#23601;&#26159;&#27599;&#20010;unsigned long int&#26469;&#36827;&#34892;&#21028;&#26029;.
   // &#36825;&#26679;&#21487;&#20197;&#21152;&#24555;&#36895;&#24230;
-  
+
   /* Handle the first few characters by reading one character at a time.
    * Do this until CHAR_PTR is aligned on a longword boundary.  */
   for (char_ptr = str; ((unsigned long int) char_ptr
@@ -138,7 +159,7 @@ const char *str;
   // &#20026;&#20102;&#31616;&#21270;&#22788;&#29702;&#30340;&#35805;&#65292;&#25105;&#20204;&#21487;&#20197;&#35748;&#20026;sizeof(longword)==8&#65292;&#36825;&#26679;
   // himagic = 0x8080808080808080L
   // lomagic = 0x0101010101010101L
-  
+
   /* Bits 31, 24, 16, and 8 of this number are zero.  Call these bits
    * the <span class="org-string">"holes."</span>  Note that there is a hole just to the left of
    * each byte, with an extra at the end:
@@ -164,14 +185,14 @@ const char *str;
    * if *any of the four* bytes in the longword in question are zero.  */
   for (;;) {
     longword = *longword_ptr++;
-    
+
     // &#36825;&#37324;&#21407;&#29702;&#38750;&#24120;&#31616;&#21333;,&#20551;&#35774;&#22312;unsigned long int&#37324;&#38754;&#23384;&#22312;&#19968;&#20010;0&#30340;&#35805;
     // &#37027;&#20040;0-lomagic&#30340;&#35805;&#20250;&#36896;&#25104;&#39640;&#20301;&#20026;1.&#22914;&#26524;!=0&#30340;&#35805;&#37027;&#20040;&#33267;&#23569;&gt;=1&#23601;&#19981;&#20250;&#36896;&#25104;&#23545;&#24212;&#23383;&#33410;&#39640;&#23383;&#33410;&#20026;1&#20102;.
     // &#24403;&#28982;&#36825;&#37324;&#36824;&#26377;&#19968;&#31181;&#24773;&#20917;&#23601;&#26159;&#36825;&#20010;&#19981;&#26159;&#19968;&#20010;ASCII&#23383;&#31526;.
     // &#20351;&#29992;&amp; ~longword&#26469;&#21028;&#26029;&#30340;&#35805;,&#22914;&#26524;&#39640;&#20301;&#23601;&#20026;1&#30340;&#35805;&#37027;&#20040;&#23601;&#20250;&#32622;&#20026;0,&#36825;&#26679;&#23601;&#25490;&#38500;&#20102;&#38750;ASCII&#24773;&#20917;.
     // &#28982;&#21518;&amp; himagic&#30340;&#35805;,&#26469;&#21028;&#26029;&#26159;&#21542;&#26377;&#39640;&#20301;&#20026;1.&#22914;&#26524;&#26377;&#30340;&#35805;&#35828;&#26126;&#36825;&#20960;&#20010;&#23383;&#33410;&#37324;&#38754;&#23384;&#22312;0.
     // &#22914;&#26524;&#23384;&#22312;0&#30340;&#35805;&#37027;&#20040;&#23601;&#21482;&#26159;&#38024;&#23545;&#36825;8&#20010;&#23383;&#33410;&#36827;&#34892;&#26522;&#20030;
-    
+
     if (((longword - lomagic) &amp; ~longword &amp; himagic) != 0) {
       /* Which of the bytes was the zero?  If none of them were, it was
        * a misfire; continue the search.  */
@@ -202,42 +223,34 @@ const char *str;
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.1.2" class="outline-4">
-<h4 id="sec-1.1.2"><span class="section-number-4">1.1.2</span> consistent hashing </h4>
-<div class="outline-text-4" id="text-1.1.2">
+<div id="outline-container-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> consistent hashing</h4>
+<div class="outline-text-4" id="text-1-1-2">
 
 <ul>
-<li>
-<a href="http://en.wikipedia.org/wiki/Consistent_hash">http://en.wikipedia.org/wiki/Consistent_hash</a>
+<li><a href="http://en.wikipedia.org/wiki/Consistent_hash">http://en.wikipedia.org/wiki/Consistent_hash</a>
 </li>
-<li>
-Programmer’s Toolbox Part 3: Consistent Hashing <a href="http://www.tomkleinpeter.com/2008/03/17/programmers-toolbox-part-3-consistent-hashing/">http://www.tomkleinpeter.com/2008/03/17/programmers-toolbox-part-3-consistent-hashing/</a>
+<li>Programmer’s Toolbox Part 3: Consistent Hashing <a href="http://www.tomkleinpeter.com/2008/03/17/programmers-toolbox-part-3-consistent-hashing/">http://www.tomkleinpeter.com/2008/03/17/programmers-toolbox-part-3-consistent-hashing/</a>
 </li>
-<li>
-libketama - a consistent hashing algo for memcache clients <a href="http://cn.last.fm/user/RJ/journal/2007/04/10/rz_libketama_-_a_consistent_hashing_algo_for_memcache_clients">http://cn.last.fm/user/RJ/journal/2007/04/10/rz_libketama_-_a_consistent_hashing_algo_for_memcache_clients</a>
+<li>libketama - a consistent hashing algo for memcache clients <a href="http://cn.last.fm/user/RJ/journal/2007/04/10/rz_libketama_-_a_consistent_hashing_algo_for_memcache_clients">http://cn.last.fm/user/RJ/journal/2007/04/10/rz_libketama_-_a_consistent_hashing_algo_for_memcache_clients</a>
 </li>
-<li>
-Consistent Hash Ring <a href="http://www.martinbroadhurst.com/Consistent-Hash-Ring.html">http://www.martinbroadhurst.com/Consistent-Hash-Ring.html</a>
+<li>Consistent Hash Ring <a href="http://www.martinbroadhurst.com/Consistent-Hash-Ring.html">http://www.martinbroadhurst.com/Consistent-Hash-Ring.html</a>
 </li>
-<li>
-Tom White: Consistent Hashing <a href="http://www.tom-e-white.com/2007/11/consistent-hashing.html">http://www.tom-e-white.com/2007/11/consistent-hashing.html</a>
+<li>Tom White: Consistent Hashing <a href="http://www.tom-e-white.com/2007/11/consistent-hashing.html">http://www.tom-e-white.com/2007/11/consistent-hashing.html</a>
 </li>
-<li>
-Consistent hashing - CodeProject <a href="http://www.codeproject.com/Articles/56138/Consistent-hashing">http://www.codeproject.com/Articles/56138/Consistent-hashing</a>
+<li>Consistent hashing - CodeProject <a href="http://www.codeproject.com/Articles/56138/Consistent-hashing">http://www.codeproject.com/Articles/56138/Consistent-hashing</a>
 </li>
-<li>
-一致性hash算法 - consistent hashing <a href="http://blog.csdn.net/sparkliang/article/details/5279393">http://blog.csdn.net/sparkliang/article/details/5279393</a>
-
+<li>一致性hash算法 - consistent hashing <a href="http://blog.csdn.net/sparkliang/article/details/5279393">http://blog.csdn.net/sparkliang/article/details/5279393</a>
 </li>
 </ul>
 
-<p>The basic idea behind the consistent hashing algorithm is to hash both objects and caches using the same hash function.The reason to do this is to map the cache to an interval, which will contain a number of object hashes. If the cache is removed then its interval is taken over by a cache with an adjacent interval. All the other caches remain unchanged.
+
+<p>
+The basic idea behind the consistent hashing algorithm is to hash both objects and caches using the same hash function.The reason to do this is to map the cache to an interval, which will contain a number of object hashes. If the cache is removed then its interval is taken over by a cache with an adjacent interval. All the other caches remain unchanged.
 </p>
 <p>
 一致性hash基本思想就是将所有对象都使用同样的hash函数进行hash(包括要被分布的对象，以及分布到的位置）。如果某个分布位置被移除的话，那么原本在这个位置上的对象就会分布在临近的分布位置上，而其他的对象却不用移动自己的位置。如果分布位置之间interval间隔过大的话那么可以制作virtual node来使得interval映射足够小，而这些virtual node映射到同一个node节点上面。实际上上述文章中也进行实验证明interval小的话那么standard deviations也变小了，每个node均摊的object基本均匀了：）。
@@ -246,39 +259,33 @@ Consistent hashing - CodeProject <a href="http://www.codeproject.com/Articles/56
 
 </div>
 
-<div id="outline-container-1.1.3" class="outline-4">
-<h4 id="sec-1.1.3"><span class="section-number-4">1.1.3</span> rsync core algorithm </h4>
-<div class="outline-text-4" id="text-1.1.3">
+<div id="outline-container-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> rsync core algorithm</h4>
+<div class="outline-text-4" id="text-1-1-3">
 
 <ul>
-<li>
-<a href="http://coolshell.cn/articles/7425.html">http://coolshell.cn/articles/7425.html</a>
-
+<li><a href="http://coolshell.cn/articles/7425.html">http://coolshell.cn/articles/7425.html</a>
 </li>
 </ul>
 
-<p>首先针对dst文件按照block分别求得checksum和md5.其中checksum用来进行弱校验，md5用来进行强校验。所谓弱校验就是如果checksum不等的话那么文件内容必然不相同，强校验就是如果md5相同的话那么文件内容必然相同。但是checksum还有一个好处，就是可以根据[k,k+n)的checksum,很快地计算出[k+1,k+n+1)的checksum.（非常类似于滑动窗口的工作方式）这点对于在src文件中查找相同块非常重要。将每个块的(checksum,md5)传输到源端。
+
+<p>
+首先针对dst文件按照block分别求得checksum和md5.其中checksum用来进行弱校验，md5用来进行强校验。所谓弱校验就是如果checksum不等的话那么文件内容必然不相同，强校验就是如果md5相同的话那么文件内容必然相同。但是checksum还有一个好处，就是可以根据[k,k+n)的checksum,很快地计算出[k+1,k+n+1)的checksum.（非常类似于滑动窗口的工作方式）这点对于在src文件中查找相同块非常重要。将每个块的(checksum,md5)传输到源端。
 </p>
 <p>
 源端得到每个块的(checksum,md5)之后，根据checksum作为hashcode插入到hashtable中去。这样源端就了解了目的端现在所有块的情况。然后针对src文件做下面操作：
 </p><ol>
-<li>
-k=0
+<li>k=0
 </li>
-<li>
-读取[k,k+512)字节得到checksum. 注意这个checksum可以很快地计算出来。
+<li>读取[k,k+512)字节得到checksum. 注意这个checksum可以很快地计算出来。
 </li>
-<li>
-如果这个checksum存在于hashtable中，那么说明这个块可能目的端存在，goto 3. 否则说明肯定不存在目的端，goto 5.
+<li>如果这个checksum存在于hashtable中，那么说明这个块可能目的端存在，goto 3. 否则说明肯定不存在目的端，goto 5.
 </li>
-<li>
-比较md5是否相同，如果相同的话那么认为block相同，否则不同。
+<li>比较md5是否相同，如果相同的话那么认为block相同，否则不同。
 </li>
-<li>
-如果这个checksum不存在于hashtable的话，那么说明肯定不存在目的端，goto 5.
+<li>如果这个checksum不存在于hashtable的话，那么说明肯定不存在目的端，goto 5.
 </li>
-<li>
-如果全部处理完毕的话那么退出，否则k+=1.
+<li>如果全部处理完毕的话那么退出，否则k+=1.
 </li>
 </ol>
 
@@ -291,38 +298,35 @@ k=0
 
 </div>
 
-<div id="outline-container-1.1.4" class="outline-4">
-<h4 id="sec-1.1.4"><span class="section-number-4">1.1.4</span> simhash core algorithm </h4>
-<div class="outline-text-4" id="text-1.1.4">
+<div id="outline-container-1-1-4" class="outline-4">
+<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> simhash core algorithm</h4>
+<div class="outline-text-4" id="text-1-1-4">
 
 <ul>
-<li>
-<a href="http://blog.csdn.net/lgnlgn/article/details/6008498">http://blog.csdn.net/lgnlgn/article/details/6008498</a>
-
+<li><a href="http://blog.csdn.net/lgnlgn/article/details/6008498">http://blog.csdn.net/lgnlgn/article/details/6008498</a>
 </li>
 </ul>
 
-<p>simhash算法针对文档分析得到文档特征的一个向量表示，然后使用这个向量之间的差距就可以作为文档之间的差别大小，可以用来做文档近似判断。
+
+<p>
+simhash算法针对文档分析得到文档特征的一个向量表示，然后使用这个向量之间的差距就可以作为文档之间的差别大小，可以用来做文档近似判断。
 </p>
 <p>
 simhash算法原理非常简单：
 </p><ol>
-<li>
-创建f-bit的V向量初始化为0
+<li>创建f-bit的V向量初始化为0
 </li>
-<li>
-首先针对文档提取一系列特征C{i}（比如可以抽取比较重要的特征词出现次数等），对于每个特征给定一个权重W{i}
+<li>首先针对文档提取一系列特征C{i}（比如可以抽取比较重要的特征词出现次数等），对于每个特征给定一个权重W{i}
 </li>
-<li>
-针对每个特征C{i}求出一个f-bit的hash值，遍历hash值每个bit.如果bit=1的话，那么V{i}+=W{i},否则V{i}-=W{i}
+<li>针对每个特征C{i}求出一个f-bit的hash值，遍历hash值每个bit.如果bit=1的话，那么V{i}+=W{i},否则V{i}-=W{i}
 </li>
-<li>
-如果V{i}&gt;0那么V{i}=1,否则V{i}=0.这个V{i}就作为这个文档的simhash值
-
+<li>如果V{i}&gt;0那么V{i}=1,否则V{i}=0.这个V{i}就作为这个文档的simhash值
 </li>
 </ol>
 
-<p>可以看到如果simhash之间的bit相差小的话，那么文档之间的相似度就更高，这里没有证明但是可以比较感性地感觉到。两个simhash之间的bit差异个数叫做海明距离。直接比较两个simhash海明距离非常简单，
+
+<p>
+可以看到如果simhash之间的bit相差小的话，那么文档之间的相似度就更高，这里没有证明但是可以比较感性地感觉到。两个simhash之间的bit差异个数叫做海明距离。直接比较两个simhash海明距离非常简单，
 </p>
 <p>
 但是现实中有另外一种情况是，我们已经有一组很大的文档集合S以及对应的simhash值，现在我们有一个新来的文档d以及simhash值，我们需要判断在S中是否有和d海明距离小于k的文档。
@@ -330,14 +334,11 @@ simhash算法原理非常简单：
 <p>
 假设S是排好序的个数是N，我们simhash f=64.如果k非常小比如{1,2,3}的话，那么可以枚举和d simhash相差k的所有simhash值，然后再S里面进行检索，时间复杂度在C(64,k)*lgN.但是如果k比较大比如&gt;=10的话，那么我们可以先对S进行分段搜索：
 </p><ol>
-<li>
-我们对S进行分段，每次取出2<sup>m个元素，我们确保2</sup><sup>m个元素高位有m’相同。因为S排好序所以通常m'很高。</sup>
+<li>我们对S进行分段，每次取出2^m个元素，我们确保2^m个元素高位有m’相同。因为S排好序所以通常m'很高。
 </li>
-<li>
-我们首先对于m'个位和d simhash高位判断有多少位存在差异，假设x存在差异.这样我们可以在2<sup>m元素判断m</sup>-x差异的元素。
+<li>我们首先对于m'个位和d simhash高位判断有多少位存在差异，假设x存在差异.这样我们可以在2^m元素判断m-x差异的元素。
 </li>
-<li>
-总体思想来说的话就是希望可以缩小搜索集。似乎在算法复杂度上面没有啥改进，可以在实现上改进。
+<li>总体思想来说的话就是希望可以缩小搜索集。似乎在算法复杂度上面没有啥改进，可以在实现上改进。
 </li>
 </ol>
 
@@ -347,34 +348,27 @@ simhash算法原理非常简单：
 
 </div>
 
-<div id="outline-container-1.1.5" class="outline-4">
-<h4 id="sec-1.1.5"><span class="section-number-4">1.1.5</span> HyperLogLog </h4>
-<div class="outline-text-4" id="text-1.1.5">
+<div id="outline-container-1-1-5" class="outline-4">
+<h4 id="sec-1-1-5"><span class="section-number-4">1.1.5</span> HyperLogLog</h4>
+<div class="outline-text-4" id="text-1-1-5">
 
 <ul>
-<li>
-<a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf</a>
+<li><a href="http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf">http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf</a>
 </li>
-<li>
-Fast, Cheap, and 98% Right: Cardinality Estimation for Big Data | Metamarkets <a href="http://metamarkets.com/2012/fast-cheap-and-98-right-cardinality-estimation-for-big-data/">http://metamarkets.com/2012/fast-cheap-and-98-right-cardinality-estimation-for-big-data/</a>
+<li>Fast, Cheap, and 98% Right: Cardinality Estimation for Big Data | Metamarkets <a href="http://metamarkets.com/2012/fast-cheap-and-98-right-cardinality-estimation-for-big-data/">http://metamarkets.com/2012/fast-cheap-and-98-right-cardinality-estimation-for-big-data/</a>
 </li>
-<li>
-Damn Cool Algorithms: Cardinality Estimation - Nick's Blog <a href="http://blog.notdot.net/2012/09/Dam-Cool-Algorithms-Cardinality-Estimation">http://blog.notdot.net/2012/09/Dam-Cool-Algorithms-Cardinality-Estimation</a>
+<li>Damn Cool Algorithms: Cardinality Estimation - Nick's Blog <a href="http://blog.notdot.net/2012/09/Dam-Cool-Algorithms-Cardinality-Estimation">http://blog.notdot.net/2012/09/Dam-Cool-Algorithms-Cardinality-Estimation</a>
 </li>
-<li>
-Sketch of the Day: HyperLogLog — Cornerstone of a Big Data Infrastructure – AK Tech Blog <a href="http://blog.aggregateknowledge.com/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/">http://blog.aggregateknowledge.com/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/</a>
+<li>Sketch of the Day: HyperLogLog — Cornerstone of a Big Data Infrastructure – AK Tech Blog <a href="http://blog.aggregateknowledge.com/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/">http://blog.aggregateknowledge.com/2012/10/25/sketch-of-the-day-hyperloglog-cornerstone-of-a-big-data-infrastructure/</a>
 </li>
-<li>
-<a href="http://stackoverflow.com/questions/12327004/how-does-the-hyperloglog-algorithm-work">http://stackoverflow.com/questions/12327004/how-does-the-hyperloglog-algorithm-work</a>
+<li><a href="http://stackoverflow.com/questions/12327004/how-does-the-hyperloglog-algorithm-work">http://stackoverflow.com/questions/12327004/how-does-the-hyperloglog-algorithm-work</a>
 </li>
-<li>
-HyperLogLog in Practice: Algorithmic Engineering of a State of The Art Cardinality Estimation Algorithm : <a href="http://research.google.com/pubs/pub40671.html">http://research.google.com/pubs/pub40671.html</a>
+<li>HyperLogLog in Practice: Algorithmic Engineering of a State of The Art Cardinality Estimation Algorithm : <a href="http://research.google.com/pubs/pub40671.html">http://research.google.com/pubs/pub40671.html</a>
 </li>
-<li>
-<a href="https://github.com/clearspring/stream-lib">https://github.com/clearspring/stream-lib</a> <b>NOTE(dirlt):HyperLogLogPlus实现</b>
-
+<li><a href="https://github.com/clearspring/stream-lib">https://github.com/clearspring/stream-lib</a> <b>NOTE(dirlt):HyperLogLogPlus实现</b>
 </li>
 </ul>
+
 
 
 <hr/>
@@ -394,20 +388,10 @@ So, naively speaking, we expect that if we were to hash 8 unique things, one of 
 The adjustment HyperLogLog makes is that it essentially takes the above algorithm and introduces multiple “buckets”.  That is, you can take the first k bits of the hashed value and use that as a bucket index, then you keep track of the max(index of 1) for the remaining bits in that bucket.  The authors then provide some math for converting the values in all of the buckets back into an approximate cardinality.<br/>
 <br/>
 Another interesting thing about this algorithm is that it introduces two parameters to adjust the accuracy of the approximation:<br/>
-<ol>
-<li>
-  Increasing the number of buckets (the k) increases the accuracy of the approximation<br/>
-</li>
-</ol>
-
-<ol>
-<li>
-  Increasing the number of bits of your hash increases the highest possible number you can accurately approximate<br/>
-</li>
-</ol>
-
-
+1)   Increasing the number of buckets (the k) increases the accuracy of the approximation<br/>
+2)   Increasing the number of bits of your hash increases the highest possible number you can accurately approximate<br/>
 </p>
+
 
 
 <hr/>
@@ -426,12 +410,12 @@ Another interesting thing about this algorithm is that it introduces two paramet
   return p
 
 def estimate_cardinality(values, k):
-  <span class="org-string">"""Estimates the number of unique elements in the input set values.
+  <span class="org-string">"""Estimates the number of unique elements in the input set values.</span>
 
-  Arguments:
-    values: An iterator of hashable elements to estimate the cardinality of.
-    k: The number of bits of hash to use as a bucket number; there will be 2**k buckets.
-  """</span>
+<span class="org-string">  Arguments:</span>
+<span class="org-string">    values: An iterator of hashable elements to estimate the cardinality of.</span>
+<span class="org-string">    k: The number of bits of hash to use as a bucket number; there will be 2**k buckets.</span>
+<span class="org-string">  """</span>
   num_buckets = 2 ** k
   max_zeroes = [0] * num_buckets
   for value in values:
@@ -443,22 +427,18 @@ def estimate_cardinality(values, k):
 </pre>
 
 
-
-
 <p>
 这个算法上面存在一些差别，就是这个算法实现是假设末尾为0的概率为0.5,末尾为10的概率为0.25，以此类推。最后的0.79402应该是调整系数。
 </p>
 <p>
 另外还有一个SuperLogLog针对HyperLogLog做了一些改进降低了错误的概率：
 </p><ul>
-<li>
-去掉30%的最大的bucket，只是计算剩余70%的bucket
+<li>去掉30%的最大的bucket，只是计算剩余70%的bucket
 </li>
-<li>
-max<sub>zeroes的计算不是使用geometric</sub> mean而是使用harmonic mean
-
+<li>max_zeroes的计算不是使用geometric mean而是使用harmonic mean
 </li>
 </ul>
+
 
 
 <hr/>
@@ -472,16 +452,14 @@ max<sub>zeroes的计算不是使用geometric</sub> mean而是使用harmonic mean
 
 </div>
 
-<div id="outline-container-1.1.6" class="outline-4">
-<h4 id="sec-1.1.6"><span class="section-number-4">1.1.6</span> CONCISE </h4>
-<div class="outline-text-4" id="text-1.1.6">
+<div id="outline-container-1-1-6" class="outline-4">
+<h4 id="sec-1-1-6"><span class="section-number-4">1.1.6</span> CONCISE</h4>
+<div class="outline-text-4" id="text-1-1-6">
 
 <ul>
-<li>
-Maximum Performance with Minimum Storage: Data Compression in Druid | Metamarkets <a href="http://metamarkets.com/2012/druid-bitmap-compression/">http://metamarkets.com/2012/druid-bitmap-compression/</a>
+<li>Maximum Performance with Minimum Storage: Data Compression in Druid | Metamarkets <a href="http://metamarkets.com/2012/druid-bitmap-compression/">http://metamarkets.com/2012/druid-bitmap-compression/</a>
 </li>
-<li>
-CONCISE(COpressed N Composable Integer Set)  <a href="http://ricerca.mat.uniroma3.it/users/colanton/docs/concise.pdf">http://ricerca.mat.uniroma3.it/users/colanton/docs/concise.pdf</a>
+<li>CONCISE(COpressed N Composable Integer Set)  <a href="http://ricerca.mat.uniroma3.it/users/colanton/docs/concise.pdf">http://ricerca.mat.uniroma3.it/users/colanton/docs/concise.pdf</a>
 </li>
 </ul>
 
@@ -490,58 +468,46 @@ CONCISE(COpressed N Composable Integer Set)  <a href="http://ricerca.mat.uniroma
 <p>
 这个算法应该是在WAH（Word Aligned Hybrid）上改进的。下面是WAH的简单描述
 </p><ul>
-<li>
-WAH是已31bit为一个处理单位，这里我们称为block
+<li>WAH是已31bit为一个处理单位，这里我们称为block
 </li>
-<li>
-如果block里面有0和1的话，那么使用&lt;1&gt; block表示
+<li>如果block里面有0和1的话，那么使用&lt;1&gt; block表示
 </li>
-<li>
-如果block里面只有0的话，并且连续n个block都是这样的话，那么使用&lt;00&gt; &lt;n&gt;
+<li>如果block里面只有0的话，并且连续n个block都是这样的话，那么使用&lt;00&gt; &lt;n&gt;
 </li>
-<li>
-如果只有1的话，那么前缀使用&lt;01&gt;
+<li>如果只有1的话，那么前缀使用&lt;01&gt;
 </li>
 </ul>
 
 <p><img src="./images/concise-wah.png"  alt="./images/concise-wah.png" />
 </p>
 <p>
-可以看到其实&lt;n&gt;最长为2<sup>30</sup>-1（肯定不会为0）.但是实际上大部分到不了这么长。剩余的空间就会存在浪费。
+可以看到其实&lt;n&gt;最长为2^30-1（肯定不会为0）.但是实际上大部分到不了这么长。剩余的空间就会存在浪费。
 </p>
 <p>
 CONCISE针对这个部分稍微改进了一下
 </p><ul>
-<li>
-the following 5 bits are the position of a “flipped” bit within the first 31-bit block of the fill（剩余的5个bit表示从在第几位存在一个反转，这个可以处理一些特殊情况）
+<li>the following 5 bits are the position of a “flipped” bit within the first 31-bit block of the fill（剩余的5个bit表示从在第几位存在一个反转，这个可以处理一些特殊情况）
 </li>
-<li>
-and the remaining 25 bits count the number of 31-blocks that compose the fill minus one. （剩余的25个bit表示后面存在多少个31bit blocks)
+<li>and the remaining 25 bits count the number of 31-blocks that compose the fill minus one. （剩余的25个bit表示后面存在多少个31bit blocks)
 </li>
 </ul>
 
-<p>可以看到最大的范围是31 + 2<sup>25</sup> * 31 = 1040187423 , 如果从0开始的话，那么就是[0,1040187422]
+<p>可以看到最大的范围是31 + 2^25 * 31 = 1040187423 , 如果从0开始的话，那么就是[0,1040187422]
 </p>
 <p>
 下面是一个例子， Compressed representation of the set {3, 5, 31–93, 1024, 1028, 1 040 187 422}.
 </p><ul>
-<li>
-The word #0 is used to represent integers in the range 0–30, 
+<li>The word #0 is used to represent integers in the range 0–30, 
 </li>
-<li>
-word #1 for integers in 31–92, （5bit为0，说明这个31bit是完全填充。25bit=1表示后面1 * 31个bit全为1，范围就是从31到31(start) + 31 + 31 - 1 = 92.
+<li>word #1 for integers in 31–92, （5bit为0，说明这个31bit是完全填充。25bit=1表示后面1 * 31个bit全为1，范围就是从31到31(start) + 31 + 31 - 1 = 92.
 </li>
-<li>
-word #2 for integers 93–1022, （5bit为1，说明下一个31bit的第一个元素是反转的也就是93。范围从93到93(start) + 31 + 29 * 31 - 1 = 1022
+<li>word #2 for integers 93–1022, （5bit为1，说明下一个31bit的第一个元素是反转的也就是93。范围从93到93(start) + 31 + 29 * 31 - 1 = 1022
 </li>
-<li>
-word #3 for integers 1023–1053, 
+<li>word #3 for integers 1023–1053, 
 </li>
-<li>
-word #4 for integers 1054–1 040 187 391, 
+<li>word #4 for integers 1054–1 040 187 391, 
 </li>
-<li>
-and word #5 for integers 1 040 187 392–1 040 187 422.
+<li>and word #5 for integers 1 040 187 392–1 040 187 422.
 </li>
 </ul>
 
@@ -555,16 +521,16 @@ and word #5 for integers 1 040 187 392–1 040 187 422.
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> 面试算法 </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 面试算法</h3>
+<div class="outline-text-3" id="text-1-2">
 
 
 </div>
 
-<div id="outline-container-1.2.1" class="outline-4">
-<h4 id="sec-1.2.1"><span class="section-number-4">1.2.1</span> 树最长距离问题 </h4>
-<div class="outline-text-4" id="text-1.2.1">
+<div id="outline-container-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> 树最长距离问题</h4>
+<div class="outline-text-4" id="text-1-2-1">
 
 <p>树的最长距离定义为任意两个节点之间距离的最大值。咋一看这个问题，似乎就是根节点左子树高度和右子树高度之和，但是实际上可能对于子树里面可能会存在更长的距离。对于最长距离的话应该仅存在于这两者之间。
 </p>
@@ -584,12 +550,10 @@ def tree_dist(root):
     mr=max(e,f)+1 # &#21491;&#23376;&#26641;&#39640;&#24230;
     path=ml+mr+1 # root&#20869;&#37096;&#26368;&#38271;&#36317;&#31163;
     return (max(a,d,path),ml,mr)
-            
+
 def TreeDistance(root):
     return tree_dist(root)[0]
 </pre>
-
-
 
 
 <p>
@@ -616,7 +580,7 @@ leetcode上也有类似的题目，但是考虑上了树节点值 <a href="http:
     int s = side(root,&amp;p);
     return max(s,p);
   }
-  
+
   // path means max sum in root, but not contains root node,
   // so it does not contribute the parent.(but if contains root node, it doesn't matter)
   // because we just get max of it.
@@ -649,29 +613,24 @@ leetcode上也有类似的题目，但是考虑上了树节点值 <a href="http:
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.2" class="outline-4">
-<h4 id="sec-1.2.2"><span class="section-number-4">1.2.2</span> 开门抽奖问题 </h4>
-<div class="outline-text-4" id="text-1.2.2">
+<div id="outline-container-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> 开门抽奖问题</h4>
+<div class="outline-text-4" id="text-1-2-2">
 
 <p>原题是有三扇门，一扇门后面是一辆汽车，后面两扇门没有东西。主持人首先让你选择一扇门，之后主持人打开一扇后面没有任何东西的门，然后主持人问你是否需要更换你的选择？扩展一下这个问题，如果扩展到N(N&gt;=3)扇门的话，那么之前和之后中奖概率分别是多少？
 </p>
 <p>
 第一步是随机选择那么概率是1/N.但是第二步概率可以这样考虑：
 </p><ol>
-<li>
-我当前选择中奖几率是1/N,那么在其他doors后面的几率是N-1/N.
+<li>我当前选择中奖几率是1/N,那么在其他doors后面的几率是N-1/N.
 </li>
-<li>
-主持人打开门之后，如果我坚持当前选择的话，中奖几率是没有变化的。剩余的doors后面几率依然是N-1/N.
+<li>主持人打开门之后，如果我坚持当前选择的话，中奖几率是没有变化的。剩余的doors后面几率依然是N-1/N.
 </li>
-<li>
-而现在剩余的doors只有N-2扇。如果挑选那些剩余doors的话，那么几率是(N-1)/(N*(N-2)).这个几率比1/N要好.
+<li>而现在剩余的doors只有N-2扇。如果挑选那些剩余doors的话，那么几率是(N-1)/(N*(N-2)).这个几率比1/N要好.
 </li>
 </ol>
 
@@ -684,9 +643,9 @@ leetcode上也有类似的题目，但是考虑上了树节点值 <a href="http:
 
 </div>
 
-<div id="outline-container-1.2.3" class="outline-4">
-<h4 id="sec-1.2.3"><span class="section-number-4">1.2.3</span> 等概率选取未知长度的链表中的元素问题 </h4>
-<div class="outline-text-4" id="text-1.2.3">
+<div id="outline-container-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> 等概率选取未知长度的链表中的元素问题</h4>
+<div class="outline-text-4" id="text-1-2-3">
 
 <p>要求是只能够遍历这个链表一次。下面是代码， <b>注意这里的wanted会不断地被更新</b> 
 </p>
@@ -701,16 +660,12 @@ for ( p=list; p!=NULL; p=p-&gt;next ){
 </pre>
 
 
-
-
 <p>
 这个问题可以如此考虑，假设长度为n，那么最后一个元素被选出（选中）的概率为1/n，然后我们考虑倒数第二个元素选出的概率
 </p><ul>
-<li>
-倒数第二个元素必须被 <b>选中</b> ，概率为1/(n-1)
+<li>倒数第二个元素必须被 <b>选中</b> ，概率为1/(n-1)
 </li>
-<li>
-并且确保倒数第一个元素没有被 <b>选中</b> 。因为最后一个选中概率为1/n，所以最后一个元素不被选中概率为(n-1)/n
+<li>并且确保倒数第一个元素没有被 <b>选中</b> 。因为最后一个选中概率为1/n，所以最后一个元素不被选中概率为(n-1)/n
 </li>
 </ul>
 
@@ -720,9 +675,9 @@ for ( p=list; p!=NULL; p=p-&gt;next ){
 
 </div>
 
-<div id="outline-container-1.2.4" class="outline-4">
-<h4 id="sec-1.2.4"><span class="section-number-4">1.2.4</span> 查找非重复数字问题 </h4>
-<div class="outline-text-4" id="text-1.2.4">
+<div id="outline-container-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4"><span class="section-number-4">1.2.4</span> 查找非重复数字问题</h4>
+<div class="outline-text-4" id="text-1-2-4">
 
 
 <hr/>
@@ -753,8 +708,6 @@ a1 a1 a2 a2 &hellip; an an X
   }
 };
 </pre>
-
-
 
 
 
@@ -825,15 +778,13 @@ a1 a1 a1 a2 a2 a2 &hellip; an an an X
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.5" class="outline-4">
-<h4 id="sec-1.2.5"><span class="section-number-4">1.2.5</span> 水池最大蓄水问题 </h4>
-<div class="outline-text-4" id="text-1.2.5">
+<div id="outline-container-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5"><span class="section-number-4">1.2.5</span> 水池最大蓄水问题</h4>
+<div class="outline-text-4" id="text-1-2-5">
 
 <p>考虑一个二维直方图平面，X轴单位为1，Y轴是直方图高度。假设向这个直方图里面灌水，请问这个直方图能够容纳多少水。
 </p>
@@ -855,26 +806,23 @@ a1 a1 a1 a2 a2 a2 &hellip; an an an X
 <p>
 @2013-10-13 今天在leetcode也看到了相似的题目，<a href="http://oj.leetcode.com/problems/container-with-most-water/">http://oj.leetcode.com/problems/container-with-most-water/</a> 虽然题目意思不一样，但是我本能地按照这个问题也编写代码了。结果发现上面的解决办法还是有很多corner case的，比如如果每个线是递增的话怎么办？今天编写leetcode的时候我重新考虑了一下这个问题，然后有个应该是可行的实现。
 </p><ul>
-<li>
-dp[i]表示xi(包括xi)的右边最大高度
+<li>dp[i]表示xi(包括xi)的右边最大高度
 </li>
-<li>
-p = 0
+<li>p = 0
 <ul>
-<li>
-如果p+1右边有比h[p]高的话，那么找到第一个比这个h[p]高的点做计算，然后下面从这个点继续
+<li>如果p+1右边有比h[p]高的话，那么找到第一个比这个h[p]高的点做计算，然后下面从这个点继续
 </li>
-<li>
-如果p+1右边没有比h[p]高的话，那么选择最高点计算，然后以最高点继续。
+<li>如果p+1右边没有比h[p]高的话，那么选择最高点计算，然后以最高点继续。
 </li>
 </ul>
+
 </li>
-<li>
-时间空间复杂度在O(n)
-
-
+<li>时间空间复杂度在O(n)
 </li>
 </ul>
+
+
+
 
 
 <pre class="src src-C++">class Solution {
@@ -922,21 +870,18 @@ p = 0
 
 
 
-
-
 <hr/>
 
 <p>
-另外一个题目的变形是 <a href="http://oj.leetcode.com/problems/container-with-most-water/">http://oj.leetcode.com/problems/container-with-most-water/</a> 题目的大致要求是找到两个点，这两个点围成的container蓄水最多。似乎没有O(n<sup>2</sup>)以下的算法了，但是可以做比较深度的减枝。假设两个点是xi,xj.有两个特性可以用来减枝。
+另外一个题目的变形是 <a href="http://oj.leetcode.com/problems/container-with-most-water/">http://oj.leetcode.com/problems/container-with-most-water/</a> 题目的大致要求是找到两个点，这两个点围成的container蓄水最多。似乎没有O(n^2)以下的算法了，但是可以做比较深度的减枝。假设两个点是xi,xj.有两个特性可以用来减枝。
 </p><ul>
-<li>
-如果x(i+1) &lt;= x(i)的话，那么蓄水量肯定要少。
+<li>如果x(i+1) &lt;= x(i)的话，那么蓄水量肯定要少。
 </li>
-<li>
-从n-1到i+1区间来选择j,  如果一旦存在x(j)&gt;=x(i)的话，那么剩余的点不用考虑。
-
+<li>从n-1到i+1区间来选择j,  如果一旦存在x(j)&gt;=x(i)的话，那么剩余的点不用考虑。
 </li>
 </ul>
+
+
 
 
 <pre class="src src-C++">class Solution {
@@ -966,101 +911,84 @@ p = 0
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> TopCoder算法 </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> TopCoder算法</h3>
+<div class="outline-text-3" id="text-1-3">
 
 
 </div>
 
-<div id="outline-container-1.3.1" class="outline-4">
-<h4 id="sec-1.3.1"><span class="section-number-4">1.3.1</span> 安装和配置topcoder </h4>
-<div class="outline-text-4" id="text-1.3.1">
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> 安装和配置topcoder</h4>
+<div class="outline-text-4" id="text-1-3-1">
 
 <p>安装topcoder非常简单： 
 </p><ul>
-<li>
-确认安装好javaws，因为topcoder客户端是一个java applet
+<li>确认安装好javaws，因为topcoder客户端是一个java applet
 </li>
-<li>
-下载topcoder的客户端 # wget  <a href="http://www.topcoder.com/contest/arena/ContestAppletProd.jnlp">http://www.topcoder.com/contest/arena/ContestAppletProd.jnlp</a>
+<li>下载topcoder的客户端 # wget  <a href="http://www.topcoder.com/contest/arena/ContestAppletProd.jnlp">http://www.topcoder.com/contest/arena/ContestAppletProd.jnlp</a>
 </li>
-<li>
-启动这个applet之后就就可以进入arena了。
-
+<li>启动这个applet之后就就可以进入arena了。
 </li>
 </ul>
 
-<p>为了方便地使用topcoder（比如将一些testcase下载下来的话），可以使用一些插件。个人觉得下面这个组合不错
+
+<p>
+为了方便地使用topcoder（比如将一些testcase下载下来的话），可以使用一些插件。个人觉得下面这个组合不错
 </p><ul>
-<li>
-code processor
+<li>code processor
 </li>
-<li>
-file edit
+<li>file edit
 </li>
-<li>
-TZTester
+<li>TZTester
 </li>
 </ul>
 
 <p>这些插件都可以在这里找到 <a href="http://community.topcoder.com/tc?module=Static&amp;d1=applet&amp;d2=plugins">http://community.topcoder.com/tc?module=Static&amp;d1=applet&amp;d2=plugins</a> 
 </p>
-<p>
+<p> 
 三个插件的下载地址分别是：
 </p><ul>
-<li>
-<a href="http://community.topcoder.com/contest/classes/TZTester/TZTester.jar">http://community.topcoder.com/contest/classes/TZTester/TZTester.jar</a>
+<li><a href="http://community.topcoder.com/contest/classes/TZTester/TZTester.jar">http://community.topcoder.com/contest/classes/TZTester/TZTester.jar</a>
 </li>
-<li>
-<a href="http://community.topcoder.com/contest/classes/CodeProcessor/CodeProcessor.jar">http://community.topcoder.com/contest/classes/CodeProcessor/CodeProcessor.jar</a>
+<li><a href="http://community.topcoder.com/contest/classes/CodeProcessor/CodeProcessor.jar">http://community.topcoder.com/contest/classes/CodeProcessor/CodeProcessor.jar</a>
 </li>
-<li>
-<a href="http://community.topcoder.com/contest/classes/FileEdit/FileEdit.jar">http://community.topcoder.com/contest/classes/FileEdit/FileEdit.jar</a>
-
+<li><a href="http://community.topcoder.com/contest/classes/FileEdit/FileEdit.jar">http://community.topcoder.com/contest/classes/FileEdit/FileEdit.jar</a>
 </li>
 </ul>
 
-<p>下载完成之后在topcoder客户端里面的options-&gt;Editor里面进行配置
-</p><ul>
-<li>
-Add增加一个Editor
-</li>
-<li>
-EntryPoint填写 codeprocessor.EntryPoint 
-</li>
-<li>
-ClassPath将前面三个jar选择上
-</li>
-<li>
-然后选择这个为Default Editor
-</li>
-<li>
-然后点击Configure
-</li>
-<li>
-EntryPoint填写 fileedit.EntryPoint
-</li>
-<li>
-processor class填写 tangentz.TZTester
 
+<p>
+下载完成之后在topcoder客户端里面的options-&gt;Editor里面进行配置
+</p><ul>
+<li>Add增加一个Editor
+</li>
+<li>EntryPoint填写 codeprocessor.EntryPoint 
+</li>
+<li>ClassPath将前面三个jar选择上
+</li>
+<li>然后选择这个为Default Editor
+</li>
+<li>然后点击Configure
+</li>
+<li>EntryPoint填写 fileedit.EntryPoint
+</li>
+<li>processor class填写 tangentz.TZTester
 </li>
 </ul>
 
-<p>继续点击Configure选项，在General这个部分基本上没有什么需要修改的：
+
+<p>
+继续点击Configure选项，在General这个部分基本上没有什么需要修改的：
 </p><ul>
-<li>
-read/write problem to ./TopCoder/code # 将题目保存到TopCoder/code目录里面
+<li>read/write problem to ./TopCoder/code # 将题目保存到TopCoder/code目录里面
 </li>
-<li>
-<b>TODO(dirlt):more</b>
+<li><b>TODO(dirlt):more</b>
 </li>
 </ul>
 
@@ -1106,8 +1034,6 @@ int main() {
 </pre>
 
 
-
-
 <p>
 以后每次打开题目都会在本地保存一份代码，并且里面附带测试用例，本地完成之后直接load即可保存到远程。nice!!!
 </p>
@@ -1115,10 +1041,13 @@ int main() {
 </div>
 </div>
 </div>
-<div id="postamble">
-<p class="date"> Date: 2013-10-14 12:28:21 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
 </div>
+
+<div id="postamble">
+<p class="date">Date: 2013-10-15 09:48:00 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'algorithm.html';var disqus_title = 'algorithm.html';var disqus_url = 'http://dirlt.com/algorithm.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>
