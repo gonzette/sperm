@@ -19,6 +19,9 @@
 
 ;;; perference.
 ;; (setq inhibit-default-init t)
+(if mac-system
+    (progn
+      (set-default-font "-apple-Monaco-medium-normal-normal-*-*-*-*-*-m-0-iso10646-1")))
 (when (fboundp 'global-font-lock-mode) 
   (global-font-lock-mode t))
 (setq frame-title-format (concat  "emacs@%b" system-name))
