@@ -20,7 +20,7 @@ public:
 
 static volatile bool exit_ = false;
 static void sig_handler(int signo) {
-  SPERM_TRACE("caught signal %d\n",signo);
+  SPERM_TRACE("caught signal %d\n", signo);
   if(signo == SIGINT) {
     SPERM_DEBUG("siganl == SIGINT");
     exit_ = true;
@@ -42,8 +42,8 @@ int main() {
   if(conn.run(ip, server_threads) < 0) {
     return -1;
   }
-  while(1){
-    if(exit_){
+  while(1) {
+    if(exit_) {
       SPERM_TRACE("exit...");
       conn.stop();
       break;

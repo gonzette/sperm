@@ -12,25 +12,25 @@ namespace lkfree {
 
 template<typename T, const int number = 1024* 1024>
 class SampleMemoryAllcator {
- public:
-  struct Entry {   
+public:
+  struct Entry {
     T value;
     Entry* next;
-    Entry():value(), next(0) {
+    Entry(): value(), next(0) {
     }
   };
   static const int kSampleNumber = number;
- private:
+private:
   volatile Entry* head_;
   Entry* arena_;
- public:
-    
+public:
+
   SampleMemoryAllcator(): head_(0), arena_(0) {
     arena_ = static_cast<Entry*>(calloc(number, sizeof(Entry)));
-    for(int i=1;i<number;i++){
-      arena_[i-1].next=arena_+i;
+    for(int i = 1; i < number; i++) {
+      arena_[i - 1].next = arena_ + i;
     }
-    arena_[number-1].next=0;
+    arena_[number - 1].next = 0;
     head_ = arena_;
   }
 
@@ -40,23 +40,23 @@ class SampleMemoryAllcator {
 
   Entry* alloc() {
     for(;;) {
-      Entry* t= const_cast<Entry*>(AtomicGetValue(head_));
+      Entry* t = const_cast<Entry*>(AtomicGetValue(head_));
       if(t) {
         Entry* n = t->next;
-        if(CompareAndSwapPointer(head_, n, t) == t){
+        if(CompareAndSwapPointer(head_, n, t) == t) {
           return t;
         }
       }
     }
     return 0;
   }
-  
+
   void free(Entry* e) {
     for(;;) {
-      Entry* t=const_cast<Entry*>(AtomicGetValue(head_));
+      Entry* t = const_cast<Entry*>(AtomicGetValue(head_));
       e->next = t;
-      if(CompareAndSwapPointer(head_, e,  t) == t){
-        break;      
+      if(CompareAndSwapPointer(head_, e,  t) == t) {
+        break;
       }
     }
   }

@@ -44,8 +44,8 @@ int main() {
       double _period_end = gettime_ms();
       _whole_times += _period_end - _period_start;
       SPERM_TRACE("last %6d calls cost %.3lf ms, average %.3lf ms, whole %8zu calls cost %.3lf, average %.3lf ms",
-                   kCounterUnit, (_period_end - _period_start), (_period_end - _period_start) / kCounterUnit,
-                   counter, _whole_times, _whole_times / counter);
+                  kCounterUnit, (_period_end - _period_start), (_period_end - _period_start) / kCounterUnit,
+                  counter, _whole_times, _whole_times / counter);
       _period_start = _period_end;
     }
   } // while(1)
