@@ -6,9 +6,9 @@
 using namespace std;
 
 class Solution {
- public:
+public:
   typedef long long LL;
-  int atoi(const char *str) {
+  int atoi(const char* str) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     string s = trim(str);
     return atol(s);
@@ -26,7 +26,7 @@ class Solution {
       f = 1;
     }
     LL res = 0;
-    for(int i=f;i<s.size() && isdigit(s[i]);i++) {
+    for(int i = f; i < s.size() && isdigit(s[i]); i++) {
       res = res * 10 + (s[i] - '0');
       LL t = res;
       if(minus) {
@@ -65,7 +65,7 @@ class Solution {
       }
     }
     string x;
-    for(int i=f;i<=t;i++) {
+    for(int i = f; i <= t; i++) {
       x += s[i];
     }
     return x;

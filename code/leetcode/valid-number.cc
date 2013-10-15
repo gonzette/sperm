@@ -7,10 +7,10 @@
 using namespace std;
 
 class Solution {
- public:
-  bool isNumber(const char *s) {
+public:
+  bool isNumber(const char* s) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
-    
+
     string x = trim(s);
     if(x.size() == 0) {
       return false;
@@ -19,37 +19,37 @@ class Solution {
     if(sep == string::npos) {
       return isFloat(x);
     } else {
-      string s1 = x.substr(0,sep);
-      string s2 = x.substr(sep+1);
+      string s1 = x.substr(0, sep);
+      string s2 = x.substr(sep + 1);
       bool b1 = isFloat(s1);
       bool b2 = isInt(s2);
       return b1 && b2;
     }
   }
-  bool isInt(const string &s) {
-    return withSignNumber(s,false);
+  bool isInt(const string& s) {
+    return withSignNumber(s, false);
   }
-  bool isFloat(const string &s) {
+  bool isFloat(const string& s) {
     size_t sep = s.find_first_of(".");
     if(sep == string::npos) {
       return isInt(s);
     }
     const string& x = s;
-    string s1 = x.substr(0,sep);
-    string s2 = x.substr(sep+1);
+    string s1 = x.substr(0, sep);
+    string s2 = x.substr(sep + 1);
     static const char* blk[] = {
-      ".",".-",".+",
-      "-.","-.-","-.+",
-      "+.","+.-","+.",
+      ".", ".-", ".+",
+      "-.", "-.-", "-.+",
+      "+.", "+.-", "+.",
       NULL
     };
-    for(int i=0;blk[i];i++) {
+    for(int i = 0; blk[i]; i++) {
       if(x == blk[i]) {
         return false;
       }
     }
-    bool b1 = withSignNumber(s1,true);
-    bool b2 = withoutSignNumber(s2,true);
+    bool b1 = withSignNumber(s1, true);
+    bool b2 = withoutSignNumber(s2, true);
     return b1 && b2;
   }
   string trim(const char* s) {
@@ -70,7 +70,7 @@ class Solution {
       }
     }
     string x;
-    for(int i=f;i<=t;i++) {
+    for(int i = f; i <= t; i++) {
       x += s[i];
     }
     return x;
@@ -86,19 +86,19 @@ class Solution {
     if(f == s.size()) {
       return empty;
     }
-    for(int i=f;i<s.size();i++) {
+    for(int i = f; i < s.size(); i++) {
       if(!isdigit(s[i])) {
         return false;
       }
     }
     return true;
   }
-  
-  bool withoutSignNumber(const string& s,bool empty) {
+
+  bool withoutSignNumber(const string& s, bool empty) {
     if(s.size() == 0) {
       return empty;
     }
-    for(int i=0;i<s.size();i++) {
+    for(int i = 0; i < s.size(); i++) {
       if(!isdigit(s[i])) {
         return false;
       }

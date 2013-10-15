@@ -19,20 +19,20 @@
 #include <cstdio>
 struct ListNode {
   int val;
-  ListNode *next;
+  ListNode* next;
   ListNode(int x) : val(x), next(NULL) {}
 };
 
 struct TreeNode {
   int val;
-  TreeNode *left;
-  TreeNode *right;
+  TreeNode* left;
+  TreeNode* right;
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
 class Solution {
- public:
-  TreeNode *sortedListToBST(ListNode *head) {
+public:
+  TreeNode* sortedListToBST(ListNode* head) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     if(head == NULL) {
       return NULL;

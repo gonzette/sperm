@@ -10,19 +10,19 @@
 #include <cstdio>
 struct ListNode {
   int val;
-  ListNode *next;
+  ListNode* next;
   ListNode(int x) : val(x), next(NULL) {}
 };
 
 
 class Solution {
- public:
-  ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
+public:
+  ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     if(!l1 && !l2) return NULL;
     if(!l1) return l2;
     if(!l2) return l1;
-    
+
     ListNode* prev = NULL;
     ListNode* head = NULL;
     int b = 0;
@@ -64,7 +64,7 @@ class Solution {
       prev->next = t;
       prev = t;
     }
-      
+
     return head;
   }
 };

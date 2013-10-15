@@ -9,19 +9,19 @@
 
 #include <cstdio>
 struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}
+  int val;
+  ListNode* next;
+  ListNode(int x) : val(x), next(NULL) {}
 };
 
 class Solution {
- public:
-  ListNode *removeNthFromEnd(ListNode *head, int n) {
+public:
+  ListNode* removeNthFromEnd(ListNode* head, int n) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     ListNode* prev = NULL;
     ListNode* x = head;
     ListNode* y = head;
-    for(int i=0;i<n-1;i++) {
+    for(int i = 0; i < n - 1; i++) {
       y = y->next;
     }
     while(y->next) {

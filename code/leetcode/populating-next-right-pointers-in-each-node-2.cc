@@ -11,19 +11,19 @@
 
 struct TreeLinkNode {
   int val;
-  TreeLinkNode *left, *right, *next;
+  TreeLinkNode* left, *right, *next;
   TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
 };
 
 class Solution {
- public:
-  void connect(TreeLinkNode *root) {
+public:
+  void connect(TreeLinkNode* root) {
     // Start typing your C/C++ solution below
     // DO NOT write int main() function
     if(root == NULL) {
       return ;
     }
-    root->next = NULL;    
+    root->next = NULL;
     R(root);
   }
 
@@ -40,7 +40,7 @@ class Solution {
       if(l == NULL && r == NULL) {
         // pass.
       } else if(l == NULL) {
-        if(head!=NULL) {
+        if(head != NULL) {
           head->next = r;
         } else {
           saved = r;
@@ -48,7 +48,7 @@ class Solution {
         r->next = NULL;
         head = r;
       } else if(r == NULL) {
-        if(head!=NULL) {
+        if(head != NULL) {
           head->next = l;
         } else {
           saved = l;
@@ -56,7 +56,7 @@ class Solution {
         l->next = NULL;
         head = l;
       } else {
-        if(head!=NULL) {
+        if(head != NULL) {
           head->next = l;
         } else {
           saved = l;
@@ -87,7 +87,7 @@ int main() {
   Solution s;
   s.connect(x1);
 
-  printf("x2=%p,x2->next=%p(%p),x3->next=%p\n",x2,x2->next,x3,x3->next);
-  printf("x4=%p,x4->next=%p(%p)\n",x4,x4->next,x5);
+  printf("x2=%p,x2->next=%p(%p),x3->next=%p\n", x2, x2->next, x3, x3->next);
+  printf("x4=%p,x4->next=%p(%p)\n", x4, x4->next, x5);
   return 0;
 }

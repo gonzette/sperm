@@ -15,14 +15,14 @@ using namespace std;
 
 struct TreeNode {
   int val;
-  TreeNode *left;
-  TreeNode *right;
+  TreeNode* left;
+  TreeNode* right;
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
 class Solution {
- public:
-  int minDepth(TreeNode *root) {
+public:
+  int minDepth(TreeNode* root) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     if(root == NULL) {
       return 0;
@@ -36,7 +36,7 @@ class Solution {
     } else {
       int l = minDepth(root->left);
       int r = minDepth(root->right);
-      return 1 + min(l,r);
+      return 1 + min(l, r);
     }
   }
 };

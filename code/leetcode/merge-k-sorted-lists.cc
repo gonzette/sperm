@@ -11,30 +11,30 @@
 using namespace std;
 
 struct ListNode {
-    int val;
-    ListNode *next;
-    ListNode(int x) : val(x), next(NULL) {}
+  int val;
+  ListNode* next;
+  ListNode(int x) : val(x), next(NULL) {}
 };
 
 class Solution {
- public:
+public:
   class Elem {
-   public:
+  public:
     int v;
     ListNode* p;
     bool operator <(const Elem& x) const {
-      return x.v < v;      
+      return x.v < v;
     }
-    Elem(int v,ListNode* p):v(v),p(p) {}
+    Elem(int v, ListNode* p): v(v), p(p) {}
   };
-  ListNode *mergeKLists(vector<ListNode *> &lists) {
+  ListNode* mergeKLists(vector<ListNode*>& lists) {
     // Start typing your C/C++ solution below
     // DO NOT write int main() function
     priority_queue<Elem> Q;
-    for(int i=0;i<lists.size();i++) {
+    for(int i = 0; i < lists.size(); i++) {
       ListNode* x = lists[i];
       if(x) {
-        Q.push(Elem(x->val,x));
+        Q.push(Elem(x->val, x));
       }
     }
     ListNode* prev = NULL;
@@ -43,16 +43,16 @@ class Solution {
       Elem e = Q.top();
       ListNode* n = e.p;
       Q.pop();
-      if(prev==NULL) {
+      if(prev == NULL) {
         prev = n;
-        head = n;        
+        head = n;
       } else {
         prev->next = n;
         prev = n;
       }
       n = n->next;
       if(n) {
-        Q.push(Elem(n->val,n));
+        Q.push(Elem(n->val, n));
       }
     }
     if(prev) {

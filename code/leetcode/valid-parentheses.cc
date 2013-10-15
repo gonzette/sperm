@@ -7,7 +7,7 @@ public:
   bool isValid(string s) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     stack<char> st;
-    for(int i=0;i<s.size();i++) {
+    for(int i = 0; i < s.size(); i++) {
       char ch = s[i];
       if(ch == '(' || ch == '{' || ch == '[') {
         st.push(ch);

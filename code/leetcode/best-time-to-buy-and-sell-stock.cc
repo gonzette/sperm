@@ -5,8 +5,8 @@
 using namespace std;
 
 class Solution {
- public:
-  int maxProfit(vector<int> &prices) {
+public:
+  int maxProfit(vector<int>& prices) {
     // Start typing your C/C++ solution below
     // DO NOT write int main() function
     const int n = prices.size();
@@ -15,19 +15,19 @@ class Solution {
     }
     int dp[n];
     // dp[0][i] (0,i-1) max.
-    P0(prices,dp);
-    return dp[n-1];
+    P0(prices, dp);
+    return dp[n - 1];
   }
 
-  void P0(vector<int>& prices,int dp[]) {
+  void P0(vector<int>& prices, int dp[]) {
     int f = 0;
-    int t = prices.size()-1;
-    
+    int t = prices.size() - 1;
+
     dp[f] = 0;
     int s = prices[f];
-    for(int i=f+1;i<=t;i++) {
-      dp[i] = max(dp[i-1],prices[i]-s);
-      s = min(s,prices[i]);
+    for(int i = f + 1; i <= t; i++) {
+      dp[i] = max(dp[i - 1], prices[i] - s);
+      s = min(s, prices[i]);
     }
   }
 };

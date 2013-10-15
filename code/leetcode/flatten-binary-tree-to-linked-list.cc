@@ -13,24 +13,24 @@
 
 struct TreeNode {
   int val;
-  TreeNode *left;
-  TreeNode *right;
+  TreeNode* left;
+  TreeNode* right;
   TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
 class Solution {
- public:
-  void flatten(TreeNode *root) {
+public:
+  void flatten(TreeNode* root) {
     // Start typing your C/C++ solution below
     // DO NOT write int main() function
     if(root == NULL) {
       return ;
     }
     TreeNode* p = NULL;
-    R(root,&p);
+    R(root, &p);
   }
 
-  TreeNode* R(TreeNode* root,TreeNode** last) {
+  TreeNode* R(TreeNode* root, TreeNode** last) {
     if(root->left == NULL && root->right == NULL) {
       *last = root;
     } else if(root->left == NULL) {
@@ -41,9 +41,9 @@ class Solution {
     } else {
       TreeNode* p = NULL;
       TreeNode* r = root->right;
-      root->right = R(root->left,&p);
+      root->right = R(root->left, &p);
       root->left = NULL;
-      p->right = R(r,last);      
+      p->right = R(r, last);
     }
     return root;
   }

@@ -11,14 +11,14 @@
 using namespace std;
 struct RandomListNode {
   int label;
-  RandomListNode *next, *random;
+  RandomListNode* next, *random;
   RandomListNode(int x) : label(x), next(NULL), random(NULL) {}
 };
 
 class Solution {
- public:
-  map<RandomListNode*,RandomListNode*> cache;
-  RandomListNode *copyRandomList(RandomListNode *head) {
+public:
+  map<RandomListNode*, RandomListNode*> cache;
+  RandomListNode* copyRandomList(RandomListNode* head) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     if(head == NULL) {
       return NULL;

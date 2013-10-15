@@ -3,7 +3,7 @@
 using namespace std;
 
 class Solution {
- public:
+public:
   bool isPalindrome(int x) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     if(x < 0) {
@@ -25,7 +25,7 @@ class Solution {
 
 int main() {
   Solution s;
-  printf("%d\n",s.isPalindrome(-1));
-  printf("%d\n",s.isPalindrome(12321));
+  printf("%d\n", s.isPalindrome(-1));
+  printf("%d\n", s.isPalindrome(12321));
   return 0;
 }

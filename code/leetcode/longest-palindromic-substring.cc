@@ -12,26 +12,26 @@ public:
   string longestPalindrome(string s) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     n = s.size();
-    memset(dp,0xff,sizeof(dp));
-    for(int ln = n ;ln >=1;ln --) {
-      for(int i=0;(i+ln-1) < n;i++) {
-        if(isOK(s,i,i+ln-1)) {
-          string ret = s.substr(i,ln);
+    memset(dp, 0xff, sizeof(dp));
+    for(int ln = n ; ln >= 1; ln --) {
+      for(int i = 0; (i + ln - 1) < n; i++) {
+        if(isOK(s, i, i + ln - 1)) {
+          string ret = s.substr(i, ln);
           return ret;
         }
       }
     }
   }
 
-  int getIndex(int i,int j) {
+  int getIndex(int i, int j) {
     return i * n + j;
   }
-  
-  bool isOK(const string &s,int f,int e) {
+
+  bool isOK(const string& s, int f, int e) {
     if(f >= e) return true;
-    char& ch = dp[getIndex(f,e)];
+    char& ch = dp[getIndex(f, e)];
     if(ch == -1) {
-      bool ok = (s[f] == s[e]) && isOK(s,f+1,e-1);
+      bool ok = (s[f] == s[e]) && isOK(s, f + 1, e - 1);
       ch = ok ? 1 : 0;
       return ok;
     } else {
@@ -43,34 +43,34 @@ public:
 #else
 
 class Solution {
- public :
-  string expand(const string&s, int f,int e) {
-    while(f >= 0 && e <s.size()) {
+public :
+  string expand(const string& s, int f, int e) {
+    while(f >= 0 && e < s.size()) {
       if(s[f] == s[e]) {
         f--;
         e++;
       } else {
         break;
-      }      
+      }
     }
     f++;
     e--;
     if(f > e) {
       e = f;
     }
-    return s.substr(f,e-f+1);
+    return s.substr(f, e - f + 1);
   }
 
   string longestPalindrome(string s) {
     string ln;
-    for(int i=0;i<s.size();i++) {
-      string x = expand(s,i,i);
+    for(int i = 0; i < s.size(); i++) {
+      string x = expand(s, i, i);
       if(x.size() > ln.size()) {
         ln = x;
       }
     }
-    for(int i=0;i<s.size()-1;i++) {
-      string x = expand(s,i,i+1);
+    for(int i = 0; i < s.size() - 1; i++) {
+      string x = expand(s, i, i + 1);
       if(x.size() > ln.size()) {
         ln = x;
       }
@@ -84,6 +84,6 @@ class Solution {
 
 int main() {
   Solution s;
-  printf("%s\n",s.longestPalindrome("iopsajhffgvrnyitusobwcxgwlwniqchfnssqttdrnqqcsrigjsxkzcmuoiyxzerakhmexuyeuhjfobrmkoqdljrlojjjysfdslyvckxhuleagmxnzvikfitmkfhevfesnwltekstsueefbrddxrmxokpaxsenwlgytdaexgfwtneurhxvjvpsliepgvspdchmhggybwupiqaqlhjjrildjuewkdxbcpsbjtsevkppvgilrlspejqvzpfeorjmrbdppovvpzxcytscycgwsbnmspihzldjdgilnrlmhaswqaqbecmaocesnpqaotamwofyyfsbmxidowusogmylhlhxftnrmhtnnljjhhcfvywsqimqxqobfsageysonuoagmmviozeouutsiecitrmkypwknorjjiaasxfhsftypspwhvqovmwkjuehujofiabznpipidhfxpoustquzyfurkcgmioxacleqdxgrxbldcuxzgbcazgfismcgmgtjuwchymkzoiqhzaqrtiykdkydgvuaqkllbsactntexcybbjaxlfhyvbxieelstduqzfkoceqzgncvexklahxjnvtyqcjtbfanzgpdmucjlqpiolklmjxnscjcyiybdkgitxnuvtmoypcdldrvalxcxalpwumfx").c_str());
+  printf("%s\n", s.longestPalindrome("iopsajhffgvrnyitusobwcxgwlwniqchfnssqttdrnqqcsrigjsxkzcmuoiyxzerakhmexuyeuhjfobrmkoqdljrlojjjysfdslyvckxhuleagmxnzvikfitmkfhevfesnwltekstsueefbrddxrmxokpaxsenwlgytdaexgfwtneurhxvjvpsliepgvspdchmhggybwupiqaqlhjjrildjuewkdxbcpsbjtsevkppvgilrlspejqvzpfeorjmrbdppovvpzxcytscycgwsbnmspihzldjdgilnrlmhaswqaqbecmaocesnpqaotamwofyyfsbmxidowusogmylhlhxftnrmhtnnljjhhcfvywsqimqxqobfsageysonuoagmmviozeouutsiecitrmkypwknorjjiaasxfhsftypspwhvqovmwkjuehujofiabznpipidhfxpoustquzyfurkcgmioxacleqdxgrxbldcuxzgbcazgfismcgmgtjuwchymkzoiqhzaqrtiykdkydgvuaqkllbsactntexcybbjaxlfhyvbxieelstduqzfkoceqzgncvexklahxjnvtyqcjtbfanzgpdmucjlqpiolklmjxnscjcyiybdkgitxnuvtmoypcdldrvalxcxalpwumfx").c_str());
   return 0;
 }

@@ -3,7 +3,7 @@
 using namespace std;
 
 class Solution {
- public:
+public:
   vector<string> letterCombinations(string digits) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     static const char* dict[] = {
@@ -20,21 +20,21 @@ class Solution {
     };
     vector<string> rs;
     string s;
-    R(dict,digits,s,rs);
+    R(dict, digits, s, rs);
     return rs;
   }
-  void R(const char* dict[],const string& ds,string& s,vector<string>& rs) {
+  void R(const char* dict[], const string& ds, string& s, vector<string>& rs) {
     if(s.size() == ds.size()) {
       rs.push_back(s);
     } else {
       int d = ds[s.size()] - '0';
-      for(int i=0;dict[d][i];i++) {
+      for(int i = 0; dict[d][i]; i++) {
         char ch = dict[d][i];
         s += ch;
-        R(dict,ds,s,rs);
+        R(dict, ds, s, rs);
         //s.pop_back(); // C++0x.
-        s = s.substr(0,s.size()-1);
-      }      
+        s = s.substr(0, s.size() - 1);
+      }
     }
   }
 };

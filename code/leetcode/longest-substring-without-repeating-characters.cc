@@ -3,14 +3,14 @@
 using namespace std;
 
 class Solution {
- public:
+public:
   int lengthOfLongestSubstring(string s) {
     // Note: The Solution object is instantiated only once and is reused by each test case.
     int mask[256];
-    memset(mask,0,sizeof(mask));
+    memset(mask, 0, sizeof(mask));
     int t = 0;
     int res = 0;
-    for(int i=0;i<s.size();i++) {
+    for(int i = 0; i < s.size(); i++) {
       char ch = s[i];
       // sink ch.
       mask[ch]++;
@@ -21,9 +21,9 @@ class Solution {
           if(mask[ch] == 1) {
             break;
           }
-        }        
-      } 
-      res = max(res,i-t+1);
+        }
+      }
+      res = max(res, i - t + 1);
     }
     return res;
   }
@@ -31,6 +31,6 @@ class Solution {
 
 int main() {
   Solution s;
-  printf("%d\n",s.lengthOfLongestSubstring("abcabcdbb"));
+  printf("%d\n", s.lengthOfLongestSubstring("abcabcdbb"));
   return 0;
 }

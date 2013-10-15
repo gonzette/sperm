@@ -11,19 +11,19 @@
 
 struct TreeLinkNode {
   int val;
-  TreeLinkNode *left, *right, *next;
+  TreeLinkNode* left, *right, *next;
   TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
 };
 
 class Solution {
- public:
-  void connect(TreeLinkNode *root) {
+public:
+  void connect(TreeLinkNode* root) {
     // Start typing your C/C++ solution below
     // DO NOT write int main() function
     if(root == NULL) {
       return ;
     }
-    root->next = NULL;    
+    root->next = NULL;
     R(root);
   }
 
@@ -37,7 +37,7 @@ class Solution {
     while(root) {
       TreeLinkNode* l = root->left;
       TreeLinkNode* r = root->right;
-      if(head!=NULL) {
+      if(head != NULL) {
         head->next = l;
       }
       l->next = r;

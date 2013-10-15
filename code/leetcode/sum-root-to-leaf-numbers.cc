@@ -17,8 +17,8 @@ struct TreeNode {
 };
 
 class Solution {
- public:
-  int sumNumbers(TreeNode *root) {
+public:
+  int sumNumbers(TreeNode* root) {
     // Start typing your C/C++ solution below
     // DO NOT write int main() function
     if(root == NULL) {
@@ -29,7 +29,7 @@ class Solution {
     return sum;
   }
 
-  void R(int v, TreeNode* node, int& sum) {    
+  void R(int v, TreeNode* node, int& sum) {
     v = v * 10 + node-> val;
     if(!node->left && !node->right) {
       sum += v;
@@ -40,7 +40,7 @@ class Solution {
       if(node->right) {
         R(v, node->right, sum);
       }
-    }    
+    }
   }
 };
 
@@ -52,13 +52,13 @@ int main() {
     TreeNode* r = new TreeNode(3);
     s->left = l;
     s->right = r;
-    printf("%d\n",sol.sumNumbers(s));
+    printf("%d\n", sol.sumNumbers(s));
   }
   {
     TreeNode* s = new TreeNode(1);
     TreeNode* l = new TreeNode(2);
     s->left = l;
-    printf("%d\n",sol.sumNumbers(s));
+    printf("%d\n", sol.sumNumbers(s));
   }
   return 0;
 }
