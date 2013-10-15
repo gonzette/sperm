@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>web-misc</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="web-misc"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:18:13 CST"/>
+<meta name="generated" content="2013-10-15 22:14:52 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">web-misc</h1>
 
 
@@ -56,22 +77,22 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 web-misc </a>
+<li><a href="#sec-1">1 web-misc</a>
 <ul>
-<li><a href="#sec-1.1">1.1 Wordpress Related </a>
+<li><a href="#sec-1-1">1.1 Wordpress Related</a>
 <ul>
-<li><a href="#sec-1.1.1">1.1.1 解决WordPress半角引号变成全角引号问题的方法 </a></li>
-<li><a href="#sec-1.1.2">1.1.2 在wordpress添加百度统计代码 </a></li>
+<li><a href="#sec-1-1-1">1.1.1 解决WordPress半角引号变成全角引号问题的方法</a></li>
+<li><a href="#sec-1-1-2">1.1.2 在wordpress添加百度统计代码</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2">1.2 OAuth2 &amp; Basic Auth </a>
+<li><a href="#sec-1-2">1.2 OAuth2 &amp; Basic Auth</a>
 <ul>
-<li><a href="#sec-1.2.1">1.2.1 Basic Auth </a></li>
-<li><a href="#sec-1.2.2">1.2.2 OAuth2 </a></li>
-<li><a href="#sec-1.2.3">1.2.3 修改weibo.py支持Basic Auth </a></li>
+<li><a href="#sec-1-2-1">1.2.1 Basic Auth</a></li>
+<li><a href="#sec-1-2-2">1.2.2 OAuth2</a></li>
+<li><a href="#sec-1-2-3">1.2.3 修改weibo.py支持Basic Auth</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.3">1.3 WSGI in Python </a></li>
+<li><a href="#sec-1-3">1.3 WSGI in Python</a></li>
 </ul>
 </li>
 </ul>
@@ -79,22 +100,22 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> web-misc </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> web-misc</h2>
 <div class="outline-text-2" id="text-1">
 
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Wordpress Related </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Wordpress Related</h3>
+<div class="outline-text-3" id="text-1-1">
 
 
 </div>
 
-<div id="outline-container-1.1.1" class="outline-4">
-<h4 id="sec-1.1.1"><span class="section-number-4">1.1.1</span> 解决WordPress半角引号变成全角引号问题的方法 </h4>
-<div class="outline-text-4" id="text-1.1.1">
+<div id="outline-container-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> 解决WordPress半角引号变成全角引号问题的方法</h4>
+<div class="outline-text-4" id="text-1-1-1">
 
 
 <p>
@@ -115,8 +136,6 @@ WordPress会自动将单引号转换成全角单引号。这样就导致浏览�
 </pre>
 
 
-
-
 <p>
 第二种：通过修改formatting.php来实现
 </p>
@@ -134,8 +153,6 @@ WordPress会自动将单引号转换成全角单引号。这样就导致浏览�
 </pre>
 
 
-
-
 <p>
 第二种方法有个弊端就是一旦WordPress升级更新后会自动覆盖恢复成原来的，所以推荐用第一种方法修改functions.php文件，这样就不会受到WordPress升级后代码变为原来的影响！
 </p>
@@ -143,9 +160,9 @@ WordPress会自动将单引号转换成全角单引号。这样就导致浏览�
 
 </div>
 
-<div id="outline-container-1.1.2" class="outline-4">
-<h4 id="sec-1.1.2"><span class="section-number-4">1.1.2</span> 在wordpress添加百度统计代码 </h4>
-<div class="outline-text-4" id="text-1.1.2">
+<div id="outline-container-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> 在wordpress添加百度统计代码</h4>
+<div class="outline-text-4" id="text-1-1-2">
 
 
 <p>
@@ -174,38 +191,34 @@ document.write(unescape(<span class="org-string">"%3Cscript src='"</span> + _bdh
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> OAuth2 &amp; Basic Auth </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> OAuth2 &amp; Basic Auth</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <p>突然想看看sina weibo的API接口，首先遇到的问题就是登陆问题。weibo提供了几种认证方式：
 </p><ul>
-<li>
-OAuth2.<a href="http://oauth.net/2/">主页</a>
+<li>OAuth2.<a href="http://oauth.net/2/">主页</a>
 </li>
-<li>
-OAuth1.
+<li>OAuth1.
 </li>
-<li>
-Basic Auth.
-
+<li>Basic Auth.
 </li>
 </ul>
 
+
+
 </div>
 
-<div id="outline-container-1.2.1" class="outline-4">
-<h4 id="sec-1.2.1"><span class="section-number-4">1.2.1</span> Basic Auth </h4>
-<div class="outline-text-4" id="text-1.2.1">
+<div id="outline-container-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Basic Auth</h4>
+<div class="outline-text-4" id="text-1-2-1">
 
-<p>Basic Auth就是简单地在http上面传输username+password.如何使用Basic Auth推荐的文章就是<a href="http://www.cnblogs.com/QLeelulu/archive/2009/11/22/1607898.html.weibo">http://www.cnblogs.com/QLeelulu/archive/2009/11/22/1607898.html.weibo</a> 使用Basic Auth方式链接在<a href="http://open.weibo.com/wiki/%25E6%258E%25A5%25E5%258F%25A3%25E9%2597%25AE%25E9%25A2%2598">这里(接口使用.AppKey怎么用)</a>
+<p>Basic Auth就是简单地在http上面传输username+password.如何使用Basic Auth推荐的文章就是<a href="http://www.cnblogs.com/QLeelulu/archive/2009/11/22/1607898.html.weibo">http://www.cnblogs.com/QLeelulu/archive/2009/11/22/1607898.html.weibo</a> 使用Basic Auth方式链接在<a href="http://open.weibo.com/wiki/%E6%8E%A5%E5%8F%A3%E9%97%AE%E9%A2%98">这里(接口使用.AppKey怎么用)</a>
 </p>
 <p class="verse">
 要在发送请求的时候添加HTTP Basic Authentication认证信息到请求中，有两种方法：<br/>
@@ -233,27 +246,23 @@ os.system('curl -H Authorization:<span class="org-string">"Basic %s"</span> http
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.2" class="outline-4">
-<h4 id="sec-1.2.2"><span class="section-number-4">1.2.2</span> OAuth2 </h4>
-<div class="outline-text-4" id="text-1.2.2">
+<div id="outline-container-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> OAuth2</h4>
+<div class="outline-text-4" id="text-1-2-2">
 
 <p>没有仔细阅读OAuth2的Specification，只是就weibo API看了一下OAuth2大致是如何工作的。weibo的两个授权接口分别是:
 </p><ol>
-<li>
-authorize GET/POST
+<li>authorize GET/POST
 </li>
-<li>
-access<sub>token</sub> POST
+<li>access_token POST
 </li>
 </ol>
 
-<p>比较诡异的就是不管是GET/POST的话，request params都是放在URL而不是放在header里面的。这就有一个问题就是access<sub>token似乎支持也支持提交username</sub>+password.所以weibo API在OAuth2里面如果通过username+password提交的话（app通过客户端方式的话），那么需要提交申请。
+<p>比较诡异的就是不管是GET/POST的话，request params都是放在URL而不是放在header里面的。这就有一个问题就是access_token似乎支持也支持提交username+password.所以weibo API在OAuth2里面如果通过username+password提交的话（app通过客户端方式的话），那么需要提交申请。
 </p>
 <p>
 下面是OAuth2.0的授权工作流程图
@@ -262,38 +271,33 @@ access<sub>token</sub> POST
 <p>
 结合weibo API大致描述一下工作方式：
 </p><ol>
-<li>
-App提供一个uri.用户访问这个uri的话就会触发授权。uri内部有redirect<sub>uri</sub>(这个必须和app配置的redirect<sub>uri匹配</sub>).如果授权成功的话，那么就会访问这个redirect<sub>uri，同时后面带上一下code</sub>.比如<a href="https://api.weibo.com/oauth2/authorize?redirect_uri=http%3A//dirlt.com&amp;response_type=code&amp;client_id=1144364821&amp;display=default">https://api.weibo.com/oauth2/authorize?redirect_uri=http%3A//dirlt.com&amp;response_type=code&amp;client_id=1144364821&amp;display=default</a>. 允许访问的话，那么就会访问到<a href="http://dirlt.com?code=CODE.那么App得到了CODE">http://dirlt.com?code=CODE.那么App得到了CODE</a>.(似乎每次得到这个CODE都是不同的，猜测这个CODE是存在一定超时失效的）
+<li>App提供一个uri.用户访问这个uri的话就会触发授权。uri内部有redirect_uri(这个必须和app配置的redirect_uri匹配).如果授权成功的话，那么就会访问这个redirect_uri，同时后面带上一下code.比如<a href="https://api.weibo.com/oauth2/authorize?redirect_uri=http://dirlt.com&amp;response_type=code&amp;client_id=1144364821&amp;display=default">https://api.weibo.com/oauth2/authorize?redirect_uri=http%3A//dirlt.com&amp;response_type=code&amp;client_id=1144364821&amp;display=default</a>. 允许访问的话，那么就会访问到<a href="http://dirlt.com?code=CODE.那么App得到了CODE">http://dirlt.com?code=CODE.那么App得到了CODE</a>.(似乎每次得到这个CODE都是不同的，猜测这个CODE是存在一定超时失效的）
 </li>
-<li>
-然后App按照这个CODE去请求一下access<sub>token</sub>.得到这个access<sub>token也是有一定失效时间的。</sub> <b>weibo API做了简化，可以让1,2合成一步完成，似乎这个是一个更好的方式，后台也不用在维护CODE这个概念了。</b> redirect<sub>uri部分直接就带上了access</sub><sub>token以及失效时间返回。</sub>
+<li>然后App按照这个CODE去请求一下access_token.得到这个access_token也是有一定失效时间的。 <b>weibo API做了简化，可以让1,2合成一步完成，似乎这个是一个更好的方式，后台也不用在维护CODE这个概念了。</b> redirect_uri部分直接就带上了access_token以及失效时间返回。
 </li>
-<li>
-得到这个access<sub>token之后，就可以在失效时间之内访问这个用户的资源了。而这个时候每次只需要带上access</sub><sub>token而不是password</sub>.
-
+<li>得到这个access_token之后，就可以在失效时间之内访问这个用户的资源了。而这个时候每次只需要带上access_token而不是password.
 </li>
 </ol>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.2.3" class="outline-4">
-<h4 id="sec-1.2.3"><span class="section-number-4">1.2.3</span> 修改weibo.py支持Basic Auth </h4>
-<div class="outline-text-4" id="text-1.2.3">
+</div>
 
-<p>看了一下weibo Python SDK似乎没有支持Basic Auth. 修改weibo.py支持Basic Auth似乎并不是很困难的事情，只要不使用HTTP<sub>GET请求的话应该安全性上面没有什么太大的问题。下面是使用Basic</sub> Auth weibo.py的例子，后面是修改之后的weibo.py代码。
+<div id="outline-container-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> 修改weibo.py支持Basic Auth</h4>
+<div class="outline-text-4" id="text-1-2-3">
+
+<p>看了一下weibo Python SDK似乎没有支持Basic Auth. 修改weibo.py支持Basic Auth似乎并不是很困难的事情，只要不使用HTTP_GET请求的话应该安全性上面没有什么太大的问题。下面是使用Basic Auth weibo.py的例子，后面是修改之后的weibo.py代码。
 </p>
 <p>
 可以看到在APIClient构造部分的话需要传入username,password,然后有三种方式可以调用
 </p><ol>
-<li>
-get（不推荐使用）
+<li>get（不推荐使用）
 </li>
-<li>
-post
+<li>post
 </li>
-<li>
-upload
+<li>upload
 </li>
 </ol>
 
@@ -319,8 +323,6 @@ r=client.post.statuses__update(source='1144364821',
 
 print(r)
 </pre>
-
-
 
 
 
@@ -544,32 +546,28 @@ class APIClient(object):
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> WSGI in Python </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> WSGI in Python</h3>
+<div class="outline-text-3" id="text-1-3">
 
 <p>python运行web大约有下面三种方式：
 </p><ol>
-<li>
-程序自己启动http server直接对外服务
+<li>程序自己启动http server直接对外服务
 </li>
-<li>
-用WSGI编写然后使用gunicorn这样的container启动对外服务
+<li>用WSGI编写然后使用gunicorn这样的container启动对外服务
 </li>
-<li>
-nginx在前端做反向代理，uwsgi做WSGI Container和nginx通信
-
+<li>nginx在前端做反向代理，uwsgi做WSGI Container和nginx通信
 </li>
 </ol>
 
-<p>实践证明1这个方案因为python GIL缘故只能使用单线程处理，并且http server扩展性也不好。而方案2相对来说比较灵活，可以使用不同的container启动，并且也可以很容易地切换成为方案3，但是却不能够很好地处理子域名问题，同时部署上没有方案3灵活。
+
+<p>
+实践证明1这个方案因为python GIL缘故只能使用单线程处理，并且http server扩展性也不好。而方案2相对来说比较灵活，可以使用不同的container启动，并且也可以很容易地切换成为方案3，但是却不能够很好地处理子域名问题，同时部署上没有方案3灵活。
 自己搭建fantuan.dirlt.com里面就涉及到了子域名这个问题，最后还是使用方案3解决的，使用的就是nginx + uwsgi + web.py这个解决方案。所以这里简单地记录一下如何配置。
 </p>
 <p>
@@ -586,10 +584,8 @@ nginx在前端做反向代理，uwsgi做WSGI Container和nginx通信
 }
 </pre>
 
-
-
 <p>
-也就是说对于fantuan.dirlt.com这个请求包含uwsgi<sub>params里面的参数全部转发到127</sub>.0.0.1:8001这个端口。
+也就是说对于fantuan.dirlt.com这个请求包含uwsgi_params里面的参数全部转发到127.0.0.1:8001这个端口。
 </p>
 <p>
 然后在本地启动uwsgi绑定在127.0.0.1:8001这个端口上面，同时考虑到uwsgi支持配置文件的方式，我们首先编写配置文件
@@ -607,25 +603,25 @@ max-requests = 128
 </pre>
 
 
-
-
 <p>
 <b>TODO（dirlt）：里面的字段的意思还不是清楚</b> 最重要的就是两个参数
 </p><ul>
-<li>
-module x:y 说明x.py里面的y对象是WSGI function对象
+<li>module x:y 说明x.py里面的y对象是WSGI function对象
 </li>
-<li>
-socket 必须指定是127.0.0.1:8001
+<li>socket 必须指定是127.0.0.1:8001
 </li>
 </ul>
+
 </div>
 </div>
 </div>
+</div>
+
 <div id="postamble">
-<p class="date"> Date: 2013-10-14 12:18:13 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
-</div>
+<p class="date">Date: 2013-10-15 22:14:52 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'web-misc.html';var disqus_title = 'web-misc.html';var disqus_url = 'http://dirlt.com/web-misc.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

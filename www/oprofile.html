@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>oprofile</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="oprofile"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:27:50 CST"/>
+<meta name="generated" content="2013-10-15 22:15:20 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">oprofile</h1>
 
 
@@ -56,28 +77,28 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 oprofile </a>
+<li><a href="#sec-1">1 oprofile</a>
 <ul>
-<li><a href="#sec-1.1">1.1 OProfile简介 </a></li>
-<li><a href="#sec-1.2">1.2 OProfile地址 </a></li>
-<li><a href="#sec-1.3">1.3 OProfile组成部分 </a>
+<li><a href="#sec-1-1">1.1 OProfile简介</a></li>
+<li><a href="#sec-1-2">1.2 OProfile地址</a></li>
+<li><a href="#sec-1-3">1.3 OProfile组成部分</a>
 <ul>
-<li><a href="#sec-1.3.1">1.3.1 内核驱动 </a></li>
-<li><a href="#sec-1.3.2">1.3.2 daemon </a></li>
-<li><a href="#sec-1.3.3">1.3.3 附加组件 </a></li>
+<li><a href="#sec-1-3-1">1.3.1 内核驱动</a></li>
+<li><a href="#sec-1-3-2">1.3.2 daemon</a></li>
+<li><a href="#sec-1-3-3">1.3.3 附加组件</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.4">1.4 OProfile使用 </a>
+<li><a href="#sec-1-4">1.4 OProfile使用</a>
 <ul>
-<li><a href="#sec-1.4.1">1.4.1 opcontrol </a></li>
-<li><a href="#sec-1.4.2">1.4.2 opreport </a></li>
-<li><a href="#sec-1.4.3">1.4.3 opannotate </a></li>
+<li><a href="#sec-1-4-1">1.4.1 opcontrol</a></li>
+<li><a href="#sec-1-4-2">1.4.2 opreport</a></li>
+<li><a href="#sec-1-4-3">1.4.3 opannotate</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.5">1.5 OProfile脚本 </a></li>
-<li><a href="#sec-1.6">1.6 FAQ </a>
+<li><a href="#sec-1-5">1.5 OProfile脚本</a></li>
+<li><a href="#sec-1-6">1.6 FAQ</a>
 <ul>
-<li><a href="#sec-1.6.1">1.6.1 设置time interrupt模式 </a></li>
+<li><a href="#sec-1-6-1">1.6.1 设置time interrupt模式</a></li>
 </ul>
 </li>
 </ul>
@@ -87,16 +108,16 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> oprofile </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> oprofile</h2>
 <div class="outline-text-2" id="text-1">
 
 
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> OProfile简介 </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> OProfile简介</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <p>Oprofile是用于Linux的若干种评测和性能监控工具中的一种。它可以工作在不同的体系结构上，包括IA32,IA64和AMD Athlon系列。它的开销小，将被包含在(Linux)2.6版的内核中。
 </p>
@@ -107,9 +128,9 @@ Oprofile可以帮助用户识别诸如循环的展开、高速缓存的使用率
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> OProfile地址 </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> OProfile地址</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <p>文档 <a href="http://oprofile.sourceforge.net/doc/index.html">http://oprofile.sourceforge.net/doc/index.html</a>
 </p>
@@ -120,32 +141,30 @@ AMD Family 10 Events <a href="http://oprofile.sourceforge.net/docs/amd-family10-
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> OProfile组成部分 </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> OProfile组成部分</h3>
+<div class="outline-text-3" id="text-1-3">
 
 
 </div>
 
-<div id="outline-container-1.3.1" class="outline-4">
-<h4 id="sec-1.3.1"><span class="section-number-4">1.3.1</span> 内核驱动 </h4>
-<div class="outline-text-4" id="text-1.3.1">
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> 内核驱动</h4>
+<div class="outline-text-4" id="text-1-3-1">
 
 <p>内核驱动工作的时候分为三种模式：
 </p><ul>
-<li>
-硬件事件计数器模式
+<li>硬件事件计数器模式
 </li>
-<li>
-RTC模式
+<li>RTC模式
 </li>
-<li>
-TimeInterrupt模式
-
+<li>TimeInterrupt模式
 </li>
 </ul>
 
-<p>关于RTC模式和TimeInterrupt模式之间的差别并不是非常了解。RTC[RealTimeClock]和TimeInterrupt模式工作方式。大致都是在底层开启一个定时器并且定时触发中断，然后知道当时PC的位置，然后把这段时间都作为这条PC所执行的时间。定位相对来说粗糙的，但是对于大部分的情况都是管用的。但是如果执行代码部分是屏蔽了中断的话，那么实际上这个部分是不会被profile的。
+
+<p>
+关于RTC模式和TimeInterrupt模式之间的差别并不是非常了解。RTC[RealTimeClock]和TimeInterrupt模式工作方式。大致都是在底层开启一个定时器并且定时触发中断，然后知道当时PC的位置，然后把这段时间都作为这条PC所执行的时间。定位相对来说粗糙的，但是对于大部分的情况都是管用的。但是如果执行代码部分是屏蔽了中断的话，那么实际上这个部分是不会被profile的。
 </p>
 <p>
 硬件事件计数器模式需要CPU的支持。CPU内部维护一系列事件计数器。Profile针对某些事件把计数器设置为初始值比如C，然后一旦操作触发事件的话,那么计数器就会&ndash;。一旦计数器变为0的话，CPU内部就会触发一个不可屏蔽的中断(NMI/Non Maskable Interrupt)。这个时候我们了解到PC在什么位置，就把这条指令作为触发这个时间的指令。需要注意的是,如果计数器的C设置非常低的话,那么产生NMI就会非常频繁。这样会导致overhead过高，系统非常不稳定。使用硬件事件计数器的话，需要CPU开启APIC这个选项，否则允许指定参数的得不到采样结果。
@@ -157,9 +176,9 @@ TimeInterrupt模式
 
 </div>
 
-<div id="outline-container-1.3.2" class="outline-4">
-<h4 id="sec-1.3.2"><span class="section-number-4">1.3.2</span> daemon </h4>
-<div class="outline-text-4" id="text-1.3.2">
+<div id="outline-container-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> daemon</h4>
+<div class="outline-text-4" id="text-1-3-2">
 
 <p>daemon部分用于收集内核驱动采样数据，并且将采样数据dump到外部文件。可执行程序是bin/oprofiled.
 </p>
@@ -167,34 +186,31 @@ TimeInterrupt模式
 
 </div>
 
-<div id="outline-container-1.3.3" class="outline-4">
-<h4 id="sec-1.3.3"><span class="section-number-4">1.3.3</span> 附加组件 </h4>
-<div class="outline-text-4" id="text-1.3.3">
+<div id="outline-container-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> 附加组件</h4>
+<div class="outline-text-4" id="text-1-3-3">
 
 <p>附加组件部分通过读取dump出来的外部文件，得到采样数据并且进行加工：
 </p><ul>
-<li>
-ophelp //显示帮助信息
+<li>ophelp //显示帮助信息
 </li>
-<li>
-opcontrol //oprofile控制程序
+<li>opcontrol //oprofile控制程序
 </li>
-<li>
-opreport //产生报表信息
+<li>opreport //产生报表信息
 </li>
-<li>
-opannotate //annotate代码，包括源代码和汇编代码
-
+<li>opannotate //annotate代码，包括源代码和汇编代码
 </li>
 </ul>
+
+
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="section-number-3">1.4</span> OProfile使用 </h3>
-<div class="outline-text-3" id="text-1.4">
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> OProfile使用</h3>
+<div class="outline-text-3" id="text-1-4">
 
 <p>安装文档 <a href="http://oprofile.sourceforge.net/doc/install.html">http://oprofile.sourceforge.net/doc/install.html</a>
 </p>
@@ -210,8 +226,6 @@ opannotate //annotate代码，包括源代码和汇编代码
 </pre>
 
 
-
-
 <p>
 如果是2.6以及以上版本Linux内核的话，那么可以使用不需要源代码
 </p>
@@ -220,28 +234,21 @@ opannotate //annotate代码，包括源代码和汇编代码
 <pre class="example">./configure --prefix=&lt;install-dir&gt; --with-kernel-support
 </pre>
 
-
-
 <p>
 因为这些版本的Linux内核已经自带了oprofile驱动。
 </p>
 <p>
 使用步骤非常简单，大致如下：
 </p><ul>
-<li>
-使用opcontrol启动daemon并且开始采样
+<li>使用opcontrol启动daemon并且开始采样
 </li>
-<li>
-执行应用程序
+<li>执行应用程序
 </li>
-<li>
-使用opcontrol dump出剖分数据
+<li>使用opcontrol dump出剖分数据
 </li>
-<li>
-使用opcontrol停止采样并且关闭daemon程序
+<li>使用opcontrol停止采样并且关闭daemon程序
 </li>
-<li>
-使用opreport和opannotate查看结果
+<li>使用opreport和opannotate查看结果
 </li>
 </ul>
 
@@ -250,265 +257,208 @@ opannotate //annotate代码，包括源代码和汇编代码
 
 </div>
 
-<div id="outline-container-1.4.1" class="outline-4">
-<h4 id="sec-1.4.1"><span class="section-number-4">1.4.1</span> opcontrol </h4>
-<div class="outline-text-4" id="text-1.4.1">
+<div id="outline-container-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> opcontrol</h4>
+<div class="outline-text-4" id="text-1-4-1">
 
 <p>常用命令参数如下：
 </p><ul>
-<li>
-&ndash;reset //清除session数据
+<li>&ndash;reset //清除session数据
 </li>
-<li>
-&ndash;no-vmlinux/&ndash;vmlinux=/boot/vmlinux-2.6.9.2<sub>9</sub>-0-0-0 //选择内核镜像剖分内核
+<li>&ndash;no-vmlinux/&ndash;vmlinux=/boot/vmlinux-2.6.9.2_9-0-0-0 //选择内核镜像剖分内核
 </li>
-<li>
-&ndash;deinit //卸载oprofile device driver
+<li>&ndash;deinit //卸载oprofile device driver
 </li>
-<li>
-&ndash;init //加载oprofile device driver
+<li>&ndash;init //加载oprofile device driver
 </li>
-<li>
-&ndash;setup //设置oprofile默认参数，保存在/root/.oprofile/daemonrc下面
+<li>&ndash;setup //设置oprofile默认参数，保存在/root/.oprofile/daemonrc下面
 </li>
-<li>
-&ndash;status //显示配置信息
+<li>&ndash;status //显示配置信息
 </li>
-<li>
-&ndash;start-daemon //启动daemon程序
+<li>&ndash;start-daemon //启动daemon程序
 </li>
-<li>
-&ndash;shutdown //停止采样并且关闭daemon程序
+<li>&ndash;shutdown //停止采样并且关闭daemon程序
 </li>
-<li>
-&ndash;start //启动daemon程序并且开始采样
+<li>&ndash;start //启动daemon程序并且开始采样
 </li>
-<li>
-&ndash;stop //停止采样
+<li>&ndash;stop //停止采样
 </li>
-<li>
-&ndash;dump //控制daemon程序dump所收集的sample数据
+<li>&ndash;dump //控制daemon程序dump所收集的sample数据
 </li>
-<li>
-&ndash;list-event //显示所支持事件
+<li>&ndash;list-event //显示所支持事件
 </li>
-<li>
-&ndash;help //帮助
+<li>&ndash;help //帮助
 </li>
-<li>
-&ndash;buffer-size/&ndash;buffer-watershed/&ndash;cpu-buffer-size=#size //内核采样sample的buffer大小
+<li>&ndash;buffer-size/&ndash;buffer-watershed/&ndash;cpu-buffer-size=#size //内核采样sample的buffer大小
 </li>
-<li>
-&ndash;event=&lt;eventspec&gt; //设置采样事件，可以指定多次
+<li>&ndash;event=&lt;eventspec&gt; //设置采样事件，可以指定多次
 </li>
-<li>
-&ndash;separate=none/lib/kernel/cpu/all //剖分信息划分(none)
+<li>&ndash;separate=none/lib/kernel/cpu/all //剖分信息划分(none)
 <ul>
-<li>
-none //按照应用程序划分
+<li>none //按照应用程序划分
 </li>
-<li>
-lib //按照library划分
+<li>lib //按照library划分
 </li>
-<li>
-kernel //按照内核态和用户态划分
+<li>kernel //按照内核态和用户态划分
 </li>
-<li>
-thread //按照每个线程划分
+<li>thread //按照每个线程划分
 </li>
-<li>
-cpu //按照每个CPU划分
+<li>cpu //按照每个CPU划分
 </li>
-<li>
-all //按照上面所有都划分
-</li>
-</ul>
-</li>
-<li>
-&ndash;image=image,[image]|"all" //我们只想profile某些特定的binary
-</li>
-<li>
-&ndash;session-dir=&lt;dir&gt; //存放session目录(/var/lib/oprofile)
-</li>
-<li>
-&ndash;save=&lt;session-name&gt; //保存session
-
+<li>all //按照上面所有都划分
 </li>
 </ul>
 
-<p>常用用法如下：
+</li>
+<li>&ndash;image=image,[image]|"all" //我们只想profile某些特定的binary
+</li>
+<li>&ndash;session-dir=&lt;dir&gt; //存放session目录(/var/lib/oprofile)
+</li>
+<li>&ndash;save=&lt;session-name&gt; //保存session
+</li>
+</ul>
+
+
+<p>
+常用用法如下：
 </p><ul>
-<li>
-opcontrol &ndash;reset //清除之前session
+<li>opcontrol &ndash;reset //清除之前session
 </li>
-<li>
-opcontrol &ndash;start &ndash;no-vmlinux &ndash;image=image &ndash;separate=lib  //开启daemon程序并且剖析
+<li>opcontrol &ndash;start &ndash;no-vmlinux &ndash;image=image &ndash;separate=lib  //开启daemon程序并且剖析
 </li>
-<li>
-执行程序
+<li>执行程序
 </li>
-<li>
-opcontrol &ndash;dump //dump剖析数据
+<li>opcontrol &ndash;dump //dump剖析数据
 </li>
-<li>
-opcontrol &ndash;shutdown  //停止采样并且关闭daemon程序
-
+<li>opcontrol &ndash;shutdown  //停止采样并且关闭daemon程序
 </li>
 </ul>
 
-<p>执行一次opcontrol &ndash;start,所使用的参数就会记录在/root/.oprofile/daemonrc文件。效果就等同于首先调用opcontrol &ndash;setup,然后调用opcontrol &ndash;start.
+
+<p>
+执行一次opcontrol &ndash;start,所使用的参数就会记录在/root/.oprofile/daemonrc文件。效果就等同于首先调用opcontrol &ndash;setup,然后调用opcontrol &ndash;start.
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1.4.2" class="outline-4">
-<h4 id="sec-1.4.2"><span class="section-number-4">1.4.2</span> opreport </h4>
-<div class="outline-text-4" id="text-1.4.2">
+<div id="outline-container-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> opreport</h4>
+<div class="outline-text-4" id="text-1-4-2">
 
 <p>opreport包含两类参数，一类是过滤参数用于通知应用打印出关于哪些方面的信息，一类是命令参数是关于如何打印出这方面的信息。
 </p>
 <p>
 常用过滤参数如下，过滤参数值可以使用glob风格来指定：
 </p><ul>
-<li>
-session/session-exclude:sessionlist //按照session名称过滤
+<li>session/session-exclude:sessionlist //按照session名称过滤
 </li>
-<li>
-image/image-exclude:imagelist //按照imgae名字过滤
+<li>image/image-exclude:imagelist //按照imgae名字过滤
 </li>
-<li>
-event:eventlist //按照event进行过滤
+<li>event:eventlist //按照event进行过滤
 </li>
-<li>
-count:countlist //按照计数器进行过滤
+<li>count:countlist //按照计数器进行过滤
 </li>
-<li>
-unit-mask:masklist //按照mask进行过滤
+<li>unit-mask:masklist //按照mask进行过滤
 </li>
-<li>
-cpu:cpulist //按照cpu编号过滤
+<li>cpu:cpulist //按照cpu编号过滤
 </li>
-<li>
-tgid:pidlist //按照进程号过滤
+<li>tgid:pidlist //按照进程号过滤
 </li>
-<li>
-tid:tidlist //按照线程号过滤
-
+<li>tid:tidlist //按照线程号过滤
 </li>
 </ul>
 
-<p>常用命令参数如下：
+
+<p>
+常用命令参数如下：
 </p><ul>
-<li>
--g/&ndash;debug-info //显示每个symbol的文件和行号
+<li>-g/&ndash;debug-info //显示每个symbol的文件和行号
 </li>
-<li>
--D/&ndash;demangle=none/normal/smart //对C++名字解构(normal)
+<li>-D/&ndash;demangle=none/normal/smart //对C++名字解构(normal)
 </li>
-<li>
--i/&ndash;include-symbols/-e/&ndash;exclude-symbols //符号选择
+<li>-i/&ndash;include-symbols/-e/&ndash;exclude-symbols //符号选择
 </li>
-<li>
--h/&ndash;help //帮助信息
+<li>-h/&ndash;help //帮助信息
 </li>
-<li>
--f/&ndash;long-filenames //显示长文件名
+<li>-f/&ndash;long-filenames //显示长文件名
 </li>
-<li>
--r/&ndash;reverse-sort //反向输出
+<li>-r/&ndash;reverse-sort //反向输出
 </li>
-<li>
--l/&ndash;symbols //显示symbol而不是binary image
+<li>-l/&ndash;symbols //显示symbol而不是binary image
 </li>
-<li>
--o/&ndash;output-file //输出文件
+<li>-o/&ndash;output-file //输出文件
 </li>
-<li>
--t/&ndash;threshold //sample的percentage超过这个值才显示
+<li>-t/&ndash;threshold //sample的percentage超过这个值才显示
 </li>
-<li>
--X/&ndash;xml //产生XML输出信息
+<li>-X/&ndash;xml //产生XML输出信息
 </li>
-<li>
-&ndash;session-dir=&lt;dir&gt; //存放session目录(/var/lib/oprofile)
-
+<li>&ndash;session-dir=&lt;dir&gt; //存放session目录(/var/lib/oprofile)
 </li>
 </ul>
 
-<p>常用用法如下：
+
+<p>
+常用用法如下：
 </p><ul>
-<li>
-opreport -l image:&lt;image&gt; -o profile.log //产生profile.log.
-
+<li>opreport -l image:&lt;image&gt; -o profile.log //产生profile.log.
 </li>
 </ul>
+
+
 </div>
 
 </div>
 
-<div id="outline-container-1.4.3" class="outline-4">
-<h4 id="sec-1.4.3"><span class="section-number-4">1.4.3</span> opannotate </h4>
-<div class="outline-text-4" id="text-1.4.3">
+<div id="outline-container-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> opannotate</h4>
+<div class="outline-text-4" id="text-1-4-3">
 
 <p>常用命令参数如下：
 </p><ul>
-<li>
--a/&ndash;assembly //产生汇编文件注释
+<li>-a/&ndash;assembly //产生汇编文件注释
 </li>
-<li>
--b/&ndash;base-dirs //将被strip掉的调试信息中源文件绝对路径前缀
+<li>-b/&ndash;base-dirs //将被strip掉的调试信息中源文件绝对路径前缀
 </li>
-<li>
--d/&ndash;search-dirs //源文件搜索路径
+<li>-d/&ndash;search-dirs //源文件搜索路径
 <ul>
-<li>
-这两个选项配合使用场景是，如果我是用/tmp/a.cc编译出来的话，那么debug信息里面存放的就是/tmp/a.cc的路径。如果我们源代码在其他路径比如/home/tmp/a.cc的话，那么就不能够进行annotate.
+<li>这两个选项配合使用场景是，如果我是用/tmp/a.cc编译出来的话，那么debug信息里面存放的就是/tmp/a.cc的路径。如果我们源代码在其他路径比如/home/tmp/a.cc的话，那么就不能够进行annotate.
 </li>
-<li>
-这个问题可以使用上面两个参数解决。我们可以指定-b <i>tmp -d /home/tmp,这样debug信息中首先将/tmp stripped掉，然后拿a.cc在/home/tmp下面搜索。    - -D</i>&ndash;demangle=none/normal/smart //对C++名字解构(normal)
+<li>这个问题可以使用上面两个参数解决。我们可以指定-b <i>tmp -d /home/tmp,这样debug信息中首先将/tmp stripped掉，然后拿a.cc在/home/tmp下面搜索。    - -D</i>&ndash;demangle=none/normal/smart //对C++名字解构(normal)
 </li>
-</ul>
+<li>-i/&ndash;include-symbols/-e/&ndash;exclude-symbols //符号选择
 </li>
-<li>
--i/&ndash;include-symbols/-e/&ndash;exclude-symbols //符号选择
+<li>&ndash;include-file/&ndash;exclude-file //文件选择
 </li>
-<li>
-&ndash;include-file/&ndash;exclude-file //文件选择
+<li>-t/&ndash;threshold //sample的percentage超过这个值才显示
 </li>
-<li>
--t/&ndash;threshold //sample的percentage超过这个值才显示
+<li>-s/&ndash;source //产生源文件注释
 </li>
-<li>
--s/&ndash;source //产生源文件注释
+<li>-o/&ndash;output-dir //输出目录
 </li>
-<li>
--o/&ndash;output-dir //输出目录
-</li>
-<li>
-&ndash;help/&ndash;usage/-? //帮助信息
-
+<li>&ndash;help/&ndash;usage/-? //帮助信息
 </li>
 </ul>
 
-<p>常用方法如下：
+
+<p>
+常用方法如下：
 </p><ul>
-<li>
-opannotate -a &lt;image&gt; &gt; profile.asm //产生汇编文件注释.profile.asm是结果.
+<li>opannotate -a &lt;image&gt; &gt; profile.asm //产生汇编文件注释.profile.asm是结果.
 </li>
-<li>
-opannotate -s &ndash;output-dir=. &lt;image&gt; //产生源文件注释.在当前目录下面产生.
-
+<li>opannotate -s &ndash;output-dir=. &lt;image&gt; //产生源文件注释.在当前目录下面产生.
 </li>
 </ul>
+
+
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.5" class="outline-3">
-<h3 id="sec-1.5"><span class="section-number-3">1.5</span> OProfile脚本 </h3>
-<div class="outline-text-3" id="text-1.5">
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> OProfile脚本</h3>
+<div class="outline-text-3" id="text-1-5">
 
 <p><b>NOTE(dirlt):依然没有成功profile过kenerl！</b>
 </p>
@@ -516,37 +466,33 @@ opannotate -s &ndash;output-dir=. &lt;image&gt; //产生源文件注释.在当�
 <b>NOTE（dirlt）：另外觉得这个东西似乎长久没有整理，以后可能似乎不太会使用这个东西了</b>
 </p>
 <ul>
-<li>
-具体代码可以参见 utils/oprof
+<li>具体代码可以参见 utils/oprof
 </li>
-<li>
-只是对用户态应用程序做profile.
+<li>只是对用户态应用程序做profile.
 </li>
-<li>
-生成profile汇总报表
+<li>生成profile汇总报表
 </li>
-<li>
-对源代码进行标注
+<li>对源代码进行标注
 </li>
-<li>
-对汇编代码进行标注
-
+<li>对汇编代码进行标注
 </li>
 </ul>
-</div>
-
-</div>
-
-<div id="outline-container-1.6" class="outline-3">
-<h3 id="sec-1.6"><span class="section-number-3">1.6</span> FAQ </h3>
-<div class="outline-text-3" id="text-1.6">
 
 
 </div>
 
-<div id="outline-container-1.6.1" class="outline-4">
-<h4 id="sec-1.6.1"><span class="section-number-4">1.6.1</span> 设置time interrupt模式 </h4>
-<div class="outline-text-4" id="text-1.6.1">
+</div>
+
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> FAQ</h3>
+<div class="outline-text-3" id="text-1-6">
+
+
+</div>
+
+<div id="outline-container-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> 设置time interrupt模式</h4>
+<div class="outline-text-4" id="text-1-6-1">
 
 <p><a href="http://oprofile.sourceforge.net/doc/detailed-parameters.html#timer">http://oprofile.sourceforge.net/doc/detailed-parameters.html#timer</a>
 </p>
@@ -560,8 +506,6 @@ opcontrol并没有配置可以设置time interrupt模式，如果需要切换成
 </pre>
 
 
-
-
 <p>
 如果得到的错误是
 </p>
@@ -571,18 +515,19 @@ opcontrol并没有配置可以设置time interrupt模式，如果需要切换成
 because OProfile is in timer mode.
 </pre>
 
-
-
 <p>
 那么说明之前使用oprofile同学使用的是性能计数器模式，而我们现在需要切换回time interrupt模式，所以出现冲突。我们可以首先删除/root/.oprofile/daemonrc这个文件，然后重新操作即可。
 </p></div>
 </div>
 </div>
 </div>
-<div id="postamble">
-<p class="date"> Date: 2013-10-14 12:27:50 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
 </div>
+
+<div id="postamble">
+<p class="date">Date: 2013-10-15 22:15:20 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'oprofile.html';var disqus_title = 'oprofile.html';var disqus_url = 'http://dirlt.com/oprofile.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

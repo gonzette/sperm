@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>dremel</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="dremel"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:28:11 CST"/>
+<meta name="generated" content="2013-10-15 22:16:15 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">dremel</h1>
 
 
@@ -56,19 +77,19 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 dremel </a>
+<li><a href="#sec-1">1 dremel</a>
 <ul>
-<li><a href="#sec-1.1">1.1 Abstract </a></li>
-<li><a href="#sec-1.2">1.2 Introduction </a></li>
-<li><a href="#sec-1.3">1.3 Background </a></li>
-<li><a href="#sec-1.4">1.4 Data Model </a></li>
-<li><a href="#sec-1.5">1.5 Nested Columnar Storage </a></li>
-<li><a href="#sec-1.6">1.6 Query Language </a></li>
-<li><a href="#sec-1.7">1.7 Query Execution </a></li>
-<li><a href="#sec-1.8">1.8 Experiments </a></li>
-<li><a href="#sec-1.9">1.9 Observations </a></li>
-<li><a href="#sec-1.10">1.10 Related Work </a></li>
-<li><a href="#sec-1.11">1.11 Conclusion </a></li>
+<li><a href="#sec-1-1">1.1 Abstract</a></li>
+<li><a href="#sec-1-2">1.2 Introduction</a></li>
+<li><a href="#sec-1-3">1.3 Background</a></li>
+<li><a href="#sec-1-4">1.4 Data Model</a></li>
+<li><a href="#sec-1-5">1.5 Nested Columnar Storage</a></li>
+<li><a href="#sec-1-6">1.6 Query Language</a></li>
+<li><a href="#sec-1-7">1.7 Query Execution</a></li>
+<li><a href="#sec-1-8">1.8 Experiments</a></li>
+<li><a href="#sec-1-9">1.9 Observations</a></li>
+<li><a href="#sec-1-10">1.10 Related Work</a></li>
+<li><a href="#sec-1-11">1.11 Conclusion</a></li>
 </ul>
 </li>
 </ul>
@@ -76,70 +97,61 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> dremel </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> dremel</h2>
 <div class="outline-text-2" id="text-1">
 
 
 <ul>
-<li>
-link: <a href="http://research.google.com/pubs/pub36632.html">http://research.google.com/pubs/pub36632.html</a>
+<li>link: <a href="http://research.google.com/pubs/pub36632.html">http://research.google.com/pubs/pub36632.html</a>
 </li>
-<li>
-title: Dremel: Interactive Analysis of Web-Scale Datasets 
+<li>title: Dremel: Interactive Analysis of Web-Scale Datasets 
 </li>
-<li>
-author: Sergey Melnik, Andrey Gubarev, Jing Jing Long, Geoffrey Romer, Shiva Shivakumar, Matt Tolton, Theo Vassilakis(Google Inc)
+<li>author: Sergey Melnik, Andrey Gubarev, Jing Jing Long, Geoffrey Romer, Shiva Shivakumar, Matt Tolton, Theo Vassilakis(Google Inc)
 </li>
-<li>
-date: 2010
-
+<li>date: 2010
 </li>
 </ul>
 
-<p>这里有篇分析似乎也不错 <a href="http://www.yankay.com/google-dremel-rationale/">http://www.yankay.com/google-dremel-rationale/</a> 作者看得还是比我深入一些。
+
+<p>
+这里有篇分析似乎也不错 <a href="http://www.yankay.com/google-dremel-rationale/">http://www.yankay.com/google-dremel-rationale/</a> 作者看得还是比我深入一些。
 </p>
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Abstract </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Abstract</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <ul>
-<li>
-Dremel is a scalable, interactive ad-hoc query system for analy-sis of read-only nested data. （着重处理只读的嵌套数据，主要针对交互式的ad-hoc查询，并且有良好的可扩展性）
+<li>Dremel is a scalable, interactive ad-hoc query system for analy-sis of read-only nested data. （着重处理只读的嵌套数据，主要针对交互式的ad-hoc查询，并且有良好的可扩展性）
 </li>
-<li>
-By combining multi-level execution trees and columnar data layout, it is capable of running aggrega-tion queries over trillion-row tables in seconds. （秒级处理trillion数据/million million，精髓就是多层树型执行模型，以及数据按照column方式进行存储）
+<li>By combining multi-level execution trees and columnar data layout, it is capable of running aggrega-tion queries over trillion-row tables in seconds. （秒级处理trillion数据/million million，精髓就是多层树型执行模型，以及数据按照column方式进行存储）
 </li>
-<li>
-The system scales to thousands of CPUs and petabytes of data, and has thousands of users at Google.（使用规模，上千个CPU，以及PB级别的数据，上千个用户使用）
-
+<li>The system scales to thousands of CPUs and petabytes of data, and has thousands of users at Google.（使用规模，上千个CPU，以及PB级别的数据，上千个用户使用）
 </li>
 </ul>
+
+
 </div>
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> Introduction </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Introduction</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <ul>
-<li>
-This paper describes a system called Dremel1 that supports inter-active analysis of very large datasets over shared clusters of com-modity machines. （允许在廉价的集群上面进行大规模数据的交互式分析）
+<li>This paper describes a system called Dremel1 that supports inter-active analysis of very large datasets over shared clusters of com-modity machines. （允许在廉价的集群上面进行大规模数据的交互式分析）
 </li>
-<li>
-Unlike traditional databases, it is capable of op-erating on in situ nested data. In situ refers to the ability to access data ‘in place’, e.g., in a distributed file system（支持在in-place的嵌套数据，这点和传统的关系型数据库不太一样）
+<li>Unlike traditional databases, it is capable of op-erating on in situ nested data. In situ refers to the ability to access data ‘in place’, e.g., in a distributed file system（支持在in-place的嵌套数据，这点和传统的关系型数据库不太一样）
 </li>
-<li>
-Dremel can execute many queries over such data that would ordinarily require a sequence of MapReduce jobs, but at a fraction of the execution time. （dremel所作的工作非常类似于多个MR一起工作，但是时间远远比这些MR一起执行要少）
+<li>Dremel can execute many queries over such data that would ordinarily require a sequence of MapReduce jobs, but at a fraction of the execution time. （dremel所作的工作非常类似于多个MR一起工作，但是时间远远比这些MR一起执行要少）
 </li>
-<li>
-Dremel is not intended as a replacement for MR and is often used in conjunction with it to analyze outputs of MR pipelines or rapidly prototype larger computations.（dremel定位来说不是MR的replacement，并且经常和MR配合使用）
-
+<li>Dremel is not intended as a replacement for MR and is often used in conjunction with it to analyze outputs of MR pipelines or rapidly prototype larger computations.（dremel定位来说不是MR的replacement，并且经常和MR配合使用）
 </li>
 </ul>
+
 
 
 <hr/>
@@ -147,41 +159,30 @@ Dremel is not intended as a replacement for MR and is often used in conjunction 
 <p>
 下面是一些在google内部使用到dremel的地方：
 </p><ul>
-<li>
-Analysis of crawled web documents.
+<li>Analysis of crawled web documents.
 </li>
-<li>
-Tracking install data for applications on Android Market.
+<li>Tracking install data for applications on Android Market.
 </li>
-<li>
-Crash reporting for Google products.
+<li>Crash reporting for Google products.
 </li>
-<li>
-OCR results from Google Books.
+<li>OCR results from Google Books.
 </li>
-<li>
-Spam analysis.
+<li>Spam analysis.
 </li>
-<li>
-Debugging of map tiles on Google Maps.
+<li>Debugging of map tiles on Google Maps.
 </li>
-<li>
-Tablet migrations in managed Bigtable instances.
+<li>Tablet migrations in managed Bigtable instances.
 </li>
-<li>
-Results of tests run on Google’s distributed build system.
+<li>Results of tests run on Google’s distributed build system.
 </li>
-<li>
-Disk I/O statistics for hundreds of thousands of disks.
+<li>Disk I/O statistics for hundreds of thousands of disks.
 </li>
-<li>
-Resource monitoring for jobs run in Google’s data centers.
+<li>Resource monitoring for jobs run in Google’s data centers.
 </li>
-<li>
-Symbols and dependencies in Google’s codebase.
-
+<li>Symbols and dependencies in Google’s codebase.
 </li>
 </ul>
+
 
 
 <hr/>
@@ -189,24 +190,22 @@ Symbols and dependencies in Google’s codebase.
 <p>
 下面是dremel三个比较重要的技术点： Dremel builds on ideas from web search and parallel DBMSs.（dremel很多技术来自与web检索以及并行DMBS）
 </p><ul>
-<li>
-First, its architecture borrows the concept of a serving tree used in distributed search engines . Just like a web search request, a query gets pushed down the tree and is rewritten at each step. The result of the query is assembled by aggregating the replies received from lower levels of the tree. （首先在架构上面借鉴了分布式搜索引擎的serving tree概念，能够将一个query进行rewrite成为多个小的查询，分摊到底层节点执行然后在上层聚合起来）
+<li>First, its architecture borrows the concept of a serving tree used in distributed search engines . Just like a web search request, a query gets pushed down the tree and is rewritten at each step. The result of the query is assembled by aggregating the replies received from lower levels of the tree. （首先在架构上面借鉴了分布式搜索引擎的serving tree概念，能够将一个query进行rewrite成为多个小的查询，分摊到底层节点执行然后在上层聚合起来）
 </li>
-<li>
-Second, Dremel provides a high-level, SQL-like language to express ad hoc queries. In contrast to layers such as Pig and Hive, it executes queries natively without translating them into MR jobs. （提供了SQL-like的查询语言，和Pig以及Hive不太一样的是，dremel直接执行而没有转换成为MR jobs）
+<li>Second, Dremel provides a high-level, SQL-like language to express ad hoc queries. In contrast to layers such as Pig and Hive, it executes queries natively without translating them into MR jobs. （提供了SQL-like的查询语言，和Pig以及Hive不太一样的是，dremel直接执行而没有转换成为MR jobs）
 </li>
-<li>
-Lastly, and importantly, Dremel uses a column-striped storage representation, which enables it to read less data from secondary storage and reduce CPU cost due to cheaper compression. Column stores have been adopted for analyzing relational data but to the best of our knowledge have not been extended to nested data mod-els. The columnar storage format that we present is supported by many data processing tools at Google, including MR, Sawzall , and FlumeJava. （使用了列式存储，使得查询的话可以只是读取部分数据，减少IO以及CPU时间。列式存储广泛用于关系数据模型但是没有用于嵌套数据模型）
-
+<li>Lastly, and importantly, Dremel uses a column-striped storage representation, which enables it to read less data from secondary storage and reduce CPU cost due to cheaper compression. Column stores have been adopted for analyzing relational data but to the best of our knowledge have not been extended to nested data mod-els. The columnar storage format that we present is supported by many data processing tools at Google, including MR, Sawzall , and FlumeJava. （使用了列式存储，使得查询的话可以只是读取部分数据，减少IO以及CPU时间。列式存储广泛用于关系数据模型但是没有用于嵌套数据模型）
 </li>
 </ul>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> Background </h3>
-<div class="outline-text-3" id="text-1.3">
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Background</h3>
+<div class="outline-text-3" id="text-1-3">
 
 <p>下图表示行式存储和列式存储的区别
 </p>
@@ -217,9 +216,9 @@ Lastly, and importantly, Dremel uses a column-striped storage representation, wh
 
 </div>
 
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="section-number-3">1.4</span> Data Model </h3>
-<div class="outline-text-3" id="text-1.4">
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Data Model</h3>
+<div class="outline-text-3" id="text-1-4">
 
 <p>in a short word, "protobuf"
 </p>
@@ -227,28 +226,25 @@ Lastly, and importantly, Dremel uses a column-striped storage representation, wh
 
 </div>
 
-<div id="outline-container-1.5" class="outline-3">
-<h3 id="sec-1.5"><span class="section-number-3">1.5</span> Nested Columnar Storage </h3>
-<div class="outline-text-3" id="text-1.5">
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Nested Columnar Storage</h3>
+<div class="outline-text-3" id="text-1-5">
 
 <p>这节讲的内容主要就是说，如何在行式存储和为列式存储之间无损地进行转换。
 </p><ul>
-<li>
-Splitting Records into Columns
+<li>Splitting Records into Columns
 </li>
-<li>
-Record Assembly
-
+<li>Record Assembly
 </li>
 </ul>
 
-<p>如何在column里面保存下value的一些位置信息。需要添加上
+
+<p>
+如何在column里面保存下value的一些位置信息。需要添加上
 </p><ul>
-<li>
-Repetition levels.
+<li>Repetition levels.
 </li>
-<li>
-Definition levels.
+<li>Definition levels.
 </li>
 </ul>
 
@@ -261,39 +257,33 @@ Definition levels.
 <p>
 所谓r的意思就是说，最近包含这个value，并且repeat的field，是第几个。0表示record开始，有特殊意义。我们以Name.Language.Country为例。
 </p><ul>
-<li>
-第一个us是开始的记录，所以为r==0
+<li>第一个us是开始的记录，所以为r==0
 </li>
-<li>
-在Code=='en'这个部分有一个NULL值，可以看到Language重复出现了，所以r==2
+<li>在Code=='en'这个部分有一个NULL值，可以看到Language重复出现了，所以r==2
 </li>
-<li>
-第二个gb，可以看到Language并没有重复，是在那层Name里面的第一个，而Name重复了，那么r==1
+<li>第二个gb，可以看到Language并没有重复，是在那层Name里面的第一个，而Name重复了，那么r==1
 </li>
-<li>
-而在Url=='http://B'这里，没有出现Language，而Name重复了，那么r==1
-
+<li>而在Url=='http://B'这里，没有出现Language，而Name重复了，那么r==1
 </li>
 </ul>
 
-<p>而d的意思就是说，这个value的field path上面，有多少个字段是可以undefined的，但是却出现了。同样以Country为例
+
+<p>
+而d的意思就是说，这个value的field path上面，有多少个字段是可以undefined的，但是却出现了。同样以Country为例
 </p><ul>
-<li>
-第一个us可以看到三个字段其实都可以不存在，但是却都存在了，所以d==3
+<li>第一个us可以看到三个字段其实都可以不存在，但是却都存在了，所以d==3
 </li>
-<li>
-后面NULL，只有Name和Language出现了，所以d==2
+<li>后面NULL，只有Name和Language出现了，所以d==2
 </li>
-<li>
-后面NULL，只有Name出现了，所以d==1
+<li>后面NULL，只有Name出现了，所以d==1
 </li>
-<li>
-gb这条记录，三个字段都出现所以d==3
-
+<li>gb这条记录，三个字段都出现所以d==3
 </li>
 </ul>
 
-<p>作者认为对于一个value来说，完全可以根据这个value对应的field name，以及r，d，完全构造出nested data。并且作者针对种种特性做了encoding的优化，使得column在存储上面尽可能地紧凑。
+
+<p>
+作者认为对于一个value来说，完全可以根据这个value对应的field name，以及r，d，完全构造出nested data。并且作者针对种种特性做了encoding的优化，使得column在存储上面尽可能地紧凑。
 </p>
 <p>
 <b>TODO(dirlt):dive into algorithm</b>
@@ -302,17 +292,17 @@ gb这条记录，三个字段都出现所以d==3
 
 </div>
 
-<div id="outline-container-1.6" class="outline-3">
-<h3 id="sec-1.6"><span class="section-number-3">1.6</span> Query Language </h3>
-<div class="outline-text-3" id="text-1.6">
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Query Language</h3>
+<div class="outline-text-3" id="text-1-6">
 
 </div>
 
 </div>
 
-<div id="outline-container-1.7" class="outline-3">
-<h3 id="sec-1.7"><span class="section-number-3">1.7</span> Query Execution </h3>
-<div class="outline-text-3" id="text-1.7">
+<div id="outline-container-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Query Execution</h3>
+<div class="outline-text-3" id="text-1-7">
 
 
 <hr/>
@@ -346,17 +336,17 @@ The query dispatcher honors a parameter that specifies the min-imum percentage o
 
 </div>
 
-<div id="outline-container-1.8" class="outline-3">
-<h3 id="sec-1.8"><span class="section-number-3">1.8</span> Experiments </h3>
-<div class="outline-text-3" id="text-1.8">
+<div id="outline-container-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Experiments</h3>
+<div class="outline-text-3" id="text-1-8">
 
 </div>
 
 </div>
 
-<div id="outline-container-1.9" class="outline-3">
-<h3 id="sec-1.9"><span class="section-number-3">1.9</span> Observations </h3>
-<div class="outline-text-3" id="text-1.9">
+<div id="outline-container-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> Observations</h3>
+<div class="outline-text-3" id="text-1-9">
 
 <p>Dremel scans quadrillions of records per month. Figure 15 shows the query response time distribution in a typical monthly workload of one Dremel system, on a logarithmic scale. As the figure indi-cates, most queries are processed under 10 seconds, well within the interactive range. Some queries achieve a scan throughput close to 100 billion records per second on a shared cluster, and even higher on dedicated machines. （可以看到大部分的读取时间都非常小，没有长尾）
 </p>
@@ -364,60 +354,55 @@ The query dispatcher honors a parameter that specifies the min-imum percentage o
 <img src="./images/dremel-query-response-time-distribution.png"  alt="./images/dremel-query-response-time-distribution.png" />
 </p>
 <ul>
-<li>
-Scan-based queries can be executed at interactive speeds on disk-resident datasets of up to a trillion records.
+<li>Scan-based queries can be executed at interactive speeds on disk-resident datasets of up to a trillion records.
 </li>
-<li>
-Near-linear scalability in the number of columns and servers is achievable for systems containing thousands of nodes.
+<li>Near-linear scalability in the number of columns and servers is achievable for systems containing thousands of nodes.
 </li>
-<li>
-MR can benefit from columnar storage just like a DBMS.
+<li>MR can benefit from columnar storage just like a DBMS.
 </li>
-<li>
-Record assembly and parsing are expensive. Software layers (beyond the query processing layer) need to be optimized to directly consume column-oriented data.（行式和列式存储之间的转换代价非常大）
+<li>Record assembly and parsing are expensive. Software layers (beyond the query processing layer) need to be optimized to directly consume column-oriented data.（行式和列式存储之间的转换代价非常大）
 </li>
-<li>
-MR and query processing can be used in a complementary fashion; one layer’s output can feed another’s input.
+<li>MR and query processing can be used in a complementary fashion; one layer’s output can feed another’s input.
 </li>
-<li>
-In a multi-user environment, a larger system can benefit from economies of scale while offering a qualitatively better user experience.
+<li>In a multi-user environment, a larger system can benefit from economies of scale while offering a qualitatively better user experience.
 </li>
-<li>
-If trading speed against accuracy is acceptable, a query can be terminated much earlier and yet see most of the data.（只有一小部分的查询时间非常长）
+<li>If trading speed against accuracy is acceptable, a query can be terminated much earlier and yet see most of the data.（只有一小部分的查询时间非常长）
 </li>
-<li>
-The bulk of a web-scale dataset can be scanned fast. Getting to the last few percent within tight time bounds is hard.（并且这小部分的查询时间非常难以保证）
+<li>The bulk of a web-scale dataset can be scanned fast. Getting to the last few percent within tight time bounds is hard.（并且这小部分的查询时间非常难以保证）
 </li>
-<li>
-Dremel’s codebase is dense; it comprises less than 100K lines of C++, Java, and Python code.（10w行代码）
-
+<li>Dremel’s codebase is dense; it comprises less than 100K lines of C++, Java, and Python code.（10w行代码）
 </li>
 </ul>
-</div>
 
-</div>
-
-<div id="outline-container-1.10" class="outline-3">
-<h3 id="sec-1.10"><span class="section-number-3">1.10</span> Related Work </h3>
-<div class="outline-text-3" id="text-1.10">
 
 </div>
 
 </div>
 
-<div id="outline-container-1.11" class="outline-3">
-<h3 id="sec-1.11"><span class="section-number-3">1.11</span> Conclusion </h3>
-<div class="outline-text-3" id="text-1.11">
+<div id="outline-container-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> Related Work</h3>
+<div class="outline-text-3" id="text-1-10">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-11" class="outline-3">
+<h3 id="sec-1-11"><span class="section-number-3">1.11</span> Conclusion</h3>
+<div class="outline-text-3" id="text-1-11">
 
 
 
 </div>
 </div>
 </div>
+</div>
+
 <div id="postamble">
-<p class="date"> Date: 2013-10-14 12:28:11 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
-</div>
+<p class="date">Date: 2013-10-15 22:16:15 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'dremel.html';var disqus_title = 'dremel.html';var disqus_url = 'http://dirlt.com/dremel.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

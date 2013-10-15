@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>Solid-state revolution: in-depth on how SSDs really work</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="Solid-state revolution: in-depth on how SSDs really work"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:18:20 CST"/>
+<meta name="generated" content="2013-10-15 22:15:04 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">Solid-state revolution: in-depth on how SSDs really work</h1>
 
 
@@ -56,13 +77,13 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 solid-state-revolution-in-depth-on-how-ssd-really-work </a></li>
+<li><a href="#sec-1">1 solid-state-revolution-in-depth-on-how-ssd-really-work</a></li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> solid-state-revolution-in-depth-on-how-ssd-really-work </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> solid-state-revolution-in-depth-on-how-ssd-really-work</h2>
 <div class="outline-text-2" id="text-1">
 
 
@@ -70,104 +91,86 @@ lang="en" xml:lang="en">
 <p>
 <a href="http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/">http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/</a> 
 </p><ul>
-<li>
-存储层次.
+<li>存储层次.
 </li>
-<li>
-为什么SSD能够带来更好的体验.
-
+<li>为什么SSD能够带来更好的体验.
 </li>
 </ul>
+
 
 
 <hr/>
 <p>
 <a href="http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/2/">http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/2/</a>
 </p><ul>
-<li>
-NAND/NOR Flash Memory原理.
+<li>NAND/NOR Flash Memory原理.
 </li>
-<li>
-给定存储容量NAND比NOR少用60%的空间.
+<li>给定存储容量NAND比NOR少用60%的空间.
 </li>
-<li>
-大部分还是使用NAND Flash Memory.
+<li>大部分还是使用NAND Flash Memory.
 </li>
-<li>
-row cells成为page.这个是读写的最小单元.
-
+<li>row cells成为page.这个是读写的最小单元.
 </li>
 </ul>
+
 
 
 <hr/>
 <p>
 <a href="http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/3/">http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/3/</a>
 </p><ul>
-<li>
-典型PageSize为4KB,8KB(comform to OS).典型Block通常有256 Pages.(这里我理解一个block就是一个flash memory)
+<li>典型PageSize为4KB,8KB(comform to OS).典型Block通常有256 Pages.(这里我理解一个block就是一个flash memory)
 </li>
-<li>
-read单元是page.write单元也是page.但是flash memory物理限制造成不允许擦除一个page而只能够擦除一个block(完全擦除).另外write不允许in-place update只能够写到新的page.如果整个block的page都被占满的话，那么选取出哪些page不需要使用。读取到内存里面来重新rearrange做compaction.将block erase掉，然后将内存内容重新写入block.
+<li>read单元是page.write单元也是page.但是flash memory物理限制造成不允许擦除一个page而只能够擦除一个block(完全擦除).另外write不允许in-place update只能够写到新的page.如果整个block的page都被占满的话，那么选取出哪些page不需要使用。读取到内存里面来重新rearrange做compaction.将block erase掉，然后将内存内容重新写入block.
 </li>
-<li>
-随着时间增长SSD写速度会越来越慢.
+<li>随着时间增长SSD写速度会越来越慢.
 </li>
-<li>
-flash memory来说有两种电压逻辑表示.SLC(single-level cell,单个cell来说只有两种电压表示,可靠性高但是比较昂贵,通常需要配外昂贵的fibre channel或者是SAS bus connector)和MLC(multi-level cell,单个cell有多种电压表示存储信息多,可靠性稍差但是比较便宜).
-
+<li>flash memory来说有两种电压逻辑表示.SLC(single-level cell,单个cell来说只有两种电压表示,可靠性高但是比较昂贵,通常需要配外昂贵的fibre channel或者是SAS bus connector)和MLC(multi-level cell,单个cell有多种电压表示存储信息多,可靠性稍差但是比较便宜).
 </li>
 </ul>
 
-<p><img src="./images/ssd-whole-block-erase.png"  alt="./images/ssd-whole-block-erase.png" />
+
+<p>
+<img src="./images/ssd-whole-block-erase.png"  alt="./images/ssd-whole-block-erase.png" />
 </p>
 
 <hr/>
 <p>
 <a href="http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/4/">http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/4/</a>
 </p><ul>
-<li>
-ssd为什么只允许有限次数的写操作.
+<li>ssd为什么只允许有限次数的写操作.
 </li>
-<li>
-ssd需要单独的controller来连接PC.controller完成的事情非常多，包括可以类似于RAID方式读写多个flash memory来提高读写速度。另外通常还在controller添加RAM来用作write buffer cache通常在(128-512M)左右。但是这样也会引入问题就是power outage情况，所以一些厂商还在controller内部增加了内置电源等。
+<li>ssd需要单独的controller来连接PC.controller完成的事情非常多，包括可以类似于RAID方式读写多个flash memory来提高读写速度。另外通常还在controller添加RAM来用作write buffer cache通常在(128-512M)左右。但是这样也会引入问题就是power outage情况，所以一些厂商还在controller内部增加了内置电源等。
 </li>
-<li>
-另外controller还有两个方面来改进ssd速度。一方面是通过over-provisioning方式就是类似多提供部分flash memory来提高速度，比如购买100GB ssd但是内置extra 20GB.有多余的block可以让write效果更好。另外一个就是内置garbage collection(GC).但是这个需要OS配合。通过一种TRIM技术，OS在删除文件时候可以告诉controller哪些page是stale的，这样controller底层就可以自动GC.但是GC也是在write performance和lifetime span之间的折衷。
-
+<li>另外controller还有两个方面来改进ssd速度。一方面是通过over-provisioning方式就是类似多提供部分flash memory来提高速度，比如购买100GB ssd但是内置extra 20GB.有多余的block可以让write效果更好。另外一个就是内置garbage collection(GC).但是这个需要OS配合。通过一种TRIM技术，OS在删除文件时候可以告诉controller哪些page是stale的，这样controller底层就可以自动GC.但是GC也是在write performance和lifetime span之间的折衷。
 </li>
 </ul>
+
 
 
 <hr/>
 <p>
 <a href="http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/5/">http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/5/</a>
 </p><ul>
-<li>
-所谓的write amplification就是如果我要写128KB的数据的话，实际上SSD可能需要写更多的数据包括腾出空间以及写整page.更多的write amplification意味着越差的寿命.另外write amp包括GC以及wearing-level.所谓wearing-level是要讲各个page/block写次数平均，防止某个page/block写的次数相对于其他的高很多。
+<li>所谓的write amplification就是如果我要写128KB的数据的话，实际上SSD可能需要写更多的数据包括腾出空间以及写整page.更多的write amplification意味着越差的寿命.另外write amp包括GC以及wearing-level.所谓wearing-level是要讲各个page/block写次数平均，防止某个page/block写的次数相对于其他的高很多。
 </li>
-<li>
-SandForce SSD controller对于这个问题稍微解决的比较好，主要从data compression以及data deduplicatgion方面着手。
+<li>SandForce SSD controller对于这个问题稍微解决的比较好，主要从data compression以及data deduplicatgion方面着手。
 </li>
-<li>
-对于SSD controller这块的话确实有很多算法和策略值得研究。
-
+<li>对于SSD controller这块的话确实有很多算法和策略值得研究。
 </li>
 </ul>
+
 
 
 <hr/>
 <p>
 <a href="http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/6/">http://arstechnica.com/information-technology/2012/06/inside-the-ssd-revolution-how-solid-state-disks-really-work/6/</a>
 </p><ul>
-<li>
-no other upgrade will provide the same level of subjective improvement as moving from a magnetic disk to an SSD.
+<li>no other upgrade will provide the same level of subjective improvement as moving from a magnetic disk to an SSD.
 </li>
-<li>
-对于SSD来说就是一个miniature computer.
+<li>对于SSD来说就是一个miniature computer.
 </li>
-<li>
-SSD使用情况.对于storage array spinning disk相对于ssd需要考虑更多的问题.TODO(dirlt):ssd就不需要考虑吗?
+<li>SSD使用情况.对于storage array spinning disk相对于ssd需要考虑更多的问题.TODO(dirlt):ssd就不需要考虑吗?
 </li>
 </ul>
 
@@ -176,15 +179,20 @@ SSD使用情况.对于storage array spinning disk相对于ssd需要考虑更多�
 For an array full of spinning disks, keeping information flowing quickly usually means paying at least nominal attention to how the disks themselves are organized. What capacity disks do you need to use? Do you need large disks to add capacity, or do you need smaller disks because you need the performance boost from having lots of disks share in the workload? What rotational speed should the disks have? What RAID level do you use, both for performance and for redundancy? How many RAID groups do you bind up together into a volume that you can present out to hosts? Do you stripe data across multiple volumes to increase performance? If so, how many? <br/>
 </p>
 
-<p>另外就ssd的性价比来说的话也比spinning disk好很多.另外就是通常storage array来说的话maintenance代价比较高，而对于ssd的话相对来说较低.另外对于desktop这样的使用的话，我们没有使用storage array,那么ssd能带来非常大的性能提升。最后ssd使用方式也可以不用看起来像disk,虽然可以封装成为disk操作方式，但是文中也提到了fusion-io是怎么使用ssd的。但是依然有一些方面ssd是代替不了的，比如一些基于内存的解决方案(通常是zero-latency application)
+
+<p>
+另外就ssd的性价比来说的话也比spinning disk好很多.另外就是通常storage array来说的话maintenance代价比较高，而对于ssd的话相对来说较低.另外对于desktop这样的使用的话，我们没有使用storage array,那么ssd能带来非常大的性能提升。最后ssd使用方式也可以不用看起来像disk,虽然可以封装成为disk操作方式，但是文中也提到了fusion-io是怎么使用ssd的。但是依然有一些方面ssd是代替不了的，比如一些基于内存的解决方案(通常是zero-latency application)
 </p>
 
 </div>
 </div>
-<div id="postamble">
-<p class="date"> Date: 2013-10-14 12:18:20 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
 </div>
+
+<div id="postamble">
+<p class="date">Date: 2013-10-15 22:15:04 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'solid-state-revolution-in-depth-on-how-ssd-really-work.html';var disqus_title = 'solid-state-revolution-in-depth-on-how-ssd-really-work.html';var disqus_url = 'http://dirlt.com/solid-state-revolution-in-depth-on-how-ssd-really-work.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

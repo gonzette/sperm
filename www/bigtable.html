@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>bigtable</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="bigtable"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:28:18 CST"/>
+<meta name="generated" content="2013-10-15 22:16:27 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">bigtable</h1>
 
 
@@ -56,46 +77,46 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 bigtable </a>
+<li><a href="#sec-1">1 bigtable</a>
 <ul>
-<li><a href="#sec-1.1">1.1 Abstract </a></li>
-<li><a href="#sec-1.2">1.2 Introduction </a></li>
-<li><a href="#sec-1.3">1.3 Data Model </a>
+<li><a href="#sec-1-1">1.1 Abstract</a></li>
+<li><a href="#sec-1-2">1.2 Introduction</a></li>
+<li><a href="#sec-1-3">1.3 Data Model</a>
 <ul>
-<li><a href="#sec-1.3.1">1.3.1 Rows </a></li>
-<li><a href="#sec-1.3.2">1.3.2 Column Families </a></li>
-<li><a href="#sec-1.3.3">1.3.3 Timestamps </a></li>
+<li><a href="#sec-1-3-1">1.3.1 Rows</a></li>
+<li><a href="#sec-1-3-2">1.3.2 Column Families</a></li>
+<li><a href="#sec-1-3-3">1.3.3 Timestamps</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.4">1.4 API </a></li>
-<li><a href="#sec-1.5">1.5 Building Blocks </a></li>
-<li><a href="#sec-1.6">1.6 Implementation </a>
+<li><a href="#sec-1-4">1.4 API</a></li>
+<li><a href="#sec-1-5">1.5 Building Blocks</a></li>
+<li><a href="#sec-1-6">1.6 Implementation</a>
 <ul>
-<li><a href="#sec-1.6.1">1.6.1 Tablet Location </a></li>
-<li><a href="#sec-1.6.2">1.6.2 Tablet Assignment </a></li>
-<li><a href="#sec-1.6.3">1.6.3 Tablet Serving </a></li>
-<li><a href="#sec-1.6.4">1.6.4 Compactions </a></li>
+<li><a href="#sec-1-6-1">1.6.1 Tablet Location</a></li>
+<li><a href="#sec-1-6-2">1.6.2 Tablet Assignment</a></li>
+<li><a href="#sec-1-6-3">1.6.3 Tablet Serving</a></li>
+<li><a href="#sec-1-6-4">1.6.4 Compactions</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.7">1.7 Refinements </a>
+<li><a href="#sec-1-7">1.7 Refinements</a>
 <ul>
-<li><a href="#sec-1.7.1">1.7.1 Locality groups </a></li>
-<li><a href="#sec-1.7.2">1.7.2 Compression </a></li>
-<li><a href="#sec-1.7.3">1.7.3 Caching for read performance </a></li>
-<li><a href="#sec-1.7.4">1.7.4 Bloom filters </a></li>
-<li><a href="#sec-1.7.5">1.7.5 Commit-log implementation </a></li>
-<li><a href="#sec-1.7.6">1.7.6 Speeding up tablet recovery </a></li>
-<li><a href="#sec-1.7.7">1.7.7 Exploiting immutability </a></li>
+<li><a href="#sec-1-7-1">1.7.1 Locality groups</a></li>
+<li><a href="#sec-1-7-2">1.7.2 Compression</a></li>
+<li><a href="#sec-1-7-3">1.7.3 Caching for read performance</a></li>
+<li><a href="#sec-1-7-4">1.7.4 Bloom filters</a></li>
+<li><a href="#sec-1-7-5">1.7.5 Commit-log implementation</a></li>
+<li><a href="#sec-1-7-6">1.7.6 Speeding up tablet recovery</a></li>
+<li><a href="#sec-1-7-7">1.7.7 Exploiting immutability</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.8">1.8 Performance Evaluation </a></li>
-<li><a href="#sec-1.9">1.9 Real Applications </a></li>
-<li><a href="#sec-1.10">1.10 Lessons </a></li>
-<li><a href="#sec-1.11">1.11 Related Work </a></li>
-<li><a href="#sec-1.12">1.12 Conclusions </a></li>
-<li><a href="#sec-1.13">1.13 Q&amp;A </a>
+<li><a href="#sec-1-8">1.8 Performance Evaluation</a></li>
+<li><a href="#sec-1-9">1.9 Real Applications</a></li>
+<li><a href="#sec-1-10">1.10 Lessons</a></li>
+<li><a href="#sec-1-11">1.11 Related Work</a></li>
+<li><a href="#sec-1-12">1.12 Conclusions</a></li>
+<li><a href="#sec-1-13">1.13 Q&amp;A</a>
 <ul>
-<li><a href="#sec-1.13.1">1.13.1 每个tablet对应一个sstable文件吗？ </a></li>
+<li><a href="#sec-1-13-1">1.13.1 每个tablet对应一个sstable文件吗？</a></li>
 </ul>
 </li>
 </ul>
@@ -105,358 +126,309 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> bigtable </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> bigtable</h2>
 <div class="outline-text-2" id="text-1">
 
 <ul>
-<li>
-link: <a href="http://research.google.com/archive/bigtable.html">http://research.google.com/archive/bigtable.html</a>
+<li>link: <a href="http://research.google.com/archive/bigtable.html">http://research.google.com/archive/bigtable.html</a>
 </li>
-<li>
-title: Bigtable: A Distributed Storage System for Structured Data
+<li>title: Bigtable: A Distributed Storage System for Structured Data
 </li>
-<li>
-author: Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber 
+<li>author: Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Mike Burrows, Tushar Chandra, Andrew Fikes, and Robert E. Gruber 
 </li>
-<li>
-date: 2006
+<li>date: 2006
 </li>
-<li>
-misc:
+<li>misc:
 <ul>
-<li>
-Google Bigtable (中文版) | 厦门大学数据库实验室 | 厦门大学 | 厦门大学计算机系|数据库实验室 <a href="http://dblab.xmu.edu.cn/node/121">http://dblab.xmu.edu.cn/node/121</a>
+<li>Google Bigtable (中文版) | 厦门大学数据库实验室 | 厦门大学 | 厦门大学计算机系|数据库实验室 <a href="http://dblab.xmu.edu.cn/node/121">http://dblab.xmu.edu.cn/node/121</a>
+</li>
+</ul>
 
 </li>
 </ul>
-</li>
-</ul>
+
+
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Abstract </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Abstract</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <ul>
-<li>
-Bigtable is a distributed storage system for managing structured data that is designed to scale to a very large size: petabytes of data across thousands of commodity servers. (针对千台机器管理PB级别数据）
+<li>Bigtable is a distributed storage system for managing structured data that is designed to scale to a very large size: petabytes of data across thousands of commodity servers. (针对千台机器管理PB级别数据）
 </li>
-<li>
-both in terms of data size (from URLs to web pages to satellite imagery) and latency requirements (from backend bulk processing to real-time data serving).（同时考虑了数据集大小以及响应延迟）
-
+<li>both in terms of data size (from URLs to web pages to satellite imagery) and latency requirements (from backend bulk processing to real-time data serving).（同时考虑了数据集大小以及响应延迟）
 </li>
 </ul>
+
+
 </div>
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> Introduction </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Introduction</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <ul>
-<li>
-Bigtable does not support a full relational data model; instead, it provides clients with a simple data model that supports dynamic control over data layout and format, and al-lows clients to reason about the locality properties of the data represented in the underlying storage.（不支持完全的数据库关系模型。提供的是半结构化数据模型，支持动态控制数据布局和格式，允许用户通知数据用于底层存储的locality信息）
+<li>Bigtable does not support a full relational data model; instead, it provides clients with a simple data model that supports dynamic control over data layout and format, and al-lows clients to reason about the locality properties of the data represented in the underlying storage.（不支持完全的数据库关系模型。提供的是半结构化数据模型，支持动态控制数据布局和格式，允许用户通知数据用于底层存储的locality信息）
 <ul>
-<li>
-Data is in-dexed using row and column names that can be arbitrary strings.（通过行列来进行索引）
+<li>Data is in-dexed using row and column names that can be arbitrary strings.（通过行列来进行索引）
 </li>
-<li>
-Bigtable also treats data as uninterpreted strings, although clients often serialize various forms of struc-tured and semi-structured data into these strings. （数据可以是半结构化也可以是结构化的）
+<li>Bigtable also treats data as uninterpreted strings, although clients often serialize various forms of struc-tured and semi-structured data into these strings. （数据可以是半结构化也可以是结构化的）
 </li>
-<li>
-Clients can control the locality of their data through careful choices in their schemas. （通过设计schema来控制locality信息） <b>NOTE（dirlt）：只是使用schema？</b>
+<li>Clients can control the locality of their data through careful choices in their schemas. （通过设计schema来控制locality信息） <b>NOTE（dirlt）：只是使用schema？</b>
 </li>
-<li>
-Bigtable schema pa-rameters let clients dynamically control whether to serve data out of memory or from disk.（schema参数可以让用户动态控制是否使用超过内存大小数据） <b>TODO（dirlt）：for what</b>
+<li>Bigtable schema pa-rameters let clients dynamically control whether to serve data out of memory or from disk.（schema参数可以让用户动态控制是否使用超过内存大小数据） <b>TODO（dirlt）：for what</b>
+</li>
+</ul>
 
 </li>
 </ul>
-</li>
-</ul>
+
+
 </div>
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> Data Model </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Data Model</h3>
+<div class="outline-text-3" id="text-1-3">
 
 <ul>
-<li>
-A Bigtable is a sparse, distributed, persistent multi-dimensional sorted map. The map is indexed by a row key, column key, and a timestamp; each value in the map is an uninterpreted array of bytes.（本质上是稀疏的，分布式，可持久化的多维sorted-map。通过row-key和column-key找到对应的cell，在这个cell上面通过timestamp来从多维数据中取出一维） (row:string, column:string, time:int64) =》 string
-
+<li>A Bigtable is a sparse, distributed, persistent multi-dimensional sorted map. The map is indexed by a row key, column key, and a timestamp; each value in the map is an uninterpreted array of bytes.（本质上是稀疏的，分布式，可持久化的多维sorted-map。通过row-key和column-key找到对应的cell，在这个cell上面通过timestamp来从多维数据中取出一维） (row:string, column:string, time:int64) =》 string
 </li>
 </ul>
 
-<p><img src="./images/bigtable-data-model.png"  alt="./images/bigtable-data-model.png" />
+
+<p>
+<img src="./images/bigtable-data-model.png"  alt="./images/bigtable-data-model.png" />
 </p>
 
 </div>
 
-<div id="outline-container-1.3.1" class="outline-4">
-<h4 id="sec-1.3.1"><span class="section-number-4">1.3.1</span> Rows </h4>
-<div class="outline-text-4" id="text-1.3.1">
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Rows</h4>
+<div class="outline-text-4" id="text-1-3-1">
 
 <ul>
-<li>
-The row keys in a table are arbitrary strings (currently up to 64KB in size, although 10-100 bytes is a typical size for most of our users). (rowkey范围限制在64KB，但是10-100bytes是一个典型值）
+<li>The row keys in a table are arbitrary strings (currently up to 64KB in size, although 10-100 bytes is a typical size for most of our users). (rowkey范围限制在64KB，但是10-100bytes是一个典型值）
 </li>
-<li>
-Every read or write of data under a single row key is atomic (regardless of the number of different columns being read or written in the row), a design decision that makes it easier for clients to reason about the system’s behavior in the presence of concurrent updates to the same row.（对于每一行的读写都是原子操作的，这样对于concurrent更新的话比较好reason）
+<li>Every read or write of data under a single row key is atomic (regardless of the number of different columns being read or written in the row), a design decision that makes it easier for clients to reason about the system’s behavior in the presence of concurrent updates to the same row.（对于每一行的读写都是原子操作的，这样对于concurrent更新的话比较好reason）
 </li>
-<li>
-Bigtable maintains data in lexicographic order by row key. The row range for a table is dynamically partitioned. Each row range is called a tablet, which is the unit of dis-tribution and load balancing.（对于row-key都是按照字典序排列的，并且每个row range都会动态划分。划分出来的row range对应的数据成为tablet，其实就是table里面一个连续的小部分，非常类似于chunk，作为分布以及负载均衡的最小单元）
-
-</li>
-</ul>
-</div>
-
-</div>
-
-<div id="outline-container-1.3.2" class="outline-4">
-<h4 id="sec-1.3.2"><span class="section-number-4">1.3.2</span> Column Families </h4>
-<div class="outline-text-4" id="text-1.3.2">
-
-<ul>
-<li>
-Column keys are grouped into sets called column fami-lies, which form the basic unit of access control （所有的column都放在某一个column family下面进行管理）
-</li>
-<li>
-All data stored in a column family is usually of the same type (we compress data in the same column family together).（通常在一个column family下面的column都是相同类型的，这样方便进行压缩）
-</li>
-<li>
-A column family must be created before data can be stored under any column key in that family; after a family has been created, any column key within the family can be used. （首先需要创建cf，之后可以在cf下面创建任意的column）
-</li>
-<li>
-It is our intent that the number of distinct column families in a table be small (in the hundreds at most), and that families rarely change during operation. In contrast, a table may have an unbounded number of columns.（设计假设cf非常少最多100个左右，并且不会经常变化。而对于里面的column来说没有上限）
-</li>
-<li>
-Access control and both disk and memory account-ing are performed at the column-family level（底层访问操作通常都是针对cf进行的。使用cf聚合的话，一方面可以减少访问多个字段的代价，另外在存储方面也可以进行压缩）
-
-
-</li>
-</ul>
-</div>
-
-</div>
-
-<div id="outline-container-1.3.3" class="outline-4">
-<h4 id="sec-1.3.3"><span class="section-number-4">1.3.3</span> Timestamps </h4>
-<div class="outline-text-4" id="text-1.3.3">
-
-<ul>
-<li>
-Each cell in a Bigtable can contain multiple versions of the same data; these versions are indexed by timestamp. Bigtable timestamps are 64-bit integers. They can be as-signed by Bigtable, in which case they represent “real time” in microseconds, or be explicitly assigned by client applications. Applications that need to avoid collisions must generate unique timestamps themselves. Different versions of a cell are stored in decreasing timestamp or-der, so that the most recent versions can be read first.（timestamp用来区分多个版本，timestamp是一个64bit整数，这个可以由bigtable产生也可以用户指定。主要功能就是为了区分版本。所有的版本都是存放在一起并且按照降序排列，因为首先读取是最新的版本）
-</li>
-<li>
-To make the management of versioned data less oner-ous, we support two per-column-family settings that tell Bigtable to garbage-collect cell versions automatically. The client can specify either that only the last n versions of a cell be kept, or that only new-enough versions be kept (e.g., only keep values that were written in the last seven days).（支持针对每个cf设置使用最近几个版本）
-
-</li>
-</ul>
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="section-number-3">1.4</span> API </h3>
-<div class="outline-text-3" id="text-1.4">
-
-</div>
-
-</div>
-
-<div id="outline-container-1.5" class="outline-3">
-<h3 id="sec-1.5"><span class="section-number-3">1.5</span> Building Blocks </h3>
-<div class="outline-text-3" id="text-1.5">
-
-<ul>
-<li>
-使用GFS作为文件系统（参考<a href="gfs.html">gfs</a>）
-</li>
-<li>
-使用SSTable来管理数据（参考<a href="leveldb.html">leveldb</a>）
-</li>
-<li>
-使用Chubby来管理调度（参考<a href="chubby.html">chubby</a>）
-<ul>
-<li>
-to ensure that there is at most one active master at any time; （确保只有一个master在运行）
-</li>
-<li>
-to store the bootstrap location of Bigtable data（保存初始化bigtable数据的位置）
-</li>
-<li>
-to discover tablet servers and finalize tablet server deaths （检测tablet server的上下线）
-</li>
-<li>
-to store Bigtable schema information (the column family information for each ta-ble); （存储schema信息，每个table里面的cf信息）
-</li>
-<li>
-to store access control lists.（访问控制列表）
-</li>
-</ul>
-</li>
-<li>
-If Chubby becomes unavailable for an extended period of time, Bigtable be-comes unavailable.（如果chubby不可用那么整个集群不可用）
-</li>
-<li>
-但是影响效果非常小。集群数据不可用因为chubby不可用的平均比率在0.0047%，但个集群受影响最高比率在0.0326%
-
-</li>
-</ul>
-</div>
-
-</div>
-
-<div id="outline-container-1.6" class="outline-3">
-<h3 id="sec-1.6"><span class="section-number-3">1.6</span> Implementation </h3>
-<div class="outline-text-3" id="text-1.6">
-
-<ul>
-<li>
-The Bigtable implementation has three major compo- nents: a library that is linked into every client, one mas- ter server, and many tablet servers. （library，master server以及tablet server三个部分组成） Tablet servers can be dynamically added (or removed) from a cluster to acco-modate changes in workloads.（对于所有的tablet server都可以动态添加并且移除来适应workload）
-</li>
-<li>
-master负责包括下面这些事情：
-<ul>
-<li>
-assigning tablets to tablet servers, （assign tablet到ts上）
-</li>
-<li>
-detecting the addition and expiration of tablet servers, （检测是否有tablet server挂掉）
-</li>
-<li>
-balancing tablet-server load, and （对tablet server做负载均衡）
-</li>
-<li>
-garbage col-lection of files in GFS. （对GFS进行GC）
-</li>
-<li>
-In addition, it handles schema changes such as table and column family creations.（处理schema变化以及cf的创建）
-</li>
-</ul>
-</li>
-<li>
-tablet server负责下面这些事情：
-<ul>
-<li>
-Each tablet server manages a set of tablets (typically we have somewhere between ten to a thousand tablets per tablet server). （每个tablet server分配到10-1k左右的tablet）
-</li>
-<li>
-The tablet server handles read and write requests to the tablets that it has loaded, （每个tablet server负责其管理的tablet操作）
-</li>
-<li>
-and also splits tablets that have grown too large.（如果tablet过大的话那么主动进行分裂，默认每个tablet在100-200MB左右） <b>NOTE（dirlt）：现在HBase的一个region在2G）</b>
-</li>
-</ul>
-</li>
-<li>
-client直接和tablet server进行交互。因为client并不依赖于master来进行location定位，所以大部分时候不需要和master交互，因此master负载非常轻。
-
+<li>Bigtable maintains data in lexicographic order by row key. The row range for a table is dynamically partitioned. Each row range is called a tablet, which is the unit of dis-tribution and load balancing.（对于row-key都是按照字典序排列的，并且每个row range都会动态划分。划分出来的row range对应的数据成为tablet，其实就是table里面一个连续的小部分，非常类似于chunk，作为分布以及负载均衡的最小单元）
 </li>
 </ul>
 
+
 </div>
 
-<div id="outline-container-1.6.1" class="outline-4">
-<h4 id="sec-1.6.1"><span class="section-number-4">1.6.1</span> Tablet Location </h4>
-<div class="outline-text-4" id="text-1.6.1">
+</div>
+
+<div id="outline-container-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Column Families</h4>
+<div class="outline-text-4" id="text-1-3-2">
+
+<ul>
+<li>Column keys are grouped into sets called column fami-lies, which form the basic unit of access control （所有的column都放在某一个column family下面进行管理）
+</li>
+<li>All data stored in a column family is usually of the same type (we compress data in the same column family together).（通常在一个column family下面的column都是相同类型的，这样方便进行压缩）
+</li>
+<li>A column family must be created before data can be stored under any column key in that family; after a family has been created, any column key within the family can be used. （首先需要创建cf，之后可以在cf下面创建任意的column）
+</li>
+<li>It is our intent that the number of distinct column families in a table be small (in the hundreds at most), and that families rarely change during operation. In contrast, a table may have an unbounded number of columns.（设计假设cf非常少最多100个左右，并且不会经常变化。而对于里面的column来说没有上限）
+</li>
+<li>Access control and both disk and memory account-ing are performed at the column-family level（底层访问操作通常都是针对cf进行的。使用cf聚合的话，一方面可以减少访问多个字段的代价，另外在存储方面也可以进行压缩）
+</li>
+</ul>
+
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> Timestamps</h4>
+<div class="outline-text-4" id="text-1-3-3">
+
+<ul>
+<li>Each cell in a Bigtable can contain multiple versions of the same data; these versions are indexed by timestamp. Bigtable timestamps are 64-bit integers. They can be as-signed by Bigtable, in which case they represent “real time” in microseconds, or be explicitly assigned by client applications. Applications that need to avoid collisions must generate unique timestamps themselves. Different versions of a cell are stored in decreasing timestamp or-der, so that the most recent versions can be read first.（timestamp用来区分多个版本，timestamp是一个64bit整数，这个可以由bigtable产生也可以用户指定。主要功能就是为了区分版本。所有的版本都是存放在一起并且按照降序排列，因为首先读取是最新的版本）
+</li>
+<li>To make the management of versioned data less oner-ous, we support two per-column-family settings that tell Bigtable to garbage-collect cell versions automatically. The client can specify either that only the last n versions of a cell be kept, or that only new-enough versions be kept (e.g., only keep values that were written in the last seven days).（支持针对每个cf设置使用最近几个版本）
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> API</h3>
+<div class="outline-text-3" id="text-1-4">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Building Blocks</h3>
+<div class="outline-text-3" id="text-1-5">
+
+<ul>
+<li>使用GFS作为文件系统（参考<a href="gfs.html">gfs</a>）
+</li>
+<li>使用SSTable来管理数据（参考<a href="leveldb.html">leveldb</a>）
+</li>
+<li>使用Chubby来管理调度（参考<a href="chubby.html">chubby</a>）
+<ul>
+<li>to ensure that there is at most one active master at any time; （确保只有一个master在运行）
+</li>
+<li>to store the bootstrap location of Bigtable data（保存初始化bigtable数据的位置）
+</li>
+<li>to discover tablet servers and finalize tablet server deaths （检测tablet server的上下线）
+</li>
+<li>to store Bigtable schema information (the column family information for each ta-ble); （存储schema信息，每个table里面的cf信息）
+</li>
+<li>to store access control lists.（访问控制列表）
+</li>
+</ul>
+
+</li>
+<li>If Chubby becomes unavailable for an extended period of time, Bigtable be-comes unavailable.（如果chubby不可用那么整个集群不可用）
+</li>
+<li>但是影响效果非常小。集群数据不可用因为chubby不可用的平均比率在0.0047%，但个集群受影响最高比率在0.0326%
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Implementation</h3>
+<div class="outline-text-3" id="text-1-6">
+
+<ul>
+<li>The Bigtable implementation has three major compo- nents: a library that is linked into every client, one mas- ter server, and many tablet servers. （library，master server以及tablet server三个部分组成） Tablet servers can be dynamically added (or removed) from a cluster to acco-modate changes in workloads.（对于所有的tablet server都可以动态添加并且移除来适应workload）
+</li>
+<li>master负责包括下面这些事情：
+<ul>
+<li>assigning tablets to tablet servers, （assign tablet到ts上）
+</li>
+<li>detecting the addition and expiration of tablet servers, （检测是否有tablet server挂掉）
+</li>
+<li>balancing tablet-server load, and （对tablet server做负载均衡）
+</li>
+<li>garbage col-lection of files in GFS. （对GFS进行GC）
+</li>
+<li>In addition, it handles schema changes such as table and column family creations.（处理schema变化以及cf的创建）
+</li>
+</ul>
+
+</li>
+<li>tablet server负责下面这些事情：
+<ul>
+<li>Each tablet server manages a set of tablets (typically we have somewhere between ten to a thousand tablets per tablet server). （每个tablet server分配到10-1k左右的tablet）
+</li>
+<li>The tablet server handles read and write requests to the tablets that it has loaded, （每个tablet server负责其管理的tablet操作）
+</li>
+<li>and also splits tablets that have grown too large.（如果tablet过大的话那么主动进行分裂，默认每个tablet在100-200MB左右） <b>NOTE（dirlt）：现在HBase的一个region在2G）</b>
+</li>
+</ul>
+
+</li>
+<li>client直接和tablet server进行交互。因为client并不依赖于master来进行location定位，所以大部分时候不需要和master交互，因此master负载非常轻。
+</li>
+</ul>
+
+
+
+</div>
+
+<div id="outline-container-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1"><span class="section-number-4">1.6.1</span> Tablet Location</h4>
+<div class="outline-text-4" id="text-1-6-1">
 
 <p><img src="./images/bigtable-tablet-location-hierarchy.png"  alt="./images/bigtable-tablet-location-hierarchy.png" />
 </p>
 <ul>
-<li>
-root tablet是比较特殊的METADATA tablet从来不进行分裂
+<li>root tablet是比较特殊的METADATA tablet从来不进行分裂
 </li>
-<li>
-METADATA tablet是kv结构并且是有序的。其中k是table identifier+end row key，v则是对应志向的位置（位置信息应该都是GFS的地址）
+<li>METADATA tablet是kv结构并且是有序的。其中k是table identifier+end row key，v则是对应志向的位置（位置信息应该都是GFS的地址）
 <ul>
-<li>
-查找的时候首先在root tablet上面做二分查找，找到对应的METADATA tablet。
+<li>查找的时候首先在root tablet上面做二分查找，找到对应的METADATA tablet。
 </li>
-<li>
-然后在METADATA tablet上面做二分找着，找到对应的user tablet。
+<li>然后在METADATA tablet上面做二分找着，找到对应的user tablet。
 </li>
-<li>
-然后在user tablet上面找到对应的值。
+<li>然后在user tablet上面找到对应的值。
 </li>
 </ul>
-</li>
-<li>
-<b>NOTE（dirlt）：不过之前业强提的方法似乎更加可行，就是root仅仅存放table name，而在下面一级存放end row key</b>
-</li>
-<li>
-meta tablet server每行存储大概1KB数据，一个大约使用128MB内存，这样对于三级结构来说允许存储大约我2<sup>34个tablets。</sup>
-</li>
-<li>
-client会cache tablet位置，但是如果位置信息错误的话，那么需要逐层向上查询。因为对于cache empty情况需要3个roundtrip，而对于stale情况需要6个roundtrip
-</li>
-<li>
-Although tablet locations are stored in memory, so no GFS accesses are required, we further reduce this cost in the common case by having the client library prefetch tablet locations: it reads the metadata for more than one tablet whenever it reads the METADATA table. <b>TODO（dirlt）：预取可以减少什么开销呢？</b>
 
 </li>
+<li><b>NOTE（dirlt）：不过之前业强提的方法似乎更加可行，就是root仅仅存放table name，而在下面一级存放end row key</b>
+</li>
+<li>meta tablet server每行存储大概1KB数据，一个大约使用128MB内存，这样对于三级结构来说允许存储大约我2^34个tablets。
+</li>
+<li>client会cache tablet位置，但是如果位置信息错误的话，那么需要逐层向上查询。因为对于cache empty情况需要3个roundtrip，而对于stale情况需要6个roundtrip
+</li>
+<li>Although tablet locations are stored in memory, so no GFS accesses are required, we further reduce this cost in the common case by having the client library prefetch tablet locations: it reads the metadata for more than one tablet whenever it reads the METADATA table. <b>TODO（dirlt）：预取可以减少什么开销呢？</b>
+</li>
 </ul>
+
+
 </div>
 
 </div>
 
-<div id="outline-container-1.6.2" class="outline-4">
-<h4 id="sec-1.6.2"><span class="section-number-4">1.6.2</span> Tablet Assignment </h4>
-<div class="outline-text-4" id="text-1.6.2">
+<div id="outline-container-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2"><span class="section-number-4">1.6.2</span> Tablet Assignment</h4>
+<div class="outline-text-4" id="text-1-6-2">
 
 <p>assignment这个信息应该是维护在master上面的，且没有必要进行持久化。
 </p>
 <p>
 如何处理tablet server挂掉：
 </p><ul>
-<li>
-所有的tablet server都在chubby上面注册节点并且加锁。如果和chubby节点断开的话，那么重新连接并且获取锁。如果文件已经删除的话，那么就自动退出。
+<li>所有的tablet server都在chubby上面注册节点并且加锁。如果和chubby节点断开的话，那么重新连接并且获取锁。如果文件已经删除的话，那么就自动退出。
 </li>
-<li>
-master会定时询问tablet server是否存活。如果没有查询到存活的话，那么会尝试lock tablet server创建的节点。如果lock成功的话，那么删除这个文件。这样确保tablet server之后不会继续服务。
+<li>master会定时询问tablet server是否存活。如果没有查询到存活的话，那么会尝试lock tablet server创建的节点。如果lock成功的话，那么删除这个文件。这样确保tablet server之后不会继续服务。
 </li>
-<li>
-如果master认为某个ts挂掉的话，那么会重新assign原来分配所有的tablet出去。 <b>TODO（dirlt）：如何确保负载均衡</b>
+<li>如果master认为某个ts挂掉的话，那么会重新assign原来分配所有的tablet出去。 <b>TODO（dirlt）：如何确保负载均衡</b>
 </li>
-<li>
-如果master和chubby断开的话，那么也会自己直接退出。
-
+<li>如果master和chubby断开的话，那么也会自己直接退出。
 </li>
 </ul>
 
-<p>master启动时候需要重新获得assignment信息：
-</p><ul>
-<li>
-master重启的话不会影响assignment
-</li>
-<li>
-master在chubby上面创建一个文件并且lock
-</li>
-<li>
-和当前所有的tablet server进行通信，获得所有的tablet server。
-</li>
-<li>
-如果METADATA tablet server没有被assign的话，那么assign META ts
-</li>
-<li>
-扫描所有的META ts，看哪些tablet server没有被assign出去，如果没有assign的话那么发起assign
 
+<p>
+master启动时候需要重新获得assignment信息：
+</p><ul>
+<li>master重启的话不会影响assignment
+</li>
+<li>master在chubby上面创建一个文件并且lock
+</li>
+<li>和当前所有的tablet server进行通信，获得所有的tablet server。
+</li>
+<li>如果METADATA tablet server没有被assign的话，那么assign META ts
+</li>
+<li>扫描所有的META ts，看哪些tablet server没有被assign出去，如果没有assign的话那么发起assign
 </li>
 </ul>
 
-<p>如果tablet server上面的tablet发起变化的话，那么也会有assign行为：
+
+<p>
+如果tablet server上面的tablet发起变化的话，那么也会有assign行为：
 </p><ul>
-<li>
-table创建删除
+<li>table创建删除
 </li>
-<li>
-两个tablet进行merge成为一个大的tablet（这个master才能够看到）
+<li>两个tablet进行merge成为一个大的tablet（这个master才能够看到）
 </li>
-<li>
-tablet split（这个单个tablet server就能够感知到自己的tablet过大从而需要split）
+<li>tablet split（这个单个tablet server就能够感知到自己的tablet过大从而需要split）
 </li>
 </ul>
 
@@ -472,28 +444,25 @@ In case the split notification is lost (either because the tablet server or the 
 
 </div>
 
-<div id="outline-container-1.6.3" class="outline-4">
-<h4 id="sec-1.6.3"><span class="section-number-4">1.6.3</span> Tablet Serving </h4>
-<div class="outline-text-4" id="text-1.6.3">
+<div id="outline-container-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3"><span class="section-number-4">1.6.3</span> Tablet Serving</h4>
+<div class="outline-text-4" id="text-1-6-3">
 
 </div>
 
 </div>
 
-<div id="outline-container-1.6.4" class="outline-4">
-<h4 id="sec-1.6.4"><span class="section-number-4">1.6.4</span> Compactions </h4>
-<div class="outline-text-4" id="text-1.6.4">
+<div id="outline-container-1-6-4" class="outline-4">
+<h4 id="sec-1-6-4"><span class="section-number-4">1.6.4</span> Compactions</h4>
+<div class="outline-text-4" id="text-1-6-4">
 
 <p>compaction分为三种：
 </p><ul>
-<li>
-minor compaction. memtable -&gt; sstable
+<li>minor compaction. memtable -&gt; sstable
 </li>
-<li>
-merging compaction. sstable + memtable -&gt; sstable(s)
+<li>merging compaction. sstable + memtable -&gt; sstable(s)
 </li>
-<li>
-major compaction. sstable -&gt; one sstable
+<li>major compaction. sstable -&gt; one sstable
 </li>
 </ul>
 
@@ -504,16 +473,16 @@ major compaction. sstable -&gt; one sstable
 
 </div>
 
-<div id="outline-container-1.7" class="outline-3">
-<h3 id="sec-1.7"><span class="section-number-3">1.7</span> Refinements </h3>
-<div class="outline-text-3" id="text-1.7">
+<div id="outline-container-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Refinements</h3>
+<div class="outline-text-3" id="text-1-7">
 
 
 </div>
 
-<div id="outline-container-1.7.1" class="outline-4">
-<h4 id="sec-1.7.1"><span class="section-number-4">1.7.1</span> Locality groups </h4>
-<div class="outline-text-4" id="text-1.7.1">
+<div id="outline-container-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1"><span class="section-number-4">1.7.1</span> Locality groups</h4>
+<div class="outline-text-4" id="text-1-7-1">
 
 <p>通过将多个cf合并成为一个locality group，然后为这个locality group分配单独的一个sstable。通过将不同属性的cf区分开，并且将相同属性的cf进行聚合，这样可以提高读效率。允许指定参数来说明那些locality group需要放在memory里面。
 </p>
@@ -521,46 +490,43 @@ major compaction. sstable -&gt; one sstable
 
 </div>
 
-<div id="outline-container-1.7.2" class="outline-4">
-<h4 id="sec-1.7.2"><span class="section-number-4">1.7.2</span> Compression </h4>
-<div class="outline-text-4" id="text-1.7.2">
+<div id="outline-container-1-7-2" class="outline-4">
+<h4 id="sec-1-7-2"><span class="section-number-4">1.7.2</span> Compression</h4>
+<div class="outline-text-4" id="text-1-7-2">
 
 <ul>
-<li>
-The first pass uses Bentley and McIlroy’s scheme , which compresses long common strings across a large window. 
+<li>The first pass uses Bentley and McIlroy’s scheme , which compresses long common strings across a large window. 
 </li>
-<li>
-The second pass uses a fast compression algorithm that looks for repetitions in a small 16 KB window of the data.
+<li>The second pass uses a fast compression algorithm that looks for repetitions in a small 16 KB window of the data.
 </li>
-<li>
-Both compression passes are very fast—they encode at 100–200 MB/s, and decode at 400–1000 MB/s on modern machines.
-
+<li>Both compression passes are very fast—they encode at 100–200 MB/s, and decode at 400–1000 MB/s on modern machines.
 </li>
 </ul>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.7.3" class="outline-4">
-<h4 id="sec-1.7.3"><span class="section-number-4">1.7.3</span> Caching for read performance </h4>
-<div class="outline-text-4" id="text-1.7.3">
+</div>
+
+<div id="outline-container-1-7-3" class="outline-4">
+<h4 id="sec-1-7-3"><span class="section-number-4">1.7.3</span> Caching for read performance</h4>
+<div class="outline-text-4" id="text-1-7-3">
 
 <ul>
-<li>
-Scan Cache在高层缓存读取到的k/v。比较适合重复读取相同数据（相对与Block Cache效率更好）
+<li>Scan Cache在高层缓存读取到的k/v。比较适合重复读取相同数据（相对与Block Cache效率更好）
 </li>
-<li>
-Block Cache在底层缓存读取到的block。比较适合遍历或者是反复读取附近数据。（leveldb实现里面只是提供了block cache）
-
+<li>Block Cache在底层缓存读取到的block。比较适合遍历或者是反复读取附近数据。（leveldb实现里面只是提供了block cache）
 </li>
 </ul>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.7.4" class="outline-4">
-<h4 id="sec-1.7.4"><span class="section-number-4">1.7.4</span> Bloom filters </h4>
-<div class="outline-text-4" id="text-1.7.4">
+</div>
+
+<div id="outline-container-1-7-4" class="outline-4">
+<h4 id="sec-1-7-4"><span class="section-number-4">1.7.4</span> Bloom filters</h4>
+<div class="outline-text-4" id="text-1-7-4">
 
 <p>新版本的leveldb里面也实现了bloom filter，可以屏蔽掉很多无用的disk seek
 </p>
@@ -568,9 +534,9 @@ Block Cache在底层缓存读取到的block。比较适合遍历或者是反复�
 
 </div>
 
-<div id="outline-container-1.7.5" class="outline-4">
-<h4 id="sec-1.7.5"><span class="section-number-4">1.7.5</span> Commit-log implementation </h4>
-<div class="outline-text-4" id="text-1.7.5">
+<div id="outline-container-1-7-5" class="outline-4">
+<h4 id="sec-1-7-5"><span class="section-number-4">1.7.5</span> Commit-log implementation</h4>
+<div class="outline-text-4" id="text-1-7-5">
 
 <p>如果每个tablet的操作都写单独的redo文件的话，那么会对gfs造成很大的压力。因此解决办法就是，对于一个tablet server上面所有的tablet的commit log，都记录在同一个文件里面。
 </p>
@@ -589,21 +555,18 @@ Block Cache在底层缓存读取到的block。比较适合遍历或者是反复�
 
 </div>
 
-<div id="outline-container-1.7.6" class="outline-4">
-<h4 id="sec-1.7.6"><span class="section-number-4">1.7.6</span> Speeding up tablet recovery </h4>
-<div class="outline-text-4" id="text-1.7.6">
+<div id="outline-container-1-7-6" class="outline-4">
+<h4 id="sec-1-7-6"><span class="section-number-4">1.7.6</span> Speeding up tablet recovery</h4>
+<div class="outline-text-4" id="text-1-7-6">
 
 <p>这个主要发生在tablet主动迁移的时候。因为迁移的时候memtable内容没有存放到gfs上面，因此如果直接unload的话，那么在另外一台机器上面就需要重新从gfs读取log并且进行recovery。
 为了加快这个过程，source tablet server在主动迁移时候发生如下行为：
 </p><ul>
-<li>
-将memtable使用minor compaction将内容写入sstable
+<li>将memtable使用minor compaction将内容写入sstable
 </li>
-<li>
-停止对这个tablet的服务
+<li>停止对这个tablet的服务
 </li>
-<li>
-将上面时间内所有的memtable操作重新做一个minor compaction（very fast)
+<li>将上面时间内所有的memtable操作重新做一个minor compaction（very fast)
 </li>
 </ul>
 
@@ -613,122 +576,111 @@ Block Cache在底层缓存读取到的block。比较适合遍历或者是反复�
 
 </div>
 
-<div id="outline-container-1.7.7" class="outline-4">
-<h4 id="sec-1.7.7"><span class="section-number-4">1.7.7</span> Exploiting immutability </h4>
-<div class="outline-text-4" id="text-1.7.7">
+<div id="outline-container-1-7-7" class="outline-4">
+<h4 id="sec-1-7-7"><span class="section-number-4">1.7.7</span> Exploiting immutability</h4>
+<div class="outline-text-4" id="text-1-7-7">
 
 <p>对于obsolete tablet sstable的回收过程是这样的：
 </p><ul>
-<li>
-从root里面可以获得所有的tablet对应的sstable（tablet管理的sstable都在METADATA tablet上面注册了）
+<li>从root里面可以获得所有的tablet对应的sstable（tablet管理的sstable都在METADATA tablet上面注册了）
 </li>
-<li>
-master可以查询每个tablet server所管理的sstable
+<li>master可以查询每个tablet server所管理的sstable
 </li>
-<li>
-对比master就可以发现那些sstable是可以被GC的。
-
+<li>对比master就可以发现那些sstable是可以被GC的。
 </li>
 </ul>
-</div>
-</div>
+
 
 </div>
-
-<div id="outline-container-1.8" class="outline-3">
-<h3 id="sec-1.8"><span class="section-number-3">1.8</span> Performance Evaluation </h3>
-<div class="outline-text-3" id="text-1.8">
-
 </div>
 
 </div>
 
-<div id="outline-container-1.9" class="outline-3">
-<h3 id="sec-1.9"><span class="section-number-3">1.9</span> Real Applications </h3>
-<div class="outline-text-3" id="text-1.9">
+<div id="outline-container-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Performance Evaluation</h3>
+<div class="outline-text-3" id="text-1-8">
 
 </div>
 
 </div>
 
-<div id="outline-container-1.10" class="outline-3">
-<h3 id="sec-1.10"><span class="section-number-3">1.10</span> Lessons </h3>
-<div class="outline-text-3" id="text-1.10">
+<div id="outline-container-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> Real Applications</h3>
+<div class="outline-text-3" id="text-1-9">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> Lessons</h3>
+<div class="outline-text-3" id="text-1-10">
 
 <ul>
-<li>
-One lesson we learned is that large distributed sys-tems are vulnerable to many types of failures, not just the standard network partitions and fail-stop failures as-sumed in many distributed protocols.（design for failure）
+<li>One lesson we learned is that large distributed sys-tems are vulnerable to many types of failures, not just the standard network partitions and fail-stop failures as-sumed in many distributed protocols.（design for failure）
 </li>
-<li>
-delay adding new features until it is clear how the new features will be used. 延迟添加新功能直到确实存在必要。之前考虑过是否需要增加general-purpose transaction，但是知道很多真实应用程序使用之后才发现，其实需要的是一个row transaction。而对于distributed transaction的需求，大部分是想维护二级索引。Where people have requested distributed trans-actions, the most important use is for maintaining sec-ondary indices, and we plan to add a specialized mech-anism to satisfy this need. The new mechanism will be less general than distributed transactions, but will be more efficient (especially for updates that span hundreds of rows or more) and will also interact better with our scheme for optimistic cross-data-center replication. 对于维护二级索引方案使用了一个特殊方式来满足这个需求。
+<li>delay adding new features until it is clear how the new features will be used. 延迟添加新功能直到确实存在必要。之前考虑过是否需要增加general-purpose transaction，但是知道很多真实应用程序使用之后才发现，其实需要的是一个row transaction。而对于distributed transaction的需求，大部分是想维护二级索引。Where people have requested distributed trans-actions, the most important use is for maintaining sec-ondary indices, and we plan to add a specialized mech-anism to satisfy this need. The new mechanism will be less general than distributed transactions, but will be more efficient (especially for updates that span hundreds of rows or more) and will also interact better with our scheme for optimistic cross-data-center replication. 对于维护二级索引方案使用了一个特殊方式来满足这个需求。
 </li>
-<li>
-A practical lesson that we learned from supporting Bigtable is the importance of proper system-level mon-itoring (i.e., monitoring both Bigtable itself, as well as the client processes using Bigtable). （监控）
+<li>A practical lesson that we learned from supporting Bigtable is the importance of proper system-level mon-itoring (i.e., monitoring both Bigtable itself, as well as the client processes using Bigtable). （监控）
 <ul>
-<li>
-we ex-tended our RPC system so that for a sample of the RPCs, it keeps a detailed trace of the important actions done on behalf of that RPC. This feature has allowed us to de-tect and fix many problems such as lock contention on tablet data structures, slow writes to GFS while com-mitting Bigtable mutations, and stuck accesses to the METADATA table when METADATA tablets are unavail-able. （lock contention，slow write，stuck access to METADATA）
+<li>we ex-tended our RPC system so that for a sample of the RPCs, it keeps a detailed trace of the important actions done on behalf of that RPC. This feature has allowed us to de-tect and fix many problems such as lock contention on tablet data structures, slow writes to GFS while com-mitting Bigtable mutations, and stuck accesses to the METADATA table when METADATA tablets are unavail-able. （lock contention，slow write，stuck access to METADATA）
 </li>
-<li>
-Another example of useful monitoring is that ev-ery Bigtable cluster is registered in Chubby. This allows us to track down all clusters, discover how big they are, see which versions of our software they are running, how much traffic they are receiving, and whether or not there are any problems such as unexpectedly large latencies.（cluster注册到chubby上面，收集每个cluster的一些数据）
+<li>Another example of useful monitoring is that ev-ery Bigtable cluster is registered in Chubby. This allows us to track down all clusters, discover how big they are, see which versions of our software they are running, how much traffic they are receiving, and whether or not there are any problems such as unexpectedly large latencies.（cluster注册到chubby上面，收集每个cluster的一些数据）
 </li>
 </ul>
-</li>
-<li>
-The most important lesson we learned is the value of simple designs. （简单设计）
 
+</li>
+<li>The most important lesson we learned is the value of simple designs. （简单设计）
 </li>
 </ul>
-</div>
 
-</div>
-
-<div id="outline-container-1.11" class="outline-3">
-<h3 id="sec-1.11"><span class="section-number-3">1.11</span> Related Work </h3>
-<div class="outline-text-3" id="text-1.11">
 
 </div>
 
 </div>
 
-<div id="outline-container-1.12" class="outline-3">
-<h3 id="sec-1.12"><span class="section-number-3">1.12</span> Conclusions </h3>
-<div class="outline-text-3" id="text-1.12">
+<div id="outline-container-1-11" class="outline-3">
+<h3 id="sec-1-11"><span class="section-number-3">1.11</span> Related Work</h3>
+<div class="outline-text-3" id="text-1-11">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-12" class="outline-3">
+<h3 id="sec-1-12"><span class="section-number-3">1.12</span> Conclusions</h3>
+<div class="outline-text-3" id="text-1-12">
 
 <ul>
-<li>
-Bigtable clusters have been in production use since April 2005, （2005.4开始投入产品使用）
+<li>Bigtable clusters have been in production use since April 2005, （2005.4开始投入产品使用）
 </li>
-<li>
-and we spent roughly seven person-years on design and implementa-tion before that date. （耗费7人年）
+<li>and we spent roughly seven person-years on design and implementa-tion before that date. （耗费7人年）
 </li>
-<li>
-As of August 2006, more than sixty projects are using Bigtable.（2006.8 60个项目使用bigtable）
+<li>As of August 2006, more than sixty projects are using Bigtable.（2006.8 60个项目使用bigtable）
 </li>
-<li>
-We are in the process of implementing several addi-tional Bigtable features, such as support for secondary indices and infrastructure for building cross-data-center replicated Bigtables with multiple master replicas.（支持二级索引以及使用multi-master跨机房的解决方案）
+<li>We are in the process of implementing several addi-tional Bigtable features, such as support for secondary indices and infrastructure for building cross-data-center replicated Bigtables with multiple master replicas.（支持二级索引以及使用multi-master跨机房的解决方案）
 </li>
-<li>
-We have also begun deploying Bigtable as a service to prod-uct groups, so that individual groups do not need to main-tain their own clusters. 将bigtable cluster作为service对外。
+<li>We have also begun deploying Bigtable as a service to prod-uct groups, so that individual groups do not need to main-tain their own clusters. 将bigtable cluster作为service对外。
 </li>
-<li>
-As our service clusters scale, we will need to deal with more resource-sharing issues within Bigtable itself 对于service的话，那么就需要考虑资源隔离以及有效利用。
-
+<li>As our service clusters scale, we will need to deal with more resource-sharing issues within Bigtable itself 对于service的话，那么就需要考虑资源隔离以及有效利用。
 </li>
 </ul>
-</div>
-
-</div>
-
-<div id="outline-container-1.13" class="outline-3">
-<h3 id="sec-1.13"><span class="section-number-3">1.13</span> Q&amp;A </h3>
-<div class="outline-text-3" id="text-1.13">
 
 
 </div>
 
-<div id="outline-container-1.13.1" class="outline-4">
-<h4 id="sec-1.13.1"><span class="section-number-4">1.13.1</span> 每个tablet对应一个sstable文件吗？ </h4>
-<div class="outline-text-4" id="text-1.13.1">
+</div>
+
+<div id="outline-container-1-13" class="outline-3">
+<h3 id="sec-1-13"><span class="section-number-3">1.13</span> Q&amp;A</h3>
+<div class="outline-text-3" id="text-1-13">
+
+
+</div>
+
+<div id="outline-container-1-13-1" class="outline-4">
+<h4 id="sec-1-13-1"><span class="section-number-4">1.13.1</span> 每个tablet对应一个sstable文件吗？</h4>
+<div class="outline-text-4" id="text-1-13-1">
 
 <p>每个tablet可能会对应到多个sstable。对于一个tablet来说，组织可以就是gfs一个目录，下面存放很多sstable文件。
 如果master想知道某个tablet有哪些sstable的话，直接通过文件系统gfs查询即可。
@@ -736,10 +688,13 @@ As our service clusters scale, we will need to deal with more resource-sharing i
 </div>
 </div>
 </div>
-<div id="postamble">
-<p class="date"> Date: 2013-10-14 12:28:18 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
 </div>
+
+<div id="postamble">
+<p class="date">Date: 2013-10-15 22:16:27 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'bigtable.html';var disqus_title = 'bigtable.html';var disqus_url = 'http://dirlt.com/bigtable.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

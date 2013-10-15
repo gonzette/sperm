@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>kylin</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="kylin"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:28:02 CST"/>
+<meta name="generated" content="2013-10-15 22:15:54 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">kylin</h1>
 
 
@@ -56,132 +77,132 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 kylin </a>
+<li><a href="#sec-1">1 kylin</a>
 <ul>
-<li><a href="#sec-1.1">1.1 share </a>
+<li><a href="#sec-1-1">1.1 share</a>
 <ul>
-<li><a href="#sec-1.1.1">1.1.1 atomic </a></li>
-<li><a href="#sec-1.1.2">1.1.2 spinlock </a></li>
-<li><a href="#sec-1.1.3">1.1.3 cycle </a></li>
-<li><a href="#sec-1.1.4">1.1.4 support </a></li>
-<li><a href="#sec-1.1.5">1.1.5 futex </a>
+<li><a href="#sec-1-1-1">1.1.1 atomic</a></li>
+<li><a href="#sec-1-1-2">1.1.2 spinlock</a></li>
+<li><a href="#sec-1-1-3">1.1.3 cycle</a></li>
+<li><a href="#sec-1-1-4">1.1.4 support</a></li>
+<li><a href="#sec-1-1-5">1.1.5 futex</a>
 <ul>
-<li><a href="#sec-1.1.5.1">1.1.5.1 sema </a></li>
-<li><a href="#sec-1.1.5.2">1.1.5.2 cond </a></li>
-<li><a href="#sec-1.1.5.3">1.1.5.3 event </a></li>
+<li><a href="#sec-1-1-5-1">1.1.5.1 sema</a></li>
+<li><a href="#sec-1-1-5-2">1.1.5.2 cond</a></li>
+<li><a href="#sec-1-1-5-3">1.1.5.3 event</a></li>
 </ul></li>
 </ul>
 </li>
-<li><a href="#sec-1.2">1.2 kylin </a>
+<li><a href="#sec-1-2">1.2 kylin</a>
 <ul>
-<li><a href="#sec-1.2.1">1.2.1 Async </a></li>
-<li><a href="#sec-1.2.2">1.2.2 ThreadPool </a>
+<li><a href="#sec-1-2-1">1.2.1 Async</a></li>
+<li><a href="#sec-1-2-2">1.2.2 ThreadPool</a>
 <ul>
-<li><a href="#sec-1.2.2.1">1.2.2.1 Overview </a></li>
-<li><a href="#sec-1.2.2.2">1.2.2.2 How Thread Works </a></li>
-<li><a href="#sec-1.2.2.3">1.2.2.3 AddWorker &amp; DelWorker </a></li>
-<li><a href="#sec-1.2.2.4">1.2.2.4 QueueJob &amp; CancelJob </a></li>
+<li><a href="#sec-1-2-2-1">1.2.2.1 Overview</a></li>
+<li><a href="#sec-1-2-2-2">1.2.2.2 How Thread Works</a></li>
+<li><a href="#sec-1-2-2-3">1.2.2.3 AddWorker &amp; DelWorker</a></li>
+<li><a href="#sec-1-2-2-4">1.2.2.4 QueueJob &amp; CancelJob</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2.3">1.2.3 TranBuf </a>
+<li><a href="#sec-1-2-3">1.2.3 TranBuf</a>
 <ul>
-<li><a href="#sec-1.2.3.1">1.2.3.1 Overview </a></li>
-<li><a href="#sec-1.2.3.2">1.2.3.2 Create </a></li>
-<li><a href="#sec-1.2.3.3">1.2.3.3 AllocOnce </a></li>
-<li><a href="#sec-1.2.3.4">1.2.3.4 GetHandle </a></li>
-<li><a href="#sec-1.2.3.5">1.2.3.5 AddRef </a></li>
-<li><a href="#sec-1.2.3.6">1.2.3.6 Destroy </a></li>
-<li><a href="#sec-1.2.3.7">1.2.3.7 Allocate </a></li>
-<li><a href="#sec-1.2.3.8">1.2.3.8 Free </a></li>
+<li><a href="#sec-1-2-3-1">1.2.3.1 Overview</a></li>
+<li><a href="#sec-1-2-3-2">1.2.3.2 Create</a></li>
+<li><a href="#sec-1-2-3-3">1.2.3.3 AllocOnce</a></li>
+<li><a href="#sec-1-2-3-4">1.2.3.4 GetHandle</a></li>
+<li><a href="#sec-1-2-3-5">1.2.3.5 AddRef</a></li>
+<li><a href="#sec-1-2-3-6">1.2.3.6 Destroy</a></li>
+<li><a href="#sec-1-2-3-7">1.2.3.7 Allocate</a></li>
+<li><a href="#sec-1-2-3-8">1.2.3.8 Free</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2.4">1.2.4 BufHandle </a>
+<li><a href="#sec-1-2-4">1.2.4 BufHandle</a>
 <ul>
-<li><a href="#sec-1.2.4.1">1.2.4.1 OverView </a></li>
-<li><a href="#sec-1.2.4.2">1.2.4.2 SetTranBuf </a></li>
-<li><a href="#sec-1.2.4.3">1.2.4.3 DoAllocate </a></li>
-<li><a href="#sec-1.2.4.4">1.2.4.4 DoAllocateCanFail </a></li>
-<li><a href="#sec-1.2.4.5">1.2.4.5 _DoAddRef </a></li>
-<li><a href="#sec-1.2.4.6">1.2.4.6 _DoFree </a></li>
-<li><a href="#sec-1.2.4.7">1.2.4.7 AllocateBig </a></li>
-<li><a href="#sec-1.2.4.8">1.2.4.8 AllocateCanFail </a></li>
-<li><a href="#sec-1.2.4.9">1.2.4.9 AllocForBuf </a></li>
-<li><a href="#sec-1.2.4.10">1.2.4.10 Allocate </a></li>
-<li><a href="#sec-1.2.4.11">1.2.4.11 ChainFree </a></li>
-<li><a href="#sec-1.2.4.12">1.2.4.12 CloneAndTerminate </a></li>
+<li><a href="#sec-1-2-4-1">1.2.4.1 OverView</a></li>
+<li><a href="#sec-1-2-4-2">1.2.4.2 SetTranBuf</a></li>
+<li><a href="#sec-1-2-4-3">1.2.4.3 DoAllocate</a></li>
+<li><a href="#sec-1-2-4-4">1.2.4.4 DoAllocateCanFail</a></li>
+<li><a href="#sec-1-2-4-5">1.2.4.5 _DoAddRef</a></li>
+<li><a href="#sec-1-2-4-6">1.2.4.6 _DoFree</a></li>
+<li><a href="#sec-1-2-4-7">1.2.4.7 AllocateBig</a></li>
+<li><a href="#sec-1-2-4-8">1.2.4.8 AllocateCanFail</a></li>
+<li><a href="#sec-1-2-4-9">1.2.4.9 AllocForBuf</a></li>
+<li><a href="#sec-1-2-4-10">1.2.4.10 Allocate</a></li>
+<li><a href="#sec-1-2-4-11">1.2.4.11 ChainFree</a></li>
+<li><a href="#sec-1-2-4-12">1.2.4.12 CloneAndTerminate</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2.5">1.2.5 Kylin </a></li>
-<li><a href="#sec-1.2.6">1.2.6 ExecMan </a>
+<li><a href="#sec-1-2-5">1.2.5 Kylin</a></li>
+<li><a href="#sec-1-2-6">1.2.6 ExecMan</a>
 <ul>
-<li><a href="#sec-1.2.6.1">1.2.6.1 Overview </a></li>
-<li><a href="#sec-1.2.6.2">1.2.6.2 Start &amp; Stop </a></li>
-<li><a href="#sec-1.2.6.3">1.2.6.3 QueueExec </a></li>
-<li><a href="#sec-1.2.6.4">1.2.6.4 Timer </a></li>
-<li><a href="#sec-1.2.6.5">1.2.6.5 Example </a></li>
+<li><a href="#sec-1-2-6-1">1.2.6.1 Overview</a></li>
+<li><a href="#sec-1-2-6-2">1.2.6.2 Start &amp; Stop</a></li>
+<li><a href="#sec-1-2-6-3">1.2.6.3 QueueExec</a></li>
+<li><a href="#sec-1-2-6-4">1.2.6.4 Timer</a></li>
+<li><a href="#sec-1-2-6-5">1.2.6.5 Example</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2.7">1.2.7 DiskMan </a>
+<li><a href="#sec-1-2-7">1.2.7 DiskMan</a>
 <ul>
-<li><a href="#sec-1.2.7.1">1.2.7.1 Overview </a></li>
-<li><a href="#sec-1.2.7.2">1.2.7.2 Start &amp; Stop </a></li>
-<li><a href="#sec-1.2.7.3">1.2.7.3 Associate &amp; Deassociate </a></li>
-<li><a href="#sec-1.2.7.4">1.2.7.4 Read &amp; Write </a></li>
-<li><a href="#sec-1.2.7.5">1.2.7.5 Example </a></li>
+<li><a href="#sec-1-2-7-1">1.2.7.1 Overview</a></li>
+<li><a href="#sec-1-2-7-2">1.2.7.2 Start &amp; Stop</a></li>
+<li><a href="#sec-1-2-7-3">1.2.7.3 Associate &amp; Deassociate</a></li>
+<li><a href="#sec-1-2-7-4">1.2.7.4 Read &amp; Write</a></li>
+<li><a href="#sec-1-2-7-5">1.2.7.5 Example</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2.8">1.2.8 NetworkMan </a>
+<li><a href="#sec-1-2-8">1.2.8 NetworkMan</a>
 <ul>
-<li><a href="#sec-1.2.8.1">1.2.8.1 Overview </a></li>
-<li><a href="#sec-1.2.8.2">1.2.8.2 Start &amp; Stop </a></li>
-<li><a href="#sec-1.2.8.3">1.2.8.3 Associate &amp; Deassociate </a></li>
-<li><a href="#sec-1.2.8.4">1.2.8.4 Listen </a></li>
-<li><a href="#sec-1.2.8.5">1.2.8.5 Connect </a></li>
-<li><a href="#sec-1.2.8.6">1.2.8.6 Monitor </a></li>
-<li><a href="#sec-1.2.8.7">1.2.8.7 Delay </a></li>
-<li><a href="#sec-1.2.8.8">1.2.8.8 Read &amp; Write </a></li>
-<li><a href="#sec-1.2.8.9">1.2.8.9 SocketState </a></li>
+<li><a href="#sec-1-2-8-1">1.2.8.1 Overview</a></li>
+<li><a href="#sec-1-2-8-2">1.2.8.2 Start &amp; Stop</a></li>
+<li><a href="#sec-1-2-8-3">1.2.8.3 Associate &amp; Deassociate</a></li>
+<li><a href="#sec-1-2-8-4">1.2.8.4 Listen</a></li>
+<li><a href="#sec-1-2-8-5">1.2.8.5 Connect</a></li>
+<li><a href="#sec-1-2-8-6">1.2.8.6 Monitor</a></li>
+<li><a href="#sec-1-2-8-7">1.2.8.7 Delay</a></li>
+<li><a href="#sec-1-2-8-8">1.2.8.8 Read &amp; Write</a></li>
+<li><a href="#sec-1-2-8-9">1.2.8.9 SocketState</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2.9">1.2.9 EPoller </a>
+<li><a href="#sec-1-2-9">1.2.9 EPoller</a>
 <ul>
-<li><a href="#sec-1.2.9.1">1.2.9.1 Overview </a></li>
-<li><a href="#sec-1.2.9.2">1.2.9.2 Create &amp; Close </a></li>
-<li><a href="#sec-1.2.9.3">1.2.9.3 Associate &amp; Deassociate </a></li>
-<li><a href="#sec-1.2.9.4">1.2.9.4 DoConnect </a></li>
-<li><a href="#sec-1.2.9.5">1.2.9.5 Delay &amp; CancalDelay </a></li>
-<li><a href="#sec-1.2.9.6">1.2.9.6 DoWithDelayed &amp; DoWithError </a></li>
-<li><a href="#sec-1.2.9.7">1.2.9.7 Read &amp; Write </a></li>
-<li><a href="#sec-1.2.9.8">1.2.9.8 NofityClient </a></li>
-<li><a href="#sec-1.2.9.9">1.2.9.9 Run </a></li>
+<li><a href="#sec-1-2-9-1">1.2.9.1 Overview</a></li>
+<li><a href="#sec-1-2-9-2">1.2.9.2 Create &amp; Close</a></li>
+<li><a href="#sec-1-2-9-3">1.2.9.3 Associate &amp; Deassociate</a></li>
+<li><a href="#sec-1-2-9-4">1.2.9.4 DoConnect</a></li>
+<li><a href="#sec-1-2-9-5">1.2.9.5 Delay &amp; CancalDelay</a></li>
+<li><a href="#sec-1-2-9-6">1.2.9.6 DoWithDelayed &amp; DoWithError</a></li>
+<li><a href="#sec-1-2-9-7">1.2.9.7 Read &amp; Write</a></li>
+<li><a href="#sec-1-2-9-8">1.2.9.8 NofityClient</a></li>
+<li><a href="#sec-1-2-9-9">1.2.9.9 Run</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2.10">1.2.10 Socket </a>
+<li><a href="#sec-1-2-10">1.2.10 Socket</a>
 <ul>
-<li><a href="#sec-1.2.10.1">1.2.10.1 Overview </a></li>
-<li><a href="#sec-1.2.10.2">1.2.10.2 Create </a></li>
-<li><a href="#sec-1.2.10.3">1.2.10.3 Close </a></li>
-<li><a href="#sec-1.2.10.4">1.2.10.4 Shutdown </a></li>
-<li><a href="#sec-1.2.10.5">1.2.10.5 Listen </a></li>
-<li><a href="#sec-1.2.10.6">1.2.10.6 Connect </a></li>
-<li><a href="#sec-1.2.10.7">1.2.10.7 Read &amp; Write </a></li>
-<li><a href="#sec-1.2.10.8">1.2.10.8 OnCompletion </a></li>
-<li><a href="#sec-1.2.10.9">1.2.10.9 Summary </a></li>
+<li><a href="#sec-1-2-10-1">1.2.10.1 Overview</a></li>
+<li><a href="#sec-1-2-10-2">1.2.10.2 Create</a></li>
+<li><a href="#sec-1-2-10-3">1.2.10.3 Close</a></li>
+<li><a href="#sec-1-2-10-4">1.2.10.4 Shutdown</a></li>
+<li><a href="#sec-1-2-10-5">1.2.10.5 Listen</a></li>
+<li><a href="#sec-1-2-10-6">1.2.10.6 Connect</a></li>
+<li><a href="#sec-1-2-10-7">1.2.10.7 Read &amp; Write</a></li>
+<li><a href="#sec-1-2-10-8">1.2.10.8 OnCompletion</a></li>
+<li><a href="#sec-1-2-10-9">1.2.10.9 Summary</a></li>
 </ul></li>
 </ul>
 </li>
-<li><a href="#sec-1.3">1.3 demo </a>
+<li><a href="#sec-1-3">1.3 demo</a>
 <ul>
-<li><a href="#sec-1.3.1">1.3.1 echo </a>
+<li><a href="#sec-1-3-1">1.3.1 echo</a>
 <ul>
-<li><a href="#sec-1.3.1.1">1.3.1.1 client.cc </a></li>
-<li><a href="#sec-1.3.1.2">1.3.1.2 server.cc </a></li>
+<li><a href="#sec-1-3-1-1">1.3.1.1 client.cc</a></li>
+<li><a href="#sec-1-3-1-2">1.3.1.2 server.cc</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.3.2">1.3.2 file-request </a>
+<li><a href="#sec-1-3-2">1.3.2 file-request</a>
 <ul>
-<li><a href="#sec-1.3.2.1">1.3.2.1 client.cc </a></li>
-<li><a href="#sec-1.3.2.2">1.3.2.2 server.cc </a></li>
+<li><a href="#sec-1-3-2-1">1.3.2.1 client.cc</a></li>
+<li><a href="#sec-1-3-2-2">1.3.2.2 server.cc</a></li>
 </ul>
 </li>
 </ul>
@@ -193,7 +214,7 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> kylin </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> kylin</h2>
 <div class="outline-text-2" id="text-1">
 
 
@@ -203,35 +224,32 @@ kylin是baidu in-house的异步编程框架，提供CPU，Network以及Disk异�
 <p>
 相关材料
 </p><ul>
-<li>
-异步编程<sub>百度文库</sub> : <a href="http://wenku.baidu.com/view/6fa262f67c1cfad6195fa74e.html">http://wenku.baidu.com/view/6fa262f67c1cfad6195fa74e.html</a>
+<li>异步编程_百度文库 : <a href="http://wenku.baidu.com/view/6fa262f67c1cfad6195fa74e.html">http://wenku.baidu.com/view/6fa262f67c1cfad6195fa74e.html</a>
 </li>
-<li>
-三谈火车票系统<sub>新浪轻博客</sub> : <a href="http://qing.blog.sina.com.cn/tj/85c4105033000ab2.html">http://qing.blog.sina.com.cn/tj/85c4105033000ab2.html</a>
+<li>三谈火车票系统_新浪轻博客 : <a href="http://qing.blog.sina.com.cn/tj/85c4105033000ab2.html">http://qing.blog.sina.com.cn/tj/85c4105033000ab2.html</a>
 </li>
-<li>
-SEDA: An Architecture for Well-Conditioned, Scalable Internet Services <a href="http://www.eecs.harvard.edu/~mdw/papers/seda-sosp01.pdf">http://www.eecs.harvard.edu/~mdw/papers/seda-sosp01.pdf</a>
+<li>SEDA: An Architecture for Well-Conditioned, Scalable Internet Services <a href="http://www.eecs.harvard.edu/~mdw/papers/seda-sosp01.pdf">http://www.eecs.harvard.edu/~mdw/papers/seda-sosp01.pdf</a>
 </li>
-<li>
-Why Threads Are a Bad Idea <a href="http://www.stanford.edu/class/cs240/readings/threads-bad-usenix96.pdf">http://www.stanford.edu/class/cs240/readings/threads-bad-usenix96.pdf</a>
-
+<li>Why Threads Are a Bad Idea <a href="http://www.stanford.edu/class/cs240/readings/threads-bad-usenix96.pdf">http://www.stanford.edu/class/cs240/readings/threads-bad-usenix96.pdf</a>
 </li>
 </ul>
 
+
+
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> share </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> share</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <p>公共组件代码
 </p>
 
 </div>
 
-<div id="outline-container-1.1.1" class="outline-4">
-<h4 id="sec-1.1.1"><span class="section-number-4">1.1.1</span> atomic </h4>
-<div class="outline-text-4" id="text-1.1.1">
+<div id="outline-container-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> atomic</h4>
+<div class="outline-text-4" id="text-1-1-1">
 
 <p>最主要实现了atomic add/swap/cas三个操作。
 </p>
@@ -277,8 +295,6 @@ static inline int atomic_comp_swap(volatile void *lockword,
 }
 </pre>
 
-
-
 <p>
 然后再上面封装了一系列原子操作。封装的一系列原子操作还是比较好理解的。
 </p>
@@ -292,15 +308,13 @@ static inline int atomic_comp_swap(volatile void *lockword,
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.1.2" class="outline-4">
-<h4 id="sec-1.1.2"><span class="section-number-4">1.1.2</span> spinlock </h4>
-<div class="outline-text-4" id="text-1.1.2">
+<div id="outline-container-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> spinlock</h4>
+<div class="outline-text-4" id="text-1-1-2">
 
 <p>spinlock直接使用atomic提供的原子操作来实现，理解起来倒不是很麻烦
 </p>
@@ -344,8 +358,6 @@ static inline bool spin_trylock(volatile int *lock) {
 </pre>
 
 
-
-
 <p>
 在spinlock.h下面有一个token实现。token语义非常简单，如果token==0的话那么这个令牌没有被任何人获得，
 如果token!=0的话，那么令牌被token标记的对象获取了。token可以是pid,也可以是tid.
@@ -370,15 +382,13 @@ static inline int token_set(volatile int *token, int id) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.1.3" class="outline-4">
-<h4 id="sec-1.1.3"><span class="section-number-4">1.1.3</span> cycle </h4>
-<div class="outline-text-4" id="text-1.1.3">
+<div id="outline-container-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3"><span class="section-number-4">1.1.3</span> cycle</h4>
+<div class="outline-text-4" id="text-1-1-3">
 
 <p>提供开销更小的计时器，使用读取CPU的time stamp counter.这个内容表示自计算机启动以来的CPU运行周期。
 </p>
@@ -393,8 +403,6 @@ static inline int token_set(volatile int *token, int id) {
     return (uint64)hi &lt;&lt; 32 | lo;
 }
 </pre>
-
-
 
 <p>
 得到周期之后我们必须转换称为时间(s)。周期转换称为时间就是除CPU的主频。得到CPU主频的话没有什么特别好的办法，
@@ -428,15 +436,13 @@ power management:
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.1.4" class="outline-4">
-<h4 id="sec-1.1.4"><span class="section-number-4">1.1.4</span> support </h4>
-<div class="outline-text-4" id="text-1.1.4">
+<div id="outline-container-1-1-4" class="outline-4">
+<h4 id="sec-1-1-4"><span class="section-number-4">1.1.4</span> support</h4>
+<div class="outline-text-4" id="text-1-1-4">
 
 <p>从这里面我们可以学习到如何进行系统调用，阅读一下&lt;asm/unistd.h&gt;可以找到系统调用号，然后使用syscall来发起。
 </p>
@@ -452,35 +458,27 @@ int main() {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.1.5" class="outline-4">
-<h4 id="sec-1.1.5"><span class="section-number-4">1.1.5</span> futex </h4>
-<div class="outline-text-4" id="text-1.1.5">
+<div id="outline-container-1-1-5" class="outline-4">
+<h4 id="sec-1-1-5"><span class="section-number-4">1.1.5</span> futex</h4>
+<div class="outline-text-4" id="text-1-1-5">
 
 <p>关于futex的话可以看看下面这些链接
 </p><ul>
-<li>
-<a href="http://en.wikipedia.org/wiki/Futex">http://en.wikipedia.org/wiki/Futex</a>
+<li><a href="http://en.wikipedia.org/wiki/Futex">http://en.wikipedia.org/wiki/Futex</a>
 </li>
-<li>
-<a href="http://linux.die.net/man/2/futex">http://linux.die.net/man/2/futex</a>
+<li><a href="http://linux.die.net/man/2/futex">http://linux.die.net/man/2/futex</a>
 </li>
-<li>
-<a href="http://blog.csdn.net/Javadino/article/details/2891385">http://blog.csdn.net/Javadino/article/details/2891385</a>
+<li><a href="http://blog.csdn.net/Javadino/article/details/2891385">http://blog.csdn.net/Javadino/article/details/2891385</a>
 </li>
-<li>
-<a href="http://blog.csdn.net/Javadino/article/details/2891388">http://blog.csdn.net/Javadino/article/details/2891388</a>
+<li><a href="http://blog.csdn.net/Javadino/article/details/2891388">http://blog.csdn.net/Javadino/article/details/2891388</a>
 </li>
-<li>
-<a href="http://blog.csdn.net/Javadino/article/details/2891399">http://blog.csdn.net/Javadino/article/details/2891399</a>
+<li><a href="http://blog.csdn.net/Javadino/article/details/2891399">http://blog.csdn.net/Javadino/article/details/2891399</a>
 </li>
-<li>
-<a href="http://people.redhat.com/drepper/futex.pdf">http://people.redhat.com/drepper/futex.pdf</a>
+<li><a href="http://people.redhat.com/drepper/futex.pdf">http://people.redhat.com/drepper/futex.pdf</a>
 </li>
 </ul>
 
@@ -501,13 +499,11 @@ int main() {
 
 
 
-
-
 </div>
 
-<div id="outline-container-1.1.5.1" class="outline-5">
-<h5 id="sec-1.1.5.1"><span class="section-number-5">1.1.5.1</span> sema </h5>
-<div class="outline-text-5" id="text-1.1.5.1">
+<div id="outline-container-1-1-5-1" class="outline-5">
+<h5 id="sec-1-1-5-1"><span class="section-number-5">1.1.5.1</span> sema</h5>
+<div class="outline-text-5" id="text-1-1-5-1">
 
 <p>可以认为是操作系统里面的PV实现.count就是资源数目，lock始终==0.理解起来并不会很麻烦。
 </p>
@@ -565,17 +561,15 @@ static inline int futex_sema_up(struct futex* pf) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.1.5.2" class="outline-5">
-<h5 id="sec-1.1.5.2"><span class="section-number-5">1.1.5.2</span> cond </h5>
-<div class="outline-text-5" id="text-1.1.5.2">
+<div id="outline-container-1-1-5-2" class="outline-5">
+<h5 id="sec-1-1-5-2"><span class="section-number-5">1.1.5.2</span> cond</h5>
+<div class="outline-text-5" id="text-1-1-5-2">
 
-<p>这里cond和pthread<sub>cond是有差别的，这里的cond没有和任何mutex相关。kylin这里认为count</sub>==0的时候，那么condition才被满足。
+<p>这里cond和pthread_cond是有差别的，这里的cond没有和任何mutex相关。kylin这里认为count==0的时候，那么condition才被满足。
 </p>
 
 
@@ -612,18 +606,16 @@ static inline int futex_cond_signal(struct futex* pf) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.1.5.3" class="outline-5">
-<h5 id="sec-1.1.5.3"><span class="section-number-5">1.1.5.3</span> event </h5>
-<div class="outline-text-5" id="text-1.1.5.3">
+<div id="outline-container-1-1-5-3" class="outline-5">
+<h5 id="sec-1-1-5-3"><span class="section-number-5">1.1.5.3</span> event</h5>
+<div class="outline-text-5" id="text-1-1-5-3">
 
-<p>这里的event名字取得也相当的奇怪。这里count实际上有两个状态，&gt;=0以及&lt;0(LARGE<sub>ENOUGH</sub><sub>NEGATIVE</sub>).对于count&gt;=0的状态时候，
-可以认为当前是没有signaled的需要wait，如果count为&lt;0(LARGE<sub>ENOUGH</sub><sub>NEGATIVE</sub>)的时候是有signal的状态的不需要wait。
+<p>这里的event名字取得也相当的奇怪。这里count实际上有两个状态，&gt;=0以及&lt;0(LARGE_ENOUGH_NEGATIVE).对于count&gt;=0的状态时候，
+可以认为当前是没有signaled的需要wait，如果count为&lt;0(LARGE_ENOUGH_NEGATIVE)的时候是有signal的状态的不需要wait。
 </p>
 
 
@@ -697,26 +689,24 @@ static inline void futex_event_reset(struct futex* pf) {
 </pre>
 
 
-
-
 </div>
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> kylin </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> kylin</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <p>异步框架代码
 </p>
 
 </div>
 
-<div id="outline-container-1.2.1" class="outline-4">
-<h4 id="sec-1.2.1"><span class="section-number-4">1.2.1</span> Async </h4>
-<div class="outline-text-4" id="text-1.2.1">
+<div id="outline-container-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Async</h4>
+<div class="outline-text-4" id="text-1-2-1">
 
 <p>kylin对于用户来说首先需要了解的概念就在Async.h文件里面，主要是下面两个类
 </p>
@@ -766,28 +756,20 @@ public:
 };
 </pre>
 
-
-
 <p>
 对于用户来说使用过程大致是这样的：
 </p><ul>
-<li>
-创建一个CAsyncClient client实例.当然是我们自己需要继承CAsyncClient重写自己的类。
+<li>创建一个CAsyncClient client实例.当然是我们自己需要继承CAsyncClient重写自己的类。
 </li>
-<li>
-创建一个AsyncContext ctx(或者是集成AsyncContext).然后将ctx和client绑定。
+<li>创建一个AsyncContext ctx(或者是集成AsyncContext).然后将ctx和client绑定。
 </li>
-<li>
-发起调用op，传入这个ctx，为了方便理解包装成为Task(op,ctx)放入线程池。可能会设置nAction字段。
+<li>发起调用op，传入这个ctx，为了方便理解包装成为Task(op,ctx)放入线程池。可能会设置nAction字段。
 </li>
-<li>
-线程池取出Task,结合ctx调用op.将op返回值放入APF<sub>ERROR里面。</sub>
+<li>线程池取出Task,结合ctx调用op.将op返回值放入APF_ERROR里面。
 </li>
-<li>
-然后根据ctx关联的client,调用client的OnCompletion方法。
+<li>然后根据ctx关联的client,调用client的OnCompletion方法。
 </li>
-<li>
-调用OnCompletion方法的话会根据ctx里面的标记，可以直接在工作线程调用，也可以丢入CPU线程调用。
+<li>调用OnCompletion方法的话会根据ctx里面的标记，可以直接在工作线程调用，也可以丢入CPU线程调用。
 </li>
 </ul>
 
@@ -795,28 +777,27 @@ public:
 因为client可以一次多个调用，而在OnCompletion里面根本不知道谁先完成谁后完成，也就不能够确定释放责任了。通过引用计数可以很好地解决这个问题。
 如果我们直接继承CAsyncClient的话，内部是有引用计数实现的，非常方便我们只需要如何适当地使用就OK了。关于如何适当使用，谢谢sunxiao同学在这里的建议。
 </p><ul>
-<li>
-一旦发起一次异步调用，那么首先AddRef().当然需要确保这个调用内部没有帮助我们AddRef.
+<li>一旦发起一次异步调用，那么首先AddRef().当然需要确保这个调用内部没有帮助我们AddRef.
 </li>
-<li>
-我们不需要显示地DecRef(),因为这个事情在线程池fProc里面调用了Release.
-
+<li>我们不需要显示地DecRef(),因为这个事情在线程池fProc里面调用了Release.
 </li>
 </ul>
-</div>
-
-</div>
-
-<div id="outline-container-1.2.2" class="outline-4">
-<h4 id="sec-1.2.2"><span class="section-number-4">1.2.2</span> ThreadPool </h4>
-<div class="outline-text-4" id="text-1.2.2">
 
 
 </div>
 
-<div id="outline-container-1.2.2.1" class="outline-5">
-<h5 id="sec-1.2.2.1"><span class="section-number-5">1.2.2.1</span> Overview </h5>
-<div class="outline-text-5" id="text-1.2.2.1">
+</div>
+
+<div id="outline-container-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> ThreadPool</h4>
+<div class="outline-text-4" id="text-1-2-2">
+
+
+</div>
+
+<div id="outline-container-1-2-2-1" class="outline-5">
+<h5 id="sec-1-2-2-1"><span class="section-number-5">1.2.2.1</span> Overview</h5>
+<div class="outline-text-5" id="text-1-2-2-1">
 
 <p>线程池很简单，取出一个Job出来执行就多了。但是为了更好地理解kylin有必要看看线程池接口/实现。
 </p>
@@ -847,29 +828,25 @@ class CThreadPool
 };
 </pre>
 
-
-
 <p>
 对于线程池部分的话我们比较关心这么几件事情：
 </p><ul>
-<li>
-如何增加删除线程的
+<li>如何增加删除线程的
 </li>
-<li>
-线程是如何进行工作的
+<li>线程是如何进行工作的
 </li>
-<li>
-如何往线程里面增加取消任务
-
+<li>如何往线程里面增加取消任务
 </li>
 </ul>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.2.2.2" class="outline-5">
-<h5 id="sec-1.2.2.2"><span class="section-number-5">1.2.2.2</span> How Thread Works </h5>
-<div class="outline-text-5" id="text-1.2.2.2">
+</div>
+
+<div id="outline-container-1-2-2-2" class="outline-5">
+<h5 id="sec-1-2-2-2"><span class="section-number-5">1.2.2.2</span> How Thread Works</h5>
+<div class="outline-text-5" id="text-1-2-2-2">
 
 <p>了解线程是怎么工作的，可以看看线程执行的函数是怎么定义的
 </p>
@@ -908,8 +885,6 @@ WorkerProc(void* pData)
 </pre>
 
 
-
-
 <p>
 普通的Job会在每个Man里面单独提到，我们看看控制Job是怎么定义的。在ThreadPool里面就有一个TermianationJob.
 </p>
@@ -932,8 +907,6 @@ TerminateWorker(ControlJob* pCtl, WorkerContext* pCtx)
 }
 </pre>
 
-
-
 <p>
 通过这种方式来通知线程主动退出。理论上因为shared Queue可能会造成所有永远不会退出但是实际应该不会。
 </p>
@@ -941,9 +914,9 @@ TerminateWorker(ControlJob* pCtl, WorkerContext* pCtx)
 
 </div>
 
-<div id="outline-container-1.2.2.3" class="outline-5">
-<h5 id="sec-1.2.2.3"><span class="section-number-5">1.2.2.3</span> AddWorker &amp; DelWorker </h5>
-<div class="outline-text-5" id="text-1.2.2.3">
+<div id="outline-container-1-2-2-3" class="outline-5">
+<h5 id="sec-1-2-2-3"><span class="section-number-5">1.2.2.3</span> AddWorker &amp; DelWorker</h5>
+<div class="outline-text-5" id="text-1-2-2-3">
 
 <p>AddWorker非常简单
 </p>
@@ -967,8 +940,6 @@ TerminateWorker(ControlJob* pCtl, WorkerContext* pCtx)
     return i;
 }
 </pre>
-
-
 
 
 <p>
@@ -1001,15 +972,13 @@ DelWorker因为有ControlJob的辅助所以可以很好地解决，只需要在�
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.2.4" class="outline-5">
-<h5 id="sec-1.2.2.4"><span class="section-number-5">1.2.2.4</span> QueueJob &amp; CancelJob </h5>
-<div class="outline-text-5" id="text-1.2.2.4">
+<div id="outline-container-1-2-2-4" class="outline-5">
+<h5 id="sec-1-2-2-4"><span class="section-number-5">1.2.2.4</span> QueueJob &amp; CancelJob</h5>
+<div class="outline-text-5" id="text-1-2-2-4">
 
 <p>相对来说QueueJob也更加简单一些，直接投递到某个线程对应的WorkerContext里面即可。
 </p>
@@ -1024,8 +993,6 @@ DelWorker因为有ControlJob的辅助所以可以很好地解决，只需要在�
     m_pContexts[nWhich].pJobQ-&gt;push_back(pJob);
 }
 </pre>
-
-
 
 
 <p>
@@ -1052,16 +1019,14 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.2.3" class="outline-4">
-<h4 id="sec-1.2.3"><span class="section-number-4">1.2.3</span> TranBuf </h4>
-<div class="outline-text-4" id="text-1.2.3">
+<div id="outline-container-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> TranBuf</h4>
+<div class="outline-text-4" id="text-1-2-3">
 
 <p>TranBuf.h CTranBufPool是一个内存分配器。对于很多系统来说，合理地使用资源是非常必要的。
 </p>
@@ -1074,17 +1039,15 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
 </pre>
 
 
-
-
 <p>
 了解一下真实系统里面定制话的内存分配器是非常有帮助的(相对来说 <a href="./TCMalloc.html">TCMalloc</a> 是通用系统).
 </p>
 
 </div>
 
-<div id="outline-container-1.2.3.1" class="outline-5">
-<h5 id="sec-1.2.3.1"><span class="section-number-5">1.2.3.1</span> Overview </h5>
-<div class="outline-text-5" id="text-1.2.3.1">
+<div id="outline-container-1-2-3-1" class="outline-5">
+<h5 id="sec-1-2-3-1"><span class="section-number-5">1.2.3.1</span> Overview</h5>
+<div class="outline-text-5" id="text-1-2-3-1">
 
 <p>首先看看CTranBufPool的数据结构，看看里面每个字段含义和作用.对于TranBuf来说的话内部
 本质还是一个sample allocator，也是按照固定的BlockSize来进行分配的。构造函数可以看到水位线三个阈值都是0.
@@ -1127,11 +1090,9 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
     m_nWaterMarks[0] = m_nWaterMarks[1] = m_nWaterMarks[2] = 0;
 </pre>
 
-
-
 <p>
 可以看到TranBuf分配方式是每次分配nAlloc个Block(这个过程在后面叫做AllocOnce).每个Block是BlockSize字节.
-然后至少分配m<sub>nMin</sub>*nAlloc(首先调用m<sub>nMin个AllocOnce过程</sub>),最多分配m<sub>nMax</sub>*nAlloc个Block.每个内存
+然后至少分配m_nMin*nAlloc(首先调用m_nMin个AllocOnce过程),最多分配m_nMax*nAlloc个Block.每个内存
 不够的话都会调用AllocOnce这个过程。
 </p>
 <p>
@@ -1144,11 +1105,11 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
 
 </div>
 
-<div id="outline-container-1.2.3.2" class="outline-5">
-<h5 id="sec-1.2.3.2"><span class="section-number-5">1.2.3.2</span> Create </h5>
-<div class="outline-text-5" id="text-1.2.3.2">
+<div id="outline-container-1-2-3-2" class="outline-5">
+<h5 id="sec-1-2-3-2"><span class="section-number-5">1.2.3.2</span> Create</h5>
+<div class="outline-text-5" id="text-1-2-3-2">
 
-<p>大部分Create代码都是在设置参数，最后调用m<sub>nMin次AllocOnce来分配初始的内存块。</sub>
+<p>大部分Create代码都是在设置参数，最后调用m_nMin次AllocOnce来分配初始的内存块。
 </p>
 
 
@@ -1180,17 +1141,15 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.3.3" class="outline-5">
-<h5 id="sec-1.2.3.3"><span class="section-number-5">1.2.3.3</span> AllocOnce </h5>
-<div class="outline-text-5" id="text-1.2.3.3">
+<div id="outline-container-1-2-3-3" class="outline-5">
+<h5 id="sec-1-2-3-3"><span class="section-number-5">1.2.3.3</span> AllocOnce</h5>
+<div class="outline-text-5" id="text-1-2-3-3">
 
-<p>之前说过AllocOnce是分配一个连续内存块，每个Block大小是m<sub>nBlockSize</sub>,而个数是nAlloc.
+<p>之前说过AllocOnce是分配一个连续内存块，每个Block大小是m_nBlockSize,而个数是nAlloc.
 同时还需要分配nAlloc个Handle.每个Handle管理一个Block.
 </p>
 
@@ -1227,15 +1186,13 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.3.4" class="outline-5">
-<h5 id="sec-1.2.3.4"><span class="section-number-5">1.2.3.4</span> GetHandle </h5>
-<div class="outline-text-5" id="text-1.2.3.4">
+<div id="outline-container-1-2-3-4" class="outline-5">
+<h5 id="sec-1-2-3-4"><span class="section-number-5">1.2.3.4</span> GetHandle</h5>
+<div class="outline-text-5" id="text-1-2-3-4">
 
 <p>GetHandle是通过传入buffer首地址来确定管理这个buffer的Handle.但是注意不是RealHdl.
 如果需要对这个内存做引用计数的话，应该是对RealHdl做引用计数。可以看看下面的AddRef实现。
@@ -1261,15 +1218,13 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.3.5" class="outline-5">
-<h5 id="sec-1.2.3.5"><span class="section-number-5">1.2.3.5</span> AddRef </h5>
-<div class="outline-text-5" id="text-1.2.3.5">
+<div id="outline-container-1-2-3-5" class="outline-5">
+<h5 id="sec-1-2-3-5"><span class="section-number-5">1.2.3.5</span> AddRef</h5>
+<div class="outline-text-5" id="text-1-2-3-5">
 
 <p>对某块内存进行引用计数。并且强大的是这个内存地址不必是分配的首地址，可以是连续内存内部任意地址。
 </p>
@@ -1291,15 +1246,13 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.3.6" class="outline-5">
-<h5 id="sec-1.2.3.6"><span class="section-number-5">1.2.3.6</span> Destroy </h5>
-<div class="outline-text-5" id="text-1.2.3.6">
+<div id="outline-container-1-2-3-6" class="outline-5">
+<h5 id="sec-1-2-3-6"><span class="section-number-5">1.2.3.6</span> Destroy</h5>
+<div class="outline-text-5" id="text-1-2-3-6">
 
 <p>Destroy是将AllocOnce分配的内存和Handle全部回收。因为得到了所有分配内存和Handle的起始地址
 保存在map里面所以释放并不麻烦.
@@ -1320,15 +1273,13 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.3.7" class="outline-5">
-<h5 id="sec-1.2.3.7"><span class="section-number-5">1.2.3.7</span> Allocate </h5>
-<div class="outline-text-5" id="text-1.2.3.7">
+<div id="outline-container-1-2-3-7" class="outline-5">
+<h5 id="sec-1-2-3-7"><span class="section-number-5">1.2.3.7</span> Allocate</h5>
+<div class="outline-text-5" id="text-1-2-3-7">
 
 <p>分配内存。可以从参数里面看出来语义是说分配多少个Block.nPriority参数是说使用哪个水位线。
 如果超过水位线的话，那么会使用相应的策略来处理(打印日志)。
@@ -1410,15 +1361,13 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.3.8" class="outline-5">
-<h5 id="sec-1.2.3.8"><span class="section-number-5">1.2.3.8</span> Free </h5>
-<div class="outline-text-5" id="text-1.2.3.8">
+<div id="outline-container-1-2-3-8" class="outline-5">
+<h5 id="sec-1-2-3-8"><span class="section-number-5">1.2.3.8</span> Free</h5>
+<div class="outline-text-5" id="text-1-2-3-8">
 
 
 
@@ -1475,16 +1424,14 @@ bool CThreadPool::CancelJob(Job* pJob, int nWhich)
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4" class="outline-4">
-<h4 id="sec-1.2.4"><span class="section-number-4">1.2.4</span> BufHandle </h4>
-<div class="outline-text-4" id="text-1.2.4">
+<div id="outline-container-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4"><span class="section-number-4">1.2.4</span> BufHandle</h4>
+<div class="outline-text-4" id="text-1-2-4">
 
 <p>如果说TranBuf是底层内存分配器的话，那BufHandle就是应用层的内存分配器。BufHandle底层是通过
 两个TranBuf来进行分配的。BufHandle本质上是chained的形式，主要是为了节省mem copy以及适应
@@ -1493,9 +1440,9 @@ network IO app的。通过全局的BufHandlePool对象来分配内存。
 
 </div>
 
-<div id="outline-container-1.2.4.1" class="outline-5">
-<h5 id="sec-1.2.4.1"><span class="section-number-5">1.2.4.1</span> OverView </h5>
-<div class="outline-text-5" id="text-1.2.4.1">
+<div id="outline-container-1-2-4-1" class="outline-5">
+<h5 id="sec-1-2-4-1"><span class="section-number-5">1.2.4.1</span> OverView</h5>
+<div class="outline-text-5" id="text-1-2-4-1">
 
 <p>首先我们看看BufHandle结构以及提供的API.
 </p>
@@ -1540,15 +1487,13 @@ BufHandle* CloneHdlAndTerminate(BufHandle* pHdl, BufHandle* pNext,
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.2" class="outline-5">
-<h5 id="sec-1.2.4.2"><span class="section-number-5">1.2.4.2</span> SetTranBuf </h5>
-<div class="outline-text-5" id="text-1.2.4.2">
+<div id="outline-container-1-2-4-2" class="outline-5">
+<h5 id="sec-1-2-4-2"><span class="section-number-5">1.2.4.2</span> SetTranBuf</h5>
+<div class="outline-text-5" id="text-1-2-4-2">
 
 <p>首先我们先看看CBufHandlePool的结构然后在看这个API
 </p>
@@ -1596,8 +1541,6 @@ static CBufHandlePool* GetBufHdlPool() {
 </pre>
 
 
-
-
 <p>
 然后来看看这些参数是来如何设置的.
 </p>
@@ -1621,15 +1564,13 @@ void SetTranBuf(int nSmallNum, int nBigNum, int nSmallSize, float fLowMark, floa
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.3" class="outline-5">
-<h5 id="sec-1.2.4.3"><span class="section-number-5">1.2.4.3</span> DoAllocate </h5>
-<div class="outline-text-5" id="text-1.2.4.3">
+<div id="outline-container-1-2-4-3" class="outline-5">
+<h5 id="sec-1-2-4-3"><span class="section-number-5">1.2.4.3</span> DoAllocate</h5>
+<div class="outline-text-5" id="text-1-2-4-3">
 
 <p>这个是底层确保一定分配成功API(如果失败抛异常).来看看实现.使用hang住当前操作等待其他线程归还内存.
 </p>
@@ -1662,15 +1603,13 @@ BufHandle* DoAllocate(CTranBufPool* pPool, int nRetry) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.4" class="outline-5">
-<h5 id="sec-1.2.4.4"><span class="section-number-5">1.2.4.4</span> DoAllocateCanFail </h5>
-<div class="outline-text-5" id="text-1.2.4.4">
+<div id="outline-container-1-2-4-4" class="outline-5">
+<h5 id="sec-1-2-4-4"><span class="section-number-5">1.2.4.4</span> DoAllocateCanFail</h5>
+<div class="outline-text-5" id="text-1-2-4-4">
 
 <p>底层不一定保证分配成功，可能返回NULL表示失败.只是尝试一次分配.
 </p>
@@ -1699,15 +1638,13 @@ BufHandle* DoAllocate(CTranBufPool* pPool, int nRetry) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.5" class="outline-5">
-<h5 id="sec-1.2.4.5"><span class="section-number-5">1.2.4.5</span> <sub>DoAddRef</sub> </h5>
-<div class="outline-text-5" id="text-1.2.4.5">
+<div id="outline-container-1-2-4-5" class="outline-5">
+<h5 id="sec-1-2-4-5"><span class="section-number-5">1.2.4.5</span> _DoAddRef</h5>
+<div class="outline-text-5" id="text-1-2-4-5">
 
 <p>对于BufHandle的引用技术和TranPool引用计数有点不同，并且平时思考的也不同。BufHandle的引用计数
 只是针对头部的BufHandle增加计数而共用其他部分的BufHandle.
@@ -1732,15 +1669,13 @@ BufHandle* DoAllocate(CTranBufPool* pPool, int nRetry) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.6" class="outline-5">
-<h5 id="sec-1.2.4.6"><span class="section-number-5">1.2.4.6</span> <sub>DoFree</sub> </h5>
-<div class="outline-text-5" id="text-1.2.4.6">
+<div id="outline-container-1-2-4-6" class="outline-5">
+<h5 id="sec-1-2-4-6"><span class="section-number-5">1.2.4.6</span> _DoFree</h5>
+<div class="outline-text-5" id="text-1-2-4-6">
 
 <p>只是释放单个BufHandle对象.
 </p>
@@ -1754,15 +1689,13 @@ BufHandle* DoAllocate(CTranBufPool* pPool, int nRetry) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.7" class="outline-5">
-<h5 id="sec-1.2.4.7"><span class="section-number-5">1.2.4.7</span> AllocateBig </h5>
-<div class="outline-text-5" id="text-1.2.4.7">
+<div id="outline-container-1-2-4-7" class="outline-5">
+<h5 id="sec-1-2-4-7"><span class="section-number-5">1.2.4.7</span> AllocateBig</h5>
+<div class="outline-text-5" id="text-1-2-4-7">
 
 <p>从BigTranBufPool里面分配大块内存.注意对于大块内存而言的话只允许分配一个Block.
 </p>
@@ -1784,15 +1717,13 @@ BufHandle* DoAllocate(CTranBufPool* pPool, int nRetry) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.8" class="outline-5">
-<h5 id="sec-1.2.4.8"><span class="section-number-5">1.2.4.8</span> AllocateCanFail </h5>
-<div class="outline-text-5" id="text-1.2.4.8">
+<div id="outline-container-1-2-4-8" class="outline-5">
+<h5 id="sec-1-2-4-8"><span class="section-number-5">1.2.4.8</span> AllocateCanFail</h5>
+<div class="outline-text-5" id="text-1-2-4-8">
 
 <p>从TranBufPool里面分配连续内存出来.
 </p>
@@ -1810,15 +1741,13 @@ BufHandle* DoAllocate(CTranBufPool* pPool, int nRetry) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.9" class="outline-5">
-<h5 id="sec-1.2.4.9"><span class="section-number-5">1.2.4.9</span> AllocForBuf </h5>
-<div class="outline-text-5" id="text-1.2.4.9">
+<div id="outline-container-1-2-4-9" class="outline-5">
+<h5 id="sec-1-2-4-9"><span class="section-number-5">1.2.4.9</span> AllocForBuf</h5>
+<div class="outline-text-5" id="text-1-2-4-9">
 
 <p>为某个buf分配内存.把buf内容copy进来.并且设置pNext.pppLast表示最后一个节点的next字段指针(三指针比较难理解&hellip;)
 </p>
@@ -1851,15 +1780,13 @@ BufHandle* DoAllocate(CTranBufPool* pPool, int nRetry) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.10" class="outline-5">
-<h5 id="sec-1.2.4.10"><span class="section-number-5">1.2.4.10</span> Allocate </h5>
-<div class="outline-text-5" id="text-1.2.4.10">
+<div id="outline-container-1-2-4-10" class="outline-5">
+<h5 id="sec-1-2-4-10"><span class="section-number-5">1.2.4.10</span> Allocate</h5>
+<div class="outline-text-5" id="text-1-2-4-10">
 
 
 
@@ -1901,15 +1828,13 @@ BufHandle* Allocate(bool bInPool = false, char* pBuf = NULL,
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.11" class="outline-5">
-<h5 id="sec-1.2.4.11"><span class="section-number-5">1.2.4.11</span> ChainFree </h5>
-<div class="outline-text-5" id="text-1.2.4.11">
+<div id="outline-container-1-2-4-11" class="outline-5">
+<h5 id="sec-1-2-4-11"><span class="section-number-5">1.2.4.11</span> ChainFree</h5>
+<div class="outline-text-5" id="text-1-2-4-11">
 
 <p>释放[pHdl,pNext)链上的所有item.
 </p>
@@ -1928,15 +1853,13 @@ BufHandle* Allocate(bool bInPool = false, char* pBuf = NULL,
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.4.12" class="outline-5">
-<h5 id="sec-1.2.4.12"><span class="section-number-5">1.2.4.12</span> CloneAndTerminate </h5>
-<div class="outline-text-5" id="text-1.2.4.12">
+<div id="outline-container-1-2-4-12" class="outline-5">
+<h5 id="sec-1-2-4-12"><span class="section-number-5">1.2.4.12</span> CloneAndTerminate</h5>
+<div class="outline-text-5" id="text-1-2-4-12">
 
 <p>这个API的语义在之前已经解释过了，来看看代码.
 </p>
@@ -1985,16 +1908,14 @@ BufHandle* Allocate(bool bInPool = false, char* pBuf = NULL,
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.2.5" class="outline-4">
-<h4 id="sec-1.2.5"><span class="section-number-4">1.2.5</span> Kylin </h4>
-<div class="outline-text-4" id="text-1.2.5">
+<div id="outline-container-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5"><span class="section-number-4">1.2.5</span> Kylin</h4>
+<div class="outline-text-4" id="text-1-2-5">
 
 <p>这个模块主要负责框架的启动和停止，做了一些琐碎的事情方便用户，主要是下面这两个函数
 </p>
@@ -2010,8 +1931,6 @@ APF_ERROR InitKylin(int nExecWorkers, int nNetWorkers, int nDiskWorkers,
 APF_ERROR StopKylin(bool bWait);
 </pre>
 
-
-
 <p>
 对于InitKylin里面事情就是启动几个Manager，还做了一件tricky事情就是将SIGPIPE信号忽略了。而StopKylin就是停止这些Manager.我们需要仔细关注的就是这些Manager的启停。
 </p>
@@ -2019,16 +1938,16 @@ APF_ERROR StopKylin(bool bWait);
 
 </div>
 
-<div id="outline-container-1.2.6" class="outline-4">
-<h4 id="sec-1.2.6"><span class="section-number-4">1.2.6</span> ExecMan </h4>
-<div class="outline-text-4" id="text-1.2.6">
+<div id="outline-container-1-2-6" class="outline-4">
+<h4 id="sec-1-2-6"><span class="section-number-4">1.2.6</span> ExecMan</h4>
+<div class="outline-text-4" id="text-1-2-6">
 
 
 </div>
 
-<div id="outline-container-1.2.6.1" class="outline-5">
-<h5 id="sec-1.2.6.1"><span class="section-number-5">1.2.6.1</span> Overview </h5>
-<div class="outline-text-5" id="text-1.2.6.1">
+<div id="outline-container-1-2-6-1" class="outline-5">
+<h5 id="sec-1-2-6-1"><span class="section-number-5">1.2.6.1</span> Overview</h5>
+<div class="outline-text-5" id="text-1-2-6-1">
 
 <p>我们首先看看ExecMan的接口
 </p>
@@ -2064,15 +1983,13 @@ class CExecMan
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.6.2" class="outline-5">
-<h5 id="sec-1.2.6.2"><span class="section-number-5">1.2.6.2</span> Start &amp; Stop </h5>
-<div class="outline-text-5" id="text-1.2.6.2">
+<div id="outline-container-1-2-6-2" class="outline-5">
+<h5 id="sec-1-2-6-2"><span class="section-number-5">1.2.6.2</span> Start &amp; Stop</h5>
+<div class="outline-text-5" id="text-1-2-6-2">
 
 <p>Start逻辑很简单，包括计算1s对应多少cycle数目以及启动线程池。
 </p>
@@ -2092,8 +2009,6 @@ class CExecMan
     return APFE_SYS_ERROR;
 }
 </pre>
-
-
 
 
 <p>
@@ -2122,15 +2037,13 @@ void CExecMan::Stop(bool bWait)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.6.3" class="outline-5">
-<h5 id="sec-1.2.6.3"><span class="section-number-5">1.2.6.3</span> QueueExec </h5>
-<div class="outline-text-5" id="text-1.2.6.3">
+<div id="outline-container-1-2-6-3" class="outline-5">
+<h5 id="sec-1-2-6-3"><span class="section-number-5">1.2.6.3</span> QueueExec</h5>
+<div class="outline-text-5" id="text-1-2-6-3">
 
 <p>QueueExec和QueueExecEmergent逻辑非常相似，只不过底层调用线程池的QueueJob和QueueEmergentJob.我们这里只看QueueExec.
 </p>
@@ -2179,22 +2092,20 @@ APF_ERROR CExecMan::QueueExec(AsyncContext* pCtx, bool bClientReferred)
 }
 </pre>
 
-
-
 <p>
-我们这里可以看到m<sub>nCurJobs在QueueExec和Stop之间的配合。然后我们稍微看看Proc这个过程，对于CPU任务直接调用OnCompletion然后调用Release</sub>.
+我们这里可以看到m_nCurJobs在QueueExec和Stop之间的配合。然后我们稍微看看Proc这个过程，对于CPU任务直接调用OnCompletion然后调用Release.
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1.2.6.4" class="outline-5">
-<h5 id="sec-1.2.6.4"><span class="section-number-5">1.2.6.4</span> Timer </h5>
-<div class="outline-text-5" id="text-1.2.6.4">
+<div id="outline-container-1-2-6-4" class="outline-5">
+<h5 id="sec-1-2-6-4"><span class="section-number-5">1.2.6.4</span> Timer</h5>
+<div class="outline-text-5" id="text-1-2-6-4">
 
 <p>定时器任务加入是DelayExec,检查触发是RunTimer.如果查看CallGraph的话会发现RunTimer都是在网络部分调用的，我们在网络部分看看触发的时机。
-DelayExec里面的逻辑会根据定时时间来判断如何实现，如果定时时间超过g<sub>nTickPrecision，那么会将超时时间加入一个map里面去，然后让RunTimer去触发。</sub>
-否则会加入线程池里面去。对于加入到map里面的fProc有一个特殊的标记(JOB<sub>PROC</sub>)2.在CancelExec时候会认识这个特殊标记，将事件从map中删除。
+DelayExec里面的逻辑会根据定时时间来判断如何实现，如果定时时间超过g_nTickPrecision，那么会将超时时间加入一个map里面去，然后让RunTimer去触发。
+否则会加入线程池里面去。对于加入到map里面的fProc有一个特殊的标记(JOB_PROC)2.在CancelExec时候会认识这个特殊标记，将事件从map中删除。
 </p>
 
 
@@ -2228,12 +2139,10 @@ DelayExec里面的逻辑会根据定时时间来判断如何实现，如果定�
 </pre>
 
 
-
-
 <p>
 然后我看看看RunTimer这个部分。这个部分非常简单，就是根据当前时间判断map里面哪些定时器需要进行触发，然后将触发逻辑作为Job丢入CPU线程池。
 我们这里不看RunTimer具体代码，反而倒是对外面的一些小细节比较感兴趣。我们不希望RunTimer被多个实例调用，只要有一个实例调用就OK，使用CToken完成。
-当然可以使用mutex+try<sub>lock来实现但是开销应该会更大。</sub>
+当然可以使用mutex+try_lock来实现但是开销应该会更大。
 </p>
 
 
@@ -2249,15 +2158,13 @@ DelayExec里面的逻辑会根据定时时间来判断如何实现，如果定�
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.6.5" class="outline-5">
-<h5 id="sec-1.2.6.5"><span class="section-number-5">1.2.6.5</span> Example </h5>
-<div class="outline-text-5" id="text-1.2.6.5">
+<div id="outline-container-1-2-6-5" class="outline-5">
+<h5 id="sec-1-2-6-5"><span class="section-number-5">1.2.6.5</span> Example</h5>
+<div class="outline-text-5" id="text-1-2-6-5">
 
 <p>我们这里给的例子非常简单，但是希望有启发性.我们从1开始进行打印，每打印1个数字就认为当前任务结束，一直无限打印。
 但是我们同时会启动一个定时器，只允许我们做1.2s钟时间的打印。如果我们在1.2s内打印数字个数超过了100个的话，那么我们重启一个定时器1.2s，
@@ -2377,23 +2284,21 @@ int main(){
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.2.7" class="outline-4">
-<h4 id="sec-1.2.7"><span class="section-number-4">1.2.7</span> DiskMan </h4>
-<div class="outline-text-4" id="text-1.2.7">
+<div id="outline-container-1-2-7" class="outline-4">
+<h4 id="sec-1-2-7"><span class="section-number-4">1.2.7</span> DiskMan</h4>
+<div class="outline-text-4" id="text-1-2-7">
 
 
 </div>
 
-<div id="outline-container-1.2.7.1" class="outline-5">
-<h5 id="sec-1.2.7.1"><span class="section-number-5">1.2.7.1</span> Overview </h5>
-<div class="outline-text-5" id="text-1.2.7.1">
+<div id="outline-container-1-2-7-1" class="outline-5">
+<h5 id="sec-1-2-7-1"><span class="section-number-5">1.2.7.1</span> Overview</h5>
+<div class="outline-text-5" id="text-1-2-7-1">
 
 <p>我们首先看看和磁盘相关的两个比较重要的类。因为磁盘操作不像CPU操作一样不需要任何辅助数据结构，磁盘操作需要一些信息比如fd等，磁盘操作需要一个特殊的磁盘Context。
 然后每次发起磁盘操作使用另外一个结构Request.这里名字上和原来的CPU事件并不太一样，我们可能需要习惯一下。实际上如果我们需要映射到CPU事件里面的话，这两个Context应该结合在一起。
@@ -2427,8 +2332,6 @@ struct DiskRequest {
 };
 </pre>
 
-
-
 <p>
 然后在看看DiskMan接口
 </p>
@@ -2459,15 +2362,13 @@ class CDiskMan
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.7.2" class="outline-5">
-<h5 id="sec-1.2.7.2"><span class="section-number-5">1.2.7.2</span> Start &amp; Stop </h5>
-<div class="outline-text-5" id="text-1.2.7.2">
+<div id="outline-container-1-2-7-2" class="outline-5">
+<h5 id="sec-1-2-7-2"><span class="section-number-5">1.2.7.2</span> Start &amp; Stop</h5>
+<div class="outline-text-5" id="text-1-2-7-2">
 
 <p>启动停止逻辑非常简单，就是让线程池启动和停止
 </p>
@@ -2495,15 +2396,13 @@ void CDiskMan::Stop()
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.7.3" class="outline-5">
-<h5 id="sec-1.2.7.3"><span class="section-number-5">1.2.7.3</span> Associate &amp; Deassociate </h5>
-<div class="outline-text-5" id="text-1.2.7.3">
+<div id="outline-container-1-2-7-3" class="outline-5">
+<h5 id="sec-1-2-7-3"><span class="section-number-5">1.2.7.3</span> Associate &amp; Deassociate</h5>
+<div class="outline-text-5" id="text-1-2-7-3">
 
 <p>逻辑非常简单，就是进行一下DiskContext和CAsyncClient初始化的工作。关于DiskContext里面各个字段含义的话，都是在Read/Write时候解释的。
 关于这里最重点的绑定内容就是diskno.diskno非常作用类似于CPU事件里面的AsyncId.相同AsyncId可以分摊到同一个CPU线程这件可以免去加锁开销，
@@ -2536,15 +2435,13 @@ APF_ERROR CDiskMan::Deassociate(DiskContext* pContext)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.7.4" class="outline-5">
-<h5 id="sec-1.2.7.4"><span class="section-number-5">1.2.7.4</span> Read &amp; Write </h5>
-<div class="outline-text-5" id="text-1.2.7.4">
+<div id="outline-container-1-2-7-4" class="outline-5">
+<h5 id="sec-1-2-7-4"><span class="section-number-5">1.2.7.4</span> Read &amp; Write</h5>
+<div class="outline-text-5" id="text-1-2-7-4">
 
 <p>文件的Read/Write非常简单，因为本身就是一个阻塞的过程，发起一次就可以保证读取所有内容了，所以不像网络一样需要多次发起。
 </p>
@@ -2575,8 +2472,6 @@ void CDiskMan::Write(DiskContext* pContext, void* pBuf, int count, DiskRequest* 
 </pre>
 
 
-
-
 <p>
 从上面分析的话，所有重要的工作都分摊在了ReadOp和WriteOp上面。我们需要做的是Dig下去看看两个是怎么工作的。但是很不幸，两个函数里面内容都是使用了宏DiskOp.
 DiskOp(a,b,c)其中a表示对应的系统调用叫什么名字，b表示这个Job,c表示读写(没有使用).
@@ -2595,8 +2490,6 @@ WriteOp(Job* pJob)
     DISK_OP(write, pJob, 1);
 }
 </pre>
-
-
 
 
 <p>
@@ -2648,15 +2541,13 @@ WriteOp(Job* pJob)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.7.5" class="outline-5">
-<h5 id="sec-1.2.7.5"><span class="section-number-5">1.2.7.5</span> Example </h5>
-<div class="outline-text-5" id="text-1.2.7.5">
+<div id="outline-container-1-2-7-5" class="outline-5">
+<h5 id="sec-1-2-7-5"><span class="section-number-5">1.2.7.5</span> Example</h5>
+<div class="outline-text-5" id="text-1-2-7-5">
 
 <p>例子非常简单就是我们首先发起一个磁盘操作写文件然后在将去读取出来。
 </p>
@@ -2757,23 +2648,21 @@ int main(){
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.2.8" class="outline-4">
-<h4 id="sec-1.2.8"><span class="section-number-4">1.2.8</span> NetworkMan </h4>
-<div class="outline-text-4" id="text-1.2.8">
+<div id="outline-container-1-2-8" class="outline-4">
+<h4 id="sec-1-2-8"><span class="section-number-4">1.2.8</span> NetworkMan</h4>
+<div class="outline-text-4" id="text-1-2-8">
 
 
 </div>
 
-<div id="outline-container-1.2.8.1" class="outline-5">
-<h5 id="sec-1.2.8.1"><span class="section-number-5">1.2.8.1</span> Overview </h5>
-<div class="outline-text-5" id="text-1.2.8.1">
+<div id="outline-container-1-2-8-1" class="outline-5">
+<h5 id="sec-1-2-8-1"><span class="section-number-5">1.2.8.1</span> Overview</h5>
+<div class="outline-text-5" id="text-1-2-8-1">
 
 <p>和网络相关的也有两个比较重要的类。同样和DiskMan相同，NetworkMan也提供了NetContext和NetRequest.
 </p>
@@ -2851,8 +2740,6 @@ struct NetContext {
 };
 </pre>
 
-
-
 <p>
 然后我们看看NetworkMan的接口
 </p>
@@ -2892,8 +2779,6 @@ class CNetworkMan
 };
 </pre>
 
-
-
 <p>
 虽然这个部分叫做NetworkMan,但是里面比较重要的逻辑部分都放在了EPoller里面来完成的，对于NetworkMan只不过是一个发起者的角色罢了。
 对于NetworkMan部分的话还需要关注的是SocketState这个东西，因为对于EPoller来说的话只能够发现Socket究竟是可读还是可写，
@@ -2903,9 +2788,9 @@ class CNetworkMan
 
 </div>
 
-<div id="outline-container-1.2.8.2" class="outline-5">
-<h5 id="sec-1.2.8.2"><span class="section-number-5">1.2.8.2</span> Start &amp; Stop </h5>
-<div class="outline-text-5" id="text-1.2.8.2">
+<div id="outline-container-1-2-8-2" class="outline-5">
+<h5 id="sec-1-2-8-2"><span class="section-number-5">1.2.8.2</span> Start &amp; Stop</h5>
+<div class="outline-text-5" id="text-1-2-8-2">
 
 <p>过程大致是这样的，将EPoller.Run包装在一个MyJob对象里面，然后将MyJob丢入到线程池里面进行运行。一旦线程池取到MyJob,
 调用的函数是EPoller.run方法。也就是说每个队列里面始终只有1个Job，所以在Stop时候我们只需要将EPoller.Close()就可以了。
@@ -2944,8 +2829,6 @@ void CNetworkMan::Stop()
 </pre>
 
 
-
-
 <p>
 然后我们看看MyJob以及对应的Polling是如何实现的
 </p>
@@ -2966,15 +2849,13 @@ Polling(Job* pJob)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.8.3" class="outline-5">
-<h5 id="sec-1.2.8.3"><span class="section-number-5">1.2.8.3</span> Associate &amp; Deassociate </h5>
-<div class="outline-text-5" id="text-1.2.8.3">
+<div id="outline-container-1-2-8-3" class="outline-5">
+<h5 id="sec-1-2-8-3"><span class="section-number-5">1.2.8.3</span> Associate &amp; Deassociate</h5>
+<div class="outline-text-5" id="text-1-2-8-3">
 
 <p>Associate和Deassociate逻辑非常简单，无非就是将NetContext和网络线程池里面的EPoller绑定起来，将NetContext里面的fd给epoll来管理。
 </p>
@@ -3026,15 +2907,13 @@ APF_ERROR CNetworkMan::Deassociate(NetContext* pCtx)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.8.4" class="outline-5">
-<h5 id="sec-1.2.8.4"><span class="section-number-5">1.2.8.4</span> Listen </h5>
-<div class="outline-text-5" id="text-1.2.8.4">
+<div id="outline-container-1-2-8-4" class="outline-5">
+<h5 id="sec-1-2-8-4"><span class="section-number-5">1.2.8.4</span> Listen</h5>
+<div class="outline-text-5" id="text-1-2-8-4">
 
 <p>发起Listen操作
 </p>
@@ -3051,17 +2930,15 @@ APF_ERROR CNetworkMan::Deassociate(NetContext* pCtx)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.8.5" class="outline-5">
-<h5 id="sec-1.2.8.5"><span class="section-number-5">1.2.8.5</span> Connect </h5>
-<div class="outline-text-5" id="text-1.2.8.5">
+<div id="outline-container-1-2-8-5" class="outline-5">
+<h5 id="sec-1-2-8-5"><span class="section-number-5">1.2.8.5</span> Connect</h5>
+<div class="outline-text-5" id="text-1-2-8-5">
 
-<p>发起Connect操作，注意这里还填写了WriteReq,timeout以及nAction=AA<sub>CONNECT</sub>.对于pReq的话应该是在connect之后发起的写操作。
+<p>发起Connect操作，注意这里还填写了WriteReq,timeout以及nAction=AA_CONNECT.对于pReq的话应该是在connect之后发起的写操作。
 </p>
 
 
@@ -3089,15 +2966,13 @@ APF_ERROR CNetworkMan::Deassociate(NetContext* pCtx)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.8.6" class="outline-5">
-<h5 id="sec-1.2.8.6"><span class="section-number-5">1.2.8.6</span> Monitor </h5>
-<div class="outline-text-5" id="text-1.2.8.6">
+<div id="outline-container-1-2-8-6" class="outline-5">
+<h5 id="sec-1-2-8-6"><span class="section-number-5">1.2.8.6</span> Monitor</h5>
+<div class="outline-text-5" id="text-1-2-8-6">
 
 <p>发起Monitor操作。所谓Monitor操作的话是指创建Socket成功之后的操作。代码这里的意图是创建服务端的Socket成功之后准备监听的状态。
 </p>
@@ -3113,15 +2988,13 @@ APF_ERROR CNetworkMan::Deassociate(NetContext* pCtx)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.8.7" class="outline-5">
-<h5 id="sec-1.2.8.7"><span class="section-number-5">1.2.8.7</span> Delay </h5>
-<div class="outline-text-5" id="text-1.2.8.7">
+<div id="outline-container-1-2-8-7" class="outline-5">
+<h5 id="sec-1-2-8-7"><span class="section-number-5">1.2.8.7</span> Delay</h5>
+<div class="outline-text-5" id="text-1-2-8-7">
 
 <p>发起一个读超时的操作
 </p>
@@ -3141,15 +3014,13 @@ APF_ERROR CNetworkMan::Deassociate(NetContext* pCtx)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.8.8" class="outline-5">
-<h5 id="sec-1.2.8.8"><span class="section-number-5">1.2.8.8</span> Read &amp; Write </h5>
-<div class="outline-text-5" id="text-1.2.8.8">
+<div id="outline-container-1-2-8-8" class="outline-5">
+<h5 id="sec-1-2-8-8"><span class="section-number-5">1.2.8.8</span> Read &amp; Write</h5>
+<div class="outline-text-5" id="text-1-2-8-8">
 
 <p>Read/Write过程非常简单，就是将Request封装好之后交给EPoller来处理。所以这里可以知道大部分的事情都是在Poller里面完成的。
 </p>
@@ -3168,61 +3039,51 @@ void CNetworkMan::Write(NetContext* pCtx, NetRequest* pReq)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.8.9" class="outline-5">
-<h5 id="sec-1.2.8.9"><span class="section-number-5">1.2.8.9</span> SocketState </h5>
-<div class="outline-text-5" id="text-1.2.8.9">
+<div id="outline-container-1-2-8-9" class="outline-5">
+<h5 id="sec-1-2-8-9"><span class="section-number-5">1.2.8.9</span> SocketState</h5>
+<div class="outline-text-5" id="text-1-2-8-9">
 
 <ul>
-<li>
-SS<sub>VOID</sub> = 0, // 初始状态
+<li>SS_VOID = 0, // 初始状态
 </li>
-<li>
-SS<sub>LISTENING</sub><sub>0</sub>,  // 发起listen操作
+<li>SS_LISTENING_0,  // 发起listen操作
 </li>
-<li>
-SS<sub>LISTENING</sub>, // 执行listen之后
+<li>SS_LISTENING, // 执行listen之后
 </li>
-<li>
-SS<sub>CONNECTING</sub><sub>0</sub>, // 发起connect操作
+<li>SS_CONNECTING_0, // 发起connect操作
 </li>
-<li>
-SS<sub>CONNECTING</sub>, // 执行connect之后,下一步是SS<sub>CONNECTED</sub>,但是下次发起write操作
+<li>SS_CONNECTING, // 执行connect之后,下一步是SS_CONNECTED,但是下次发起write操作
 </li>
-<li>
-SS<sub>CONNECTED</sub><sub>0</sub>, // 启动monitor操作,下一步是SS<sub>CONNECTED</sub>,但是下次发起read操作
+<li>SS_CONNECTED_0, // 启动monitor操作,下一步是SS_CONNECTED,但是下次发起read操作
 </li>
-<li>
-SS<sub>CONNECTED</sub>, // 连接建立成功
+<li>SS_CONNECTED, // 连接建立成功
 </li>
-<li>
-SS<sub>ERROR</sub>, // socket错误
+<li>SS_ERROR, // socket错误
 </li>
-<li>
-SS<sub>SHUTDOWN</sub>, // 对端已经关闭
-
+<li>SS_SHUTDOWN, // 对端已经关闭
 </li>
 </ul>
-</div>
-</div>
-
-</div>
-
-<div id="outline-container-1.2.9" class="outline-4">
-<h4 id="sec-1.2.9"><span class="section-number-4">1.2.9</span> EPoller </h4>
-<div class="outline-text-4" id="text-1.2.9">
 
 
 </div>
+</div>
 
-<div id="outline-container-1.2.9.1" class="outline-5">
-<h5 id="sec-1.2.9.1"><span class="section-number-5">1.2.9.1</span> Overview </h5>
-<div class="outline-text-5" id="text-1.2.9.1">
+</div>
+
+<div id="outline-container-1-2-9" class="outline-4">
+<h4 id="sec-1-2-9"><span class="section-number-4">1.2.9</span> EPoller</h4>
+<div class="outline-text-4" id="text-1-2-9">
+
+
+</div>
+
+<div id="outline-container-1-2-9-1" class="outline-5">
+<h5 id="sec-1-2-9-1"><span class="section-number-5">1.2.9.1</span> Overview</h5>
+<div class="outline-text-5" id="text-1-2-9-1">
 
 <p>对于EPoller来说的话里面每个接口似乎都很重要，所以有必要对每一个接口都进行分析。首先看看EPoller的完整接口
 </p>
@@ -3260,15 +3121,13 @@ SS<sub>SHUTDOWN</sub>, // 对端已经关闭
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.9.2" class="outline-5">
-<h5 id="sec-1.2.9.2"><span class="section-number-5">1.2.9.2</span> Create &amp; Close </h5>
-<div class="outline-text-5" id="text-1.2.9.2">
+<div id="outline-container-1-2-9-2" class="outline-5">
+<h5 id="sec-1-2-9-2"><span class="section-number-5">1.2.9.2</span> Create &amp; Close</h5>
+<div class="outline-text-5" id="text-1-2-9-2">
 
 <p>Create和Close无非就是创建epoll fd
 </p>
@@ -3294,15 +3153,13 @@ void CEPoller::Close()
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.9.3" class="outline-5">
-<h5 id="sec-1.2.9.3"><span class="section-number-5">1.2.9.3</span> Associate &amp; Deassociate </h5>
-<div class="outline-text-5" id="text-1.2.9.3">
+<div id="outline-container-1-2-9-3" class="outline-5">
+<h5 id="sec-1-2-9-3"><span class="section-number-5">1.2.9.3</span> Associate &amp; Deassociate</h5>
+<div class="outline-text-5" id="text-1-2-9-3">
 
 <p>将NetContext的fd放入epoll中进行关联.
 </p>
@@ -3343,15 +3200,13 @@ APF_ERROR CEPoller::Deassociate(NetContext* pCtx)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.9.4" class="outline-5">
-<h5 id="sec-1.2.9.4"><span class="section-number-5">1.2.9.4</span> DoConnect </h5>
-<div class="outline-text-5" id="text-1.2.9.4">
+<div id="outline-container-1-2-9-4" class="outline-5">
+<h5 id="sec-1-2-9-4"><span class="section-number-5">1.2.9.4</span> DoConnect</h5>
+<div class="outline-text-5" id="text-1-2-9-4">
 
 <p>DoConnect是真实地进行connect操作
 </p>
@@ -3381,15 +3236,13 @@ APF_ERROR CEPoller::Deassociate(NetContext* pCtx)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.9.5" class="outline-5">
-<h5 id="sec-1.2.9.5"><span class="section-number-5">1.2.9.5</span> Delay &amp; CancalDelay </h5>
-<div class="outline-text-5" id="text-1.2.9.5">
+<div id="outline-container-1-2-9-5" class="outline-5">
+<h5 id="sec-1-2-9-5"><span class="section-number-5">1.2.9.5</span> Delay &amp; CancalDelay</h5>
+<div class="outline-text-5" id="text-1-2-9-5">
 
 <p>Delay操作无非就是将超时事件到DelayedList里面，而CancalDelay是将对应的超时事件从DelayedList里面删除。
 </p>
@@ -3420,15 +3273,13 @@ bool CEPoller::CancelDelay(NetContext* pCtx)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.9.6" class="outline-5">
-<h5 id="sec-1.2.9.6"><span class="section-number-5">1.2.9.6</span> DoWithDelayed &amp; DoWithError </h5>
-<div class="outline-text-5" id="text-1.2.9.6">
+<div id="outline-container-1-2-9-6" class="outline-5">
+<h5 id="sec-1-2-9-6"><span class="section-number-5">1.2.9.6</span> DoWithDelayed &amp; DoWithError</h5>
+<div class="outline-text-5" id="text-1-2-9-6">
 
 <p>TODO(zhangyan04):这两个部分都非常杂并且细节很多，没有完全看懂。另外一个疑问就是对于Delay这种超时事件的话为什么不放在CPU的超时时间里面去完成。这样似乎会更加优雅。
 而现在的情况就是NetworkMan里面管理了一个定时器，而CPU线程也有一个定时器，而从代码编写者的demo来没有使用过networkman定时器。
@@ -3437,9 +3288,9 @@ bool CEPoller::CancelDelay(NetContext* pCtx)
 
 </div>
 
-<div id="outline-container-1.2.9.7" class="outline-5">
-<h5 id="sec-1.2.9.7"><span class="section-number-5">1.2.9.7</span> Read &amp; Write </h5>
-<div class="outline-text-5" id="text-1.2.9.7">
+<div id="outline-container-1-2-9-7" class="outline-5">
+<h5 id="sec-1-2-9-7"><span class="section-number-5">1.2.9.7</span> Read &amp; Write</h5>
+<div class="outline-text-5" id="text-1-2-9-7">
 
 <p>发起Read/Write最后都是调用StartRead/StartWrite
 </p>
@@ -3461,8 +3312,6 @@ void CEPoller::Write(NetContext* pCtx, NetRequest* pReq)
     StartWrite(pCtx, true);
 }
 </pre>
-
-
 
 
 <p>
@@ -3546,8 +3395,6 @@ void CEPoller::Write(NetContext* pCtx, NetRequest* pReq)
     return false;
 }
 </pre>
-
-
 
 
 <p>
@@ -3634,8 +3481,6 @@ StartWrite这个过程也是非常相似的，不过为了方便起见的话每�
 }
 </pre>
 
-
-
 <p>
 这里面最主要的过程无非就是NotifyAndNextWrite.
 </p>
@@ -3685,15 +3530,13 @@ NotifyAndNextWrite(NetContext* pCtx, int nWritten)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.9.8" class="outline-5">
-<h5 id="sec-1.2.9.8"><span class="section-number-5">1.2.9.8</span> NofityClient </h5>
-<div class="outline-text-5" id="text-1.2.9.8">
+<div id="outline-container-1-2-9-8" class="outline-5">
+<h5 id="sec-1-2-9-8"><span class="section-number-5">1.2.9.8</span> NofityClient</h5>
+<div class="outline-text-5" id="text-1-2-9-8">
 
 <p>当EPoller发现内部需要进行回调的话，那么就会通过NofityClient来通知客户进行回调。
 </p>
@@ -3720,8 +3563,6 @@ NotifyClient(int nErrCode, NetContext* pCtx, NetRequest* pReq)
 }
 </pre>
 
-
-
 <p>
 这是NotifyClient的一个版本，另外一个版本的原型是这样的
 </p>
@@ -3730,8 +3571,6 @@ NotifyClient(int nErrCode, NetContext* pCtx, NetRequest* pReq)
 <pre class="src src-C++">static void NotifyClient(int nErrCode, int nAction, NetContext* pCtx);
 </pre>
 
-
-
 <p>
 可以看到这个地方没有和任何的NetRequest进行关联，所以在内部实现的话会直接new一个出来，用户在处理这个逻辑时候需要记得释放。
 </p>
@@ -3739,9 +3578,9 @@ NotifyClient(int nErrCode, NetContext* pCtx, NetRequest* pReq)
 
 </div>
 
-<div id="outline-container-1.2.9.9" class="outline-5">
-<h5 id="sec-1.2.9.9"><span class="section-number-5">1.2.9.9</span> Run </h5>
-<div class="outline-text-5" id="text-1.2.9.9">
+<div id="outline-container-1-2-9-9" class="outline-5">
+<h5 id="sec-1-2-9-9"><span class="section-number-5">1.2.9.9</span> Run</h5>
+<div class="outline-text-5" id="text-1-2-9-9">
 
 <p>过程比较冗长，而且里面很多细节依然并不是非常清楚，但是不妨碍大体的理解
 </p>
@@ -3884,8 +3723,6 @@ NotifyClient(int nErrCode, NetContext* pCtx, NetRequest* pReq)
 }
 </pre>
 
-
-
 <p>
 可以说看下来的话很多细节都是头昏脑胀的，以及各种情况返回什么样的错误码。估计只有写代码的人才知道里面为什么这么做，里面到底存在什么陷阱。
 但是所幸的是写代码的人为我们提供了一个简单的接口可以使用，而且里面设置了很多默认的处理。大部分情况下面我们只需要使用默认处理即可，这个默认类就是Socket.
@@ -3895,16 +3732,16 @@ NotifyClient(int nErrCode, NetContext* pCtx, NetRequest* pReq)
 
 </div>
 
-<div id="outline-container-1.2.10" class="outline-4">
-<h4 id="sec-1.2.10"><span class="section-number-4">1.2.10</span> Socket </h4>
-<div class="outline-text-4" id="text-1.2.10">
+<div id="outline-container-1-2-10" class="outline-4">
+<h4 id="sec-1-2-10"><span class="section-number-4">1.2.10</span> Socket</h4>
+<div class="outline-text-4" id="text-1-2-10">
 
 
 </div>
 
-<div id="outline-container-1.2.10.1" class="outline-5">
-<h5 id="sec-1.2.10.1"><span class="section-number-5">1.2.10.1</span> Overview </h5>
-<div class="outline-text-5" id="text-1.2.10.1">
+<div id="outline-container-1-2-10-1" class="outline-5">
+<h5 id="sec-1-2-10-1"><span class="section-number-5">1.2.10.1</span> Overview</h5>
+<div class="outline-text-5" id="text-1-2-10-1">
 
 <p>Socket包含了如何配合使用NetworkMan以及EPoller两个部分，并且里面提供了很多默认的封装。对于我们编写程序的话大部分时候都使用这个类即可。还是首先看看接口
 </p>
@@ -3982,15 +3819,13 @@ class CSocketV : public CAsyncClient
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.10.2" class="outline-5">
-<h5 id="sec-1.2.10.2"><span class="section-number-5">1.2.10.2</span> Create </h5>
-<div class="outline-text-5" id="text-1.2.10.2">
+<div id="outline-container-1-2-10-2" class="outline-5">
+<h5 id="sec-1-2-10-2"><span class="section-number-5">1.2.10.2</span> Create</h5>
+<div class="outline-text-5" id="text-1-2-10-2">
 
 <p>对于create的话我们看稍微复杂的一个实现，就是头参数是bTCP的原型实现。注意这里ip=0,port=0的话那么这样对于client来说的话就会随机选择一个端口。
 </p>
@@ -4070,8 +3905,6 @@ retry2:
 </pre>
 
 
-
-
 <p>
 后来我觉得这个Create原型我们也还是值得看看的，因为这个函数原型通常是在server进行accept之后触发的create
 </p>
@@ -4096,15 +3929,13 @@ retry2:
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.10.3" class="outline-5">
-<h5 id="sec-1.2.10.3"><span class="section-number-5">1.2.10.3</span> Close </h5>
-<div class="outline-text-5" id="text-1.2.10.3">
+<div id="outline-container-1-2-10-3" class="outline-5">
+<h5 id="sec-1-2-10-3"><span class="section-number-5">1.2.10.3</span> Close</h5>
+<div class="outline-text-5" id="text-1-2-10-3">
 
 
 
@@ -4130,15 +3961,13 @@ retry2:
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.10.4" class="outline-5">
-<h5 id="sec-1.2.10.4"><span class="section-number-5">1.2.10.4</span> Shutdown </h5>
-<div class="outline-text-5" id="text-1.2.10.4">
+<div id="outline-container-1-2-10-4" class="outline-5">
+<h5 id="sec-1-2-10-4"><span class="section-number-5">1.2.10.4</span> Shutdown</h5>
+<div class="outline-text-5" id="text-1-2-10-4">
 
 
 
@@ -4164,15 +3993,13 @@ retry2:
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.10.5" class="outline-5">
-<h5 id="sec-1.2.10.5"><span class="section-number-5">1.2.10.5</span> Listen </h5>
-<div class="outline-text-5" id="text-1.2.10.5">
+<div id="outline-container-1-2-10-5" class="outline-5">
+<h5 id="sec-1-2-10-5"><span class="section-number-5">1.2.10.5</span> Listen</h5>
+<div class="outline-text-5" id="text-1-2-10-5">
 
 
 
@@ -4187,15 +4014,13 @@ retry2:
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.10.6" class="outline-5">
-<h5 id="sec-1.2.10.6"><span class="section-number-5">1.2.10.6</span> Connect </h5>
-<div class="outline-text-5" id="text-1.2.10.6">
+<div id="outline-container-1-2-10-6" class="outline-5">
+<h5 id="sec-1-2-10-6"><span class="section-number-5">1.2.10.6</span> Connect</h5>
+<div class="outline-text-5" id="text-1-2-10-6">
 
 <p>Connect相关函数有Connect,ConnectAndWrite以及ReConnect,都非常简单通过NetworkMan发起操作
 </p>
@@ -4227,15 +4052,13 @@ void CSocketV::ReConnect(uint32 nMilliseconds)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.10.7" class="outline-5">
-<h5 id="sec-1.2.10.7"><span class="section-number-5">1.2.10.7</span> Read &amp; Write </h5>
-<div class="outline-text-5" id="text-1.2.10.7">
+<div id="outline-container-1-2-10-7" class="outline-5">
+<h5 id="sec-1-2-10-7"><span class="section-number-5">1.2.10.7</span> Read &amp; Write</h5>
+<div class="outline-text-5" id="text-1-2-10-7">
 
 <p>Read/Write函数也非常简单无非就是包装一些NetRequest然后交给NetworkMan来发起
 </p>
@@ -4253,15 +4076,13 @@ void CSocketV::Write(void* pBuf, int count, NetRequest* pReq)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.10.8" class="outline-5">
-<h5 id="sec-1.2.10.8"><span class="section-number-5">1.2.10.8</span> OnCompletion </h5>
-<div class="outline-text-5" id="text-1.2.10.8">
+<div id="outline-container-1-2-10-8" class="outline-5">
+<h5 id="sec-1-2-10-8"><span class="section-number-5">1.2.10.8</span> OnCompletion</h5>
+<div class="outline-text-5" id="text-1-2-10-8">
 
 <p>其实对于Socket部分最主要的内容还是在这里。上面那些函数无非是做一个Wrapper，而Socket本质上还是一个CAsyncClient要处理各种事件回调。
 我们需要仔细看看OnCompletion的过程，因为大部分我们所需要扩展的就是这个部分了。但是如果仔细阅读这个部分的话，还是会发现有很多细节的东西的。
@@ -4362,32 +4183,25 @@ void CSocketV::Write(void* pBuf, int count, NetRequest* pReq)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.10.9" class="outline-5">
-<h5 id="sec-1.2.10.9"><span class="section-number-5">1.2.10.9</span> Summary </h5>
-<div class="outline-text-5" id="text-1.2.10.9">
+<div id="outline-container-1-2-10-9" class="outline-5">
+<h5 id="sec-1-2-10-9"><span class="section-number-5">1.2.10.9</span> Summary</h5>
+<div class="outline-text-5" id="text-1-2-10-9">
 
 <p>个人觉得kylin的网络异步部分就是spaghetti,所有的nAction以及nErrCode都是相互缠绕.我们可以假设我们的场景类似于RPC然后考虑一下应该如何处理。
 </p><ul>
-<li>
-OnConnected(APF<sub>ERROR</sub> nErrCode).如果nErrCode!=APFE<sub>OK的话那么Close</sub>,否则认为连接成功.错误交给OnBorken处理
+<li>OnConnected(APF_ERROR nErrCode).如果nErrCode!=APFE_OK的话那么Close,否则认为连接成功.错误交给OnBorken处理
 </li>
-<li>
-OnListened(SOCKET s, SOCKADDR<sub>IN</sub>* pSockAddrIn).建立连接即可。
+<li>OnListened(SOCKET s, SOCKADDR_IN* pSockAddrIn).建立连接即可。
 </li>
-<li>
-OnWritten(APF<sub>ERROR</sub> nErrCode, NetRequest* pReq).如果nErrCode!=APFE<sub>OK的话，那么Close连接。</sub>
+<li>OnWritten(APF_ERROR nErrCode, NetRequest* pReq).如果nErrCode!=APFE_OK的话，那么Close连接。
 </li>
-<li>
-OnRead(APF<sub>ERROR</sub> nErrCode, NetRequest* pReq).如果nErrCode=APFE<sub>NOTIFY的话那么发起Read</sub>,如果=APFE<sub>OK的话那么处理，其他情况下面Close连接。</sub>
+<li>OnRead(APF_ERROR nErrCode, NetRequest* pReq).如果nErrCode=APFE_NOTIFY的话那么发起Read,如果=APFE_OK的话那么处理，其他情况下面Close连接。
 </li>
-<li>
-OnBroken(APF<sub>ERROR</sub> nErrCode).直接Close即可，但是可以根据nErrCode来判断原因.可能是客户端正常关闭.通常最后需要Release一下，释放这个连接。
+<li>OnBroken(APF_ERROR nErrCode).直接Close即可，但是可以根据nErrCode来判断原因.可能是客户端正常关闭.通常最后需要Release一下，释放这个连接。
 </li>
 </ul>
 
@@ -4399,24 +4213,24 @@ OnBroken(APF<sub>ERROR</sub> nErrCode).直接Close即可，但是可以根据nEr
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> demo </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> demo</h3>
+<div class="outline-text-3" id="text-1-3">
 
 
 </div>
 
-<div id="outline-container-1.3.1" class="outline-4">
-<h4 id="sec-1.3.1"><span class="section-number-4">1.3.1</span> echo </h4>
-<div class="outline-text-4" id="text-1.3.1">
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> echo</h4>
+<div class="outline-text-4" id="text-1-3-1">
 
 <p>echo这个就是客户端连接上之后不断发送1K数据而服务器就直接回复这1K数据
 </p>
 </div>
 
-<div id="outline-container-1.3.1.1" class="outline-5">
-<h5 id="sec-1.3.1.1"><span class="section-number-5">1.3.1.1</span> client.cc </h5>
-<div class="outline-text-5" id="text-1.3.1.1">
+<div id="outline-container-1-3-1-1" class="outline-5">
+<h5 id="sec-1-3-1-1"><span class="section-number-5">1.3.1.1</span> client.cc</h5>
+<div class="outline-text-5" id="text-1-3-1-1">
 
 
 
@@ -4559,15 +4373,13 @@ int main(){
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.3.1.2" class="outline-5">
-<h5 id="sec-1.3.1.2"><span class="section-number-5">1.3.1.2</span> server.cc </h5>
-<div class="outline-text-5" id="text-1.3.1.2">
+<div id="outline-container-1-3-1-2" class="outline-5">
+<h5 id="sec-1-3-1-2"><span class="section-number-5">1.3.1.2</span> server.cc</h5>
+<div class="outline-text-5" id="text-1-3-1-2">
 
 
 
@@ -4694,25 +4506,23 @@ int main(){
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.3.2" class="outline-4">
-<h4 id="sec-1.3.2"><span class="section-number-4">1.3.2</span> file-request </h4>
-<div class="outline-text-4" id="text-1.3.2">
+<div id="outline-container-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> file-request</h4>
+<div class="outline-text-4" id="text-1-3-2">
 
 <p>file-request希望可以结合ExecMan,NetworkMan和DiskMan三个Manager写一个简单的demo,功能非常简单就是客户端每次发送一个文件名，服务端得到之后分析出文件名然后将内容返回给client.
 消息格式都是头部带上了4个字节的长度，然后后面跟上数据。和之前的echo不同的是我们这里需要采取分段读取。
 </p>
 </div>
 
-<div id="outline-container-1.3.2.1" class="outline-5">
-<h5 id="sec-1.3.2.1"><span class="section-number-5">1.3.2.1</span> client.cc </h5>
-<div class="outline-text-5" id="text-1.3.2.1">
+<div id="outline-container-1-3-2-1" class="outline-5">
+<h5 id="sec-1-3-2-1"><span class="section-number-5">1.3.2.1</span> client.cc</h5>
+<div class="outline-text-5" id="text-1-3-2-1">
 
 
 
@@ -4875,15 +4685,13 @@ int main(){
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.3.2.2" class="outline-5">
-<h5 id="sec-1.3.2.2"><span class="section-number-5">1.3.2.2</span> server.cc </h5>
-<div class="outline-text-5" id="text-1.3.2.2">
+<div id="outline-container-1-3-2-2" class="outline-5">
+<h5 id="sec-1-3-2-2"><span class="section-number-5">1.3.2.2</span> server.cc</h5>
+<div class="outline-text-5" id="text-1-3-2-2">
 
 
 
@@ -5053,17 +4861,18 @@ int main(){
 
 </pre>
 
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
-
-</div>
-</div>
-</div>
-</div>
-</div>
 <div id="postamble">
-<p class="date"> Date: 2013-10-14 12:28:02 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
-</div>
+<p class="date">Date: 2013-10-15 22:15:54 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'kylin.html';var disqus_title = 'kylin.html';var disqus_url = 'http://dirlt.com/kylin.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

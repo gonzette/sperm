@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>大教堂与市集(The Cathedral and the Bazaar)</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="大教堂与市集(The Cathedral and the Bazaar)"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:28:24 CST"/>
+<meta name="generated" content="2013-10-15 22:16:43 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="../css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">大教堂与市集(The Cathedral and the Bazaar)</h1>
 
 
@@ -56,84 +77,64 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 the-cathedral-and-the-bazaar </a></li>
+<li><a href="#sec-1">1 the-cathedral-and-the-bazaar</a></li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> the-cathedral-and-the-bazaar </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> the-cathedral-and-the-bazaar</h2>
 <div class="outline-text-2" id="text-1">
 
 <ul>
-<li>
-<a href="http://www.catb.org/~esr/writings/cathedral-bazaar/">http://www.catb.org/~esr/writings/cathedral-bazaar/</a>
-
+<li><a href="http://www.catb.org/~esr/writings/cathedral-bazaar/">http://www.catb.org/~esr/writings/cathedral-bazaar/</a>
 </li>
 </ul>
+
 
 
 <hr/>
 <ul>
-<li>
-好软件都源自解决开发者的切身之痛。Every good work of software starts by scratching a developer’s personal itch.
+<li>好软件都源自解决开发者的切身之痛。Every good work of software starts by scratching a developer’s personal itch.
 </li>
-<li>
-优秀的程序员知道要写什么，而伟大的程序员知道要改写（和重用）什么。Good programmers know what to write. Great ones know what to rewrite (and reuse).
+<li>优秀的程序员知道要写什么，而伟大的程序员知道要改写（和重用）什么。Good programmers know what to write. Great ones know what to rewrite (and reuse).
 </li>
-<li>
-“为舍弃而计划，无论如何，你都要这样做。 “Plan to throw one away; you will, anyhow.” (Fred Brooks, The Mythical Man-Month, Chapter 11)
+<li>“为舍弃而计划，无论如何，你都要这样做。 “Plan to throw one away; you will, anyhow.” (Fred Brooks, The Mythical Man-Month, Chapter 11)
 </li>
-<li>
-只要你态度正确，有趣的问题就会找上门来。If you have the right attitude, interesting problems will find you.
+<li>只要你态度正确，有趣的问题就会找上门来。If you have the right attitude, interesting problems will find you.
 </li>
-<li>
-对一个项目失去兴趣的时候，你的最后责任就是找一个称职的接班人。When you lose interest in a program, your last duty to it is to hand it off to a competent successor.
+<li>对一个项目失去兴趣的时候，你的最后责任就是找一个称职的接班人。When you lose interest in a program, your last duty to it is to hand it off to a competent successor.
 </li>
-<li>
-把用户当作开发伙伴，是快速改进代码和有效调试的不二法门。Treating your users as co-developers is your least-hassle route to rapid code improvement and effective debugging.
+<li>把用户当作开发伙伴，是快速改进代码和有效调试的不二法门。Treating your users as co-developers is your least-hassle route to rapid code improvement and effective debugging.
 </li>
-<li>
-早发布，常发布。并听取用户意见。Release early. Release often. And listen to your customers.
+<li>早发布，常发布。并听取用户意见。Release early. Release often. And listen to your customers.
 </li>
-<li>
-只要有足够多的人手参与公测和开发，任何问题都会显而易见并被很快化解。Givena large enough beta-tester and co-developer base, almost every problemwill be characterized quickly and the fix obvious to someone.
+<li>只要有足够多的人手参与公测和开发，任何问题都会显而易见并被很快化解。Givena large enough beta-tester and co-developer base, almost every problemwill be characterized quickly and the fix obvious to someone.
 </li>
-<li>
-精巧的数据结构即使搭配笨拙的程序代码，也比精巧代码加笨拙结构的组合要强得多。Smart data structures and dumb code works a lot better than the other way around.
+<li>精巧的数据结构即使搭配笨拙的程序代码，也比精巧代码加笨拙结构的组合要强得多。Smart data structures and dumb code works a lot better than the other way around.
 </li>
-<li>
-如果你把公测参与者作为最宝贵的资源来对待，那么他们就会成为你最宝贵的资源。If you treat your beta-testers as if they’re your most valuable resource, they will respond by becoming your most valuable resource.
+<li>如果你把公测参与者作为最宝贵的资源来对待，那么他们就会成为你最宝贵的资源。If you treat your beta-testers as if they’re your most valuable resource, they will respond by becoming your most valuable resource.
 </li>
-<li>
-自主创意很好，能认可源自用户的点子也不错。有时借笔生花更具成效。The next best thing to having good ideas is recognizing good ideas from your users. Sometimes the latter is better.
+<li>自主创意很好，能认可源自用户的点子也不错。有时借笔生花更具成效。The next best thing to having good ideas is recognizing good ideas from your users. Sometimes the latter is better.
 </li>
-<li>
-通常，当你确信自己在解决一个错误问题的时候，会激发最具突破和创造力的方案。Often, the most striking and innovative solutions come from realizing that your concept of the problem was wrong.
+<li>通常，当你确信自己在解决一个错误问题的时候，会激发最具突破和创造力的方案。Often, the most striking and innovative solutions come from realizing that your concept of the problem was wrong.
 </li>
-<li>
-“完美（的设计）意味着没有东西可以再被加入，而是没有东西可以移除”“Perfection (in design) is achieved not when there is nothing more to add, but rather when there is nothing more to take away.”
+<li>“完美（的设计）意味着没有东西可以再被加入，而是没有东西可以移除”“Perfection (in design) is achieved not when there is nothing more to add, but rather when there is nothing more to take away.”
 </li>
-<li>
-任何工具都应该起到预期的作用，而一个真正杰出的工具会带来出乎意料的用途。Any tool should be useful in the expected way, but a truly great tool lends itself to uses you never expected.
+<li>任何工具都应该起到预期的作用，而一个真正杰出的工具会带来出乎意料的用途。Any tool should be useful in the expected way, but a truly great tool lends itself to uses you never expected.
 </li>
-<li>
-在写任何网关软件的时候，都该花点功夫尽可能不去干扰数据流——除非用户强迫你，否则永远不要抛弃任何信息When writing gateway software of any kind, take pains to disturb the data stream as little as possible—and never throw away information unless the recipient forces you to!写任何程序都是一样，维护好你的数据流
+<li>在写任何网关软件的时候，都该花点功夫尽可能不去干扰数据流——除非用户强迫你，否则永远不要抛弃任何信息When writing gateway software of any kind, take pains to disturb the data stream as little as possible—and never throw away information unless the recipient forces you to!写任何程序都是一样，维护好你的数据流
 </li>
-<li>
-当你的语言还远不足以达到图灵完备的时候，不妨为语法蘸上一层“糖衣”When your language is nowhere near Turing-complete, syntactic sugar can be your friend.
+<li>当你的语言还远不足以达到图灵完备的时候，不妨为语法蘸上一层“糖衣”When your language is nowhere near Turing-complete, syntactic sugar can be your friend.
 </li>
-<li>
-安全系统的效用只取决于对秘密的保护，谨防伪安全。A security system is only as secure as its secret. Beware of pseudo-secrets.
+<li>安全系统的效用只取决于对秘密的保护，谨防伪安全。A security system is only as secure as its secret. Beware of pseudo-secrets.
 </li>
-<li>
-要解决有趣的问题？那就先找到你感兴趣的吧！To solve an interesting problem, start by finding aproblem that is interesting to you
+<li>要解决有趣的问题？那就先找到你感兴趣的吧！To solve an interesting problem, start by finding aproblem that is interesting to you
 </li>
-<li>
-倘若开发的协调者拥有不逊于因特网的媒介，又懂得如何避免强权领导，那么群体智慧定要强于单打独斗。Provided the development coordinator has a communications medium at least as good as theInternet, and knows how to lead without coercion, many heads are inevitablybetter than one.
-
+<li>倘若开发的协调者拥有不逊于因特网的媒介，又懂得如何避免强权领导，那么群体智慧定要强于单打独斗。Provided the development coordinator has a communications medium at least as good as theInternet, and knows how to lead without coercion, many heads are inevitablybetter than one.
 </li>
 </ul>
+
 
 
 <hr/>
@@ -145,17 +146,13 @@ lang="en" xml:lang="en">
 <p>
 Eric Raymond在做fetchmail时的建议
 </p><ul>
-<li>
-我早发布，常发布（从未低于十天一次，在高强度的开发周期则每天一次）。
+<li>我早发布，常发布（从未低于十天一次，在高强度的开发周期则每天一次）。
 </li>
-<li>
-我把每个曾和我讨论fetchmail的人都列入公测名单。
+<li>我把每个曾和我讨论fetchmail的人都列入公测名单。
 </li>
-<li>
-每当新版本发布，我都会不厌其烦的给公测名单里的每个人寄送一份，并鼓励其参与。
+<li>每当新版本发布，我都会不厌其烦的给公测名单里的每个人寄送一份，并鼓励其参与。
 </li>
-<li>
-我听取公测人员的意见，在设计上征求他们的看法。并且当他们寄回补丁和反馈的时候，给予鼓励。
+<li>我听取公测人员的意见，在设计上征求他们的看法。并且当他们寄回补丁和反馈的时候，给予鼓励。
 </li>
 </ul>
 
@@ -178,10 +175,13 @@ Bazaar模式下的软件开发的建议. 一旦你着手组建团队，就需要
 </p>
 </div>
 </div>
-<div id="postamble">
-<p class="date"> Date: 2013-10-14 12:28:24 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
 </div>
+
+<div id="postamble">
+<p class="date">Date: 2013-10-15 22:16:43 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'note/the-cathedral-and-the-bazaar.html';var disqus_title = 'note/the-cathedral-and-the-bazaar.html';var disqus_url = 'http://dirlt.com/note/the-cathedral-and-the-bazaar.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

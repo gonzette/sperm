@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>snappy</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="snappy"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:18:20 CST"/>
+<meta name="generated" content="2013-10-15 22:15:05 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">snappy</h1>
 
 
@@ -56,36 +77,36 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 snappy </a>
+<li><a href="#sec-1">1 snappy</a>
 <ul>
-<li><a href="#sec-1.1">1.1 Format </a>
+<li><a href="#sec-1-1">1.1 Format</a>
 <ul>
-<li><a href="#sec-1.1.1">1.1.1 Literal </a></li>
-<li><a href="#sec-1.1.2">1.1.2 Copy </a></li>
+<li><a href="#sec-1-1-1">1.1.1 Literal</a></li>
+<li><a href="#sec-1-1-2">1.1.2 Copy</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2">1.2 Source &amp; Sink </a></li>
-<li><a href="#sec-1.3">1.3 Snippet </a>
+<li><a href="#sec-1-2">1.2 Source &amp; Sink</a></li>
+<li><a href="#sec-1-3">1.3 Snippet</a>
 <ul>
-<li><a href="#sec-1.3.1">1.3.1 Bits </a></li>
-<li><a href="#sec-1.3.2">1.3.2 Varint </a></li>
-<li><a href="#sec-1.3.3">1.3.3 GetUint32AtOffset </a></li>
-<li><a href="#sec-1.3.4">1.3.4 GetHashTable </a></li>
-<li><a href="#sec-1.3.5">1.3.5 FindMatchLength </a></li>
-<li><a href="#sec-1.3.6">1.3.6 MaxCompressedLength </a></li>
-<li><a href="#sec-1.3.7">1.3.7 IncrementalCopy </a></li>
-<li><a href="#sec-1.3.8">1.3.8 EmitLiteral </a></li>
-<li><a href="#sec-1.3.9">1.3.9 EmitCopy </a></li>
+<li><a href="#sec-1-3-1">1.3.1 Bits</a></li>
+<li><a href="#sec-1-3-2">1.3.2 Varint</a></li>
+<li><a href="#sec-1-3-3">1.3.3 GetUint32AtOffset</a></li>
+<li><a href="#sec-1-3-4">1.3.4 GetHashTable</a></li>
+<li><a href="#sec-1-3-5">1.3.5 FindMatchLength</a></li>
+<li><a href="#sec-1-3-6">1.3.6 MaxCompressedLength</a></li>
+<li><a href="#sec-1-3-7">1.3.7 IncrementalCopy</a></li>
+<li><a href="#sec-1-3-8">1.3.8 EmitLiteral</a></li>
+<li><a href="#sec-1-3-9">1.3.9 EmitCopy</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.4">1.4 Compress </a></li>
-<li><a href="#sec-1.5">1.5 Uncompress </a>
+<li><a href="#sec-1-4">1.4 Compress</a></li>
+<li><a href="#sec-1-5">1.5 Uncompress</a>
 <ul>
-<li><a href="#sec-1.5.1">1.5.1 Writer </a></li>
-<li><a href="#sec-1.5.2">1.5.2 SnappyDecompressor </a></li>
+<li><a href="#sec-1-5-1">1.5.1 Writer</a></li>
+<li><a href="#sec-1-5-2">1.5.2 SnappyDecompressor</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.6">1.6 Example </a></li>
+<li><a href="#sec-1-6">1.6 Example</a></li>
 </ul>
 </li>
 </ul>
@@ -93,7 +114,7 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> snappy </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> snappy</h2>
 <div class="outline-text-2" id="text-1">
 
 
@@ -134,27 +155,25 @@ Although Snappy should be fairly portable, it is primarily optimized
 for 64-bit x86-compatible processors, and may run slower in other environments.
 In particular:
 </p><ul>
-<li>
-Snappy uses 64-bit operations in several places to process more data at
-once than would otherwise be possible.
+<li>Snappy uses 64-bit operations in several places to process more data at
+   once than would otherwise be possible.
 </li>
-<li>
-Snappy assumes unaligned 32- and 64-bit loads and stores are cheap.
-On some platforms, these must be emulated with single-byte loads
-and stores, which is much slower.
+<li>Snappy assumes unaligned 32- and 64-bit loads and stores are cheap.
+   On some platforms, these must be emulated with single-byte loads
+   and stores, which is much slower.
 </li>
-<li>
-Snappy assumes little-endian throughout, and needs to byte-swap data in
-several places if running on a big-endian platform.
-
+<li>Snappy assumes little-endian throughout, and needs to byte-swap data in
+   several places if running on a big-endian platform.
 </li>
 </ul>
 
+
+
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Format </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Format</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <p>Snappy is a LZ77-type compressor with a fixed, byte-oriented encoding.
 </p>
@@ -162,7 +181,7 @@ several places if running on a big-endian platform.
 压缩的头部是一个原始串长度，然后使用变长整数方式来编码(google::protobuf也使用)
 </p>
 <p>
-The stream starts with the uncompressed length (up to a maximum of 2<sup>32</sup> - 1),
+The stream starts with the uncompressed length (up to a maximum of 2^32 - 1),
 stored as a little-endian varint. Varints consist of a series of bytes,
 where the lower 7 bits are data and the upper bit is set iff there are
 more bytes to be read. In other words, an uncompressed length of 64 would
@@ -172,11 +191,9 @@ would be stored as 0xFF 0xFF 0x7F.
 <p>
 对于LZ77类型的压缩算法说里面包含两个部分
 </p><ul>
-<li>
-literal(字表).这个表示原始内容
+<li>literal(字表).这个表示原始内容
 </li>
-<li>
-copy(拷贝).这个表示针对原始内容的copy.
+<li>copy(拷贝).这个表示针对原始内容的copy.
 </li>
 </ul>
 
@@ -192,26 +209,21 @@ Snappy实现上来说非常简单，首先针对字节流进行分块(比如32KB
 
 </div>
 
-<div id="outline-container-1.1.1" class="outline-4">
-<h4 id="sec-1.1.1"><span class="section-number-4">1.1.1</span> Literal </h4>
-<div class="outline-text-4" id="text-1.1.1">
+<div id="outline-container-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> Literal</h4>
+<div class="outline-text-4" id="text-1-1-1">
 
 <p>对于literal来说的话编码方式是这样的，假设literal的长度为len(len&gt;=1).
 </p><ul>
-<li>
-如果len&lt;=60.那么literal使用一个字节表示(len-1) &lt;&lt; 2 | 0x0 (1个字节)
+<li>如果len&lt;=60.那么literal使用一个字节表示(len-1) &lt;&lt; 2 | 0x0 (1个字节)
 </li>
-<li>
-如果len可以用1个字节表示的话，那么literal表示[60 &lt;&lt; 2 | 0x0, len](2个字节)
+<li>如果len可以用1个字节表示的话，那么literal表示[60 &lt;&lt; 2 | 0x0, len](2个字节)
 </li>
-<li>
-如果len可以用2个字节表示的话，那么literal表示[61 &lt;&lt; 2 | 0x0, len](3个字节).
+<li>如果len可以用2个字节表示的话，那么literal表示[61 &lt;&lt; 2 | 0x0, len](3个字节).
 </li>
-<li>
-如果len可以用3个字节表示的话，那么literal表示[62 &lt;&lt; 2 | 0x0, len](4个字节).
+<li>如果len可以用3个字节表示的话，那么literal表示[62 &lt;&lt; 2 | 0x0, len](4个字节).
 </li>
-<li>
-如果len可以用4个字节表示的话，那么literal表示[63 &lt;&lt; 2 | 0x0, len](5个字节).
+<li>如果len可以用4个字节表示的话，那么literal表示[63 &lt;&lt; 2 | 0x0, len](5个字节).
 </li>
 </ul>
 
@@ -221,20 +233,17 @@ Snappy实现上来说非常简单，首先针对字节流进行分块(比如32KB
 
 </div>
 
-<div id="outline-container-1.1.2" class="outline-4">
-<h4 id="sec-1.1.2"><span class="section-number-4">1.1.2</span> Copy </h4>
-<div class="outline-text-4" id="text-1.1.2">
+<div id="outline-container-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2"><span class="section-number-4">1.1.2</span> Copy</h4>
+<div class="outline-text-4" id="text-1-1-2">
 
 <p>对于copy来说的话我们假设内容是(offset,length).(offset&gt;=1,length&gt;=1).
 </p><ul>
-<li>
-如果length在[4,11],而offset在[0,2047].那么表示[(offset &gt;&gt; 8) &lt;&lt; 5 | (length-4) &lt;&lt;2 | 0x01 , offset &amp; 0xff](2个字节)
+<li>如果length在[4,11],而offset在[0,2047].那么表示[(offset &gt;&gt; 8) &lt;&lt; 5 | (length-4) &lt;&lt;2 | 0x01 , offset &amp; 0xff](2个字节)
 </li>
-<li>
-如果length在[1,64],而offset在[0,65535],那么表示[(length-1) &lt;&lt; 2 | 0x02 , offset](3个字节)
+<li>如果length在[1,64],而offset在[0,65535],那么表示[(length-1) &lt;&lt; 2 | 0x02 , offset](3个字节)
 </li>
-<li>
-如果length在[1,64],而offset在[0,2<sup>32</sup>-1],那么表示[(length-1) &lt;&lt; 2 | 0x03, offset](5个字节)
+<li>如果length在[1,64],而offset在[0,2^32-1],那么表示[(length-1) &lt;&lt; 2 | 0x03, offset](5个字节)
 </li>
 </ul>
 
@@ -245,9 +254,9 @@ Snappy实现上来说非常简单，首先针对字节流进行分块(比如32KB
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> Source &amp; Sink </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Source &amp; Sink</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <p>这里Source表示输入源，而Sink表示输出源。不过设计上比较遗憾的是在Compress上面使用了这两个结构，
 而在Uncompress上面的话只是使用了Source这个结构，而输出源的话使用了另外一个内部类Writer.
@@ -259,19 +268,16 @@ bool RawUncompress(Source* compressed, char* uncompressed); // &#20869;&#37096;&
 </pre>
 
 
-
-
 <p>
 我们首先看看Sink定义的接口。能够理解这个接口全依赖这个清晰的注释。其中
 </p><ul>
-<li>
-Append接口的话是将bytes[0,n-1]这个字节流写入。
+<li>Append接口的话是将bytes[0,n-1]这个字节流写入。
 </li>
-<li>
-GetAppendBuffer的话是交出一块length的buffer。这块length的buffer的话必须一致有效直到Append被调用。当然我们也可以直接返回scratch(外围框架分配的内存).
-
+<li>GetAppendBuffer的话是交出一块length的buffer。这块length的buffer的话必须一致有效直到Append被调用。当然我们也可以直接返回scratch(外围框架分配的内存).
 </li>
 </ul>
+
+
 
 
 <pre class="src src-C++">// A Sink is an interface that consumes a sequence of bytes.
@@ -308,8 +314,6 @@ class Sink {
 </pre>
 
 
-
-
 <p>
 然后看看snappy默认实现Sink接口。这里GetAppendBuffer并没有使用scratch而是直接返回dest_,这样的话可以减少1次copy.因为如果返回scratch的话，那么外部框架首先copy到scratch,然后从scratch在copy回dest_.所以这里为什么Append需要判断(data!=dest_).
 </p>
@@ -344,25 +348,21 @@ char* UncheckedByteArraySink::GetAppendBuffer(size_t len, char* scratch) {
 }
 </pre>
 
-
-
 <p>
 其实这个Sink接口非常简单地重定向到其他部分比如文件，这个在Example里面会给出例子。
 </p>
 <p>
 接着我们看看Source定义的接口。同样能够理解这个接口全依赖清晰的注释。其中
 </p><ul>
-<li>
-Available表示还有多少个字节剩余。
+<li>Available表示还有多少个字节剩余。
 </li>
-<li>
-Peek是返回前面可以窥探到的字节流，并且返回长度。返回的buffer必须持续有效直到Skip.
+<li>Peek是返回前面可以窥探到的字节流，并且返回长度。返回的buffer必须持续有效直到Skip.
 </li>
-<li>
-Skip相当于告诉Source某个部分的字节流已经不需要被使用了。
-
+<li>Skip相当于告诉Source某个部分的字节流已经不需要被使用了。
 </li>
 </ul>
+
+
 
 
 <pre class="src src-C++">// A Source is an interface that yields a sequence of bytes
@@ -401,8 +401,6 @@ class Source {
 };
 </pre>
 
-
-
 <p>
 然后snappy的默认实现非常简单
 </p>
@@ -434,8 +432,6 @@ void ByteArraySource::Skip(size_t n) {
 }
 </pre>
 
-
-
 <p>
 从Source接口上来看到的话并不是非常好扩展。因为一开始必须知道串有多大并且从代码上看Snappy并不是一个可以增量压缩的东西。
 所以个人感觉来说Source只能够做内存buffer的封装而不能够包装磁盘或者是网络流。
@@ -444,18 +440,18 @@ void ByteArraySource::Skip(size_t n) {
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> Snippet </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Snippet</h3>
+<div class="outline-text-3" id="text-1-3">
 
 <p>Snappy里面有相当多的代码片段非常精巧(一定程度上难懂)，所以有必要首先看看这些函数实现。
 </p>
 
 </div>
 
-<div id="outline-container-1.3.1" class="outline-4">
-<h4 id="sec-1.3.1"><span class="section-number-4">1.3.1</span> Bits </h4>
-<div class="outline-text-4" id="text-1.3.1">
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Bits</h4>
+<div class="outline-text-4" id="text-1-3-1">
 
 <p>定义了一些位操作，都使用了gcc内置函数
 </p>
@@ -491,29 +487,25 @@ inline int Bits::FindLSBSetNonZero64(uint64 n) {
 </pre>
 
 
-
-
 <p>
 为了方便这里给出三个内置函数解释
 </p><ul>
-<li>
-int _<sub>builtin</sub><sub>clz</sub> (unsigned int x) // Returns the number of leading 0-bits in x, starting at the most significant bit position. If x is 0, the result is undefined.
+<li>int __builtin_clz (unsigned int x) // Returns the number of leading 0-bits in x, starting at the most significant bit position. If x is 0, the result is undefined.
 </li>
-<li>
-int _<sub>builtin</sub><sub>ctz</sub> (unsigned int x) // Returns the number of trailing 0-bits in x, starting at the least significant bit position. If x is 0, the result is undefined.
+<li>int __builtin_ctz (unsigned int x) // Returns the number of trailing 0-bits in x, starting at the least significant bit position. If x is 0, the result is undefined.
 </li>
-<li>
-int _<sub>builtin</sub><sub>clzll</sub> (unsigned long long) // Similar to _<sub>builtin</sub><sub>clz</sub>, except the argument type is unsigned long long.
-
+<li>int __builtin_clzll (unsigned long long) // Similar to __builtin_clz, except the argument type is unsigned long long.
 </li>
 </ul>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.3.2" class="outline-4">
-<h4 id="sec-1.3.2"><span class="section-number-4">1.3.2</span> Varint </h4>
-<div class="outline-text-4" id="text-1.3.2">
+</div>
+
+<div id="outline-container-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> Varint</h4>
+<div class="outline-text-4" id="text-1-3-2">
 
 <p>定义了如何将32位整数进行编码和解码。关于这种编码方式可以参考protobuf的链接
 <a href="http://code.google.com/intl/zh-CN/apis/protocolbuffers/docs/encoding.html#varints">http://code.google.com/intl/zh-CN/apis/protocolbuffers/docs/encoding.html#varints</a>
@@ -602,15 +594,13 @@ void Varint::Append32(string* s, uint32 value) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.3.3" class="outline-4">
-<h4 id="sec-1.3.3"><span class="section-number-4">1.3.3</span> GetUint32AtOffset </h4>
-<div class="outline-text-4" id="text-1.3.3">
+<div id="outline-container-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3"><span class="section-number-4">1.3.3</span> GetUint32AtOffset</h4>
+<div class="outline-text-4" id="text-1-3-3">
 
 <p>能够从一个uint64里面取出任意偏移的uint32。通常我们一次载入一个uint64的话那么知道可以得到5个uint32,效率会很高。
 </p>
@@ -628,15 +618,13 @@ static inline uint32 GetUint32AtOffset(uint64 v, int offset) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.3.4" class="outline-4">
-<h4 id="sec-1.3.4"><span class="section-number-4">1.3.4</span> GetHashTable </h4>
-<div class="outline-text-4" id="text-1.3.4">
+<div id="outline-container-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4"><span class="section-number-4">1.3.4</span> GetHashTable</h4>
+<div class="outline-text-4" id="text-1-3-4">
 
 <p>在Compress的时候需要得到HashTable来判断哪些地方可以得到copy.不过实话说GetHashTable其实没有太多可以值得学习的地方，但是我们还是看看吧。
 至于hashtable每一个entry都是uint16表示什么东西，这个在Compress函数里面会讲到
@@ -677,17 +665,15 @@ uint16* WorkingMemory::GetHashTable(size_t input_size, int* table_size) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.3.5" class="outline-4">
-<h4 id="sec-1.3.5"><span class="section-number-4">1.3.5</span> FindMatchLength </h4>
-<div class="outline-text-4" id="text-1.3.5">
+<div id="outline-container-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5"><span class="section-number-4">1.3.5</span> FindMatchLength</h4>
+<div class="outline-text-4" id="text-1-3-5">
 
-<p>为了快速找到两个串(s1,s2)最大匹配长度多少，其中s2<sub>limit表示s2的结尾返回匹配长度。引用场景下面s1和s2是同一个串，不过</sub>(s1&lt;s2)因为我们不需要判断s1溢出。
+<p>为了快速找到两个串(s1,s2)最大匹配长度多少，其中s2_limit表示s2的结尾返回匹配长度。引用场景下面s1和s2是同一个串，不过(s1&lt;s2)因为我们不需要判断s1溢出。
 </p>
 
 
@@ -738,15 +724,13 @@ static inline int FindMatchLength(const char* s1,
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.3.6" class="outline-4">
-<h4 id="sec-1.3.6"><span class="section-number-4">1.3.6</span> MaxCompressedLength </h4>
-<div class="outline-text-4" id="text-1.3.6">
+<div id="outline-container-1-3-6" class="outline-4">
+<h4 id="sec-1-3-6"><span class="section-number-4">1.3.6</span> MaxCompressedLength</h4>
+<div class="outline-text-4" id="text-1-3-6">
 
 <p>snappy接口简单很大长度上是因为对于一个input串的话，可以根据input串估计出compress之后的串长度上限。
 然后进行压缩之前可以进行预分配，然后snappy内部的话在进行压缩时候就不进行字符越界检查了。
@@ -782,15 +766,13 @@ static inline int FindMatchLength(const char* s1,
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.3.7" class="outline-4">
-<h4 id="sec-1.3.7"><span class="section-number-4">1.3.7</span> IncrementalCopy </h4>
-<div class="outline-text-4" id="text-1.3.7">
+<div id="outline-container-1-3-7" class="outline-4">
+<h4 id="sec-1-3-7"><span class="section-number-4">1.3.7</span> IncrementalCopy</h4>
+<div class="outline-text-4" id="text-1-3-7">
 
 <p>首先看看IncrementalCopy的原型和语义是什么
 </p>
@@ -814,8 +796,6 @@ static inline void IncrementalCopy(const char* src, char* op, int len) {
   } while (--len &gt; 0);
 }
 </pre>
-
-
 
 <p>
 将src内容逐个copy到op上面去。但是注意这里必须是逐个copy到op上面去。因为src和op非常有可能重叠。
@@ -845,8 +825,6 @@ static inline void IncrementalCopyFastPath(const char* src, char* op, int len) {
   }
 }
 </pre>
-
-
 
 <p>
 可能阅读这个代码比较难理解，作者良好的注释又有帮助了。
@@ -885,8 +863,6 @@ static inline void IncrementalCopyFastPath(const char* src, char* op, int len) {
 // position 1. Thus, ten excess bytes.
 </pre>
 
-
-
 <p>
 不看上面注释我们也可以知道，使用这种方式是可能存在内存重叠copy的，并且很可能会多访问最后那么几个字节。
 上面注释的分析就是，如果op+length之后后面还有10个空余字节的话那么就是安全的，所以kMaxIncrementCopyOverflow==10.
@@ -896,13 +872,13 @@ static inline void IncrementalCopyFastPath(const char* src, char* op, int len) {
 
 </div>
 
-<div id="outline-container-1.3.8" class="outline-4">
-<h4 id="sec-1.3.8"><span class="section-number-4">1.3.8</span> EmitLiteral </h4>
-<div class="outline-text-4" id="text-1.3.8">
+<div id="outline-container-1-3-8" class="outline-4">
+<h4 id="sec-1-3-8"><span class="section-number-4">1.3.8</span> EmitLiteral</h4>
+<div class="outline-text-4" id="text-1-3-8">
 
-<p>EmitLiteral就是输出literal.虽然从Format很直观地看出literal应该怎么输出，但是还是有技巧的。最技巧的方便就是allow<sub>fast</sub><sub>path</sub>.
-allow<sub>fast</sub><sub>path场景是如果op后面有15个空余字节的话，那么就可以使用2个8字节copy完成。这个在CompressFragment代码里面可以看到，</sub>
-应用层面上只有在确保了op后面15个空余字节才会让allow<sub>fast</sub><sub>path</sub>==true.而其他逻辑的话因为就是正常的copy都走了memcpy这个分支。
+<p>EmitLiteral就是输出literal.虽然从Format很直观地看出literal应该怎么输出，但是还是有技巧的。最技巧的方便就是allow_fast_path.
+allow_fast_path场景是如果op后面有15个空余字节的话，那么就可以使用2个8字节copy完成。这个在CompressFragment代码里面可以看到，
+应用层面上只有在确保了op后面15个空余字节才会让allow_fast_path==true.而其他逻辑的话因为就是正常的copy都走了memcpy这个分支。
 </p>
 
 
@@ -951,15 +927,13 @@ allow<sub>fast</sub><sub>path场景是如果op后面有15个空余字节的话�
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.3.9" class="outline-4">
-<h4 id="sec-1.3.9"><span class="section-number-4">1.3.9</span> EmitCopy </h4>
-<div class="outline-text-4" id="text-1.3.9">
+<div id="outline-container-1-3-9" class="outline-4">
+<h4 id="sec-1-3-9"><span class="section-number-4">1.3.9</span> EmitCopy</h4>
+<div class="outline-text-4" id="text-1-3-9">
 
 <p>EmitCopy非常简单也不牵扯到数据的memcpy,只是写入(offset,length)这两个分量。但是之前说了如果length&gt;=64的话，那么是需要进行copy的切分的。
 </p>
@@ -1004,16 +978,14 @@ static inline char* EmitCopy(char* op, int offset, int len) {
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="section-number-3">1.4</span> Compress </h3>
-<div class="outline-text-3" id="text-1.4">
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Compress</h3>
+<div class="outline-text-3" id="text-1-4">
 
 <p>终于进行Compress正题了，看看大体框架吧。
 </p>
@@ -1121,8 +1093,6 @@ static inline char* EmitCopy(char* op, int offset, int len) {
   return written;
 }
 </pre>
-
-
 
 
 <p>
@@ -1289,19 +1259,17 @@ static inline char* EmitCopy(char* op, int offset, int len) {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.5" class="outline-3">
-<h3 id="sec-1.5"><span class="section-number-3">1.5</span> Uncompress </h3>
-<div class="outline-text-3" id="text-1.5">
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Uncompress</h3>
+<div class="outline-text-3" id="text-1-5">
 
 <p>Uncompress最终走到的逻辑是下面这个代码。比较重要的就是SnappyDecompressor以及Write这个接口。不过从代码逻辑上看非常简单，
 首先ReadUncompressedLength，然后writer设置最终解码之后应该多大。然后decompressor开始分析各个tag了。最后decompressor判断是否读完以及
-writer判断自己解码之后长度和uncompressed<sub>len是否相同。</sub>
+writer判断自己解码之后长度和uncompressed_len是否相同。
 </p>
 
 
@@ -1328,13 +1296,11 @@ static bool InternalUncompress(Source* r,
 
 
 
-
-
 </div>
 
-<div id="outline-container-1.5.1" class="outline-4">
-<h4 id="sec-1.5.1"><span class="section-number-4">1.5.1</span> Writer </h4>
-<div class="outline-text-4" id="text-1.5.1">
+<div id="outline-container-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> Writer</h4>
+<div class="outline-text-4" id="text-1-5-1">
 
 <p>我们首先看看一个实现SnappyArrayWriter.最关键的两个函数就是Append(copy literal)以及AppendFromSelf(copy copy).
 然后对于SnappyDecompressor分析出literal以及copy之后就可以调用这两个函数来进行解压缩了。
@@ -1407,8 +1373,6 @@ static bool InternalUncompress(Source* r,
 </pre>
 
 
-
-
 <p>
 不难想到如果修改一下这个实现的话那么可以做检查器，我们只是验证压缩包是否正确。
 </p>
@@ -1441,31 +1405,26 @@ class SnappyDecompressionValidator {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.5.2" class="outline-4">
-<h4 id="sec-1.5.2"><span class="section-number-4">1.5.2</span> SnappyDecompressor </h4>
-<div class="outline-text-4" id="text-1.5.2">
+<div id="outline-container-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> SnappyDecompressor</h4>
+<div class="outline-text-4" id="text-1-5-2">
 
 <p>SnappyDecompressor有几个比较重要的方法：
 </p><ul>
-<li>
-ReadUncompressedLength.这个就是解压缩开头的Varint.这个没有太大的问题。
+<li>ReadUncompressedLength.这个就是解压缩开头的Varint.这个没有太大的问题。
 </li>
-<li>
-DecompressAllTags.这个是解压缩所有的tag，源是RefillTag填充的scratch[].
+<li>DecompressAllTags.这个是解压缩所有的tag，源是RefillTag填充的scratch[].
 </li>
-<li>
-RefillTag.填充tag所需要的字节到scratch[]内部。这个也没有太大问题。
+<li>RefillTag.填充tag所需要的字节到scratch[]内部。这个也没有太大问题。
 </li>
 </ul>
 
 <p>在看这个代码之前，我们想想如果我们得到scratch之后应该如何从中提取tag信息呢？最好的方式就是打表。
-因为tag的头一个字节反应了这个tag所有信息，所以在snappy里面有char<sub>table这个表以头一个字节内容作为索引</sub>
+因为tag的头一个字节反应了这个tag所有信息，所以在snappy里面有char_table这个表以头一个字节内容作为索引
 </p>
 
 
@@ -1487,19 +1446,14 @@ static const uint16 char_table[256] = {
 };
 </pre>
 
-
-
 <p>
 这个表是可以计算出来的
 </p><ul>
-<li>
-[0..7]表示literal/copy长度,因为不管是literal/copy长度。对于copy是足够的，但是对于literal来说的话能够根据高extra byte判断后面剩余长度字节。
+<li>[0..7]表示literal/copy长度,因为不管是literal/copy长度。对于copy是足够的，但是对于literal来说的话能够根据高extra byte判断后面剩余长度字节。
 </li>
-<li>
-[8..10]表示copy的offset / 256,对于offset剩余内容通过extra表示
+<li>[8..10]表示copy的offset / 256,对于offset剩余内容通过extra表示
 </li>
-<li>
-[11..13]表示后面剩余多少个字节。通过wordmask来提取。
+<li>[11..13]表示后面剩余多少个字节。通过wordmask来提取。
 </li>
 </ul>
 
@@ -1511,8 +1465,6 @@ static const uint16 char_table[256] = {
   0u, 0xffu, 0xffffu, 0xffffffu, 0xffffffffu
 };
 </pre>
-
-
 
 <p>
 这样如果extra bytes==1的话，通过&amp; 0xffu可以取到1个字节。这个在代码里面就会有体现。非常精巧。
@@ -1584,16 +1536,14 @@ void DecompressAllTags(Writer* writer) {
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.6" class="outline-3">
-<h3 id="sec-1.6"><span class="section-number-3">1.6</span> Example </h3>
-<div class="outline-text-3" id="text-1.6">
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Example</h3>
+<div class="outline-text-3" id="text-1-6">
 
 <p>工作很简单，首先从main.cc里面读取内容然后压缩到main.cc.compress文件里面，然后读取出来解压缩对比是否正确。这里我们演示了Sink如何封装。
 </p>
@@ -1666,15 +1616,16 @@ int main(){
 }
 </pre>
 
+</div>
+</div>
+</div>
+</div>
 
-
-</div>
-</div>
-</div>
 <div id="postamble">
-<p class="date"> Date: 2013-10-14 12:18:20 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
-</div>
+<p class="date">Date: 2013-10-15 22:15:05 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'snappy.html';var disqus_title = 'snappy.html';var disqus_url = 'http://dirlt.com/snappy.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

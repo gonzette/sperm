@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>python</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="python"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:18:25 CST"/>
+<meta name="generated" content="2013-10-15 22:15:15 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">python</h1>
 
 
@@ -56,19 +77,19 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 python </a>
+<li><a href="#sec-1">1 python</a>
 <ul>
-<li><a href="#sec-1.1">1.1 语言 </a>
+<li><a href="#sec-1-1">1.1 语言</a>
 <ul>
-<li><a href="#sec-1.1.1">1.1.1 encode/decode </a></li>
+<li><a href="#sec-1-1-1">1.1.1 encode/decode</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.2">1.2 库 </a>
+<li><a href="#sec-1-2">1.2 库</a>
 <ul>
-<li><a href="#sec-1.2.1">1.2.1 wsgi </a></li>
-<li><a href="#sec-1.2.2">1.2.2 excel </a></li>
-<li><a href="#sec-1.2.3">1.2.3 http </a></li>
-<li><a href="#sec-1.2.4">1.2.4 date/time </a></li>
+<li><a href="#sec-1-2-1">1.2.1 wsgi</a></li>
+<li><a href="#sec-1-2-2">1.2.2 excel</a></li>
+<li><a href="#sec-1-2-3">1.2.3 http</a></li>
+<li><a href="#sec-1-2-4">1.2.4 date/time</a></li>
 </ul>
 </li>
 </ul>
@@ -78,33 +99,32 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> python </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> python</h2>
 <div class="outline-text-2" id="text-1">
 
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> 语言 </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 语言</h3>
+<div class="outline-text-3" id="text-1-1">
 
 
 </div>
 
-<div id="outline-container-1.1.1" class="outline-4">
-<h4 id="sec-1.1.1"><span class="section-number-4">1.1.1</span> encode/decode </h4>
-<div class="outline-text-4" id="text-1.1.1">
+<div id="outline-container-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1"><span class="section-number-4">1.1.1</span> encode/decode</h4>
+<div class="outline-text-4" id="text-1-1-1">
 
 <p>python字符串是unicode类型，二进制是str类型。
 </p><ul>
-<li>
-encode是将unicode转换成为str
+<li>encode是将unicode转换成为str
 </li>
-<li>
-decode是将str转换成为unicode
-
+<li>decode是将str转换成为unicode
 </li>
 </ul>
+
+
 
 
 <pre class="example">&gt;&gt;&gt; a="中国"
@@ -117,8 +137,6 @@ u'\u4e2d\u56fd'
 &gt;&gt;&gt; print a.decode('gb18030')
 涓浗
 </pre>
-
-
 
 
 <p>
@@ -134,7 +152,7 @@ u'\u4e2d\u56fd'
         return s.decode('gb2312').encode('utf8')
     except UnicodeDecodeError,e:
         return s
-        
+
 def toLocal(s):
     try:
         open(s,'r') # what a tricky way.
@@ -144,8 +162,6 @@ def toLocal(s):
             return s.decode('utf8').encode('gb2312')
         return s
 </pre>
-
-
 
 <p>
 对于从本地转换出去的话，我们首先尝试使用gb2312进行decode，如果失败的话那么就认为是utf8编码，当然这里会有一定的错误机率（但是不大）。
@@ -167,23 +183,21 @@ if(sys.getdefaultencoding() !='utf8'):
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> 库 </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 库</h3>
+<div class="outline-text-3" id="text-1-2">
 
 
 </div>
 
-<div id="outline-container-1.2.1" class="outline-4">
-<h4 id="sec-1.2.1"><span class="section-number-4">1.2.1</span> wsgi </h4>
-<div class="outline-text-4" id="text-1.2.1">
+<div id="outline-container-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> wsgi</h4>
+<div class="outline-text-4" id="text-1-2-1">
 
 <p>wsgi(web server gateway interface)定义了一个webserver的标准编程接口，对于coder来说只需要实现这个接口，然后可以选择外部其他的framework（比如gunicore），就可以将webserver运行起来了。下面是一个参考代码
 </p>
@@ -195,46 +209,38 @@ if(sys.getdefaultencoding() !='utf8'):
     return (<span class="org-string">"OK"</span>,)
 </pre>
 
-
-
 <p>
 对于logic需要处理两个参数：
 </p><ul>
-<li>
-environ 表示环境变量，对于get/post请求数据都会放在这里.下面是常用的环境
+<li>environ 表示环境变量，对于get/post请求数据都会放在这里.下面是常用的环境
 <ul>
-<li>
-PATH<sub>INFO</sub> // 请求path
+<li>PATH_INFO // 请求path
 </li>
-<li>
-REQUEST<sub>METHOD</sub> // 请求方法 GET/POST
+<li>REQUEST_METHOD // 请求方法 GET/POST
 </li>
-<li>
-CONTENT<sub>LENGTH</sub> // 
+<li>CONTENT_LENGTH // 
 </li>
-<li>
-QUERY<sub>STRING</sub> // path后面接的query，可以使用cgi.parse<sub>qs来进行解析</sub>
+<li>QUERY_STRING // path后面接的query，可以使用cgi.parse_qs来进行解析
 <ul>
-<li>
-cgi.parse<sub>qs解析后的结果就是dict</sub>
+<li>cgi.parse_qs解析后的结果就是dict
 </li>
-<li>
-如果dict同一个key出现多次的话会以数组方式保留
-</li>
-</ul>
-</li>
-<li>
-wsgi.input // 可以读取POST数据
-</li>
-</ul>
-</li>
-<li>
-start<sub>response</sub> 表示一个continuation，恢复status code以及header
-
+<li>如果dict同一个key出现多次的话会以数组方式保留
 </li>
 </ul>
 
-<p>之后我们只需要选择一个合适的框架就可以运行起来了。python内置了一个wsgi framework。这里的validator可以帮助外围做一些验证。
+</li>
+<li>wsgi.input // 可以读取POST数据
+</li>
+</ul>
+
+</li>
+<li>start_response 表示一个continuation，恢复status code以及header
+</li>
+</ul>
+
+
+<p>
+之后我们只需要选择一个合适的框架就可以运行起来了。python内置了一个wsgi framework。这里的validator可以帮助外围做一些验证。
 </p>
 
 
@@ -243,8 +249,6 @@ start<sub>response</sub> 表示一个continuation，恢复status code以及heade
     httpd = make_server('', 8000, vlogic)
     httpd.serve_forever()
 </pre>
-
-
 
 
 <p>
@@ -269,51 +273,46 @@ start<sub>response</sub> 表示一个continuation，恢复status code以及heade
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.2" class="outline-4">
-<h4 id="sec-1.2.2"><span class="section-number-4">1.2.2</span> excel </h4>
-<div class="outline-text-4" id="text-1.2.2">
+<div id="outline-container-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> excel</h4>
+<div class="outline-text-4" id="text-1-2-2">
 
 <p>分析excel文件在实际生活中还是比较常见的，通常我们的问题就是卡在读取上面（主要原因是因为我对COM接口不太熟悉，不太了解windows编程）。使用xlrd可以通过python来访问excel文件。
 </p>
 <ul>
-<li>
-xlrd <a href="http://pypi.python.org/pypi/xlrd">http://pypi.python.org/pypi/xlrd</a>
+<li>xlrd <a href="http://pypi.python.org/pypi/xlrd">http://pypi.python.org/pypi/xlrd</a>
 </li>
-<li>
-文档 <a href="http://www.lexicon.net/sjmachin/xlrd.htm（看起来可能比较费劲，下面的py文档更加可读）">http://www.lexicon.net/sjmachin/xlrd.htm（看起来可能比较费劲，下面的py文档更加可读）</a>
+<li>文档 <a href="http://www.lexicon.net/sjmachin/xlrd.htm（看起来可能比较费劲，下面的py文档更加可读">http://www.lexicon.net/sjmachin/xlrd.htm（看起来可能比较费劲，下面的py文档更加可读</a>）
 </li>
-<li>
-py文档 packages.python.org/xlrd3（xlrd3是针对python3的，但是和xlrd API是完全兼容的）
+<li>py文档 packages.python.org/xlrd3（xlrd3是针对python3的，但是和xlrd API是完全兼容的）
 </li>
-<li>
-参考链接 <a href="http://www.shello.name/?p=133">http://www.shello.name/?p=133</a>
-
+<li>参考链接 <a href="http://www.shello.name/?p=133">http://www.shello.name/?p=133</a>
 </li>
 </ul>
 
-<p>从文档里面可以看到它是直接分析excel文件的，通过阅读OpenOffice的关于M$ Excel文件格式文档编写的。
+
+<p>
+从文档里面可以看到它是直接分析excel文件的，通过阅读OpenOffice的关于M$ Excel文件格式文档编写的。
 </p>
 <p class="verse">
 Development of this module would not have been possible without the document “OpenOffice.org’s Documentation of the Microsoft Excel File Format” (“OOo docs” for short). The latest version is available from OpenOffice.org in PDF format and XML format. Small portions of the OOo docs are reproduced in this document. A study of the OOo docs is recommended for those who wish a deeper understanding of the Excel file layout than the xlrd docs can provide. <br/>
 </p>
 
-<ul>
-<li>
-PDF format <a href="http://sc.openoffice.org/excelfileformat.pdf">http://sc.openoffice.org/excelfileformat.pdf</a>
-</li>
-<li>
-XML format <a href="http://sc.openoffice.org/excelfileformat.sxw">http://sc.openoffice.org/excelfileformat.sxw</a>
 
+<ul>
+<li>PDF format <a href="http://sc.openoffice.org/excelfileformat.pdf">http://sc.openoffice.org/excelfileformat.pdf</a>
+</li>
+<li>XML format <a href="http://sc.openoffice.org/excelfileformat.sxw">http://sc.openoffice.org/excelfileformat.sxw</a>
 </li>
 </ul>
 
-<p>基本上能够得到所有的数据，包括处理date信息，单元格的格式化信息，名字引用信息，内部统一使用Unicode（如果内部使用其他编码的话会自动转换）
+
+<p>
+基本上能够得到所有的数据，包括处理date信息，单元格的格式化信息，名字引用信息，内部统一使用Unicode（如果内部使用其他编码的话会自动转换）
 </p>
 <p class="verse">
 Features:<br/>
@@ -364,46 +363,40 @@ for i in range(0,book.nsheets):
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2.3" class="outline-4">
-<h4 id="sec-1.2.3"><span class="section-number-4">1.2.3</span> http </h4>
-<div class="outline-text-4" id="text-1.2.3">
+<div id="outline-container-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> http</h4>
+<div class="outline-text-4" id="text-1-2-3">
 
 <ul>
-<li>
-httplib.HTTPConnection
+<li>httplib.HTTPConnection
 <ul>
-<li>
-<b>注意构造函数的timeout是connect timeout</b>
+<li><b>注意构造函数的timeout是connect timeout</b>
 </li>
-<li>
-send/recv timeout可以通过socket.setdefaulttimeout()来设置，全局设置对所有socket有效
+<li>send/recv timeout可以通过socket.setdefaulttimeout()来设置，全局设置对所有socket有效
 </li>
-<li>
-对单个socket可以从过connection.sock.settimeout完成，但是必须首先connect才能够创建sock对象
+<li>对单个socket可以从过connection.sock.settimeout完成，但是必须首先connect才能够创建sock对象
 </li>
-<li>
-<b>注意timeout单位是秒</b>
+<li><b>注意timeout单位是秒</b>
 </li>
-<li>
-python - HTTP Request Timeout - Stack Overflow : <a href="http://stackoverflow.com/questions/265720/http-request-timeout">http://stackoverflow.com/questions/265720/http-request-timeout</a>
+<li>python - HTTP Request Timeout - Stack Overflow : <a href="http://stackoverflow.com/questions/265720/http-request-timeout">http://stackoverflow.com/questions/265720/http-request-timeout</a>
+</li>
+</ul>
 
 </li>
 </ul>
-</li>
-</ul>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.2.4" class="outline-4">
-<h4 id="sec-1.2.4"><span class="section-number-4">1.2.4</span> date/time </h4>
-<div class="outline-text-4" id="text-1.2.4">
+</div>
+
+<div id="outline-container-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4"><span class="section-number-4">1.2.4</span> date/time</h4>
+<div class="outline-text-4" id="text-1-2-4">
 
 
 
@@ -419,16 +412,17 @@ def convertTimeStampToDateTime(ts):
 </pre>
 
 
+</div>
+</div>
+</div>
+</div>
+</div>
 
-
-</div>
-</div>
-</div>
-</div>
 <div id="postamble">
-<p class="date"> Date: 2013-10-14 12:18:25 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
-</div>
+<p class="date">Date: 2013-10-15 22:15:15 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'python.html';var disqus_title = 'python.html';var disqus_url = 'http://dirlt.com/python.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>Probabilistic Data Structures for Web Analytics and Data Mining</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="Probabilistic Data Structures for Web Analytics and Data Mining"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:18:25 CST"/>
+<meta name="generated" content="2013-10-15 22:15:17 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">Probabilistic Data Structures for Web Analytics and Data Mining</h1>
 
 
@@ -56,17 +77,17 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 probabilistic-data-structures-for-web-analytics-and-data-mining </a>
+<li><a href="#sec-1">1 probabilistic-data-structures-for-web-analytics-and-data-mining</a>
 <ul>
-<li><a href="#sec-1.1">1.1 Introduction </a></li>
-<li><a href="#sec-1.2">1.2 Cardinality Estimation: Linear Counting </a></li>
-<li><a href="#sec-1.3">1.3 Cardinality Estimation: Loglog Counting </a></li>
-<li><a href="#sec-1.4">1.4 Frequency Estimation: Count-Min Sketch </a></li>
-<li><a href="#sec-1.5">1.5 Frequency Estimation: Count-Mean-Min Sketch </a></li>
-<li><a href="#sec-1.6">1.6 Heavy Hitters: Count-Min Sketch </a></li>
-<li><a href="#sec-1.7">1.7 Heavy Hitters: Stream-Summary </a></li>
-<li><a href="#sec-1.8">1.8 Range Query: Array of Count-Min Sketches </a></li>
-<li><a href="#sec-1.9">1.9 Membership Query: Bloom Filter </a></li>
+<li><a href="#sec-1-1">1.1 Introduction</a></li>
+<li><a href="#sec-1-2">1.2 Cardinality Estimation: Linear Counting</a></li>
+<li><a href="#sec-1-3">1.3 Cardinality Estimation: Loglog Counting</a></li>
+<li><a href="#sec-1-4">1.4 Frequency Estimation: Count-Min Sketch</a></li>
+<li><a href="#sec-1-5">1.5 Frequency Estimation: Count-Mean-Min Sketch</a></li>
+<li><a href="#sec-1-6">1.6 Heavy Hitters: Count-Min Sketch</a></li>
+<li><a href="#sec-1-7">1.7 Heavy Hitters: Stream-Summary</a></li>
+<li><a href="#sec-1-8">1.8 Range Query: Array of Count-Min Sketches</a></li>
+<li><a href="#sec-1-9">1.9 Membership Query: Bloom Filter</a></li>
 </ul>
 </li>
 </ul>
@@ -74,22 +95,22 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> probabilistic-data-structures-for-web-analytics-and-data-mining </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> probabilistic-data-structures-for-web-analytics-and-data-mining</h2>
 <div class="outline-text-2" id="text-1">
 
 
 <ul>
-<li>
-<a href="http://highlyscalable.wordpress.com/2012/05/01/probabilistic-structures-web-analytics-data-mining/">http://highlyscalable.wordpress.com/2012/05/01/probabilistic-structures-web-analytics-data-mining/</a>
-
+<li><a href="http://highlyscalable.wordpress.com/2012/05/01/probabilistic-structures-web-analytics-data-mining/">http://highlyscalable.wordpress.com/2012/05/01/probabilistic-structures-web-analytics-data-mining/</a>
 </li>
 </ul>
 
+
+
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> Introduction </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Introduction</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <p>Let us start with a simple example that illustrates capabilities of probabilistic data structures:
 </p>
@@ -99,76 +120,65 @@ lang="en" xml:lang="en">
 <p>
 原始数据是10m个32位整数，但是去重之后个数只有1m个，占用40MB存储空间。在这个原始数据上做下面这些查询：
 </p><ul>
-<li>
-How many distinct elements are in the data set (i.e. what is the cardinality of the data set)? （去重元素个数）
+<li>How many distinct elements are in the data set (i.e. what is the cardinality of the data set)? （去重元素个数）
 </li>
-<li>
-What are the most frequent elements (the terms “heavy hitters” and “top-k elements” are also used)?（频率TopK 查询）
+<li>What are the most frequent elements (the terms “heavy hitters” and “top-k elements” are also used)?（频率TopK 查询）
 </li>
-<li>
-What are the frequencies of the most frequent elements?（具体频率查询）     
+<li>What are the frequencies of the most frequent elements?（具体频率查询）     
 </li>
-<li>
-How many elements belong to the specified range (range query, in SQL it looks like  SELECT count(v) WHERE v &gt;= c1 AND v &lt; c2)?（符合范围元素个数查询）
+<li>How many elements belong to the specified range (range query, in SQL it looks like  SELECT count(v) WHERE v &gt;= c1 AND v &lt; c2)?（符合范围元素个数查询）
 </li>
-<li>
-Does the data set contain a particular element (membership query)?（存在性查询）
-
+<li>Does the data set contain a particular element (membership query)?（存在性查询）
 </li>
 </ul>
 
-<p>The picture above shows (in scale) how much memory different representations of the data set will consume and which queries they support:
+
+<p>
+The picture above shows (in scale) how much memory different representations of the data set will consume and which queries they support:
 </p><ul>
-<li>
-A straightforward approach for cardinality computation and membership query processing is to maintain a sorted list of IDs or a hash table. This approach requires at least 4MB because we expect up to 10<sup>6</sup> values, the actual size of the hash table will be even larger.
+<li>A straightforward approach for cardinality computation and membership query processing is to maintain a sorted list of IDs or a hash table. This approach requires at least 4MB because we expect up to 10^6 values, the actual size of the hash table will be even larger.
 </li>
-<li>
-A straightforward approach for frequency counting and range query processing is to store a map like (value -&gt; counter) for each element. It requires a table of 7MB that stores values and counters (24-bit counters are sufficient because we have not more than 10<sup>7</sup> occurrences of each element).
+<li>A straightforward approach for frequency counting and range query processing is to store a map like (value -&gt; counter) for each element. It requires a table of 7MB that stores values and counters (24-bit counters are sufficient because we have not more than 10^7 occurrences of each element).
 </li>
-<li>
-With probabilistic data structures, a membership query can be processed with 4% error rate (false positive answers) using only 0.6MB of memory if data is stored in the Bloom filter.
+<li>With probabilistic data structures, a membership query can be processed with 4% error rate (false positive answers) using only 0.6MB of memory if data is stored in the Bloom filter.
 </li>
-<li>
-Frequencies of 100 most frequent elements can be estimated with 4% precision using Count-Min Sketch structure that uses about 48KB (12k integer counters, based on the experimental result), assuming that data is skewed in accordance with Zipfian distribution that models well natural texts, many types of web events and network traffic. A group of several such sketches can be used to process range query.
+<li>Frequencies of 100 most frequent elements can be estimated with 4% precision using Count-Min Sketch structure that uses about 48KB (12k integer counters, based on the experimental result), assuming that data is skewed in accordance with Zipfian distribution that models well natural texts, many types of web events and network traffic. A group of several such sketches can be used to process range query.
 </li>
-<li>
-100 most frequent items can be detected with 4% error (96 of 100 are determined correctly, based on the experimental results) using Stream-Summary structure, also assuming Zipfian distribution of probabilities of the items.
+<li>100 most frequent items can be detected with 4% error (96 of 100 are determined correctly, based on the experimental results) using Stream-Summary structure, also assuming Zipfian distribution of probabilities of the items.
 </li>
-<li>
-Cardinality of this data set can be estimated with 4% precision using either Linear Counter or Loglog Counter. The former one uses about 125KB of memory and its size is linear function of the cardinality, the later one requires only 2KB and its size is almost constant for any input. It is possible to combine several linear counters to estimate cardinality of the corresponding union of sets.
-
+<li>Cardinality of this data set can be estimated with 4% precision using either Linear Counter or Loglog Counter. The former one uses about 125KB of memory and its size is linear function of the cardinality, the later one requires only 2KB and its size is almost constant for any input. It is possible to combine several linear counters to estimate cardinality of the corresponding union of sets.
 </li>
 </ul>
 
-<p>A number of probabilistic data structures is described in detail in the following sections, although without excessive theoretical explanations – detailed mathematical analysis of these structures can be found in the original articles.  The preliminary remarks are:
+
+<p>
+A number of probabilistic data structures is described in detail in the following sections, although without excessive theoretical explanations – detailed mathematical analysis of these structures can be found in the original articles.  The preliminary remarks are:
 For some structures like Loglog Counter or Bloom filter, there exist simple and practical formulas that allow one to determine parameters of the structure on the basis of expected data volume and required error probability. Other structures like Count-Min Sketch or Stream-Summary have complex dependency on statistical properties of data and experiments are the only reasonable way to understand their applicability to real use cases.（对于LogLog Counter和Bloom Filter存在数学上的证明来决定参数以达到某种误差概率，而其他的数据结构比如Count-Min Sketch或者是Stream-Summary参数上的选择则完全依赖于统计数据，所以只能够通过实验来分析）
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> Cardinality Estimation: Linear Counting </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Cardinality Estimation: Linear Counting</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <p>这个算法比较简单。首先维护一个全0的bitset, 之后对每个value做hash，映射到bitset对应的bit并且置1。处理完所有的value之后统计这个bitset有多少个bit置1，这个数目就是cardinality.
 </p>
 <p>
 Let’s say that the ratio of a number of distinct items in the data set to m is a load factor. It is intuitively clear that: (load factor = number of distinct items / m)
 </p><ul>
-<li>
-If the load factor is much less than 1, a number of collisions in the mask will be low and weight of the mask (a number of 1’s) will be a good estimation of the cardinality.
+<li>If the load factor is much less than 1, a number of collisions in the mask will be low and weight of the mask (a number of 1’s) will be a good estimation of the cardinality.
 </li>
-<li>
-If the load factor is higher than 1, but not very high, many different values will be mapped to the same bits. Hence the weight of the mask is not a good estimation of the cardinality. Nevertheless, it is possible that there exist a function that allows one to estimate the cardinality on the basis of weight (real cardinality will always be greater than weight).
+<li>If the load factor is higher than 1, but not very high, many different values will be mapped to the same bits. Hence the weight of the mask is not a good estimation of the cardinality. Nevertheless, it is possible that there exist a function that allows one to estimate the cardinality on the basis of weight (real cardinality will always be greater than weight).
 </li>
-<li>
-If the load factor is very high (for example, 100), it is very probable that all bits will be set to 1 and it will be impossible to obtain a reasonable estimation of the cardinality on the basis of the mask.
-
+<li>If the load factor is very high (for example, 100), it is very probable that all bits will be set to 1 and it will be impossible to obtain a reasonable estimation of the cardinality on the basis of the mask.
 </li>
 </ul>
 
-<p>The following table contains key formulas that allow one to estimate cardinality as a function of the mask weight and choose parameter m by required bias or standard error of the estimation:
+
+<p>
+The following table contains key formulas that allow one to estimate cardinality as a function of the mask weight and choose parameter m by required bias or standard error of the estimation:
 </p>
 <p>
 <img src="./images/linear-counting-analysis.png"  alt="./images/linear-counting-analysis.png" />
@@ -177,9 +187,9 @@ If the load factor is very high (for example, 100), it is very probable that all
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> Cardinality Estimation: Loglog Counting </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Cardinality Estimation: Loglog Counting</h3>
+<div class="outline-text-3" id="text-1-3">
 
 <p>这个算法 <a href="algorithm.html">之前(HyperLogLog这节)</a> 分析过
 </p>
@@ -190,15 +200,15 @@ The following table provides the estimation formula and equations that can be us
 <img src="./images/loglog-counting-analysis.png"  alt="./images/loglog-counting-analysis.png" />
 </p>
 <p>
-These formulas are very impressive. One can see that a number of buckets is relatively small for most of the practically interesting values of the standard error of the estimation. For example, 1024 estimators provide a standard error of 4%. At the same time, the length of the estimator is a very slow growing function of the capacity, 5-bit buckets are enough for cardinalities up to 10<sup>11</sup>, 8-bit buckets (etype is byte) can support practically unlimited cardinalities. This means that less than 1KB of auxiliary memory may be enough to process gigabytes of data in the real life applications! （bucket数量的增长相对与原始数据量的增长是非常缓慢的）
+These formulas are very impressive. One can see that a number of buckets is relatively small for most of the practically interesting values of the standard error of the estimation. For example, 1024 estimators provide a standard error of 4%. At the same time, the length of the estimator is a very slow growing function of the capacity, 5-bit buckets are enough for cardinalities up to 10^11, 8-bit buckets (etype is byte) can support practically unlimited cardinalities. This means that less than 1KB of auxiliary memory may be enough to process gigabytes of data in the real life applications! （bucket数量的增长相对与原始数据量的增长是非常缓慢的）
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="section-number-3">1.4</span> Frequency Estimation: Count-Min Sketch </h3>
-<div class="outline-text-3" id="text-1.4">
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Frequency Estimation: Count-Min Sketch</h3>
+<div class="outline-text-3" id="text-1-4">
 
 <p>The basic idea of Count-Min Sketch is quite simple and somehow similar to Linear Counting. Count-Min sketch is simply a two-dimensional array (d x w) of integer counters. When a value arrives, it is mapped to one position at each of d rows using d different and preferably independent hash functions. Counters on each position are incremented. This process is shown in the figure below:
 </p>
@@ -245,8 +255,6 @@ It is clear that if sketch is large in comparison with the cardinality of the da
 </pre>
 
 
-
-
 <p>
 Dependency between the sketch size and accuracy is shown in the table below. It is worth noting that width of the sketch limits the magnitude of the error and height (also called depth) controls the probability that estimation breaks through this limit:
 </p>
@@ -277,9 +285,9 @@ One can see that result is more accurate, at least for the most frequent items. 
 
 </div>
 
-<div id="outline-container-1.5" class="outline-3">
-<h3 id="sec-1.5"><span class="section-number-3">1.5</span> Frequency Estimation: Count-Mean-Min Sketch </h3>
-<div class="outline-text-3" id="text-1.5">
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Frequency Estimation: Count-Mean-Min Sketch</h3>
+<div class="outline-text-3" id="text-1-5">
 
 <p>对于low or moderately skewed dataset来说，hash冲突比较严重所以会导致结果偏差比较大。我们可以通过去除相互影响的噪音来解决这个问题。
 </p>
@@ -305,8 +313,6 @@ As an alternative, more careful correction can be done to compensate the noise c
 </pre>
 
 
-
-
 <p>
 This enhancement can significantly improve accuracy of the Count-Min structure. For example, compare the histograms below with the first histograms for Count-Min sketch (both techniques used a sketch of size 3×64 and 8500 elements were added to it):
 </p>
@@ -317,41 +323,38 @@ This enhancement can significantly improve accuracy of the Count-Min structure. 
 
 </div>
 
-<div id="outline-container-1.6" class="outline-3">
-<h3 id="sec-1.6"><span class="section-number-3">1.6</span> Heavy Hitters: Count-Min Sketch </h3>
-<div class="outline-text-3" id="text-1.6">
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Heavy Hitters: Count-Min Sketch</h3>
+<div class="outline-text-3" id="text-1-6">
 
 <p>Count-Min sketches are applicable to the following problem: Find all elements in the data set with the frequencies greater than k percent of the total number of elements in the data set.（获取频率大于k%的元素总数，使用heap作为辅助） The algorithm is straightforward:（
 </p><ul>
-<li>
-Maintain a standard Count-Min sketch during the scan of the data set and put all elements into it.
+<li>Maintain a standard Count-Min sketch during the scan of the data set and put all elements into it.
 </li>
-<li>
-Maintain a heap of top elements, initially empty, and a counter N of the total number of already process elements.
+<li>Maintain a heap of top elements, initially empty, and a counter N of the total number of already process elements.
 </li>
-<li>
-For each element in the data set:
+<li>For each element in the data set:
 <ul>
-<li>
-Put the element to the sketch
+<li>Put the element to the sketch
 </li>
-<li>
-Estimate the frequency of the element using the sketch. If frequency is greater than a threshold (k*N), then put the element to the heap. Heap should be periodically or continuously cleaned up to remove elements that do not meet the threshold anymore.
-
-</li>
-</ul>
+<li>Estimate the frequency of the element using the sketch. If frequency is greater than a threshold (k*N), then put the element to the heap. Heap should be periodically or continuously cleaned up to remove elements that do not meet the threshold anymore.
 </li>
 </ul>
 
-<p>In general, the top-k problem makes sense only for skewed data, so usage of Count-Min sketches is reasonable in this context.（因为使用的是count-min sketch算法因此只能针对skewed dataset使用）
+</li>
+</ul>
+
+
+<p>
+In general, the top-k problem makes sense only for skewed data, so usage of Count-Min sketches is reasonable in this context.（因为使用的是count-min sketch算法因此只能针对skewed dataset使用）
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1.7" class="outline-3">
-<h3 id="sec-1.7"><span class="section-number-3">1.7</span> Heavy Hitters: Stream-Summary </h3>
-<div class="outline-text-3" id="text-1.7">
+<div id="outline-container-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Heavy Hitters: Stream-Summary</h3>
+<div class="outline-text-3" id="text-1-7">
 
 <p>这个算法还是比较好理解的。数据结构里面保留一定数目的槽位，添加value的时候增加其frequency counter. 如果达到槽位上限的话，那么就删除frequency counter最低的元素。
 </p>
@@ -365,9 +368,9 @@ The estimation procedure for most frequent elements and corresponding frequencie
 
 </div>
 
-<div id="outline-container-1.8" class="outline-3">
-<h3 id="sec-1.8"><span class="section-number-3">1.8</span> Range Query: Array of Count-Min Sketches </h3>
-<div class="outline-text-3" id="text-1.8">
+<div id="outline-container-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> Range Query: Array of Count-Min Sketches</h3>
+<div class="outline-text-3" id="text-1-8">
 
 <p>In theory, one can process a range query (something like SELECT count(v) WHERE v &gt;= c1 AND v &lt; c2) using a Count-Min sketch  enumerating all points within a range and summing estimates for corresponding frequencies. However, this approach is impractical because the number of points within a range can be very high and accuracy also tends to be inacceptable because of cumulative error of the sum.（对于范围查询可以枚举[c1,c2)所有的value，然后使用count-min sketch来得到count. 但是这个算法并不实际因为这个range可能非常大并且误差也很大，因为全部存放在一个sketch上面）
 </p>
@@ -387,9 +390,9 @@ Any range query can be reduced to a number of queries to the sketches of differe
 
 </div>
 
-<div id="outline-container-1.9" class="outline-3">
-<h3 id="sec-1.9"><span class="section-number-3">1.9</span> Membership Query: Bloom Filter </h3>
-<div class="outline-text-3" id="text-1.9">
+<div id="outline-container-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> Membership Query: Bloom Filter</h3>
+<div class="outline-text-3" id="text-1-9">
 
 <p>The following table contains formulas that allow one to calculate parameters of the Bloom filter as functions of error probability and capacity:
 </p>
@@ -400,10 +403,13 @@ Any range query can be reduced to a number of queries to the sketches of differe
 </div>
 </div>
 </div>
-<div id="postamble">
-<p class="date"> Date: 2013-10-14 12:18:25 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
 </div>
+
+<div id="postamble">
+<p class="date">Date: 2013-10-15 22:15:17 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'probabilistic-data-structures-for-web-analytics-and-data-mining.html';var disqus_title = 'probabilistic-data-structures-for-web-analytics-and-data-mining.html';var disqus_url = 'http://dirlt.com/probabilistic-data-structures-for-web-analytics-and-data-mining.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

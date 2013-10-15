@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>libev</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="libev"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:27:57 CST"/>
+<meta name="generated" content="2013-10-15 22:15:34 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">libev</h1>
 
 
@@ -56,25 +77,25 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 libev </a>
+<li><a href="#sec-1">1 libev</a>
 <ul>
-<li><a href="#sec-1.1">1.1 About The Code </a></li>
-<li><a href="#sec-1.2">1.2 EventLoop </a></li>
-<li><a href="#sec-1.3">1.3 Watcher </a></li>
-<li><a href="#sec-1.4">1.4 How it works </a>
+<li><a href="#sec-1-1">1.1 About The Code</a></li>
+<li><a href="#sec-1-2">1.2 EventLoop</a></li>
+<li><a href="#sec-1-3">1.3 Watcher</a></li>
+<li><a href="#sec-1-4">1.4 How it works</a>
 <ul>
-<li><a href="#sec-1.4.1">1.4.1 ev<sub>run</sub> </a></li>
-<li><a href="#sec-1.4.2">1.4.2 fd<sub>reify</sub> </a></li>
-<li><a href="#sec-1.4.3">1.4.3 backend<sub>poll</sub> </a></li>
-<li><a href="#sec-1.4.4">1.4.4 timers<sub>reify</sub> </a></li>
-<li><a href="#sec-1.4.5">1.4.5 EV<sub>INVOKE</sub><sub>PENDING</sub> </a></li>
+<li><a href="#sec-1-4-1">1.4.1 ev_run</a></li>
+<li><a href="#sec-1-4-2">1.4.2 fd_reify</a></li>
+<li><a href="#sec-1-4-3">1.4.3 backend_poll</a></li>
+<li><a href="#sec-1-4-4">1.4.4 timers_reify</a></li>
+<li><a href="#sec-1-4-5">1.4.5 EV_INVOKE_PENDING</a></li>
 </ul>
 </li>
-<li><a href="#sec-1.5">1.5 Example </a>
+<li><a href="#sec-1-5">1.5 Example</a>
 <ul>
-<li><a href="#sec-1.5.1">1.5.1 common.h </a></li>
-<li><a href="#sec-1.5.2">1.5.2 echo-client.cc </a></li>
-<li><a href="#sec-1.5.3">1.5.3 echo-server.cc </a></li>
+<li><a href="#sec-1-5-1">1.5.1 common.h</a></li>
+<li><a href="#sec-1-5-2">1.5.2 echo-client.cc</a></li>
+<li><a href="#sec-1-5-3">1.5.3 echo-server.cc</a></li>
 </ul>
 </li>
 </ul>
@@ -84,7 +105,7 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> libev </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> libev</h2>
 <div class="outline-text-2" id="text-1">
 
 
@@ -97,57 +118,45 @@ lang="en" xml:lang="en">
 <p>
 libev所实现的功能就是一个强大的reactor,可能notify事件主要包括下面这些：
 </p><ul>
-<li>
-ev<sub>io</sub> // IO可读可写
+<li>ev_io // IO可读可写
 </li>
-<li>
-ev<sub>stat</sub> // 文件属性变化
+<li>ev_stat // 文件属性变化
 </li>
-<li>
-ev<sub>async</sub> // 激活线程
+<li>ev_async // 激活线程
 </li>
-<li>
-ev<sub>signal</sub> // 信号处理
+<li>ev_signal // 信号处理
 </li>
-<li>
-ev<sub>timer</sub> // 定时器
+<li>ev_timer // 定时器
 </li>
-<li>
-ev<sub>periodic</sub> // 周期任务
+<li>ev_periodic // 周期任务
 </li>
-<li>
-ev<sub>child</sub> // 子进程状态变化
+<li>ev_child // 子进程状态变化
 </li>
-<li>
-ev<sub>fork</sub> // 开辟进程
+<li>ev_fork // 开辟进程
 </li>
-<li>
-ev<sub>cleanup</sub> // event loop退出触发事件
+<li>ev_cleanup // event loop退出触发事件
 </li>
-<li>
-ev<sub>idle</sub> // 每次event loop空闲触发事件
+<li>ev_idle // 每次event loop空闲触发事件
 </li>
-<li>
-ev<sub>embed</sub> // TODO(zhangyan04):I have no idea.
+<li>ev_embed // TODO(zhangyan04):I have no idea.
 </li>
-<li>
-ev<sub>prepare</sub> // 每次event loop之前事件
+<li>ev_prepare // 每次event loop之前事件
 </li>
-<li>
-ev<sub>check</sub> // 每次event loop之后事件
-
+<li>ev_check // 每次event loop之后事件
 </li>
 </ul>
 
+
+
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> About The Code </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> About The Code</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <p>代码风格相当严谨而且排版也非常工整，并且从域名看出作者是德国人。但是内部使用了大量的宏造成阅读代码并不是非常方便。
-并且从代码角度分析，应该是一开始支持有一个默认的event<sub>loop</sub>,但是随着多核产生实际应用中可能会使用到多个event<sub>loop</sub>,
-猜想作者应该是为了方便的话使用了很多宏进行替换。允许使用多个event<sub>loop的宏是EV</sub><sub>MULTIPLICITY</sub>.比如下面这段代码
+并且从代码角度分析，应该是一开始支持有一个默认的event_loop,但是随着多核产生实际应用中可能会使用到多个event_loop,
+猜想作者应该是为了方便的话使用了很多宏进行替换。允许使用多个event_loop的宏是EV_MULTIPLICITY.比如下面这段代码
 </p>
 
 
@@ -175,47 +184,43 @@ ev_io_start (EV_P_ ev_io *w)
 }
 </pre>
 
-
-
 <p>
 初次阅读这个代码会觉得非常难懂。
 </p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
-<colgroup><col align="left" /><col align="left" /><col align="left" />
+<colgroup><col class="left" /><col class="left" /><col class="left" />
 </colgroup>
 <thead>
-<tr><th scope="col">宏</th><th scope="col">说明</th><th scope="col">定义</th></tr>
+<tr><th scope="col" class="left">宏</th><th scope="col" class="left">说明</th><th scope="col" class="left">定义</th></tr>
 </thead>
 <tbody>
-<tr><td>EV<sub>P</sub></td><td>event parameter</td><td>struct ev<sub>loop</sub> *loop</td></tr>
-<tr><td>EV<sub>P</sub>_</td><td></td><td>EV<sub>P</sub>,</td></tr>
-<tr><td>EV<sub>A</sub></td><td>event argument</td><td>loop</td></tr>
-<tr><td>EV<sub>A</sub>_</td><td></td><td>EV<sub>A</sub>,</td></tr>
+<tr><td class="left">EV_P</td><td class="left">event parameter</td><td class="left">struct ev_loop *loop</td></tr>
+<tr><td class="left">EV_P_</td><td class="left"></td><td class="left">EV_P,</td></tr>
+<tr><td class="left">EV_A</td><td class="left">event argument</td><td class="left">loop</td></tr>
+<tr><td class="left">EV_A_</td><td class="left"></td><td class="left">EV_A,</td></tr>
 </tbody>
 </table>
 
-然后很多变量只要是ev<sub>loop成员的话都被封装成为了宏。比如代码里面的anfds</sub>,实际上的宏定义是
+然后很多变量只要是ev_loop成员的话都被封装成为了宏。比如代码里面的anfds,实际上的宏定义是
 
 
 
 <pre class="src src-C++">#define anfds ((loop)-&gt;anfds)
 </pre>
 
-
-
 <p>
-事实上一个ev<sub>loop里面的字段是相当多的，不过也很正常本身就是一个强大的reactor</sub>.但是这造成一个直接后果，
-就是对于想要了解ev<sub>loop的全貌比较困难，所以想要彻底地了解libev也比较麻烦，所以我们只能够从应用层面来尝试了解它。</sub>
+事实上一个ev_loop里面的字段是相当多的，不过也很正常本身就是一个强大的reactor.但是这造成一个直接后果，
+就是对于想要了解ev_loop的全貌比较困难，所以想要彻底地了解libev也比较麻烦，所以我们只能够从应用层面来尝试了解它。
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> EventLoop </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> EventLoop</h3>
+<div class="outline-text-3" id="text-1-2">
 
-<p>首先我们关注一下reactor本身。在libev下面reactor对象称为event<sub>loop</sub>.event<sub>loop允许动态创建和销毁，并且允许绑定自定义数据</sub>
+<p>首先我们关注一下reactor本身。在libev下面reactor对象称为event_loop.event_loop允许动态创建和销毁，并且允许绑定自定义数据
 </p>
 
 
@@ -225,43 +230,33 @@ void ev_set_userdata (EV_P_ void *data);
 void *ev_userdata (EV_P);
 </pre>
 
-
-
 <p>
 我们这里主要关注一下flags.这里面主要是选择使用什么backend来进行poll操作，可以选择的有：
 </p><ul>
-<li>
-EVBACKEND<sub>SELECT</sub>
+<li>EVBACKEND_SELECT
 </li>
-<li>
-EVBACKEND<sub>POLL</sub>
+<li>EVBACKEND_POLL
 </li>
-<li>
-EVBACKEND<sub>EPOLL</sub> // 通常我们选择这个
+<li>EVBACKEND_EPOLL // 通常我们选择这个
 </li>
-<li>
-EVBACKEND<sub>KQUEUE</sub>
+<li>EVBACKEND_KQUEUE
 </li>
-<li>
-EVBACKEND<sub>DEVPOLL</sub>
+<li>EVBACKEND_DEVPOLL
 </li>
-<li>
-EVBACKEND<sub>PORT</sub>
+<li>EVBACKEND_PORT
 </li>
 </ul>
 
 <p>但是还有三个比较重要选项：
 </p><ul>
-<li>
-EVFLAG<sub>NOINOTIFY</sub> // 不适用inofity调用来使用ev<sub>stat</sub>.这样可以减少fd使用。
+<li>EVFLAG_NOINOTIFY // 不适用inofity调用来使用ev_stat.这样可以减少fd使用。
 </li>
-<li>
-EVFLAG<sub>SIGNALFD</sub> // 使用signalfd来检测信号是否发生，同样这样可以减少fd使用。
+<li>EVFLAG_SIGNALFD // 使用signalfd来检测信号是否发生，同样这样可以减少fd使用。
 </li>
 </ul>
 
-<p>大部分时候我们使用EVFLAG<sub>AUTO</sub>(0)一般就足够满足需求了，从代码角度来看如果支持epoll的话那么首先会选择epoll.
-因为在watcher的回调函数里面是可以知道当前event<sub>loop的，这样就可以获得自定义数据。然后我们看看这个event</sub><sub>loop如何运行和停止的</sub>
+<p>大部分时候我们使用EVFLAG_AUTO(0)一般就足够满足需求了，从代码角度来看如果支持epoll的话那么首先会选择epoll.
+因为在watcher的回调函数里面是可以知道当前event_loop的，这样就可以获得自定义数据。然后我们看看这个event_loop如何运行和停止的
 </p>
 
 
@@ -269,33 +264,26 @@ EVFLAG<sub>SIGNALFD</sub> // 使用signalfd来检测信号是否发生，同样�
 void ev_break (EV_P_ int how);
 </pre>
 
-
-
 <p>
 同样我们这里比较关注flags和how这两个参数。flags有下面这几个：
 </p><ul>
-<li>
-0.默认值。一直循环进行处理，直到外部引用计数==0或者是显示退出。
+<li>0.默认值。一直循环进行处理，直到外部引用计数==0或者是显示退出。
 </li>
-<li>
-EVRUN<sub>NOWAIT</sub>.运行一次，poll时候不会等待。如果有pending事件进行处理，否则立即返回。
+<li>EVRUN_NOWAIT.运行一次，poll时候不会等待。如果有pending事件进行处理，否则立即返回。
 </li>
-<li>
-EVRUN<sub>ONCE</sub>.运行一次，poll时候会等待至少一个event发生，处理完成之后返回。
+<li>EVRUN_ONCE.运行一次，poll时候会等待至少一个event发生，处理完成之后返回。
 </li>
 </ul>
 
 <p>而how有下面这几个：
 </p><ul>
-<li>
-EVBREAK<sub>ONE</sub>.只是退出一次ev<sub>run这个调用。通常来说使用这个就可以了。</sub>
+<li>EVBREAK_ONE.只是退出一次ev_run这个调用。通常来说使用这个就可以了。
 </li>
-<li>
-EVBREAK<sub>ALL</sub>.退出所有的ev<sub>run调用。这种情况存在于ev</sub><sub>run在pengding处理时候会递归调用。</sub>
+<li>EVBREAK_ALL.退出所有的ev_run调用。这种情况存在于ev_run在pengding处理时候会递归调用。
 </li>
 </ul>
 
-<p>在backend/epoll底层每次epoll<sub>wait时候，libev提供了接口回调可以在epoll</sub><sub>wait前后调用</sub>
+<p>在backend/epoll底层每次epoll_wait时候，libev提供了接口回调可以在epoll_wait前后调用
 </p>
 
 
@@ -312,10 +300,8 @@ epoll_poll (EV_P_ ev_tstamp timeout)
 }
 </pre>
 
-
-
 <p>
-在event<sub>loop里面我们还关心一件事情，就是每次event</sub><sub>loop轮询的时间长短。通常来说这个不会是太大问题，但是在高性能情况下面我们需要设置</sub>
+在event_loop里面我们还关心一件事情，就是每次event_loop轮询的时间长短。通常来说这个不会是太大问题，但是在高性能情况下面我们需要设置
 </p>
 
 
@@ -323,20 +309,18 @@ epoll_poll (EV_P_ ev_tstamp timeout)
 void ev_set_timeout_collect_interval (EV_P_ ev_tstamp interval);
 </pre>
 
-
-
 <p>
-在ev<sub>run里面有使用这些参数的代码比较麻烦。但是大意是这样，如果我们这是了timeout</sub><sub>interval的话，那么我们每次检查timeout时间的话必须</sub>
-在timeout<sub>interval，使用这段时间ev</sub><sub>sleep</sub>.但是这个又会影响到io<sub>interval</sub>,所以内部做了一些换算，换算的结果作为epoll<sub>wait超时时间。</sub>
+在ev_run里面有使用这些参数的代码比较麻烦。但是大意是这样，如果我们这是了timeout_interval的话，那么我们每次检查timeout时间的话必须
+在timeout_interval，使用这段时间ev_sleep.但是这个又会影响到io_interval,所以内部做了一些换算，换算的结果作为epoll_wait超时时间。
 不过同样在大部分时候我们不需要关心它，默认时候是0.0,系统会使用最快的响应方式来处理。
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> Watcher </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Watcher</h3>
+<div class="outline-text-3" id="text-1-3">
 
 <p>然后我们关心一下EventHandler.在libev下面watcher相当于EventHandler这么一个概念，通常里面会绑定fd回调函数以及我们需要关注的事件。
 然后一旦触发事件之后会触发我们使用的回调函数，回调函数参数通常有reactor,watcher以及触发的事件。这里不打算重复文档里面的watcher
@@ -357,22 +341,16 @@ bool ev_is_pending (ev_TYPE *watcher); // watcher&#26159;&#21542;pending.
 int ev_clear_pending (loop, ev_TYPE *watcher); // &#28165;&#38500;watcher pending&#29366;&#24577;&#24182;&#19988;&#36820;&#22238;&#20107;&#20214;
 </pre>
 
-
-
 <p>
 wacther的状态有下面这么几种：
 </p><ul>
-<li>
-initialiased.调用init函数初始化
+<li>initialiased.调用init函数初始化
 </li>
-<li>
-active.调用start进行注册
+<li>active.调用start进行注册
 </li>
-<li>
-pending.已经触发事件但是没有处理
+<li>pending.已经触发事件但是没有处理
 </li>
-<li>
-inactive.调用stop注销。这个状态等同于initialised这个状态。
+<li>inactive.调用stop注销。这个状态等同于initialised这个状态。
 </li>
 </ul>
 
@@ -383,18 +361,18 @@ inactive.调用stop注销。这个状态等同于initialised这个状态。
 
 </div>
 
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="section-number-3">1.4</span> How it works </h3>
-<div class="outline-text-3" id="text-1.4">
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> How it works</h3>
+<div class="outline-text-3" id="text-1-4">
 
 
 </div>
 
-<div id="outline-container-1.4.1" class="outline-4">
-<h4 id="sec-1.4.1"><span class="section-number-4">1.4.1</span> ev<sub>run</sub> </h4>
-<div class="outline-text-4" id="text-1.4.1">
+<div id="outline-container-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> ev_run</h4>
+<div class="outline-text-4" id="text-1-4-1">
 
-<p>最主要的还是看看ev<sub>run这个部分代码。我们不打算仔细阅读只是看看梗概然后大体分析一下数据结构应该怎么样的</sub>
+<p>最主要的还是看看ev_run这个部分代码。我们不打算仔细阅读只是看看梗概然后大体分析一下数据结构应该怎么样的
 </p>
 
 
@@ -480,45 +458,36 @@ ev_run (EV_P_ int flags)
 }
 </pre>
 
-
-
 <p>
 我们可以总结一下大致步骤，其实和大部分的event loop写出来差不多。
 </p><ul>
-<li>
-首先触发那些已经pending的watchers.
+<li>首先触发那些已经pending的watchers.
 </li>
-<li>
-判断是否loop<sub>done</sub>
+<li>判断是否loop_done
 </li>
-<li>
-fd<sub>reify</sub>.这个后面会单独说。
+<li>fd_reify.这个后面会单独说。
 </li>
-<li>
-计算出waittime并且进行必要的sleep.
+<li>计算出waittime并且进行必要的sleep.
 </li>
-<li>
-backend<sub>poll开始轮询</sub>,并且整理好pending事件
+<li>backend_poll开始轮询,并且整理好pending事件
 </li>
-<li>
-timers<sub>reify</sub>.这个和fd<sub>reify不同</sub>
+<li>timers_reify.这个和fd_reify不同
 </li>
-<li>
-调用EV<sub>INVOKE</sub><sub>PENDING来触发pending的io事件</sub>
+<li>调用EV_INVOKE_PENDING来触发pending的io事件
 </li>
 </ul>
 
-<p>非常简单。接下来我们看看fd<sub>reify</sub>,backend<sub>poll</sub>,timers<sub>reify以及EV</sub><sub>INVOKE</sub><sub>PENDING</sub>.
+<p>非常简单。接下来我们看看fd_reify,backend_poll,timers_reify以及EV_INVOKE_PENDING.
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1.4.2" class="outline-4">
-<h4 id="sec-1.4.2"><span class="section-number-4">1.4.2</span> fd<sub>reify</sub> </h4>
-<div class="outline-text-4" id="text-1.4.2">
+<div id="outline-container-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> fd_reify</h4>
+<div class="outline-text-4" id="text-1-4-2">
 
-<p>下面是fd<sub>reify代码片段</sub>.可以看出，这个部分就是在修改fd关注的events。
+<p>下面是fd_reify代码片段.可以看出，这个部分就是在修改fd关注的events。
 </p>
 
 
@@ -556,11 +525,9 @@ fd_reify (EV_P)
 }
 </pre>
 
-
-
 <p>
-而这个fdchanges这个是在哪里调用的呢。我们可以看到就是在ev<sub>io</sub><sub>start这个部分。也就是说如果我们想要修改</sub>
-fd关注事件的话，我们必须显示地ev<sub>io</sub><sub>stop掉然后修正之后重新ev</sub><sub>io</sub><sub>start</sub>.底层调用fd<sub>change的话底层维护</sub>
+而这个fdchanges这个是在哪里调用的呢。我们可以看到就是在ev_io_start这个部分。也就是说如果我们想要修改
+fd关注事件的话，我们必须显示地ev_io_stop掉然后修正之后重新ev_io_start.底层调用fd_change的话底层维护
 数组fdchanges来保存发生events变动的fd.
 </p>
 
@@ -604,18 +571,16 @@ fd_change (EV_P_ int fd, int flags)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.4.3" class="outline-4">
-<h4 id="sec-1.4.3"><span class="section-number-4">1.4.3</span> backend<sub>poll</sub> </h4>
-<div class="outline-text-4" id="text-1.4.3">
+<div id="outline-container-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> backend_poll</h4>
+<div class="outline-text-4" id="text-1-4-3">
 
-<p>backend<sub>poll底层支持很多poll实现，我们这里仅仅看ev</sub><sub>epoll</sub>.c就可以.代码在这里面我们不列举了，
-如果某个fd触发事件的话那么最终会调用fd<sub>event</sub>(EV<sub>A</sub>_,fd,event)来进行通知。所以我们看看fd<sub>event</sub>.
+<p>backend_poll底层支持很多poll实现，我们这里仅仅看ev_epoll.c就可以.代码在这里面我们不列举了，
+如果某个fd触发事件的话那么最终会调用fd_event(EV_A_,fd,event)来进行通知。所以我们看看fd_event.
 </p>
 
 
@@ -652,8 +617,6 @@ ev_feed_event (EV_P_ void *w, int revents)
 }
 </pre>
 
-
-
 <p>
 可以看到底层是一个ANFD的数组，根据fd进行偏移。如果fd过大的话似乎会影响性能没有hpserver里面的demuxtable实现方式好。
 然后得到这个fd下面所有的watcher,然后在loop-&gt;pendings里面记录所有这些触发的watcher.
@@ -662,13 +625,13 @@ ev_feed_event (EV_P_ void *w, int revents)
 
 </div>
 
-<div id="outline-container-1.4.4" class="outline-4">
-<h4 id="sec-1.4.4"><span class="section-number-4">1.4.4</span> timers<sub>reify</sub> </h4>
-<div class="outline-text-4" id="text-1.4.4">
+<div id="outline-container-1-4-4" class="outline-4">
+<h4 id="sec-1-4-4"><span class="section-number-4">1.4.4</span> timers_reify</h4>
+<div class="outline-text-4" id="text-1-4-4">
 
 <p>其中HEAP0就是最小堆下标。如果repeat的话说明需要重复发生，那么就会重新调整时间戳，如果不是repeat的话，
-那么内部会调用ev<sub>timer</sub><sub>stop这个方法将这个计时器移除。所有的定时任务都通过feed</sub><sub>reverse添加。feed</sub><sub>reverse</sub>
-内部是维护一个动态数组来保存所有的定时器任务，然后在feed<sub>reverse</sub><sub>done里面遍历这些任务来触发这些定时器任务。</sub>
+那么内部会调用ev_timer_stop这个方法将这个计时器移除。所有的定时任务都通过feed_reverse添加。feed_reverse
+内部是维护一个动态数组来保存所有的定时器任务，然后在feed_reverse_done里面遍历这些任务来触发这些定时器任务。
 </p>
 
 
@@ -711,15 +674,13 @@ timers_reify (EV_P)
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.4.5" class="outline-4">
-<h4 id="sec-1.4.5"><span class="section-number-4">1.4.5</span> EV<sub>INVOKE</sub><sub>PENDING</sub> </h4>
-<div class="outline-text-4" id="text-1.4.5">
+<div id="outline-container-1-4-5" class="outline-4">
+<h4 id="sec-1-4-5"><span class="section-number-4">1.4.5</span> EV_INVOKE_PENDING</h4>
+<div class="outline-text-4" id="text-1-4-5">
 
 <p>这个宏最终调用的函数就是下面这个，遍历所有的pendings事件并且逐一触发。
 </p>
@@ -743,25 +704,23 @@ ev_invoke_pending (EV_P)
 </pre>
 
 
-
-
 </div>
 </div>
 
 </div>
 
-<div id="outline-container-1.5" class="outline-3">
-<h3 id="sec-1.5"><span class="section-number-3">1.5</span> Example </h3>
-<div class="outline-text-3" id="text-1.5">
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Example</h3>
+<div class="outline-text-3" id="text-1-5">
 
 <p>尝试编写一个简单的带有超时的echo-server和echo-client就发现其实还有非常多的其他的工作量，比如buffer的管理状态机实现等。
 所以我没有写出一个完整的example,只是简单地写了假设echo-client连接上server的话就简单地打印链接信息并且关闭。
 </p>
 </div>
 
-<div id="outline-container-1.5.1" class="outline-4">
-<h4 id="sec-1.5.1"><span class="section-number-4">1.5.1</span> common.h </h4>
-<div class="outline-text-4" id="text-1.5.1">
+<div id="outline-container-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> common.h</h4>
+<div class="outline-text-4" id="text-1-5-1">
 
 
 
@@ -841,15 +800,13 @@ static int new_tcp_client(const char* ip,int port){
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.5.2" class="outline-4">
-<h4 id="sec-1.5.2"><span class="section-number-4">1.5.2</span> echo-client.cc </h4>
-<div class="outline-text-4" id="text-1.5.2">
+<div id="outline-container-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> echo-client.cc</h4>
+<div class="outline-text-4" id="text-1-5-2">
 
 
 
@@ -877,15 +834,13 @@ int main(){
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.5.3" class="outline-4">
-<h4 id="sec-1.5.3"><span class="section-number-4">1.5.3</span> echo-server.cc </h4>
-<div class="outline-text-4" id="text-1.5.3">
+<div id="outline-container-1-5-3" class="outline-4">
+<h4 id="sec-1-5-3"><span class="section-number-4">1.5.3</span> echo-server.cc</h4>
+<div class="outline-text-4" id="text-1-5-3">
 
 
 
@@ -915,16 +870,17 @@ int main(){
 
 </pre>
 
+</div>
+</div>
+</div>
+</div>
+</div>
 
-
-</div>
-</div>
-</div>
-</div>
 <div id="postamble">
-<p class="date"> Date: 2013-10-14 12:27:57 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
-</div>
+<p class="date">Date: 2013-10-15 22:15:34 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'libev.html';var disqus_title = 'libev.html';var disqus_url = 'http://dirlt.com/libev.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

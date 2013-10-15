@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>访问网络权限 android.permission.INTERNET</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="访问网络权限 android.permission.INTERNET"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:28:35 CST"/>
+<meta name="generated" content="2013-10-15 22:17:04 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,21 +61,26 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="../css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">访问网络权限 android.permission.INTERNET</h1>
 
-<p>android:layout<sub>weight可以用来控制权重</sub>
+<p>android:layout_weight可以用来控制权重
 Activity本身就是Context,可以得到自己私有文件目录
 对于这些目录的话本身是操作SD卡，然后Android可以使用DDMS来查看SD卡上面的内容，push/pull文件
 多行显示TextView可以更好地进行调试，view.setMovementMethod(ScrollingMovementMethod.getInstance()); 然后layout部分的话
-&lt;TextView android:id="@+id/view<sub>download</sub><sub>url</sub>"
-android:layout<sub>width</sub>="fill<sub>parent</sub>"    
-android:layout<sub>height</sub>="fill<sub>parent</sub>"
-android:singleLine="false"
-android:scrollbars="vertical" /&gt;
+&lt;TextView android:id="@+id/view_download_url"
+     android:layout_width="fill_parent"    
+     android:layout_height="fill_parent"
+     android:singleLine="false"
+     android:scrollbars="vertical" /&gt;
 </p>
 <p>
 对于赋予view id的话可以通过android:id="@+id/xx"来设置，这样的话id会反应在R.java里面，字符串引用的话可以使用"@string/xxx"
@@ -76,7 +97,7 @@ adb devices(查询设备），start-server(启动服务器），kill-server(杀�
 关于创建菜单 <a href="http://www.cnblogs.com/codingmyworld/archive/2011/08/21/2147829.html">http://www.cnblogs.com/codingmyworld/archive/2011/08/21/2147829.html</a>
 </p>
 <p>
-this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT<sub>INFLATER</sub><sub>SERVICE</sub>); 可以创建Inflater然后使用
+this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE); 可以创建Inflater然后使用
 convertView=inflater.inflate(R.layout.content, null); // 将layout XML文件转换成为一个对应的View实体交给上层进行展现。
 对于ListActivity的每一个View里面如果存在Button或者是Checkbox的话那么会自动获得焦点，导致OnListItemClick失效，我们可以调用btn的setFocusable(false)主动放弃焦点来使得ListItem可以被聚焦。
 </p>
@@ -98,7 +119,7 @@ appkey:  5493446877226234
 </p>
 <p>
 测试地址：
-<a href="http://api.shupeng.com/customsearch/v1?q=%CE%F7%D3%CE%BC%C7&amp;key=5493446877226234&amp;format=txt&amp;start=0&amp;num=5">http://api.shupeng.com/customsearch/v1?q=%CE%F7%D3%CE%BC%C7&amp;key=5493446877226234&amp;format=txt&amp;start=0&amp;num=5</a>
+<a href="http://api.shupeng.com/customsearch/v1?q=Î÷ÓÎ¼Ç&amp;key=5493446877226234&amp;format=txt&amp;start=0&amp;num=5">http://api.shupeng.com/customsearch/v1?q=%CE%F7%D3%CE%BC%C7&amp;key=5493446877226234&amp;format=txt&amp;start=0&amp;num=5</a>
 OPEN API（搜索）：使用需要key，
 OPDS（浏览）: <a href="http://opds.shupeng.com">http://opds.shupeng.com</a>
 OPDS的相关资料
@@ -115,10 +136,13 @@ OPDS的相关资料
 <a href="http://android.yaohuiji.com/about">http://android.yaohuiji.com/about</a>
 <a href="http://code.google.com/intl/zh-CN/edu/">http://code.google.com/intl/zh-CN/edu/</a>
 <a href="https://github.com/kaeppler/droid-fu/tree/da83c647ab008339c5e010c47dc431703609ab74/src/main/java/com/github/droidfu/imageloader">https://github.com/kaeppler/droid-fu/tree/da83c647ab008339c5e010c47dc431703609ab74/src/main/java/com/github/droidfu/imageloader</a>
-</p><div id="postamble">
-<p class="date"> Date: 2013-10-14 12:28:35 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
-</div>
+</p></div>
+
+<div id="postamble">
+<p class="date">Date: 2013-10-15 22:17:04 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'note/android.html';var disqus_title = 'note/android.html';var disqus_url = 'http://dirlt.com/note/android.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

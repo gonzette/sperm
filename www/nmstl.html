@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>nmstl</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="nmstl"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:27:51 CST"/>
+<meta name="generated" content="2013-10-15 22:15:22 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">nmstl</h1>
 
 
@@ -56,14 +77,14 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 nmstl </a>
+<li><a href="#sec-1">1 nmstl</a>
 <ul>
-<li><a href="#sec-1.1">1.1 SEDA </a></li>
-<li><a href="#sec-1.2">1.2 动态线程池 </a>
+<li><a href="#sec-1-1">1.1 SEDA</a></li>
+<li><a href="#sec-1-2">1.2 动态线程池</a>
 <ul>
-<li><a href="#sec-1.2.1">1.2.1 增加线程 </a></li>
-<li><a href="#sec-1.2.2">1.2.2 回收线程 </a></li>
-<li><a href="#sec-1.2.3">1.2.3 逻辑总结 </a></li>
+<li><a href="#sec-1-2-1">1.2.1 增加线程</a></li>
+<li><a href="#sec-1-2-2">1.2.2 回收线程</a></li>
+<li><a href="#sec-1-2-3">1.2.3 逻辑总结</a></li>
 </ul>
 </li>
 </ul>
@@ -73,7 +94,7 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> nmstl </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> nmstl</h2>
 <div class="outline-text-2" id="text-1">
 
 
@@ -96,67 +117,50 @@ NMSTL和Asio一样都是template-heavy code,大部分都是头文件。NMSTL设�
 
 
 
-
-
 <p>
 下面是NMSTL主要文件列表，这里给出简要的说明
 </p><ul>
-<li>
-atomic.原子操作。
+<li>atomic.原子操作。
 </li>
-<li>
-callback.回调函数封装(boost::bind).
+<li>callback.回调函数封装(boost::bind).
 </li>
-<li>
-debug.调试和日志工具。
+<li>debug.调试和日志工具。
 </li>
-<li>
-internal.主要是提供对象的to<sub>string等方法，要求对象本身提供as</sub><sub>string这样的方法。</sub>
+<li>internal.主要是提供对象的to_string等方法，要求对象本身提供as_string这样的方法。
 </li>
-<li>
-io.提供各种buffer,并且提供IOHandle封装各种读写操作。IOHandle里面有fd并且有对fd引用计数。
+<li>io.提供各种buffer,并且提供IOHandle封装各种读写操作。IOHandle里面有fd并且有对fd引用计数。
 </li>
-<li>
-ioevent.select实现的reactor.每个fd绑定到IOHandler上面，一旦触发可读可写使用调用对应IOHandler的ravil和wavil事件。
+<li>ioevent.select实现的reactor.每个fd绑定到IOHandler上面，一旦触发可读可写使用调用对应IOHandler的ravil和wavil事件。
 </li>
-<li>
-net.网络地址和socket相关操作。
+<li>net.网络地址和socket相关操作。
 </li>
-<li>
-netioevent.封装网络异步IO操作。实现上和muduo非常相似，对MsgHandler稍加修改可以支持HTTP协议，而MsgHandler本身比较适合RPC.
+<li>netioevent.封装网络异步IO操作。实现上和muduo非常相似，对MsgHandler稍加修改可以支持HTTP协议，而MsgHandler本身比较适合RPC.
 </li>
-<li>
-ntime.时间封装。
+<li>ntime.时间封装。
 </li>
-<li>
-ptr.多线程安全指针(boost::shared<sub>ptr</sub>).内部有引用计数。
+<li>ptr.多线程安全指针(boost::shared_ptr).内部有引用计数。
 </li>
-<li>
-rpc.RPC实现，没有仔细阅读。
+<li>rpc.RPC实现，没有仔细阅读。
 </li>
-<li>
-seda.提出SEDAStage这个概念允许将多个操作串联起来，然后可以配合线程池和异步队列动态修改工作线程。
+<li>seda.提出SEDAStage这个概念允许将多个操作串联起来，然后可以配合线程池和异步队列动态修改工作线程。
 </li>
-<li>
-serial.序列化和反序列化部分，没有仔细阅读。
+<li>serial.序列化和反序列化部分，没有仔细阅读。
 </li>
-<li>
-terminal.封装终端异步IO操作，使用了readline库，没有仔细阅读。
+<li>terminal.封装终端异步IO操作，使用了readline库，没有仔细阅读。
 </li>
-<li>
-thread.线程方面封装，锁，条件变量，线程和线程池。
+<li>thread.线程方面封装，锁，条件变量，线程和线程池。
 </li>
-<li>
-tqueue.异步队列。
-
+<li>tqueue.异步队列。
 </li>
 </ul>
 
+
+
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> SEDA </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> SEDA</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <p><a href="http://www.eecs.harvard.edu/~mdw/proj/seda/">http://www.eecs.harvard.edu/~mdw/proj/seda/</a>.
 </p>
@@ -170,8 +174,6 @@ SEDA并不是NMSTL提出的，SEDA主要思想就是提出动态线程池这个�
 <pre class="src src-C++">template&lt;class In, class Out = void&gt;
 class SEDAStage;
 </pre>
-
-
 
 
 <p>
@@ -211,8 +213,6 @@ class SEDAStage;
 </pre>
 
 
-
-
 <p>
 然后我们看看多个Stage是如何相连在一起的.
 </p>
@@ -248,26 +248,21 @@ class SEDAStage : public SEDAStage&lt;In, void&gt; {
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> 动态线程池 </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 动态线程池</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <p>首先SEDAStage对于动态线程池有三个指标
 </p><ul>
-<li>
-min<sub>threads</sub>.
+<li>min_threads.
 </li>
-<li>
-max<sub>threads</sub>.
+<li>max_threads.
 </li>
-<li>
-reached<sub>capacity</sub>(rc).
+<li>reached_capacity(rc).
 </li>
 </ul>
 
@@ -276,9 +271,9 @@ reached<sub>capacity</sub>(rc).
 
 </div>
 
-<div id="outline-container-1.2.1" class="outline-4">
-<h4 id="sec-1.2.1"><span class="section-number-4">1.2.1</span> 增加线程 </h4>
-<div class="outline-text-4" id="text-1.2.1">
+<div id="outline-container-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> 增加线程</h4>
+<div class="outline-text-4" id="text-1-2-1">
 
 
 
@@ -315,12 +310,10 @@ void add_threads() {
 </pre>
 
 
-
-
 <p>
-然后我们看看异步队列返回false和和waiter<sub>pending的操作是如何的。从上面看到waiter</sub><sub>pending就是</sub>
+然后我们看看异步队列返回false和和waiter_pending的操作是如何的。从上面看到waiter_pending就是
 增加线程的数量，所以这里waiters可以认为是可以使用的线程数目。而waiters&gt;=q.size()表示工作线程数目
-大于task数量，那么这个时候可以认为没有必要增加线程。不过这里我们没有分析extra<sub>capacity这个意思。</sub>
+大于task数量，那么这个时候可以认为没有必要增加线程。不过这里我们没有分析extra_capacity这个意思。
 </p>
 
 
@@ -340,18 +333,16 @@ void waiter_pending() {
 }
 </pre>
 
-
-
 <p>
-如果阅读完成回收线程就会发现extra<sub>capacity意思就是当前空余线程数目。</sub>
+如果阅读完成回收线程就会发现extra_capacity意思就是当前空余线程数目。
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1.2.2" class="outline-4">
-<h4 id="sec-1.2.2"><span class="section-number-4">1.2.2</span> 回收线程 </h4>
-<div class="outline-text-4" id="text-1.2.2">
+<div id="outline-container-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> 回收线程</h4>
+<div class="outline-text-4" id="text-1-2-2">
 
 <p>然后我们还是回来看看导致线程减少的这部分逻辑
 </p>
@@ -365,8 +356,6 @@ void waiter_pending() {
     stage.handle(in);
 }
 </pre>
-
-
 
 <p>
 如果异步队列在wait返回false的话那么就会取消线程。阅读wait这个部分代码的话就会发现只有两个地方是返回false
@@ -414,10 +403,8 @@ bool wait(T&amp; out, bool *pending = 0) {
 }
 </pre>
 
-
-
 <p>
-我们什么时候设置waiters<sub>starve的呢？是在starve这个函数里面</sub>
+我们什么时候设置waiters_starve的呢？是在starve这个函数里面
 </p>
 
 
@@ -431,11 +418,9 @@ void starve() {
 }
 </pre>
 
-
-
 <p>
 所以可以认为调用一次starve的话那么就会回收一个线程。然后我们看看starve是在什么时候触发的。
-在seda下面存在seda<sub>clock</sub><sub>thread这个类，这个类单独起一个线程然后定时</sub>(默认5s)会调用SEDAStage::scan方法。
+在seda下面存在seda_clock_thread这个类，这个类单独起一个线程然后定时(默认5s)会调用SEDAStage::scan方法。
 </p>
 
 
@@ -451,19 +436,17 @@ void scan() {
 }
 </pre>
 
-
-
 <p>
-也就是说线程的删减是定时触发的。如果reached<sub>capacity&gt</sub>;5并且当前线程数目大小最小线程数目的话，那么就会一直回收线程。
-而reached<sub>capacity回在clogged这个部分清空。</sub>
+也就是说线程的删减是定时触发的。如果reached_capacity&gt;5并且当前线程数目大小最小线程数目的话，那么就会一直回收线程。
+而reached_capacity回在clogged这个部分清空。
 </p>
 </div>
 
 </div>
 
-<div id="outline-container-1.2.3" class="outline-4">
-<h4 id="sec-1.2.3"><span class="section-number-4">1.2.3</span> 逻辑总结 </h4>
-<div class="outline-text-4" id="text-1.2.3">
+<div id="outline-container-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3"><span class="section-number-4">1.2.3</span> 逻辑总结</h4>
+<div class="outline-text-4" id="text-1-2-3">
 
 <p>如果当前可用线程数目小于queue tasks数目的时候，那么就会添加线程并且将rc置零。然后后端会启动线程每隔5s会将rc++.
 如果rc&gt;=6的话并且当前线程个数大于最小线程个数的话，那么就会销毁一个线程。可以看出回收线程至少要达到30s以后才会操作，
@@ -473,10 +456,13 @@ void scan() {
 </div>
 </div>
 </div>
-<div id="postamble">
-<p class="date"> Date: 2013-10-14 12:27:51 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
 </div>
+
+<div id="postamble">
+<p class="date">Date: 2013-10-15 22:15:22 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'nmstl.html';var disqus_title = 'nmstl.html';var disqus_url = 'http://dirlt.com/nmstl.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

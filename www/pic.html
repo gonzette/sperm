@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>pic</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="pic"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:18:27 CST"/>
+<meta name="generated" content="2013-10-15 22:15:19 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">pic</h1>
 
 
@@ -56,15 +77,15 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 pic </a>
+<li><a href="#sec-1">1 pic</a>
 <ul>
-<li><a href="#sec-1.1">1.1 什么是PIC </a></li>
-<li><a href="#sec-1.2">1.2 为什么需要PIC </a></li>
-<li><a href="#sec-1.3">1.3 动态库 </a></li>
-<li><a href="#sec-1.4">1.4 GOT和PLT </a>
+<li><a href="#sec-1-1">1.1 什么是PIC</a></li>
+<li><a href="#sec-1-2">1.2 为什么需要PIC</a></li>
+<li><a href="#sec-1-3">1.3 动态库</a></li>
+<li><a href="#sec-1-4">1.4 GOT和PLT</a>
 <ul>
-<li><a href="#sec-1.4.1">1.4.1 数据引用 </a></li>
-<li><a href="#sec-1.4.2">1.4.2 函数调用 </a></li>
+<li><a href="#sec-1-4-1">1.4.1 数据引用</a></li>
+<li><a href="#sec-1-4-2">1.4.2 函数调用</a></li>
 </ul>
 </li>
 </ul>
@@ -74,16 +95,16 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> pic </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> pic</h2>
 <div class="outline-text-2" id="text-1">
 
 
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> 什么是PIC </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 什么是PIC</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <p>pic的意思是position independent code(位置无关代码),就是指运行和放置地址无关的代码。
 其实这里pic是一个相对意思，因为生成代码或多或少都使用了位置无关代码这个概念，就好比跳转指令：
@@ -99,8 +120,6 @@ lang="en" xml:lang="en">
     return 0;
 }
 </pre>
-
-
 
 
 <pre class="example">08048434 &lt;main&gt;:
@@ -132,8 +151,6 @@ lang="en" xml:lang="en">
 </pre>
 
 
-
-
 <p>
 而我们这里谈到的pic是指动态链接库所遇到的符号安排问题。
 使用gcc编译位置无关代码的话，需要加上-fPIC选项，这是一个编译选项。
@@ -142,9 +159,9 @@ lang="en" xml:lang="en">
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> 为什么需要PIC </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 为什么需要PIC</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <p>考虑可执行程序使用静态库而言的话，最终使用的所有静态库符号，都会进行符号重定位的。因为在编译静态库的时候，
 汇编器不确定最终每个符号安排在什么位置上，所有从0x0这个地址开始依次安排每一个符号，不同的段是分开的：
@@ -162,8 +179,6 @@ int main(){
 </pre>
 
 
-
-
 <pre class="example">//逻辑地址从0x0安排，存放在bss段
 00000000 b global_variable_bss
 //逻辑地址从0x0安排，存放在data段
@@ -172,8 +187,6 @@ int main(){
 00000000 T echo
 0000000a T main
 </pre>
-
-
 
 
 <p>
@@ -200,8 +213,6 @@ GLIBC_2.0
 </pre>
 
 
-
-
 <p>
 不过如果可执行程序链接的是动态库的话，那么就出现一个问题了。动态库是没有和可执行程序联编的，
 就导致链接器不好为动态库里面的一些符号确定最终的地址，符号重定位。只有动态库被系统加载的那个时候，
@@ -212,9 +223,9 @@ GLIBC_2.0
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> 动态库 </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 动态库</h3>
+<div class="outline-text-3" id="text-1-3">
 
 <p>可执行程序在和动态库链接的时候，不会将符号定义copy进入自身，相反是存下一个索引(GOT+PLT)来实现的，具体原理后面会说到。
 同时会将所有的.so路径都存在内部，然后在进行符号查找的时候会在这些.so里面逐个进行符号查找。如果可以的话就会保存下来，
@@ -230,11 +241,9 @@ g++ wrapper.o -L. -lmain
 g++ wrapper.o -L. -lmain -Xlinker -rpath .
 </pre>
 
-
-
 <p>
 第一种是最不推荐的方式，因为这样一来的话，所有在libmain.so里面的符号，在运行时候就会在/home/dirlt/libmain.so里面查找。
-第二种是最常见的方式，但是我们需要export LD<sub>LIBRARY</sub><sub>PATH</sub>=.;$LD<sub>LIBRARY</sub><sub>PATH之后运行时才正常，因为大部分情况下面加载目录是不包括当前目录的。</sub>
+第二种是最常见的方式，但是我们需要export LD_LIBRARY_PATH=.;$LD_LIBRARY_PATH之后运行时才正常，因为大部分情况下面加载目录是不包括当前目录的。
 第三种的话，联编时候就告诉加载器，在加载的时候就需要需要去.目录下面查找，是一种比较好的方式。
 </p>
 <p>
@@ -301,8 +310,6 @@ ELF Header:
 </pre>
 
 
-
-
 <p>
 假设main.cc编译出main，里面调用echo函数定义在libecho.so里面。main.o不需要是位置无关代码，所以不用-fPIC编译。
 </p>
@@ -329,8 +336,6 @@ int echo(){
 
 
 
-
-
 <pre class="example">00000000 &lt;main&gt;:
    0:   8d 4c 24 04             lea    0x4(%esp),%ecx
    4:   83 e4 f0                and    $0xfffffff0,%esp
@@ -347,8 +352,6 @@ int echo(){
   20:   8d 61 fc                lea    -0x4(%ecx),%esp
   23:   c3                      ret
 </pre>
-
-
 
 <p>
 但是在链接完成之后，因为链接器可以知道链接的echo符号是来自于动态库的，所有使用plt来实现。
@@ -377,8 +380,6 @@ int echo(){
 </pre>
 
 
-
-
 <p>
 而如果编译出libecho.so的echo.o不使用-fPIC来编译的话，那么生成代码就是这样的：
 </p>
@@ -396,8 +397,6 @@ int echo(){
   20:   c9                      leave
   21:   c3                      ret
 </pre>
-
-
 
 
 <p>
@@ -419,24 +418,22 @@ int echo(){
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="section-number-3">1.4</span> GOT和PLT </h3>
-<div class="outline-text-3" id="text-1.4">
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> GOT和PLT</h3>
+<div class="outline-text-3" id="text-1-4">
 
 <p>虽然上面说对于外部符号使用GOT+PLT方式来解决，但是对于全局变量和全局函数是使用两种不同的解析方法来获得的。
 </p>
 
 </div>
 
-<div id="outline-container-1.4.1" class="outline-4">
-<h4 id="sec-1.4.1"><span class="section-number-4">1.4.1</span> 数据引用 </h4>
-<div class="outline-text-4" id="text-1.4.1">
+<div id="outline-container-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> 数据引用</h4>
+<div class="outline-text-4" id="text-1-4-1">
 
 <p>GOT是指全局偏移量表(global offset table).在数据引用里面的话，那么里面存放的就是全局变量的地址。
 因为单独编译.o的话，我们也可以将text段和data段紧密排列，比如将data放在text之后，这样data和text之间的偏移是常数。
@@ -449,10 +446,8 @@ int echo(){
 </pre>
 
 
-
-
 <p>
-以上面一节代码为例，看看echo.cc是如何使用global<sub>variable的：</sub>
+以上面一节代码为例，看看echo.cc是如何使用global_variable的：
 </p>
 
 
@@ -481,8 +476,6 @@ int echo(){
 </pre>
 
 
-
-
 <p>
 可以看到在进行数据引用上存在性能缺陷，本来1条指令的取数据指令扩展到了6条，并且在6条中占用了
 %ebx这个寄存器，对于寄存器堆比较小的机器来说会造成寄存器压力。
@@ -491,9 +484,9 @@ int echo(){
 
 </div>
 
-<div id="outline-container-1.4.2" class="outline-4">
-<h4 id="sec-1.4.2"><span class="section-number-4">1.4.2</span> 函数调用 </h4>
-<div class="outline-text-4" id="text-1.4.2">
+<div id="outline-container-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> 函数调用</h4>
+<div class="outline-text-4" id="text-1-4-2">
 
 <p>PLT是指过程链接表(procedure linkage table).函数调用需要PLT和GOT配合来完成。需要注意的是GOT
 是存放在数据段的，而PLT是存放在代码段的。配合PLT的GOT的段为got.plt,而全局变量的GOT的段为got.
@@ -503,17 +496,17 @@ int echo(){
 通常来说，PLT的GOT排列是这样的，我们以下面地址为例：
 </p><table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption></caption>
-<colgroup><col align="right" /><col align="left" /><col align="right" /><col align="left" />
+<colgroup><col class="right" /><col class="left" /><col class="right" /><col class="left" />
 </colgroup>
 <thead>
-<tr><th scope="col">地址</th><th scope="col">表项</th><th scope="col">内容</th><th scope="col">描述</th></tr>
+<tr><th scope="col" class="right">地址</th><th scope="col" class="left">表项</th><th scope="col" class="right">内容</th><th scope="col" class="left">描述</th></tr>
 </thead>
 <tbody>
-<tr><td>0x16e4</td><td>got(0)</td><td>0x015fc</td><td>.dynamic节的地址</td></tr>
-<tr><td>0x16e8</td><td>got(1)</td><td>0x0</td><td>链接器标识信息，加载后填充</td></tr>
-<tr><td>0x16ec</td><td>got(2)</td><td>0x0</td><td>动态链接库入口点，加载后填充</td></tr>
-<tr><td>0x1610</td><td>got(3)</td><td>0x03de</td><td>???</td></tr>
-<tr><td>0x1614</td><td>got(4)</td><td>0x03ee</td><td>echo的push</td></tr>
+<tr><td class="right">0x16e4</td><td class="left">got(0)</td><td class="right">0x015fc</td><td class="left">.dynamic节的地址</td></tr>
+<tr><td class="right">0x16e8</td><td class="left">got(1)</td><td class="right">0x0</td><td class="left">链接器标识信息，加载后填充</td></tr>
+<tr><td class="right">0x16ec</td><td class="left">got(2)</td><td class="right">0x0</td><td class="left">动态链接库入口点，加载后填充</td></tr>
+<tr><td class="right">0x1610</td><td class="left">got(3)</td><td class="right">0x03de</td><td class="left">???</td></tr>
+<tr><td class="right">0x1614</td><td class="left">got(4)</td><td class="right">0x03ee</td><td class="left">echo的push</td></tr>
 </tbody>
 </table>
 
@@ -523,8 +516,6 @@ int echo(){
 
 <pre class="example">[20] .dynamic          DYNAMIC         000015fc 0005fc 0000d8 08  WA  4   0  4
 </pre>
-
-
 
 
 
@@ -570,38 +561,34 @@ int echo(){
 </pre>
 
 
-
-
 <p>
 原理基本就是这样的：
 </p><ul>
-<li>
-首先执行jmp *0x10(%ebx).初始时候，里面内容就是0x3ee即下一条指令。
+<li>首先执行jmp *0x10(%ebx).初始时候，里面内容就是0x3ee即下一条指令。
 </li>
-<li>
-然后push 0x8表示echo函数对应的id,然后jmp 0x3c8
+<li>然后push 0x8表示echo函数对应的id,然后jmp 0x3c8
 </li>
-<li>
-然后压入链接器标识信息，然后进入动态链接库入口
+<li>然后压入链接器标识信息，然后进入动态链接库入口
 </li>
-<li>
-动态链接库通过这两个参数，来确定echo的地址
+<li>动态链接库通过这两个参数，来确定echo的地址
 </li>
-<li>
-将echo地址写到*(0x10(%ebx))里面.
+<li>将echo地址写到*(0x10(%ebx))里面.
 </li>
-<li>
-这样下一次调用的时候，就不会在进行解析了，而直接jump到echo地址。
+<li>这样下一次调用的时候，就不会在进行解析了，而直接jump到echo地址。
 </li>
 </ul>
+
 </div>
 </div>
 </div>
 </div>
+</div>
+
 <div id="postamble">
-<p class="date"> Date: 2013-10-14 12:18:27 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
-</div>
+<p class="date">Date: 2013-10-15 22:15:19 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'pic.html';var disqus_title = 'pic.html';var disqus_url = 'http://dirlt.com/pic.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>oozie</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="oozie"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:27:50 CST"/>
+<meta name="generated" content="2013-10-15 22:15:21 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">oozie</h1>
 
 
@@ -56,13 +77,13 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 ozzie </a>
+<li><a href="#sec-1">1 ozzie</a>
 <ul>
-<li><a href="#sec-1.1">1.1 overview </a></li>
-<li><a href="#sec-1.2">1.2 deployment </a></li>
-<li><a href="#sec-1.3">1.3 workflow </a></li>
-<li><a href="#sec-1.4">1.4 coordinator </a></li>
-<li><a href="#sec-1.5">1.5 azkaban </a></li>
+<li><a href="#sec-1-1">1.1 overview</a></li>
+<li><a href="#sec-1-2">1.2 deployment</a></li>
+<li><a href="#sec-1-3">1.3 workflow</a></li>
+<li><a href="#sec-1-4">1.4 coordinator</a></li>
+<li><a href="#sec-1-5">1.5 azkaban</a></li>
 </ul>
 </li>
 </ul>
@@ -70,63 +91,53 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> ozzie </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> ozzie</h2>
 <div class="outline-text-2" id="text-1">
 
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> overview </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> overview</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <p>一些链接：
 </p><ul>
-<li>
-<a href="http://www.infoq.com/cn/articles/introductionOozie">http://www.infoq.com/cn/articles/introductionOozie</a> oozie简介
+<li><a href="http://www.infoq.com/cn/articles/introductionOozie">http://www.infoq.com/cn/articles/introductionOozie</a> oozie简介
 </li>
-<li>
-<a href="http://incubator.apache.org/oozie/">http://incubator.apache.org/oozie/</a> homepage
+<li><a href="http://incubator.apache.org/oozie/">http://incubator.apache.org/oozie/</a> homepage
 </li>
-<li>
-<a href="http://incubator.apache.org/oozie/overview.html">http://incubator.apache.org/oozie/overview.html</a> oozie overview
+<li><a href="http://incubator.apache.org/oozie/overview.html">http://incubator.apache.org/oozie/overview.html</a> oozie overview
 </li>
-<li>
-<a href="http://incubator.apache.org/oozie/map-reduce-cookbook.html">http://incubator.apache.org/oozie/map-reduce-cookbook.html</a> oozie简单地跑一个mapreduce
+<li><a href="http://incubator.apache.org/oozie/map-reduce-cookbook.html">http://incubator.apache.org/oozie/map-reduce-cookbook.html</a> oozie简单地跑一个mapreduce
 </li>
-<li>
-<a href="http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/index.html">http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/index.html</a> oozie文档
+<li><a href="http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/index.html">http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/index.html</a> oozie文档
 <ul>
-<li>
-workflow <a href="http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/WorkflowFunctionalSpec.html">http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/WorkflowFunctionalSpec.html</a>
+<li>workflow <a href="http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/WorkflowFunctionalSpec.html">http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/WorkflowFunctionalSpec.html</a>
 </li>
-<li>
-coordinator <a href="http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/CoordinatorFunctionalSpec.html">http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/CoordinatorFunctionalSpec.html</a>
+<li>coordinator <a href="http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/CoordinatorFunctionalSpec.html">http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/CoordinatorFunctionalSpec.html</a>
 </li>
-<li>
-bundle <a href="http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/BundleFunctionalSpec.html">http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/BundleFunctionalSpec.html</a>
-
-</li>
-</ul>
+<li>bundle <a href="http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/BundleFunctionalSpec.html">http://incubator.apache.org/oozie/docs/3.2.0-incubating/docs/BundleFunctionalSpec.html</a>
 </li>
 </ul>
 
-<p><b>NOTE(dirlt):我只是粗略地使用了一下，直觉上觉得这个东西很烂。推荐大家可以考虑一下azkaban</b> 
+</li>
+</ul>
+
+
+<p>
+<b>NOTE(dirlt):我只是粗略地使用了一下，直觉上觉得这个东西很烂。推荐大家可以考虑一下azkaban</b> 
 </p>
 <p>
 oozie工作方式也是启动一个mapper任务（这个任务启动真正任务）放在cluster上面运行。大致上来看的话需要几个文件：
 </p><ul>
-<li>
-workflow.xml ozzie读取它来知道每个任务DAG如何并且失败以及成功之后如何处理。需要提交到hdfs上面。
+<li>workflow.xml ozzie读取它来知道每个任务DAG如何并且失败以及成功之后如何处理。需要提交到hdfs上面。
 </li>
-<li>
-coordinator.xml 如果是coordinator模式的话，还需要这个文件。需要提交到hdfs上面。
+<li>coordinator.xml 如果是coordinator模式的话，还需要这个文件。需要提交到hdfs上面。
 </li>
-<li>
-job.properties 这个用来存放一些任务相关的参数等。这个部分其实可以和workflow.xml放在一起，但是分离出来的话可以方便分离。本地使用。
+<li>job.properties 这个用来存放一些任务相关的参数等。这个部分其实可以和workflow.xml放在一起，但是分离出来的话可以方便分离。本地使用。
 </li>
-<li>
-lib 目录下面存放启动启动需要的库文件比如jar或者是so等。需要提交到hdfs上面。
+<li>lib 目录下面存放启动启动需要的库文件比如jar或者是so等。需要提交到hdfs上面。
 </li>
 </ul>
 
@@ -137,79 +148,66 @@ ozzie去查询这些任务状态（这些任务应该也会内置httpserver）�
 <p>
 oozie执行分为三种模式：
 </p><ul>
-<li>
-workflow. 这种方式非常简单，就是定义DAG来执行。
+<li>workflow. 这种方式非常简单，就是定义DAG来执行。
 </li>
-<li>
-coordinator. workflow缺点非常明显，就是没有办法定时触发或者是条件触发。coordinator可以完成这个需求。coordinator构建在workflow工作方式上面，可以定时运行也可以触发运行。
+<li>coordinator. workflow缺点非常明显，就是没有办法定时触发或者是条件触发。coordinator可以完成这个需求。coordinator构建在workflow工作方式上面，可以定时运行也可以触发运行。
 </li>
 </ul>
 
 <p>触发条件非常巧妙，提供一个叫做synchronous dataset的数据集。这个数据集其实就是一个url（文件系统url），不过这个url通过时间来进行区分。比如hdfs://foo:9000/usr/logs/2009/04/15/23/30.
 </p><ul>
-<li>
-bundle. bundle的作用就是将多个coordinator管理起来。这样我们只需要提供一个bundle提交即可。然后可以start/stop/suspend/resume任何coordinator.
-
+<li>bundle. bundle的作用就是将多个coordinator管理起来。这样我们只需要提供一个bundle提交即可。然后可以start/stop/suspend/resume任何coordinator.
 </li>
 </ul>
 
-<p>下面是在使用时候总结的一些问题：
+
+<p>
+下面是在使用时候总结的一些问题：
 </p><ul>
-<li>
-时区似乎只是支持UTC。对于我来说处在Asia/Shanghai这个timezone，时间是提前8个小时的。这个在使用的时候需要转换一下。
+<li>时区似乎只是支持UTC。对于我来说处在Asia/Shanghai这个timezone，时间是提前8个小时的。这个在使用的时候需要转换一下。
 </li>
-<li>
-oozie调度时间似乎比较怪异（不像是分钟级别，也不像是小时级别，而且现在也没有找到参数配置）。即使对于上面这个小时任务，可以看到create time间隔是5min左右。<img src="./images/oozie-coord-create-interval.png"  alt="./images/oozie-coord-create-interval.png" />
+<li>oozie调度时间似乎比较怪异（不像是分钟级别，也不像是小时级别，而且现在也没有找到参数配置）。即使对于上面这个小时任务，可以看到create time间隔是5min左右。<img src="./images/oozie-coord-create-interval.png"  alt="./images/oozie-coord-create-interval.png" />
 </li>
-<li>
-oozie支持故障恢复。直接restart之后启动oozie，之前提交的coord job还能够正常执行。
-
+<li>oozie支持故障恢复。直接restart之后启动oozie，之前提交的coord job还能够正常执行。
 </li>
 </ul>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> deployment </h3>
-<div class="outline-text-3" id="text-1.2">
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> deployment</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <p>关于部署的话可以参考这个链接 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/DG_QuickStart.html">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/DG_QuickStart.html</a>
 </p><ul>
-<li>
-Expand the Oozie distribution tar.gz
+<li>Expand the Oozie distribution tar.gz
 </li>
-<li>
-Expand the Hadoop distribution tar.gz # 不过如果oozie是从cloudera down下来的话，里面应该是包含了hadoop的，不需要这个步骤
+<li>Expand the Hadoop distribution tar.gz # 不过如果oozie是从cloudera down下来的话，里面应该是包含了hadoop的，不需要这个步骤
 </li>
-<li>
-Download ExtJS library (it must be version 2.2)
+<li>Download ExtJS library (it must be version 2.2)
 </li>
-<li>
-bin/oozie-setup.sh -hadoop 0.20.200 ${HADOOP<sub>HOME</sub>} -extjs /tmp/ext-2.2.zip # 同样如果是cloudera的话，那么不需要-hadoop这个选项
+<li>bin/oozie-setup.sh -hadoop 0.20.200 ${HADOOP_HOME} -extjs /tmp/ext-2.2.zip # 同样如果是cloudera的话，那么不需要-hadoop这个选项
 </li>
-<li>
-bin/oozie-start.sh # 启动后台程序 bin/oozie-run.sh可以用来作为前台进程启动
+<li>bin/oozie-start.sh # 启动后台程序 bin/oozie-run.sh可以用来作为前台进程启动
 </li>
-<li>
-bin/oozie-stop.sh # 停止后台程序
+<li>bin/oozie-stop.sh # 停止后台程序
 </li>
-<li>
-可以通过bin/oozie admin -oozie <a href="http://localhost:11000/oozie">http://localhost:11000/oozie</a> -status察看状态。如果安装了extjs的话，也可以通过直接访问 <a href="http://localhost:11000/oozie">http://localhost:11000/oozie</a> 来看当前状态
+<li>可以通过bin/oozie admin -oozie <a href="http://localhost:11000/oozie">http://localhost:11000/oozie</a> -status察看状态。如果安装了extjs的话，也可以通过直接访问 <a href="http://localhost:11000/oozie">http://localhost:11000/oozie</a> 来看当前状态
 </li>
-<li>
-Expand the oozie-sharelib TAR.GZ file bundled with the distribution. 并且将share目录上传 hadoop fs -put share share
+<li>Expand the oozie-sharelib TAR.GZ file bundled with the distribution. 并且将share目录上传 hadoop fs -put share share
 </li>
-<li>
-Expand the oozie-examples.tar.gz 并且 hadoop fs -put examples examples 可以用来进行一些example测试
+<li>Expand the oozie-examples.tar.gz 并且 hadoop fs -put examples examples 可以用来进行一些example测试
 <ul>
-<li>
-<a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/DG_Examples.html">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/DG_Examples.html</a>
+<li><a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/DG_Examples.html">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/DG_Examples.html</a>
+</li>
+</ul>
 
 </li>
 </ul>
-</li>
-</ul>
+
 
 
 <hr/>
@@ -235,8 +233,6 @@ Expand the oozie-examples.tar.gz 并且 hadoop fs -put examples examples 可以�
 &lt;/property&gt;
 </pre>
 
-
-
 <p>
 其中dirlt更换成为用户名称。
 </p>
@@ -251,8 +247,6 @@ Expand the oozie-examples.tar.gz 并且 hadoop fs -put examples examples 可以�
 <pre class="example">rmr: org.apache.hadoop.dfs.SafeModeException: Cannot delete /user/hadoop/input. Name node is in safe mode
 </pre>
 
-
-
 <p>
 我们可以使用命令强制离开hadoop dfsadmin -safemode leave
 </p>
@@ -260,96 +254,80 @@ Expand the oozie-examples.tar.gz 并且 hadoop fs -put examples examples 可以�
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> workflow </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> workflow</h3>
+<div class="outline-text-3" id="text-1-3">
 
 <p>对于workflow来说，最主要关注下面几个部分：
 </p><ul>
-<li>
-node
+<li>node
 <ul>
-<li>
-control flow node // 控制流节点，决定这个DAG。
+<li>control flow node // 控制流节点，决定这个DAG。
 </li>
-<li>
-action node // 动作节点。TODO（dirlt）：这里不是很明白streaming和pipe方式之间的差别。
+<li>action node // 动作节点。TODO（dirlt）：这里不是很明白streaming和pipe方式之间的差别。
 </li>
 </ul>
+
 </li>
-<li>
-parameterization // 参数化，可以获得很多外部状态变量并且进行计算判断。
+<li>parameterization // 参数化，可以获得很多外部状态变量并且进行计算判断。
 </li>
 </ul>
 
 <p>下面是一些具体细节：
 </p><ul>
-<li>
-action有两个状态ok/error <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a3.2.1.3_Actions_Have_2_Transitions_ok_and_error">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a3.2.1.3_Actions_Have_2_Transitions_ok_and_error</a> 
+<li>action有两个状态ok/error <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a3.2.1.3_Actions_Have_2_Transitions_ok_and_error">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a3.2.1.3_Actions_Have_2_Transitions_ok_and_error</a> 
 <ul>
-<li>
-对于error而言的话，需要提供error-code以及error-message，这样可以方便下面的决策。
-</li>
-</ul>
-</li>
-<li>
-action如何进行recovery的 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a3.2.1.4_Action_Recovery">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a3.2.1.4_Action_Recovery</a>
-</li>
-<li>
-workflow job生命周期（lift cycle） <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a9_Workflow_Jobs_Lifecycle">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a9_Workflow_Jobs_Lifecycle</a>
-<ul>
-<li>
-prepare
-</li>
-<li>
-running
-</li>
-<li>
-suspend
-</li>
-<li>
-succeed
-</li>
-<li>
-killed
-</li>
-<li>
-failed
-</li>
-</ul>
-</li>
-<li>
-rerun可以用来重新提交任务 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a10_Workflow_Jobs_Recovery_re-run">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a10_Workflow_Jobs_Recovery_re-run</a>
-<ul>
-<li>
-用户自己标记哪些任务需要skip
-</li>
-<li>
-如果这个任务之前没有complete但是却被skip的话，那么fail
-</li>
-<li>
-这个job和原来的job使用同一个jobID
-</li>
-<li>
-TODO（dirlt）；文档似乎没有写明如何具体提交！
-</li>
-</ul>
-</li>
-<li>
-提供了webservice API接口来控制 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a11_Oozie_Web_Services_API_V0">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a11_Oozie_Web_Services_API_V0</a>
-</li>
-<li>
-没有提供优先级控制的方式 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a16_Workflow_Jobs_Priority">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a16_Workflow_Jobs_Priority</a>
-<ul>
-<li>
-Any prioritization of jobs in the remote systems is outside of the scope of Oozie.
-
-</li>
-</ul>
+<li>对于error而言的话，需要提供error-code以及error-message，这样可以方便下面的决策。
 </li>
 </ul>
 
-<p>这里给出一个例子配置文件作为说明（这个例子就是oozie homepage里面run example使用的例子 examples/app/map-reduce）。首先是workflow.xml
+</li>
+<li>action如何进行recovery的 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a3.2.1.4_Action_Recovery">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a3.2.1.4_Action_Recovery</a>
+</li>
+<li>workflow job生命周期（lift cycle） <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a9_Workflow_Jobs_Lifecycle">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a9_Workflow_Jobs_Lifecycle</a>
+<ul>
+<li>prepare
+</li>
+<li>running
+</li>
+<li>suspend
+</li>
+<li>succeed
+</li>
+<li>killed
+</li>
+<li>failed
+</li>
+</ul>
+
+</li>
+<li>rerun可以用来重新提交任务 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a10_Workflow_Jobs_Recovery_re-run">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a10_Workflow_Jobs_Recovery_re-run</a>
+<ul>
+<li>用户自己标记哪些任务需要skip
+</li>
+<li>如果这个任务之前没有complete但是却被skip的话，那么fail
+</li>
+<li>这个job和原来的job使用同一个jobID
+</li>
+<li>TODO（dirlt）；文档似乎没有写明如何具体提交！
+</li>
+</ul>
+
+</li>
+<li>提供了webservice API接口来控制 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a11_Oozie_Web_Services_API_V0">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a11_Oozie_Web_Services_API_V0</a>
+</li>
+<li>没有提供优先级控制的方式 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a16_Workflow_Jobs_Priority">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a16_Workflow_Jobs_Priority</a>
+<ul>
+<li>Any prioritization of jobs in the remote systems is outside of the scope of Oozie.
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+<p>
+这里给出一个例子配置文件作为说明（这个例子就是oozie homepage里面run example使用的例子 examples/app/map-reduce）。首先是workflow.xml
 </p>
 
 
@@ -413,8 +391,6 @@ Any prioritization of jobs in the remote systems is outside of the scope of Oozi
 &lt;/workflow-app&gt;
 </pre>
 
-
-
 <p>
 这是一个map-reduce的action，在prepare阶段将原来的输出文件删除掉，在configuration部分配置了一些参数。${}部分就是parameterization，
 这些参数内容都是从job.properties里面得到的。下面看看这个job.properties是如何定义的
@@ -431,8 +407,6 @@ oozie.wf.application.path=${nameNode}/user/${user.name}/${examplesRoot}/apps/map
 outputDir=map-reduce
 
 </pre>
-
-
 
 
 <p>
@@ -453,17 +427,15 @@ outputDir=map-reduce
 <p>
 为了方便我编写了下面几个脚本：
 </p><ul>
-<li>
-submit
+<li>submit
 </li>
-<li>
-cancel
+<li>cancel
 </li>
-<li>
-update
-
+<li>update
 </li>
 </ul>
+
+
 
 
 <pre class="src src-Shell">#!/bin/bash
@@ -479,75 +451,62 @@ hadoop fs -put workflow.xml /user/dirlt/examples/apps/map-reduce/
 </pre>
 
 
-
-
 </div>
 
 </div>
 
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="section-number-3">1.4</span> coordinator </h3>
-<div class="outline-text-3" id="text-1.4">
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> coordinator</h3>
+<div class="outline-text-3" id="text-1-4">
 
 <p>对于coordinator来说，有几个比较重要的概念：
 </p><ul>
-<li>
-time &amp; frequency // 指定触发时间以及触发频率等 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a4._Datetime_Frequency_and_Time-Period_Representation">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a4._Datetime_Frequency_and_Time-Period_Representation</a>
+<li>time &amp; frequency // 指定触发时间以及触发频率等 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a4._Datetime_Frequency_and_Time-Period_Representation">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a4._Datetime_Frequency_and_Time-Period_Representation</a>
 </li>
-<li>
-sync dataset // 可以用来指定各个workflow之间的相互数据依赖 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a5.1._Synchronous_Datasets">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a5.1._Synchronous_Datasets</a>
+<li>sync dataset // 可以用来指定各个workflow之间的相互数据依赖 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a5.1._Synchronous_Datasets">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a5.1._Synchronous_Datasets</a>
 <ul>
-<li>
-input events       
+<li>input events       
 </li>
-<li>
-output events
+<li>output events
 </li>
-<li>
-parameterization <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.6._Parameterization_of_Dataset_Instances_in_Input_and_Output_Events">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.6._Parameterization_of_Dataset_Instances_in_Input_and_Output_Events</a>
+<li>parameterization <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.6._Parameterization_of_Dataset_Instances_in_Input_and_Output_Events">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.6._Parameterization_of_Dataset_Instances_in_Input_and_Output_Events</a>
 </li>
-<li>
-这些参数一定要了解清楚。最常用的还是{coord:current(n)}这个变量。
+<li>这些参数一定要了解清楚。最常用的还是{coord:current(n)}这个变量。
 </li>
 </ul>
+
 </li>
-<li>
-coord application 
+<li>coord application 
 <ul>
-<li>
-coord job // app的instance <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.2._Coordinator_Job">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.2._Coordinator_Job</a>
+<li>coord job // app的instance <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.2._Coordinator_Job">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.2._Coordinator_Job</a>
 <ul>
-<li>
-timeout // 对于一个action被调度到的超时时间
+<li>timeout // 对于一个action被调度到的超时时间
 </li>
-<li>
-concurrency // 可以执行的action的并发度
+<li>concurrency // 可以执行的action的并发度
 </li>
-<li>
-execution strategy // 对于所有可执行action的执行策略 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.6._Coordinator_Action_Execution_Policies">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.6._Coordinator_Action_Execution_Policies</a>
+<li>execution strategy // 对于所有可执行action的执行策略 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.6._Coordinator_Action_Execution_Policies">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.6._Coordinator_Action_Execution_Policies</a>
 </li>
 </ul>
+
 </li>
-<li>
-coord action // 一个job里面包含的action。这里所谓的action会包含很多的workflow,甚至这些workflow都是recurrent的。 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.3._Coordinator_Action">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.3._Coordinator_Action</a>
+<li>coord action // 一个job里面包含的action。这里所谓的action会包含很多的workflow,甚至这些workflow都是recurrent的。 <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.3._Coordinator_Action">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.1.3._Coordinator_Action</a>
 <ul>
-<li>
-每个action到固定时刻都会被create，即使这些action还不需要执行。
+<li>每个action到固定时刻都会被create，即使这些action还不需要执行。
 </li>
-<li>
-action应该执行时刻被成为nominal time，也称为materialization（物化）time
+<li>action应该执行时刻被成为nominal time，也称为materialization（物化）time
 </li>
 </ul>
+
 </li>
-<li>
-parameterization <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.7._Parameterization_of_Coordinator_Application_Actions">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.7._Parameterization_of_Coordinator_Application_Actions</a>
+<li>parameterization <a href="http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.7._Parameterization_of_Coordinator_Application_Actions">http://localhost/utils/oozie-2.3.2-cdh3u3/docs/CoordinatorFunctionalSpec.html#a6.7._Parameterization_of_Coordinator_Application_Actions</a>
 </li>
 </ul>
+
 </li>
 </ul>
 
 <p>sync dataset通常是一个hdfs uri，你可以让uri里面指定date以及time来对应到每一个具体的任务。一旦某个任务完成的话，那么这个hdfs uri就会建立，
-并且在先面会存在一个<sub>SUCCESS的文件（当然你也可以指定其他文件名，如果没有指定的话那么就以目录是否存在作为依据），来表示任务完成。各个任务之间可以通过这种方式来做数据流之间的依赖。</sub>
+并且在先面会存在一个_SUCCESS的文件（当然你也可以指定其他文件名，如果没有指定的话那么就以目录是否存在作为依据），来表示任务完成。各个任务之间可以通过这种方式来做数据流之间的依赖。
 </p>
 <p>
 NOTE（dirlt）：关于coordinator的文档非常少，而且使用起来有诸多不便。比如时区设置难以设置正确，以及在webconsole下面不方便察看killed掉workflow的原因。
@@ -556,14 +515,11 @@ NOTE（dirlt）：关于coordinator的文档非常少，而且使用起来有诸
 <p>
 下面看一个使用coordinator的例子（这个例子在 examples/apps/aggregator/ 目录下面）。我们现在需要三个文件
 </p><ul>
-<li>
-coordinator.xml
+<li>coordinator.xml
 </li>
-<li>
-workflow.xml
+<li>workflow.xml
 </li>
-<li>
-job.properties
+<li>job.properties
 </li>
 </ul>
 
@@ -580,14 +536,14 @@ job.properties
     &lt;concurrency&gt;2&lt;/concurrency&gt;
     &lt;execution&gt;FIFO&lt;/execution&gt;
   &lt;/controls&gt;     
-  
+
   &lt;datasets&gt;
     &lt;dataset name=<span class="org-string">"ds"</span> frequency=<span class="org-string">"${coord:hours(1)}"</span>
              initial-instance=<span class="org-string">"${dsStartTime}"</span> timezone=<span class="org-string">"${tz}"</span>&gt;
       &lt;uri-template&gt;${appPath}/data/${YEAR}/${MONTH}/${DAY}/${HOUR}&lt;/uri-template&gt;
     &lt;/dataset&gt;
   &lt;/datasets&gt;
-         
+
   &lt;input-events&gt;
     &lt;data-in name=<span class="org-string">"input"</span> dataset=<span class="org-string">"ds"</span>&gt;
       &lt;instance&gt;${coord:current(-1)}&lt;/instance&gt;
@@ -598,7 +554,7 @@ job.properties
       &lt;instance&gt;${coord:current(0)}&lt;/instance&gt;
     &lt;/data-out&gt;
   &lt;/output-events&gt;
-  
+
   &lt;action&gt;
     &lt;workflow&gt;
       &lt;app-path&gt;${appPath}&lt;/app-path&gt;
@@ -632,8 +588,6 @@ job.properties
 </pre>
 
 
-
-
 <p>
 其中appPath就是我们之前提到的workflow目录。所以可见coordinator是架在workflow上面的。至于workflow.xml不需要做任何修改。
 同样job.properties里面定义也是参数化的内容。不过需要注意的一点就是，这里必须指定oozie.coord.application.path而不是
@@ -658,8 +612,6 @@ oozie.coord.application.path=${nameNode}/user/${user.name}/${examplesRoot}/apps/
 </pre>
 
 
-
-
 <p>
 运行和取消方式都和之前的workflow方式没有任何差别。至于察看webconsole内容在coordinator jobs这个tab里面。
 比较郁闷的就是，不能够察看每一个action具体的情况，这点是非常不利于调试的。
@@ -680,47 +632,42 @@ NOTE（dirlt）：不过后来测试了一下之后，发现其实是可以观�
 
 </div>
 
-<div id="outline-container-1.5" class="outline-3">
-<h3 id="sec-1.5"><span class="section-number-3">1.5</span> azkaban </h3>
-<div class="outline-text-3" id="text-1.5">
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> azkaban</h3>
+<div class="outline-text-3" id="text-1-5">
 
 <ul>
-<li>
-Azkaban <a href="http://sna-projects.com/azkaban/">http://sna-projects.com/azkaban/</a>
+<li>Azkaban <a href="http://sna-projects.com/azkaban/">http://sna-projects.com/azkaban/</a>
 </li>
-<li>
-Quick Start <a href="http://sna-projects.com/azkaban/quickstart.php">http://sna-projects.com/azkaban/quickstart.php</a>
+<li>Quick Start <a href="http://sna-projects.com/azkaban/quickstart.php">http://sna-projects.com/azkaban/quickstart.php</a>
 </li>
-<li>
-Documentation <a href="http://sna-projects.com/azkaban/documentation.php">http://sna-projects.com/azkaban/documentation.php</a>
+<li>Documentation <a href="http://sna-projects.com/azkaban/documentation.php">http://sna-projects.com/azkaban/documentation.php</a>
 </li>
-<li>
-Workflow Engines for Hadoop <a href="http://www.crobak.org/2012/07/workflow-engines-for-hadoop/">http://www.crobak.org/2012/07/workflow-engines-for-hadoop/</a>
+<li>Workflow Engines for Hadoop <a href="http://www.crobak.org/2012/07/workflow-engines-for-hadoop/">http://www.crobak.org/2012/07/workflow-engines-for-hadoop/</a>
 
 </li>
-<li>
-azkaban是twitter出的一个任务调度系统。从Quick Start以及Documentation来看的话，确实比oozie要简单很多而且非常直观。
+<li>azkaban是twitter出的一个任务调度系统。从Quick Start以及Documentation来看的话，确实比oozie要简单很多而且非常直观。
 </li>
-<li>
-任务之间的依赖，不能够指定部分完成（比如我们希望任务A依赖于B，但是并不是B完全执行完成A才可以启动，而是B的某个阶段完成的话就可以启动A）。
+<li>任务之间的依赖，不能够指定部分完成（比如我们希望任务A依赖于B，但是并不是B完全执行完成A才可以启动，而是B的某个阶段完成的话就可以启动A）。
 </li>
-<li>
-从job描述上面看，系统本身并没有来做cron这见事情，可能是通过外部任务自己cron方式提交来完成cron功能。
+<li>从job描述上面看，系统本身并没有来做cron这见事情，可能是通过外部任务自己cron方式提交来完成cron功能。
 </li>
-<li>
-azkaban对于每一个command单独fork出一个单元来监视这个command完成情况（猜想应该是判断是否返回值为0确定是否成功执行，但是对于MR这样的任务来说的话，如果forker挂掉的话任务本身也依然是在执行的，这样下次重启的话就会重复启动多个任务）。
+<li>azkaban对于每一个command单独fork出一个单元来监视这个command完成情况（猜想应该是判断是否返回值为0确定是否成功执行，但是对于MR这样的任务来说的话，如果forker挂掉的话任务本身也依然是在执行的，这样下次重启的话就会重复启动多个任务）。
 </li>
-<li>
-TODO（dirlt）：不确定是否可以删除任务或者修改任务？
+<li>TODO（dirlt）：不确定是否可以删除任务或者修改任务？
 </li>
 </ul>
+
 </div>
 </div>
 </div>
+</div>
+
 <div id="postamble">
-<p class="date"> Date: 2013-10-14 12:27:50 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
-</div>
+<p class="date">Date: 2013-10-15 22:15:21 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'oozie.html';var disqus_title = 'oozie.html';var disqus_url = 'http://dirlt.com/oozie.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

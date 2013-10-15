@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>scheme</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="scheme"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:18:21 CST"/>
+<meta name="generated" content="2013-10-15 22:15:06 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="./css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">scheme</h1>
 
 
@@ -56,11 +77,11 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 scheme </a>
+<li><a href="#sec-1">1 scheme</a>
 <ul>
-<li><a href="#sec-1.1">1.1 相关资料 </a></li>
-<li><a href="#sec-1.2">1.2 SICP </a></li>
-<li><a href="#sec-1.3">1.3 church counter </a></li>
+<li><a href="#sec-1-1">1.1 相关资料</a></li>
+<li><a href="#sec-1-2">1.2 SICP</a></li>
+<li><a href="#sec-1-3">1.3 church counter</a></li>
 </ul>
 </li>
 </ul>
@@ -68,29 +89,29 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> scheme </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> scheme</h2>
 <div class="outline-text-2" id="text-1">
 
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> 相关资料 </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 相关资料</h3>
+<div class="outline-text-3" id="text-1-1">
 
 <ul>
-<li>
-<a href="http://mitpress.mit.edu/sicp/">Structure and Interpretation of Computer Programs</a>
-
+<li><a href="http://mitpress.mit.edu/sicp/">Structure and Interpretation of Computer Programs</a>
 </li>
 </ul>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> SICP </h3>
-<div class="outline-text-3" id="text-1.2">
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> SICP</h3>
+<div class="outline-text-3" id="text-1-2">
 
 <p>绝不要认为似乎成功计算机的钥匙就掌握在你的手里。你所掌握的,也是我认为并且希望的,也就是智慧:那种看到这一机器比你第一次站在它面前时能够做的更多的能力，这样你才能将它向前推进。
 </p>
@@ -100,19 +121,17 @@ lang="en" xml:lang="en">
 <p>
 心智的活动除了尽力产生各种简单的认识外，主要表现在(组合，对比，抽象):
 </p><ol>
-<li>
-将若干简单认识组合称为复合认识，由此产生复杂的认识
+<li>将若干简单认识组合称为复合认识，由此产生复杂的认识
 </li>
-<li>
-将两个认识放在一起对照，不管简单还是复杂，由此得到它们之间的相互关系的认识
+<li>将两个认识放在一起对照，不管简单还是复杂，由此得到它们之间的相互关系的认识
 </li>
-<li>
-将有关认识和实际中和它们所在的认识隔离开，就是抽象，所有具有普遍性的认识都是这样得到的。
-
+<li>将有关认识和实际中和它们所在的认识隔离开，就是抽象，所有具有普遍性的认识都是这样得到的。
 </li>
 </ol>
 
-<p>现在到了数学抽象中最关键的一步:让我们忘记这些符号所表示的对象。数学家不应该在这里停步，有许多操作可以应用于这些符号，而根本不必考虑它们代表什么。
+
+<p>
+现在到了数学抽象中最关键的一步:让我们忘记这些符号所表示的对象。数学家不应该在这里停步，有许多操作可以应用于这些符号，而根本不必考虑它们代表什么。
 </p>
 <p>
 建立新语言是在工程设计中控制复杂性的一种威力强大的工作策略，通常能够采用一种新语言提升处理复杂问题的能力，因为新语言能够使我们以一种完全不同的方式，利用不同原语组合方式和抽象方式去描述(思考)所面临的问题。
@@ -124,9 +143,9 @@ NOTE(dirlt):<a href="http://mitpress.mit.edu/sicp/">SICP</a> 大四时候就看�
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> church counter </h3>
-<div class="outline-text-3" id="text-1.3">
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> church counter</h3>
+<div class="outline-text-3" id="text-1-3">
 
 <p>只要能够正确理解计数就可以，并不一定要将这个数显示出来
 </p>
@@ -138,8 +157,6 @@ NOTE(dirlt):<a href="http://mitpress.mit.edu/sicp/">SICP</a> 大四时候就看�
 </pre>
 
 
-
-
 <p>
 我们把zero带入add-1
 </p>
@@ -149,8 +166,6 @@ NOTE(dirlt):<a href="http://mitpress.mit.edu/sicp/">SICP</a> 大四时候就看�
  =&gt; (lambda (f) (lambda (x) (f ((lambda (x) x) x))))
  =&gt; (lambda (f) (lambda (x) (f x)))
 </pre>
-
-
 
 <p>
 这个时候我们可以和zero比较，就会发现里面多了一次f操作，这就是计数操作
@@ -164,8 +179,6 @@ NOTE(dirlt):<a href="http://mitpress.mit.edu/sicp/">SICP</a> 大四时候就看�
 (<span class="org-keyword">define</span> <span class="org-function-name">two</span> (<span class="org-keyword">lambda</span> (f) (<span class="org-keyword">lambda</span> (x) (f (f x)))))
 </pre>
 
-
-
 <p>
 对于(add m n)定义可以写为
 </p>
@@ -174,15 +187,16 @@ NOTE(dirlt):<a href="http://mitpress.mit.edu/sicp/">SICP</a> 大四时候就看�
 <pre class="src src-scheme">(<span class="org-keyword">define</span> (<span class="org-function-name">add</span> m n) (<span class="org-keyword">lambda</span> (f) (<span class="org-keyword">lambda</span> (x) ((m f) ((n f) x)))))
 </pre>
 
+</div>
+</div>
+</div>
+</div>
 
-
-</div>
-</div>
-</div>
 <div id="postamble">
-<p class="date"> Date: 2013-10-14 12:18:21 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
-</div>
+<p class="date">Date: 2013-10-15 22:15:06 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'scheme.html';var disqus_title = 'scheme.html';var disqus_url = 'http://dirlt.com/scheme.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

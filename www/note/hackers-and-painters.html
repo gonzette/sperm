@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-lang="en" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head><!-- <meta name="baidu-site-verification" content="707024a76f8f40b549f07f478abab237"/> -->
 <title>黑客与画家(Hackers and Painters)</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="黑客与画家(Hackers and Painters)"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-14 12:28:31 CST"/>
+<meta name="generated" content="2013-10-15 22:16:55 CST"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -21,6 +21,9 @@ lang="en" xml:lang="en">
   .target { }
   .timestamp { color: #bebebe; }
   .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
@@ -31,10 +34,23 @@ lang="en" xml:lang="en">
         overflow:auto;
   }
   table { border-collapse: collapse; }
-  td, th { vertical-align: top; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
   dt { font-weight: bold; }
   div.figure { padding: 0.5em; }
   div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
   .linenr { font-size:smaller }
   .code-highlighted {background-color:#ffff00;}
   .org-info-js_info-navigation { border-style:none; }
@@ -45,10 +61,15 @@ lang="en" xml:lang="en">
   /*]]>*/-->
 </style><link rel="stylesheet" type="text/css" href="../css/site.css" />
 
+
 </head>
 <body><!-- <div id="bdshare" class="bdshare_t bds_tools_32 get-codes-bdshare"><a class="bds_tsina"></a><span class="bds_more"></span><a class="shareCount"></a></div> --><!-- Place this tag where you want the +1 button to render --><g:plusone annotation="inline"></g:plusone>
-<div id="content">
 
+<div id="preamble">
+
+</div>
+
+<div id="content">
 <h1 class="title">黑客与画家(Hackers and Painters)</h1>
 
 
@@ -56,27 +77,27 @@ lang="en" xml:lang="en">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">1 hackers-and-painters </a>
+<li><a href="#sec-1">1 hackers-and-painters</a>
 <ul>
-<li><a href="#sec-1.1">1.1 序 </a></li>
-<li><a href="#sec-1.2">1.2 黑客伦理 </a></li>
-<li><a href="#sec-1.3">1.3 术语解析 </a></li>
-<li><a href="#sec-1.4">1.4 为什么书呆子不受欢迎 </a></li>
-<li><a href="#sec-1.5">1.5 黑客与画家 </a></li>
-<li><a href="#sec-1.6">1.6 不能说的话 </a></li>
-<li><a href="#sec-1.7">1.7 良好的坏习惯 </a></li>
-<li><a href="#sec-1.8">1.8 另一条路 </a></li>
-<li><a href="#sec-1.9">1.9 如何创造财富 </a></li>
-<li><a href="#sec-1.10">1.10 关注贫富分化 </a></li>
-<li><a href="#sec-1.11">1.11 设计者的品味 </a></li>
-<li><a href="#sec-1.12">1.12 编程语言解析 </a></li>
-<li><a href="#sec-1.13">1.13 一百年后的编程语言 </a></li>
-<li><a href="#sec-1.14">1.14 拒绝平庸 </a></li>
-<li><a href="#sec-1.15">1.15 书呆子的复仇 </a></li>
-<li><a href="#sec-1.16">1.16 梦寐以求的编程语言 </a></li>
-<li><a href="#sec-1.17">1.17 梦寐以求的编程语言总结 </a></li>
-<li><a href="#sec-1.18">1.18 设计与研究 </a></li>
-<li><a href="#sec-1.19">1.19 自己感想 </a></li>
+<li><a href="#sec-1-1">1.1 序</a></li>
+<li><a href="#sec-1-2">1.2 黑客伦理</a></li>
+<li><a href="#sec-1-3">1.3 术语解析</a></li>
+<li><a href="#sec-1-4">1.4 为什么书呆子不受欢迎</a></li>
+<li><a href="#sec-1-5">1.5 黑客与画家</a></li>
+<li><a href="#sec-1-6">1.6 不能说的话</a></li>
+<li><a href="#sec-1-7">1.7 良好的坏习惯</a></li>
+<li><a href="#sec-1-8">1.8 另一条路</a></li>
+<li><a href="#sec-1-9">1.9 如何创造财富</a></li>
+<li><a href="#sec-1-10">1.10 关注贫富分化</a></li>
+<li><a href="#sec-1-11">1.11 设计者的品味</a></li>
+<li><a href="#sec-1-12">1.12 编程语言解析</a></li>
+<li><a href="#sec-1-13">1.13 一百年后的编程语言</a></li>
+<li><a href="#sec-1-14">1.14 拒绝平庸</a></li>
+<li><a href="#sec-1-15">1.15 书呆子的复仇</a></li>
+<li><a href="#sec-1-16">1.16 梦寐以求的编程语言</a></li>
+<li><a href="#sec-1-17">1.17 梦寐以求的编程语言总结</a></li>
+<li><a href="#sec-1-18">1.18 设计与研究</a></li>
+<li><a href="#sec-1-19">1.19 自己感想</a></li>
 </ul>
 </li>
 </ul>
@@ -84,35 +105,31 @@ lang="en" xml:lang="en">
 </div>
 
 <div id="outline-container-1" class="outline-2">
-<h2 id="sec-1"><span class="section-number-2">1</span> hackers-and-painters </h2>
+<h2 id="sec-1"><span class="section-number-2">1</span> hackers-and-painters</h2>
 <div class="outline-text-2" id="text-1">
 
 
 </div>
 
-<div id="outline-container-1.1" class="outline-3">
-<h3 id="sec-1.1"><span class="section-number-3">1.1</span> 序 </h3>
-<div class="outline-text-3" id="text-1.1">
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 序</h3>
+<div class="outline-text-3" id="text-1-1">
 
 
 <p>
 Paul Graham有一套完整的创业哲学，他的创业公式是：
 </p><ol>
-<li>
-搭建原型
+<li>搭建原型
 </li>
 </ol>
 
-<p>2.上线运营（别管bug)
+<p>   2.上线运营（别管bug)
 </p><ol>
-<li>
-收集反馈
+<li>收集反馈
 </li>
-<li>
-调整产品
+<li>调整产品
 </li>
-<li>
-成长壮大
+<li>成长壮大
 </li>
 </ol>
 
@@ -122,39 +139,34 @@ Paul Graham有一套完整的创业哲学，他的创业公式是：
 
 </div>
 
-<div id="outline-container-1.2" class="outline-3">
-<h3 id="sec-1.2"><span class="section-number-3">1.2</span> 黑客伦理 </h3>
-<div class="outline-text-3" id="text-1.2">
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 黑客伦理</h3>
+<div class="outline-text-3" id="text-1-2">
 
 
 <ol>
-<li>
-使用计算机以及所有有助于了解这个世界本质的事物都不应该受到任何限制。任何事情都应该亲手尝试。(Access to computers and anything that might teach you something about the way the world works – should be unlimited and total. Always yield to the Hands-On Imperative)
+<li>使用计算机以及所有有助于了解这个世界本质的事物都不应该受到任何限制。任何事情都应该亲手尝试。(Access to computers and anything that might teach you something about the way the world works – should be unlimited and total. Always yield to the Hands-On Imperative)
 </li>
-<li>
-信息应该完全免费。(All information should be free).
+<li>信息应该完全免费。(All information should be free).
 </li>
-<li>
-不信任权威，提倡去中心化。（Mistrust Authority – Promote Decentralization).
+<li>不信任权威，提倡去中心化。（Mistrust Authority – Promote Decentralization).
 </li>
-<li>
-判断一名黑客的水平应该看他的技术能力，而不是看他的学历、年龄或者地位等其他标准。(Hackers should be judged by their hacking, not bogus criteria such as degrees, age, race, or position).
+<li>判断一名黑客的水平应该看他的技术能力，而不是看他的学历、年龄或者地位等其他标准。(Hackers should be judged by their hacking, not bogus criteria such as degrees, age, race, or position).
 </li>
-<li>
-你可以用计算机创造美和艺术。(You can create art and beauty on a computer).
+<li>你可以用计算机创造美和艺术。(You can create art and beauty on a computer).
 </li>
-<li>
-计算机使生活更美好。(Computers can change your life for the better).
-
+<li>计算机使生活更美好。(Computers can change your life for the better).
 </li>
 </ol>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.3" class="outline-3">
-<h3 id="sec-1.3"><span class="section-number-3">1.3</span> 术语解析 </h3>
-<div class="outline-text-3" id="text-1.3">
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 术语解析</h3>
+<div class="outline-text-3" id="text-1-3">
 
 
 <p>
@@ -173,9 +185,9 @@ Blub困境（Bulb Paradox):程序员的思想往往会受到自己正在使用�
 
 </div>
 
-<div id="outline-container-1.4" class="outline-3">
-<h3 id="sec-1.4"><span class="section-number-3">1.4</span> 为什么书呆子不受欢迎 </h3>
-<div class="outline-text-3" id="text-1.4">
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> 为什么书呆子不受欢迎</h3>
+<div class="outline-text-3" id="text-1-4">
 
 
 <p>
@@ -188,9 +200,9 @@ Blub困境（Bulb Paradox):程序员的思想往往会受到自己正在使用�
 
 </div>
 
-<div id="outline-container-1.5" class="outline-3">
-<h3 id="sec-1.5"><span class="section-number-3">1.5</span> 黑客与画家 </h3>
-<div class="outline-text-3" id="text-1.5">
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 黑客与画家</h3>
+<div class="outline-text-3" id="text-1-5">
 
 
 <p>
@@ -230,9 +242,9 @@ Blub困境（Bulb Paradox):程序员的思想往往会受到自己正在使用�
 
 </div>
 
-<div id="outline-container-1.6" class="outline-3">
-<h3 id="sec-1.6"><span class="section-number-3">1.6</span> 不能说的话 </h3>
-<div class="outline-text-3" id="text-1.6">
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> 不能说的话</h3>
+<div class="outline-text-3" id="text-1-6">
 
 
 <p>
@@ -257,9 +269,9 @@ Blub困境（Bulb Paradox):程序员的思想往往会受到自己正在使用�
 
 </div>
 
-<div id="outline-container-1.7" class="outline-3">
-<h3 id="sec-1.7"><span class="section-number-3">1.7</span> 良好的坏习惯 </h3>
-<div class="outline-text-3" id="text-1.7">
+<div id="outline-container-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> 良好的坏习惯</h3>
+<div class="outline-text-3" id="text-1-7">
 
 
 <p>
@@ -272,9 +284,9 @@ Blub困境（Bulb Paradox):程序员的思想往往会受到自己正在使用�
 
 </div>
 
-<div id="outline-container-1.8" class="outline-3">
-<h3 id="sec-1.8"><span class="section-number-3">1.8</span> 另一条路 </h3>
-<div class="outline-text-3" id="text-1.8">
+<div id="outline-container-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> 另一条路</h3>
+<div class="outline-text-3" id="text-1-8">
 
 
 <p>
@@ -293,9 +305,9 @@ Blub困境（Bulb Paradox):程序员的思想往往会受到自己正在使用�
 
 </div>
 
-<div id="outline-container-1.9" class="outline-3">
-<h3 id="sec-1.9"><span class="section-number-3">1.9</span> 如何创造财富 </h3>
-<div class="outline-text-3" id="text-1.9">
+<div id="outline-container-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> 如何创造财富</h3>
+<div class="outline-text-3" id="text-1-9">
 
 
 <p>
@@ -326,9 +338,9 @@ Blub困境（Bulb Paradox):程序员的思想往往会受到自己正在使用�
 
 </div>
 
-<div id="outline-container-1.10" class="outline-3">
-<h3 id="sec-1.10"><span class="section-number-3">1.10</span> 关注贫富分化 </h3>
-<div class="outline-text-3" id="text-1.10">
+<div id="outline-container-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> 关注贫富分化</h3>
+<div class="outline-text-3" id="text-1-10">
 
 
 <p>
@@ -347,72 +359,60 @@ Blub困境（Bulb Paradox):程序员的思想往往会受到自己正在使用�
 
 </div>
 
-<div id="outline-container-1.11" class="outline-3">
-<h3 id="sec-1.11"><span class="section-number-3">1.11</span> 设计者的品味 </h3>
-<div class="outline-text-3" id="text-1.11">
+<div id="outline-container-1-11" class="outline-3">
+<h3 id="sec-1-11"><span class="section-number-3">1.11</span> 设计者的品味</h3>
+<div class="outline-text-3" id="text-1-11">
 
 
 <ul>
-<li>
-好设计是简单设计。这样强调简单似乎有点奇怪。有人会说，简单就是事物本来的样子，装饰反而意味着更多的工作。但是当人们自己从事创造性工作的时候，好像就会忘了保持简单这个原则。当你被迫把东西做得很简单时，你就被迫直接面对真正的问题。当你不能用表面的装饰交差时，你就不得不做好真正本质的部分。
+<li>好设计是简单设计。这样强调简单似乎有点奇怪。有人会说，简单就是事物本来的样子，装饰反而意味着更多的工作。但是当人们自己从事创造性工作的时候，好像就会忘了保持简单这个原则。当你被迫把东西做得很简单时，你就被迫直接面对真正的问题。当你不能用表面的装饰交差时，你就不得不做好真正本质的部分。
 
 </li>
-<li>
-好设计是永不过时的设计。以永不过时作为目标是一种帮助自己找到最佳答案的方法：如果你不愿别人的答案取代你的答案，你就只好自己做出最佳答案。以永不过时作为目标也是一种避开时代风潮的影响的方法。如果一件东西长盛不衰，那么它的吸引力一定来自本身的魅力，而不是来自风潮的影响。说来奇怪，如果你自己希望自己的作品对未来的人们有吸引力，方法之一就是让你的作品对上几代有吸引力。我们很难猜测未来是什么样子，但是可以肯定，未来的人们不会在乎今天流行的风潮。
+<li>好设计是永不过时的设计。以永不过时作为目标是一种帮助自己找到最佳答案的方法：如果你不愿别人的答案取代你的答案，你就只好自己做出最佳答案。以永不过时作为目标也是一种避开时代风潮的影响的方法。如果一件东西长盛不衰，那么它的吸引力一定来自本身的魅力，而不是来自风潮的影响。说来奇怪，如果你自己希望自己的作品对未来的人们有吸引力，方法之一就是让你的作品对上几代有吸引力。我们很难猜测未来是什么样子，但是可以肯定，未来的人们不会在乎今天流行的风潮。
 
 </li>
-<li>
-好的设计是启发性的设计。在软件业中，这条原则意味着，你应该为用户提供一些基本模块，使得他们可以随心所欲自由组合，就像玩乐高积木那样。
+<li>好的设计是启发性的设计。在软件业中，这条原则意味着，你应该为用户提供一些基本模块，使得他们可以随心所欲自由组合，就像玩乐高积木那样。
 
 </li>
-<li>
-好设计通常是有点趣味性的设计。好的设计并非一定要有趣，但是很难想象完全无趣的设计会是好的设计。
+<li>好设计通常是有点趣味性的设计。好的设计并非一定要有趣，但是很难想象完全无趣的设计会是好的设计。
 
 </li>
-<li>
-好设计是艰苦的设计。困难的问题需要艰巨的付出才能解决，高难度的数学证明需要结构非常精细的解决方法（它们往往做起来很有趣），工程学也是如此。并非所有的痛苦都是有益的。世界上有有益的痛苦，也有无益的痛苦。你需要的是咬牙向前冲刺的痛苦，而不是脚被钉子扎破的痛苦。解决难题的痛苦对设计是有好处，但是对付挑剔的客户的痛苦或者对付质量低劣的建材的痛苦就是另外一回事了。
+<li>好设计是艰苦的设计。困难的问题需要艰巨的付出才能解决，高难度的数学证明需要结构非常精细的解决方法（它们往往做起来很有趣），工程学也是如此。并非所有的痛苦都是有益的。世界上有有益的痛苦，也有无益的痛苦。你需要的是咬牙向前冲刺的痛苦，而不是脚被钉子扎破的痛苦。解决难题的痛苦对设计是有好处，但是对付挑剔的客户的痛苦或者对付质量低劣的建材的痛苦就是另外一回事了。
 
 </li>
-<li>
-好设计是看似容易的设计。科学和工程学的一些最重大的发现在形式上往往很简单，会使得你觉得自己也想到过。可是，如果它真的那么简单，为什么发现人不是你呢？在大多数领域，看上去很容易的事情，背后都需要大量的练习。练习的作用也许是训练你把刻意为之的事情变成一种自觉的行为。人们有时会说自己有了“状态”，我的理解是，他们这时可以控制自己的脊髓。脊髓是更本能的反应，面对难题时，它能释放你的直觉。
+<li>好设计是看似容易的设计。科学和工程学的一些最重大的发现在形式上往往很简单，会使得你觉得自己也想到过。可是，如果它真的那么简单，为什么发现人不是你呢？在大多数领域，看上去很容易的事情，背后都需要大量的练习。练习的作用也许是训练你把刻意为之的事情变成一种自觉的行为。人们有时会说自己有了“状态”，我的理解是，他们这时可以控制自己的脊髓。脊髓是更本能的反应，面对难题时，它能释放你的直觉。
 
 </li>
-<li>
-好设计是对称的设计。对称也许只是简洁性的一种表现，但是它十分重要，值得单独列出一点。自然界的对称大量存在，这就说明了对称的重要性。对称的危险在于它也可以用来取代思考，在大量使用重复的时候这种危险性更大。
+<li>好设计是对称的设计。对称也许只是简洁性的一种表现，但是它十分重要，值得单独列出一点。自然界的对称大量存在，这就说明了对称的重要性。对称的危险在于它也可以用来取代思考，在大量使用重复的时候这种危险性更大。
 
 </li>
-<li>
-好设计是模仿大自然的设计。我不是说模仿着大自然这种行为本身有多么好，而是说大自然在长期的烟花基本解决了很多设计问题。所以如果你的设计与大自然很解决，那么它基本上不会很差。
+<li>好设计是模仿大自然的设计。我不是说模仿着大自然这种行为本身有多么好，而是说大自然在长期的烟花基本解决了很多设计问题。所以如果你的设计与大自然很解决，那么它基本上不会很差。
 
 </li>
-<li>
-好设计是一种再设计。很少有人一次就把事情做对。专家的做法是先完成一个早期原型，然后提出修改计划，最后把早期原型扔掉。扔掉早期原型是需要信心的，你必须有本事看出什么地方还可以改进。
+<li>好设计是一种再设计。很少有人一次就把事情做对。专家的做法是先完成一个早期原型，然后提出修改计划，最后把早期原型扔掉。扔掉早期原型是需要信心的，你必须有本事看出什么地方还可以改进。
 
 </li>
-<li>
-好设计是能够复制的设计。我们对待复制的态度经常是一个否定之否定的过程。刚入门的新手不知不觉地模仿他人，逐渐熟练之后才开始创作原创性作品。最后他会意识到，把事情作对比原创更重要。我想，最伟大的大师最终会达到一种超脱自我的境界。他们一心想找到正确答案，如果别人已经回答出了一部分，那就没理由不拿来用。他们足够自信地使用他人的成果，完全不用担心因此丧失个人的特点。
+<li>好设计是能够复制的设计。我们对待复制的态度经常是一个否定之否定的过程。刚入门的新手不知不觉地模仿他人，逐渐熟练之后才开始创作原创性作品。最后他会意识到，把事情作对比原创更重要。我想，最伟大的大师最终会达到一种超脱自我的境界。他们一心想找到正确答案，如果别人已经回答出了一部分，那就没理由不拿来用。他们足够自信地使用他人的成果，完全不用担心因此丧失个人的特点。
 
 </li>
-<li>
-好设计常常是奇特的设计。前文提到的好设计的大多数特点都是可以培育出来的，但是我觉得“奇特”这个特点是无法培育的。你最多就是在它开始显现是不要把它扼杀掉。
+<li>好设计常常是奇特的设计。前文提到的好设计的大多数特点都是可以培育出来的，但是我觉得“奇特”这个特点是无法培育的。你最多就是在它开始显现是不要把它扼杀掉。
 
 </li>
-<li>
-好设计是成批出现的。推动人才成批涌现的最大因素就是，让有天赋的人聚在一起，共同解决某个难题。互相激励比天赋更加重要。达芬奇之所以成为达芬奇，主要原因不仅仅是他的天赋，更重要的是他生活在当时的佛罗伦萨，而不是米兰。在历史的任何时刻都有一些热点项目，一些团体在这些项目上做出伟大的成绩。如果你远离这些中心，几乎不可能单靠自己就取得伟大成就。某种程度上，你个人最多可以对趋势产生一定的影响，但是你不可能决定趋势，实际上是趋势决定了你。
+<li>好设计是成批出现的。推动人才成批涌现的最大因素就是，让有天赋的人聚在一起，共同解决某个难题。互相激励比天赋更加重要。达芬奇之所以成为达芬奇，主要原因不仅仅是他的天赋，更重要的是他生活在当时的佛罗伦萨，而不是米兰。在历史的任何时刻都有一些热点项目，一些团体在这些项目上做出伟大的成绩。如果你远离这些中心，几乎不可能单靠自己就取得伟大成就。某种程度上，你个人最多可以对趋势产生一定的影响，但是你不可能决定趋势，实际上是趋势决定了你。
 
 </li>
-<li>
-好设计常常是大胆的设计。今天的实验性错误就是明天的新理论。如果你想做出伟大的新成果，那就不能对常识与真理不相吻合之处视而不见，反而应该特别注意才对。实际上，我觉得发现丑陋的东西比你想象出在一个优美的东西更容易。大多数人做出优美的成果的人好像只是为了修正他们眼中丑陋的东西。伟大的成果的出现常常来源于某人看到一样东西湖，心想我能做得比这更好。单单是无法容忍丑陋东西还不够，只有对这个领域非常熟悉，你才可能发现哪些地方可以动手改进。你必须锻炼自己。只有在成为某个领域的专家之后，你才会听到心里有一个细微的声音说：“这样解决太糟糕了！一定有更好的选择。”不要忽视这种声音，要培育它们。优秀作品的秘诀就是：非常严格的品味，在加上实现这种品味的能力。
-
+<li>好设计常常是大胆的设计。今天的实验性错误就是明天的新理论。如果你想做出伟大的新成果，那就不能对常识与真理不相吻合之处视而不见，反而应该特别注意才对。实际上，我觉得发现丑陋的东西比你想象出在一个优美的东西更容易。大多数人做出优美的成果的人好像只是为了修正他们眼中丑陋的东西。伟大的成果的出现常常来源于某人看到一样东西湖，心想我能做得比这更好。单单是无法容忍丑陋东西还不够，只有对这个领域非常熟悉，你才可能发现哪些地方可以动手改进。你必须锻炼自己。只有在成为某个领域的专家之后，你才会听到心里有一个细微的声音说：“这样解决太糟糕了！一定有更好的选择。”不要忽视这种声音，要培育它们。优秀作品的秘诀就是：非常严格的品味，在加上实现这种品味的能力。
 </li>
 </ul>
-</div>
+
 
 </div>
 
-<div id="outline-container-1.12" class="outline-3">
-<h3 id="sec-1.12"><span class="section-number-3">1.12</span> 编程语言解析 </h3>
-<div class="outline-text-3" id="text-1.12">
+</div>
+
+<div id="outline-container-1-12" class="outline-3">
+<h3 id="sec-1-12"><span class="section-number-3">1.12</span> 编程语言解析</h3>
+<div class="outline-text-3" id="text-1-12">
 
 
 <p>
@@ -425,9 +425,9 @@ Blub困境（Bulb Paradox):程序员的思想往往会受到自己正在使用�
 
 </div>
 
-<div id="outline-container-1.13" class="outline-3">
-<h3 id="sec-1.13"><span class="section-number-3">1.13</span> 一百年后的编程语言 </h3>
-<div class="outline-text-3" id="text-1.13">
+<div id="outline-container-1-13" class="outline-3">
+<h3 id="sec-1-13"><span class="section-number-3">1.13</span> 一百年后的编程语言</h3>
+<div class="outline-text-3" id="text-1-13">
 
 
 <p>
@@ -458,9 +458,9 @@ Lisp语言的黑客很早就明白数据结构灵活性的价值。我们写程�
 
 </div>
 
-<div id="outline-container-1.14" class="outline-3">
-<h3 id="sec-1.14"><span class="section-number-3">1.14</span> 拒绝平庸 </h3>
-<div class="outline-text-3" id="text-1.14">
+<div id="outline-container-1-14" class="outline-3">
+<h3 id="sec-1-14"><span class="section-number-3">1.14</span> 拒绝平庸</h3>
+<div class="outline-text-3" id="text-1-14">
 
 
 <p>
@@ -482,9 +482,9 @@ Lisp没有得到广泛使用的原因就是因为编程语言不仅仅是技术�
 
 </div>
 
-<div id="outline-container-1.15" class="outline-3">
-<h3 id="sec-1.15"><span class="section-number-3">1.15</span> 书呆子的复仇 </h3>
-<div class="outline-text-3" id="text-1.15">
+<div id="outline-container-1-15" class="outline-3">
+<h3 id="sec-1-15"><span class="section-number-3">1.15</span> 书呆子的复仇</h3>
+<div class="outline-text-3" id="text-1-15">
 
 
 <p>
@@ -497,9 +497,9 @@ Lisp没有得到广泛使用的原因就是因为编程语言不仅仅是技术�
 
 </div>
 
-<div id="outline-container-1.16" class="outline-3">
-<h3 id="sec-1.16"><span class="section-number-3">1.16</span> 梦寐以求的编程语言 </h3>
-<div class="outline-text-3" id="text-1.16">
+<div id="outline-container-1-16" class="outline-3">
+<h3 id="sec-1-16"><span class="section-number-3">1.16</span> 梦寐以求的编程语言</h3>
+<div class="outline-text-3" id="text-1-16">
 
 
 <p>
@@ -527,9 +527,9 @@ Lisp没有得到广泛使用的原因就是因为编程语言不仅仅是技术�
 
 </div>
 
-<div id="outline-container-1.17" class="outline-3">
-<h3 id="sec-1.17"><span class="section-number-3">1.17</span> 梦寐以求的编程语言总结 </h3>
-<div class="outline-text-3" id="text-1.17">
+<div id="outline-container-1-17" class="outline-3">
+<h3 id="sec-1-17"><span class="section-number-3">1.17</span> 梦寐以求的编程语言总结</h3>
+<div class="outline-text-3" id="text-1-17">
 
 
 <p>
@@ -560,9 +560,9 @@ Lisp没有得到广泛使用的原因就是因为编程语言不仅仅是技术�
 
 </div>
 
-<div id="outline-container-1.18" class="outline-3">
-<h3 id="sec-1.18"><span class="section-number-3">1.18</span> 设计与研究 </h3>
-<div class="outline-text-3" id="text-1.18">
+<div id="outline-container-1-18" class="outline-3">
+<h3 id="sec-1-18"><span class="section-number-3">1.18</span> 设计与研究</h3>
+<div class="outline-text-3" id="text-1-18">
 
 
 <p>
@@ -581,9 +581,9 @@ Lisp没有得到广泛使用的原因就是因为编程语言不仅仅是技术�
 
 </div>
 
-<div id="outline-container-1.19" class="outline-3">
-<h3 id="sec-1.19"><span class="section-number-3">1.19</span> 自己感想 </h3>
-<div class="outline-text-3" id="text-1.19">
+<div id="outline-container-1-19" class="outline-3">
+<h3 id="sec-1-19"><span class="section-number-3">1.19</span> 自己感想</h3>
+<div class="outline-text-3" id="text-1-19">
 
 
 <p>
@@ -596,10 +596,13 @@ Lisp没有得到广泛使用的原因就是因为编程语言不仅仅是技术�
 </div>
 </div>
 </div>
-<div id="postamble">
-<p class="date"> Date: 2013-10-14 12:28:31 CST</p>
-<p class="creator">HTML generated by org-mode 6.33x in emacs 23</p>
 </div>
+
+<div id="postamble">
+<p class="date">Date: 2013-10-15 22:16:55 CST</p>
+<p class="creator">Org version 7.8.11 with Emacs version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
 </div>
 <!-- Baidu Analytics BEGIN --><script type="text/javascript">var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F54a700ad7035f6e485eaf2300641e7e9' type='text/javascript'%3E%3C/script%3E"));</script><!-- Baidu Analytics END --><!-- Google Analytics BEGIN --><script type="text/javascript">  var _gaq = _gaq || [];  _gaq.push(['_setAccount', 'UA-31377772-1']);  _gaq.push(['_trackPageview']);  (function() {    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);  })();</script><!-- Google Analytics END --><!-- Baidu Button BEGIN --><!-- <script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=6762177" ></script><script type="text/javascript" id="bdshell_js"></script><script type="text/javascript"> document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)</script> --><!-- Baidu Button END --><!-- G+ BEGIN --><!-- Place this render call where appropriate --><script type="text/javascript">  (function() {    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;    po.src = 'https://apis.google.com/js/plusone.js';    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);  })();</script><!-- G+ END --><!-- DISQUS BEGIN --><div id="disqus_thread"></div><script type="text/javascript">/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * *//* required: replace example with your forum shortname  */var disqus_shortname = 'dirlt';var disqus_identifier = 'note/hackers-and-painters.html';var disqus_title = 'note/hackers-and-painters.html';var disqus_url = 'http://dirlt.com/note/hackers-and-painters.html';/* * * DON'T EDIT BELOW THIS LINE * * */(function() {var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);})();</script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a><!-- DISQUS END --></body>
 </html>

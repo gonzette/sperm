@@ -199,23 +199,29 @@ Here’s why we strongly recommend that you tell your interviewer that you’ve 
    - Additional Review Problems
 
 *** Arrays and Strings
-   - Design an algorithm and write code to remove the duplicate characters in a string without using any additional buffer.
-   - Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes, write a method to rotate the image by 90 degrees Can you do this in place?
-   - Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column is set to 0.
-   - Assume you have a method isSubstring which checks if one word is a substring of another Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one call to isSubstring (i e , “waterbottle” is a rotation of “erbottlewat”).
+   - 1.1 Implement an algorithm to determine if a string has all unique characters. What if you can not use additional data structures?
+   - 1.2 Write code to reverse a C-Style String. (C-String means that “abcd” is represented as five characters, including the null character.)
+   - 1.3 Design an algorithm and write code to remove the duplicate characters in a string without using any additional buffer.
+   - 1.4 Write a method to decide if two strings are anagrams or not.
+   - 1.5 Write a method to replace all spaces in a string with ‘%20’.
+   - 1.6 Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes, write a method to rotate the image by 90 degrees Can you do this in place?
+   - 1.7 Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column is set to 0.
+   - 1.8 Assume you have a method isSubstring which checks if one word is a substring of another. Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one call to isSubstring (i e , “waterbottle” is a rotation of “erbottlewat”).
 
 *** Linked Lists
 Questions:
-   - Write code to remove duplicates from an unsorted linked list.
-   - Implement an algorithm to find the nth to last element of a singly linked list.
-   - Implement an algorithm to delete a node in the middle of a single linked list, given only access to that node.
-   - Given a circular linked list, implement an algorithm which returns node at the begin- ning of the loop.
+   - 2.1 Write code to remove duplicates from an unsorted linked list. How would you solve this problem if a temporary buffer is not allowed?
+   - 2.2 Implement an algorithm to find the nth to last element of a singly linked list.
+   - 2.3 Implement an algorithm to delete a node in the middle of a single linked list, given only access to that node.
+   - 2.4 You have two numbers represented by a linked list, where each node contains a sin- gle digit. The digits are stored in reverse order, such that the 1’s digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list.
+   - (x) 2.5 Given a circular linked list, implement an algorithm which returns node at the begin- ning of the loop.
 
 *** Stacks and Queues
 Questions:
-   - How would you design a stack which, in addition to push and pop, also has a function min which returns the minimum element? Push, pop and min should all operate in O(1) time.
-   - Implement a MyQueue class which implements a queue using two stacks.
-   - Write a program to sort a stack in ascending order. You should not make any assump- tions about how the stack is implemented.
+   - 3.1 Describe how you could use a single array to implement three stacks.
+   - 3.2 How would you design a stack which, in addition to push and pop, also has a function min which returns the minimum element? Push, pop and min should all operate in O(1) time.
+   - 3.5 Implement a MyQueue class which implements a queue using two stacks.
+   - 3.6 Write a program to sort a stack in ascending order. You should not make any assump- tions about how the stack is implemented.
 
 *** Trees and Graphs
    - Trees
@@ -224,27 +230,32 @@ Questions:
      - Pre-Order: Traverse current node, then left node, then right node
      - Post-Order: Traverse left node, then right node, then current node
      - *AVL Tree, RB Tree.*
+     - *Construct Tree by using Orders*
    - Graphs
      - Depth First Search
      - Breadth First Search
      - *Dijkstra,Floyd,Prim,Kruskal.*
 
 Questions:
-   - Given a sorted (increasing order) array, write an algorithm to create a binary tree with minimal height.
-   - Design an algorithm and write code to find the first common ancestor of two nodes in a binary tree. Avoid storing additional nodes in a data structure.
-   - You have two very large binary trees: T1, with millions of nodes, and T2, with hun- dreds of nodes. Create an algorithm to decide if T2 is a subtree of T1.
-   - You are given a binary tree in which each node contains a value Design an algorithm to print all paths which sum up to that value.
+   - 4.1 Implement a function to check if a tree is balanced.
+   - 4.2 Given a directed graph, design an algorithm to find out whether there is a route be- tween two nodes.
+   - 4.3 Given a sorted (increasing order) array, write an algorithm to create a binary tree with minimal height.
+   - 4.4 Given a binary search tree, design an algorithm which creates a linked list of all the nodes at each depth (eg, if you have a tree with depth D, you’ll have D linked lists).
+   - 4.5 Write an algorithm to find the ‘next’ node (e.g., in-order successor) of a given node in a binary search tree where each node has a link to its parent.
+   - 4.6 Design an algorithm and write code to find the first common ancestor of two nodes in a binary tree. Avoid storing additional nodes in a data structure.
+   - 4.7 You have two very large binary trees: T1, with millions of nodes, and T2, with hun- dreds of nodes. Create an algorithm to decide if T2 is a subtree of T1.
+   - 4.8 You are given a binary tree in which each node contains a value. Design an algorithm to print all paths which sum up to that value.
 
 *** Bit Manipulation
 file:./images/bitop.png
 
 Questions:
-   - You are given two 32-bit numbers, N and M, and two bit positions, i and j Write a method to set all bits between i and j in N equal to M. Input: N = 10000000000, M = 10101, i = 2, j = 6. Output: N = 10001010100
-   - Given a (decimal - e g 3 72) number that is passed in as a string, print the binary rep- resentation If the number can not be represented accurately in binary, print “ERROR”
-   - Given an integer, print the next smallest and next largest number that have the same number of 1 bits in their binary representation.
-   - Explain what the following code does: ((n & (n-1)) == 0).
-   - Write a function to determine the number of bits required to convert integer A to integer B.
-   - Write a program to swap odd and even bits in an integer with as few instructions as possible (e g , bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, etc).
+   - 5.1 You are given two 32-bit numbers, N and M, and two bit positions, i and j Write a method to set all bits between i and j in N equal to M. Input: N = 10000000000, M = 10101, i = 2, j = 6. Output: N = 10001010100
+   - 5.2 Given a (decimal - e g 3 72) number that is passed in as a string, print the binary rep- resentation If the number can not be represented accurately in binary, print “ERROR”
+   - 5.3 Given an integer, print the next smallest and next largest number that have the same number of 1 bits in their binary representation.
+   - 5.4 Explain what the following code does: ((n & (n-1)) == 0).
+   - 5.5 Write a function to determine the number of bits required to convert integer A to integer B.
+   - 5.6 Write a program to swap odd and even bits in an integer with as few instructions as possible (e g , bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, etc).
 
 *** Brain Teasers
    - Don’t panic when you get a brain teaser. Interviewers want to see how you tackle a problem; they don’t expect you to immediately know the answer. Start talking, and show the inter- viewer how you approach a problem
@@ -252,11 +263,12 @@ Questions:
    - If you’re stuck, we recommend simplifying the problem. Solve it for a small number of items or a special case, and then see if you can generalize it.
 
 Questions:
-   - There is an 8x8 chess board in which two diagonally opposite corners have been cut off. You are given 31 dominos, and a single domino can cover exactly two squares. Can you use the 31 dominos to cover the entire board?
-   - You have a five quart jug and a three quart jug, and an unlimited supply of water (but no measuring cups). How would you come up with exactly four quarts of water?
-   - A bunch of men are on an island A genie comes down and gathers everyone to- gether and places a magical hat on some people’s heads (i e , at least one person has a hat) The hat is magical: it can be seen by other people, but not by the wearer of the hat himself. To remove the hat,those(and only those who have a hat)must dunk themselves underwater at exactly midnight. If there are n people and c hats, how long does it take the men to remove the hats? The men cannot tell each other (in any way) that they have a hat.
-   - There is a building of 100 floors If an egg drops from the Nth floor or above it will break. If it’s dropped from any floor below, it will not break You’re given 2 eggs Find N, while minimizing the number of drops for the worst case.
-   - There are one hundred closed lockers in a hallway. A man begins by opening all one hundred lockers Next, he closes every second locker. Then he goes to every third locker and closes it if it is open or opens it if it is closed (e g , he toggles every third locker). After his one hundredth pass in the hallway, in which he toggles only locker number one hundred, how many lockers are open?
+   - 6.1 Add arithmetic operators (plus, minus, times, divide) to make the following expres- sion true: 3 1 3 6 = 8. You can use any parentheses you’d like.
+   - (x) 6.2 There is an 8x8 chess board in which two diagonally opposite corners have been cut off. You are given 31 dominos, and a single domino can cover exactly two squares. Can you use the 31 dominos to cover the entire board?
+   - 6.3 You have a five quart jug and a three quart jug, and an unlimited supply of water (but no measuring cups). How would you come up with exactly four quarts of water?
+   - (x) 6.4 A bunch of men are on an island. A genie comes down and gathers everyone to- gether and places a magical hat on some people’s heads (i e , at least one person has a hat). The hat is magical: it can be seen by other people, but not by the wearer of the hat himself. To remove the hat, those(and only those who have a hat) must dunk themselves underwater at exactly midnight. If there are n people and c hats, how long does it take the men to remove the hats? The men cannot tell each other (in any way) that they have a hat.
+   - (x) 6.5 There is a building of 100 floors If an egg drops from the Nth floor or above it will break. If it’s dropped from any floor below, it will not break. You’re given 2 eggs Find N, while minimizing the number of drops for the worst case.
+   - (x) 6.6 There are one hundred closed lockers in a hallway. A man begins by opening all one hundred lockers Next, he closes every second locker. Then he goes to every third locker and closes it if it is open or opens it if it is closed (e g , he toggles every third locker). After his one hundredth pass in the hallway, in which he toggles only locker number one hundred, how many lockers are open?
 
 *** Object Oriented Design
 *** Recursion
@@ -264,13 +276,13 @@ Questions:
    - Recursive algorithms can be very space inefficient. Each recursive call adds a new layer to the stack, which means that if your algorithm has O(n) recursive calls then it uses O(n) memory Ouch! This is one reason why an iterative algorithm may be better.
 
 Questions:
-   - Imagine a robot sitting on the upper left hand corner of an NxN grid The robot can only move in two directions: right and down How many possible paths are there for the robot?
+   - 8.2 Imagine a robot sitting on the upper left hand corner of an NxN grid The robot can only move in two directions: right and down How many possible paths are there for the robot?
      - Imagine certain squares are “off limits”, such that the robot can not step on them Design an algorithm to get all possible paths for the robot
-   - Write a method that returns all subsets of a set.
-   - Write a method to compute all permutations of a string.
-   - Implement an algorithm to print all valid (e g , properly opened and closed) combi- nations of n-pairs of parentheses.
-   - Given an infinite number of quarters (25 cents), dimes (10 cents), nickels (5 cents) and pennies (1 cent), write code to calculate the number of ways of representing n cents.
-   - Write an algorithm to print all ways of arranging eight queens on a chess board so that none of them share the same row, column or diagonal.
+   - 8.3 Write a method that returns all subsets of a set.
+   - 8.4 Write a method to compute all permutations of a string.
+   - 8.5 Implement an algorithm to print all valid (e g , properly opened and closed) combi- nations of n-pairs of parentheses.
+   - 8.7 Given an infinite number of quarters (25 cents), dimes (10 cents), nickels (5 cents) and pennies (1 cent), write code to calculate the number of ways of representing n cents.
+   - 8.8 Write an algorithm to print all ways of arranging eight queens on a chess board so that none of them share the same row, column or diagonal.
 
 *** Sorting and Searching
    - Bubble Sort
@@ -281,26 +293,26 @@ Questions:
    - *Binary Search*
 
 Questions:
-   - You are given two sorted arrays, A and B, and A has a large enough buffer at the end to hold B Write a method to merge B into A in sorted order.
-   - Given a sorted array of n integers that has been rotated an unknown number of times,give an O(logn) algorithm that finds an element in the array. You may assume that the array was originally sorted in increasing order. EXAMPLE: Input: find 5 in array (15 16 19 20 25 1 3 4 5 7 10 14) Output: 8 (the index of 5 in the array)
-   - If you have a 2 GB file with one string per line, which sorting algorithm would you use to sort the file and why?
-   - Given a sorted array of strings which is interspersed with empty strings, write a meth- od to find the location of a given string
+   - (x) 9.1 You are given two sorted arrays, A and B, and A has a large enough buffer at the end to hold B Write a method to merge B into A in sorted order.
+   - 9.3 Given a sorted array of n integers that has been rotated an unknown number of times,give an O(logn) algorithm that finds an element in the array. You may assume that the array was originally sorted in increasing order. EXAMPLE: Input: find 5 in array (15 16 19 20 25 1 3 4 5 7 10 14) Output: 8 (the index of 5 in the array)
+   - 9.4 If you have a 2 GB file with one string per line, which sorting algorithm would you use to sort the file and why?
+   - 9.5 Given a sorted array of strings which is interspersed with empty strings, write a meth- od to find the location of a given string
      - Example: find “ball” in [“at”, “”, “”, “”, “ball”, “”, “”, “car”, “”, “”, “dad”, “”, “”] will return 4 
      - Example: find “ballcar” in [“at”, “”, “”, “”, “”, “ball”, “car”, “”, “”, “dad”, “”, “”] will return -1
-   - Given a matrix in which each row and each column is sorted, write a method to find an element in it.
-   - A circus is designing a tower routine consisting of people standing atop one anoth- er’s shoulders. For practical and aesthetic reasons, each person must be both shorter and lighter than the person below him or her. Given the heights and weights of each person in the circus, write a method to compute the largest possible number of peo- ple in such a tower. EXAMPLE: Input (ht, wt): (65, 100) (70, 150) (56, 90) (75, 190) (60, 95) (68, 110) Output: The longest tower is length 6 and includes from top to bottom: (56, 90) (60,95) (65,100) (68,110) (70,150) (75,190)
+   - 9.6 Given a matrix in which each row and each column is sorted, write a method to find an element in it.
+   - 9.7 A circus is designing a tower routine consisting of people standing atop one anoth- er’s shoulders. For practical and aesthetic reasons, each person must be both shorter and lighter than the person below him or her. Given the heights and weights of each person in the circus, write a method to compute the largest possible number of peo- ple in such a tower. EXAMPLE: Input (ht, wt): (65, 100) (70, 150) (56, 90) (75, 190) (60, 95) (68, 110) Output: The longest tower is length 6 and includes from top to bottom: (56, 90) (60,95) (65,100) (68,110) (70,150) (75,190)
 
 *** Mathematical
 Questions:
-   - You have a basketball hoop and someone says that you can play 1 of 2 games 
+   - 10.1 You have a basketball hoop and someone says that you can play 1 of 2 games 
      - Game #1: You get one shot to make the hoop
      - Game #2: You get three shots and you have to make 2 of 3 shots
      - If p is the probability of making a particular shot, for which values of p should you pick one game or the other?
-   - There are three ants on different vertices of a triangle What is the probability of colli- sion (between any two or all of them) if they start walking on the sides of the triangle? Similarly find the probability of collision with ‘n’ ants on an ‘n’ vertex polygon
-   - Write a method to implement *, - , / operations You should use only the + operator.
-   - Given two squares on a two dimensional plane, find a line that would cut these two squares in half.
-   - Given a two dimensional graph with points on it, find a line which passes the most number of points.
-   - Design an algorithm to find the kth number such that the only prime factors are 3, 5, and 7.
+   - 10.2 There are three ants on different vertices of a triangle What is the probability of colli- sion (between any two or all of them) if they start walking on the sides of the triangle? Similarly find the probability of collision with ‘n’ ants on an ‘n’ vertex polygon
+   - 10.4 Write a method to implement *, - , / operations You should use only the + operator.
+   - (x) 10.5 Given two squares on a two dimensional plane, find a line that would cut these two squares in half.
+   - (x) 10.6 Given a two dimensional graph with points on it, find a line which passes the most number of points.
+   - (x) 10.7 Design an algorithm to find the kth number such that the only prime factors are 3, 5, and 7.
 
 *** Testing
 *** System Design and Memory Limits
