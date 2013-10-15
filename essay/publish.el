@@ -2,4 +2,4 @@
 (load "~/.emacs") 
 ;;; then we do action
 (require 'org-publish)
-(org-publish-all)
+(org-publish-project "blog")
