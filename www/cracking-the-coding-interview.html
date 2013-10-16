@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="Cracking The Coding Interview"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-16T00:17+0800"/>
+<meta name="generated" content="2013-10-16T18:03+0800"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -740,6 +740,24 @@ Here’s why we strongly recommend that you tell your interviewer that you’ve 
 <li>2.4 You have two numbers represented by a linked list, where each node contains a sin- gle digit. The digits are stored in reverse order, such that the 1’s digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list.
 </li>
 <li>(x) 2.5 Given a circular linked list, implement an algorithm which returns node at the begin- ning of the loop.
+<ul>
+<li>Assume P,Q at head. P proceeds 1 step, and Q proceed 2 step. There is k nodes before entry node of the circular list. And they takes u step to meet each other at p in the circular list. So we have following equations.
+<ol>
+<li>k + xn + p= 2u # Q position.
+</li>
+<li>k + yn + p = u # P position.
+</li>
+<li>u = zn # using 1 and 2.
+</li>
+<li>(k + p) = z'n # using 2 and 3.
+</li>
+<li>k % n = (n-p) # done.
+</li>
+</ol>
+
+</li>
+</ul>
+
 </li>
 </ul>
 
@@ -885,8 +903,20 @@ Questions:
 <li>(x) 6.4 A bunch of men are on an island. A genie comes down and gathers everyone to- gether and places a magical hat on some people’s heads (i e , at least one person has a hat). The hat is magical: it can be seen by other people, but not by the wearer of the hat himself. To remove the hat, those(and only those who have a hat) must dunk themselves underwater at exactly midnight. If there are n people and c hats, how long does it take the men to remove the hats? The men cannot tell each other (in any way) that they have a hat.
 </li>
 <li>(x) 6.5 There is a building of 100 floors If an egg drops from the Nth floor or above it will break. If it’s dropped from any floor below, it will not break. You’re given 2 eggs Find N, while minimizing the number of drops for the worst case.
+<ul>
+<li>dp[t][s][e] = 1 + min{ i=[s,e], max(dp[t-1][s][i-1], dp[t][i+1][e]) }. if(s&gt;e) 0 else if(t==0) e-s+1
+</li>
+<li><b>NOTE(dirlt): but seems hard to deduce actions from dp</b>
+</li>
+</ul>
+
 </li>
 <li>(x) 6.6 There are one hundred closed lockers in a hallway. A man begins by opening all one hundred lockers Next, he closes every second locker. Then he goes to every third locker and closes it if it is open or opens it if it is closed (e g , he toggles every third locker). After his one hundredth pass in the hallway, in which he toggles only locker number one hundred, how many lockers are open?
+<ul>
+<li>only n = p * p have been flipped with odd number and final status is open.
+</li>
+</ul>
+
 </li>
 </ul>
 
@@ -1039,15 +1069,19 @@ Questions:
 
 <p>Questions:
 </p><ul>
-<li>How would you design the data structures for a very large social network (Facebook, LinkedIn, etc)? Describe how you would design an algorithm to show the connec- tion, or path, between two people (e g , Me -&gt; Bob -&gt; Susan -&gt; Jason -&gt; You).
+<li>11.1 If you were integrating a feed of end of day stock price information (open, high, low, and closing price) for 5,000 companies, how would you do it? You are responsible for the development, rollout and ongoing monitoring and maintenance of the feed. De- scribe the different methods you considered and why you would recommend your approach. The feed is delivered once per trading day in a comma-separated format via an FTP site. The feed will be used by 1000 daily users in a web application.
 </li>
-<li>Given an input file with four billion integers, provide an algorithm to generate an integer which is not contained in the file Assume you have 1 GB of memory. What if you have only 10 MB of memory?
+<li>(x) 11.2 How would you design the data structures for a very large social network (Facebook, LinkedIn, etc)? Describe how you would design an algorithm to show the connec- tion, or path, between two people (e g , Me -&gt; Bob -&gt; Susan -&gt; Jason -&gt; You).
 </li>
-<li>If you were designing a web crawler, how would you avoid getting into infinite loops?
+<li>(x) 11.3 Given an input file with four billion integers, provide an algorithm to generate an integer which is not contained in the file. Assume you have 1 GB of memory. What if you have only 10 MB of memory?
 </li>
-<li>You have a billion urls, where each is a huge page How do you detect the duplicate documents?
+<li>11.4 You have an array with all the numbers from 1 to N, where N is at most 32,000. The array may have duplicate entries and you do not know what N is. With only 4KB of memory available, how would you print all duplicate elements in the array?
 </li>
-<li>You have to design a database that can store terabytes of data It should support ef- ficient range queries How would you do it?.
+<li>(x) 11.5 If you were designing a web crawler, how would you avoid getting into infinite loops?
+</li>
+<li>11.6 You have a billion urls, where each is a huge page How do you detect the duplicate documents?
+</li>
+<li>11.7 You have to design a database that can store terabytes of data It should support ef- ficient range queries How would you do it?.
 </li>
 </ul>
 
@@ -1076,15 +1110,6 @@ Questions:
 <h4 id="sec-1-6-15"><span class="section-number-4">1.6.15</span> Databases</h4>
 <div class="outline-text-4" id="text-1-6-15">
 
-<p>Questions:
-</p><ul>
-<li>What are the different types of joins? Please explain how they differ and why certain types are better in certain situations.
-</li>
-<li>What is denormalization? Explain the pros and cons.
-</li>
-</ul>
-
-
 </div>
 
 </div>
@@ -1095,25 +1120,25 @@ Questions:
 
 <p>Questions:
 </p><ul>
-<li>Explain the following terms: virtual memory, page fault, thrashing.
+<li>16.1 Explain the following terms: virtual memory, page fault, thrashing.
 </li>
-<li>What is a Branch Target buffer? Explain how it can be used in reducing bubble cycles in cases of branch misprediction.
+<li>(x) 16.2 What is a Branch Target buffer? Explain how it can be used in reducing bubble cycles in cases of branch misprediction.
 </li>
-<li>Describe direct memory access (DMA). Can a user level buffer / pointer be used by kernel or drivers?
+<li>(x) 16.3 Describe direct memory access (DMA). Can a user level buffer / pointer be used by kernel or drivers?
 </li>
-<li>Write a step by step execution of things that happen after a user presses a key on the keyboard Use as much detail as possible.
+<li>(x) 16.4 Write a step by step execution of things that happen after a user presses a key on the keyboard Use as much detail as possible.
 </li>
-<li>Write a program to find whether a machine is big endian or little endian.
+<li>16.5 Write a program to find whether a machine is big endian or little endian.
 </li>
-<li>Discuss how would you make sure that a process doesn’t access an unauthorized part of the stack.
+<li>16.6 Discuss how would you make sure that a process doesn’t access an unauthorized part of the stack.
 </li>
-<li>What are the best practices to prevent reverse engineering of DLLs?.
+<li>16.7 What are the best practices to prevent reverse engineering of DLLs?.
 </li>
-<li>A device boots with an empty FIFO queue In the first 400 ns period after startup, and in each subsequent 400 ns period, a maximum of 80 words will be written to the queue Each write takes 4 ns A worker thread requires 3 ns to read a word, and 2 ns to process it before reading the next word What is the shortest depth of the FIFO such that no data is lost?
+<li>(x) 16.8 A device boots with an empty FIFO queue In the first 400 ns period after startup, and in each subsequent 400 ns period, a maximum of 80 words will be written to the queue Each write takes 4 ns A worker thread requires 3 ns to read a word, and 2 ns to process it before reading the next word What is the shortest depth of the FIFO such that no data is lost?
 </li>
-<li>Write an aligned malloc &amp; free function that takes number of bytes and aligned byte (which is always power of 2).
+<li>16.9 Write an aligned malloc &amp; free function that takes number of bytes and aligned byte (which is always power of 2).
 </li>
-<li>Write a function called my2DAlloc which allocates a two dimensional array. Minimize the number of calls to malloc and make sure that the memory is accessible by the notation arr[i][j].
+<li>16.10 Write a function called my2DAlloc which allocates a two dimensional array. Minimize the number of calls to malloc and make sure that the memory is accessible by the notation arr[i][j].
 </li>
 </ul>
 
@@ -1128,15 +1153,15 @@ Questions:
 
 <p>Questions:
 </p><ul>
-<li><b>Explain what happens, step by step, after you type a URL into a browser. Use as much detail as possible.</b>
+<li>17.1 Explain what happens, step by step, after you type a URL into a browser. Use as much detail as possible.
 </li>
-<li>Explain any common routing protocol in detail For example: BGP, OSPF, RIP
+<li>17.2 Explain any common routing protocol in detail For example: BGP, OSPF, RIP
 </li>
-<li>Compare and contrast the IPv4 and IPv6 protocols.
+<li>17.3 Compare and contrast the IPv4 and IPv6 protocols.
 </li>
-<li>What is a network / subnet mask? Explain how host A sends a message / packet to host B when: (a) both are on same network and (b) both are on different networks Explain which layer makes the routing decision and how.
+<li>(x) 17.4 What is a network / subnet mask? Explain how host A sends a message / packet to host B when: (a) both are on same network and (b) both are on different networks Explain which layer makes the routing decision and how.
 </li>
-<li><b>What are the differences between TCP and UDP? Explain how TCP handles reliable delivery (explain ACK mechanism), flow control (explain TCP sender’s / receiver’s win- dow) and congestion control.</b>
+<li>(x) 17.5 What are the differences between TCP and UDP? Explain how TCP handles reliable delivery (explain ACK mechanism), flow control (explain TCP sender’s / receiver’s win- dow) and congestion control.
 </li>
 </ul>
 
@@ -1151,15 +1176,15 @@ Questions:
 
 <p>Questions:
 </p><ul>
-<li>What’s the difference between a thread and a process?
+<li>18.1 What’s the difference between a thread and a process?
 </li>
-<li>How can you measure the time spent in a context switch?
+<li>18.2 How can you measure the time spent in a context switch?
 </li>
-<li>Implement a singleton design pattern as a template such that, for any given class Foo, you can call Singleton::instance() and get a pointer to an instance of a singleton of type Foo Assume the existence of a class Lock which has acquire() and release() methods. How could you make your implementation thread safe and exception safe?.
+<li>18.3 Implement a singleton design pattern as a template such that, for any given class Foo, you can call Singleton::instance() and get a pointer to an instance of a singleton of type Foo. Assume the existence of a class Lock which has acquire() and release() methods. How could you make your implementation thread safe and exception safe?.
 </li>
-<li>Design a class which provides a lock only if there are no possible deadlocks.
+<li>18.4 Design a class which provides a lock only if there are no possible deadlocks.
 </li>
-<li>You are given a class with synchronized method A, and a normal method C If you have two threads in one instance of a program, can they call A at the same time? Can they call A and C at the same time?
+<li>18.5 You are given a class with synchronized method A, and a normal method C If you have two threads in one instance of a program, can they call A at the same time? Can they call A and C at the same time?
 </li>
 </ul>
 
@@ -1174,19 +1199,21 @@ Questions:
 
 <p>Questions: 
 </p><ul>
-<li>Write a function to swap a number in place without temporary variables.
+<li>19.1 Write a function to swap a number in place without temporary variables.
 </li>
-<li>Write an algorithm which computes the number of trailing zeros in n factorial.
+<li>(x) 19.3 Write an algorithm which computes the number of trailing zeros in n factorial.
 </li>
-<li>Write a method which finds the maximum of two numbers. You should not use if- else or any other comparison operator.
+<li>19.4 Write a method which finds the maximum of two numbers. You should not use if- else or any other comparison operator.
 </li>
-<li>You are given an array of integers (both positive and negative). Find the continuous sequence with the largest sum Return the sum.
+<li>19.6 Given an integer between 0 and 999,999, print an English phrase that describes the integer (eg, “One Thousand, Two Hundred and Thirty Four”).
 </li>
-<li>Design a method to find the frequency of occurrences of any given word in a book.
+<li>19.7 You are given an array of integers (both positive and negative). Find the continuous sequence with the largest sum. Return the sum.
 </li>
-<li>Write a method to generate a random number between 1 and 7, given a method that generates a random number between 1 and 5 (i e , implement rand7() using rand5()).
+<li>19.8 Design a method to find the frequency of occurrences of any given word in a book.
 </li>
-<li>Design an algorithm to find all pairs of integers within an array which sum to a speci- fied value.
+<li>(x) 19.10 Write a method to generate a random number between 1 and 7, given a method that generates a random number between 1 and 5 (i e , implement rand7() using rand5()).
+</li>
+<li>19.11 Design an algorithm to find all pairs of integers within an array which sum to a speci- fied value.
 </li>
 </ul>
 
@@ -1201,29 +1228,36 @@ Questions:
 
 <p>Questions:
 </p><ul>
-<li>Write a function that adds two numbers You should not use + or any arithmetic op- erators.
+<li>(x) 20.1 Write a function that adds two numbers You should not use + or any arithmetic op- erators.
 </li>
-<li>Write a method to shuffle a deck of cards It must be a perfect shuffle - in other words, each 52! permutations of the deck has to be equally likely. Assume that you are given a random number generator which is perfect.
+<li>(x) 20.2 Write a method to shuffle a deck of cards. It must be a perfect shuffle - in other words, each 52! permutations of the deck has to be equally likely. Assume that you are given a random number generator which is perfect.
 </li>
-<li>Write a method to randomly generate a set of m integers from an array of size n Each element must have equal probability of being chosen.
+<li>(x) 20.3 Write a method to randomly generate a set of m integers from an array of size n. Each element must have equal probability of being chosen.
 </li>
-<li>Write a method to count the number of 2s between 0 and n.
+<li>(x) 20.4 Write a method to count the number of 2s between 0 and n.
 </li>
-<li>You have a large text file containing words Given any two words, find the shortest distance (in terms of number of words) between them in the file. Can you make the searching operation in O(1) time? What about the space complexity for your solu- tion?
+<li>20.5 You have a large text file containing words. Given any two words, find the shortest distance (in terms of number of words) between them in the file. Can you make the searching operation in O(1) time? What about the space complexity for your solu- tion?
 </li>
-<li>Describe an algorithm to find the largest 1 million numbers in 1 billion numbers As- sume that the computer memory can hold all one billion numbers.
+<li>(x) 20.6 Describe an algorithm to find the largest 1 million numbers in 1 billion numbers. As- sume that the computer memory can hold all one billion numbers.
 </li>
-<li>Given a string s and an array of smaller strings T, design a method to search s for each small string in T.
+<li>(x) 20.7 Write a program to find the longest word made of other words.
 </li>
-<li>Numbers are randomly generated and passed to a method. Write a program to find and maintain the median value as new values are generated.
+<li>(x) 20.8 Given a string s and an array of smaller strings T, design a method to search s for each small string in T.
+<ul>
+<li><b>NOTE(dirlt): I got suffix tree:)</b>
 </li>
-<li>Given two words of equal length that are in a dictionary, write a method to transform one word into another word by changing only one letter at a time. The new word you get in each step must be in the dictionary.
+</ul>
+
 </li>
-<li>Imagine you have a square matrix, where each cell is filled with either black or white Design an algorithm to find the maximum subsquare such that all four borders are filled with black pixels.
+<li>(x) 20.9 Numbers are randomly generated and passed to a method. Write a program to find and maintain the median value as new values are generated.
 </li>
-<li>Given an NxN matrix of positive and negative integers, write code to find the sub- matrix with the largest possible sum.
+<li>(x) 20.10 Given two words of equal length that are in a dictionary, write a method to transform one word into another word by changing only one letter at a time. The new word you get in each step must be in the dictionary.
 </li>
-<li>Given a dictionary of millions of words, give an algorithm to find the largest possible rectangle of letters such that every row forms a word (reading left to right) and every column forms a word (reading top to bottom).
+<li>(x) 20.11 Imagine you have a square matrix, where each cell is filled with either black or white. Design an algorithm to find the maximum subsquare such that all four borders are filled with black pixels.
+</li>
+<li>(x) 20.12 Given an NxN matrix of positive and negative integers, write code to find the sub- matrix with the largest possible sum.
+</li>
+<li>(x) 20.13 Given a dictionary of millions of words, give an algorithm to find the largest possible rectangle of letters such that every row forms a word (reading left to right) and every column forms a word (reading top to bottom).
 </li>
 </ul>
 
@@ -1234,7 +1268,7 @@ Questions:
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-10-16T00:17+0800</p>
+<p class="date">Date: 2013-10-16T18:03+0800</p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.2 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
