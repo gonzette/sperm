@@ -208,6 +208,25 @@ Here’s why we strongly recommend that you tell your interviewer that you’ve 
    - 1.7 Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column is set to 0.
    - 1.8 Assume you have a method isSubstring which checks if one word is a substring of another. Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one call to isSubstring (i e , “waterbottle” is a rotation of “erbottlewat”).
 
+--------------------
+1.6
+
+#+BEGIN_SRC C++
+int m[N][N];
+for(int k=0;k<N/2;k++) {
+  int r = k;
+  int last = n - 1 - r;
+  for(int c = r; c <= last; c++) {
+    // [r,c], [N-1-c,r], [N-1-r,N-1-c], [c,N-1-r]
+    int tmp = m[r][c];
+    m[r][c] = m[c][N-1-r];
+    m[c][N-1-r] = m[N-1-r][N-1-c];
+    m[N-1-r][N-1-c] = m[N-1-c][r];
+    m[N-1-c][r] = tmp;
+  }
+}
+#+END_SRC
+
 *** Linked Lists
 Questions:
    - 2.1 Write code to remove duplicates from an unsorted linked list. How would you solve this problem if a temporary buffer is not allowed?
@@ -252,6 +271,48 @@ Questions:
    - 4.7 You have two very large binary trees: T1, with millions of nodes, and T2, with hun- dreds of nodes. Create an algorithm to decide if T2 is a subtree of T1.
    - 4.8 You are given a binary tree in which each node contains a value. Design an algorithm to print all paths which sum up to that value.
 
+--------------------
+4.6
+
+#+BEGIN_SRC C++
+TreeNode* ancestor(TreeNode* root,TreeNode* p,TreeNode* q,int& cond) {
+  if(root == NULL) return NULL;
+  if(root == p || root == q) {
+    cond++; // root is p or q, find one.
+  }
+  // check left.
+  int c = 0;
+  TreeNode* t = ancestor(root->left, p, q, c);
+  if(c == 2) {
+    cond = 2;
+    return t;
+  }
+  cond += c;  
+  if(cond == 2) {
+    return root;
+  }
+  // check right.
+  c = 0;
+  t = ancestor(root->right, p, q, c);
+  if(c == 2) {
+    cond = 2;
+    return t;
+  }
+  cond += c;
+  if(cond == 2) {
+    return root;
+  }
+  // maybe cover one.
+  return root;
+}
+
+TreeNode* ancestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+  int cond;
+  return ancestor(root, p, q, cond);
+}
+
+#+END_SRC
+
 *** Bit Manipulation
 file:./images/bitop.png
 
@@ -262,6 +323,76 @@ Questions:
    - 5.4 Explain what the following code does: ((n & (n-1)) == 0).
    - 5.5 Write a function to determine the number of bits required to convert integer A to integer B.
    - 5.6 Write a program to swap odd and even bits in an integer with as few instructions as possible (e g , bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, etc).
+
+--------------------
+5.3
+
+#+BEGIN_SRC C++
+#include <cstdio>
+#include <cassert>
+
+int previous(int number) {
+  int n = number;
+  int c1 = 0;
+  int c0 = 0;
+  // find 0.
+  while(n & 0x1) {
+    n >>= 1;
+    c1++;
+  }
+  // find 1.
+  while(!(n & 0x1)) {
+    n >>= 1;
+    c0++;
+  }
+  // rearrange following 1 and 0.
+  // 10 with c0-1{0} and c1{1}
+  // change to 01 c1{1} c0-1{0}
+  n = ((n >> 1) << 1) + 1;
+  for(int i=0;i<c1;i++) {
+    n = (n << 1) + 1;
+  }
+  for(int i=1;i<c0;i++) {
+    n = (n << 1);
+  }
+  return n;
+}
+
+int next(int number) {
+  int n = number;
+  int c1 = 0;
+  int c0 = 0;
+  // find 1.
+  while(!(n & 0x1)) {
+    n >>= 1;
+    c0++;
+  }
+  // find 0.
+  while(n & 0x1) {
+    n >>= 1;
+    c1++;
+  }
+  // rearrrange following 1 and 0.
+  // change to 1 c0+1{0} c1-1{1}.
+  n += 1;
+  for(int i=0;i<=c0;i++) {
+    n = (n << 1);
+  }
+  for(int i=1;i<c1;i++) {
+    n = (n << 1) + 1;
+  }
+  return n;
+}
+
+int main() {
+  int n = (1 << 5) + (1 << 1) + 1;
+  int m = (1 << 4) + (1 << 3) + (1 << 2);
+  assert(previous(n) == m);
+  assert(next(m) == n);
+  return 0;
+}
+
+#+END_SRC
 
 *** Brain Teasers
    - Don’t panic when you get a brain teaser. Interviewers want to see how you tackle a problem; they don’t expect you to immediately know the answer. Start talking, and show the inter- viewer how you approach a problem
@@ -275,9 +406,86 @@ Questions:
    - (x) 6.4 A bunch of men are on an island. A genie comes down and gathers everyone to- gether and places a magical hat on some people’s heads (i e , at least one person has a hat). The hat is magical: it can be seen by other people, but not by the wearer of the hat himself. To remove the hat, those(and only those who have a hat) must dunk themselves underwater at exactly midnight. If there are n people and c hats, how long does it take the men to remove the hats? The men cannot tell each other (in any way) that they have a hat.
    - (x) 6.5 There is a building of 100 floors If an egg drops from the Nth floor or above it will break. If it’s dropped from any floor below, it will not break. You’re given 2 eggs Find N, while minimizing the number of drops for the worst case.
      - dp[t][s][e] = 1 + min{ i=[s,e], max(dp[t-1][s][i-1], dp[t][i+1][e]) }. if(s>e) 0 else if(t==0) e-s+1
-     - *NOTE(dirlt): but seems hard to deduce actions from dp*
+     - *NOTE(dirlt): not easy to deduce actions from dp*
+     - *NOTE(dirlt): and only one step can be decided. I've attached the code below.*
    - (x) 6.6 There are one hundred closed lockers in a hallway. A man begins by opening all one hundred lockers Next, he closes every second locker. Then he goes to every third locker and closes it if it is open or opens it if it is closed (e g , he toggles every third locker). After his one hundredth pass in the hallway, in which he toggles only locker number one hundred, how many lockers are open?
      - only n = p * p have been flipped with odd number and final status is open.
+
+--------------------
+6.5
+
+#+BEGIN_SRC C++
+#include <cstdio>
+#include <algorithm>
+using namespace std;
+
+const int N = 100;
+const int R = 2;
+int dp[R][N+1][N+1];
+
+int get(int t,int s,int e) {
+  if(s>e) return 0;
+  if(dp[t][s][e] != 0) {
+    return dp[t][s][e];
+  }
+  int v = -1;
+  for(int i=s;i<=e;i++) {
+    int r = 1 + max(get(t,i+1,e),dp[t-1][s][i-1]);
+    if(v == -1 || r < v) {
+      v = r;
+    }
+  }
+  dp[t][s][e] = v;
+  return v;
+}
+
+void foo() {
+  memset(dp,0,sizeof(dp));
+  for(int i=1;i<=N;i++) {
+    for(int j=i;j<=N;j++) {
+      dp[0][i][j] = (j-i+1);
+    }
+  }
+  for(int t=1;t<R;t++) {
+    for(int s=1;s<=N;s++) {
+      for(int e=1;e<=N;e++) {
+        get(t,s,e);
+      }
+    }
+  }
+}
+
+void reverse() {
+  int t = R-1;
+  int v = dp[t][1][N];
+  printf("%d\n",v);
+  
+  int s = 1;
+  int c = 1;
+  bool changed = true;
+  while(changed) {
+    changed = false;
+    for(int i=s;i<=N;i++) {
+      // search first point that egg breaks.
+      // and to my intuition, there will be only one point.
+      if(v == (c + dp[t-1][s][i-1])) {
+        printf("below %d\n",i);
+        s = i+1;
+        c++;
+        changed = true;        
+        break;
+      }
+    }
+  }
+}
+
+int main() {
+  foo();
+  reverse();
+  return 0;
+}
+
+#+END_SRC
 
 *** Object Oriented Design
 *** Recursion

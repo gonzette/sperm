@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="Cracking The Coding Interview"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-16T18:03+0800"/>
+<meta name="generated" content="2013-10-17T00:54+0800"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -721,6 +721,30 @@ Here’s why we strongly recommend that you tell your interviewer that you’ve 
 </ul>
 
 
+
+<hr/>
+<p>
+1.6
+</p>
+
+
+
+<pre class="src src-C++">int m[N][N];
+for(int k=0;k&lt;N/2;k++) {
+  int r = k;
+  int last = n - 1 - r;
+  for(int c = r; c &lt;= last; c++) {
+    // [r,c], [N-1-c,r], [N-1-r,N-1-c], [c,N-1-r]
+    int tmp = m[r][c];
+    m[r][c] = m[c][N-1-r];
+    m[c][N-1-r] = m[N-1-r][N-1-c];
+    m[N-1-r][N-1-c] = m[N-1-c][r];
+    m[N-1-c][r] = tmp;
+  }
+}
+</pre>
+
+
 </div>
 
 </div>
@@ -845,6 +869,53 @@ Questions:
 </ul>
 
 
+
+<hr/>
+<p>
+4.6
+</p>
+
+
+
+<pre class="src src-C++">TreeNode* ancestor(TreeNode* root,TreeNode* p,TreeNode* q,int&amp; cond) {
+  if(root == NULL) return NULL;
+  if(root == p || root == q) {
+    cond++; // root is p or q, find one.
+  }
+  // check left.
+  int c = 0;
+  TreeNode* t = ancestor(root-&gt;left, p, q, c);
+  if(c == 2) {
+    cond = 2;
+    return t;
+  }
+  cond += c;  
+  if(cond == 2) {
+    return root;
+  }
+  // check right.
+  c = 0;
+  t = ancestor(root-&gt;right, p, q, c);
+  if(c == 2) {
+    cond = 2;
+    return t;
+  }
+  cond += c;
+  if(cond == 2) {
+    return root;
+  }
+  // maybe cover one.
+  return root;
+}
+
+TreeNode* ancestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+  int cond;
+  return ancestor(root, p, q, cond);
+}
+
+</pre>
+
+
 </div>
 
 </div>
@@ -871,6 +942,81 @@ Questions:
 <li>5.6 Write a program to swap odd and even bits in an integer with as few instructions as possible (e g , bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, etc).
 </li>
 </ul>
+
+
+
+<hr/>
+<p>
+5.3
+</p>
+
+
+
+<pre class="src src-C++">#include &lt;cstdio&gt;
+#include &lt;cassert&gt;
+
+int previous(int number) {
+  int n = number;
+  int c1 = 0;
+  int c0 = 0;
+  // find 0.
+  while(n &amp; 0x1) {
+    n &gt;&gt;= 1;
+    c1++;
+  }
+  // find 1.
+  while(!(n &amp; 0x1)) {
+    n &gt;&gt;= 1;
+    c0++;
+  }
+  // rearrange following 1 and 0.
+  // 10 with c0-1{0} and c1{1}
+  // change to 01 c1{1} c0-1{0}
+  n = ((n &gt;&gt; 1) &lt;&lt; 1) + 1;
+  for(int i=0;i&lt;c1;i++) {
+    n = (n &lt;&lt; 1) + 1;
+  }
+  for(int i=1;i&lt;c0;i++) {
+    n = (n &lt;&lt; 1);
+  }
+  return n;
+}
+
+int next(int number) {
+  int n = number;
+  int c1 = 0;
+  int c0 = 0;
+  // find 1.
+  while(!(n &amp; 0x1)) {
+    n &gt;&gt;= 1;
+    c0++;
+  }
+  // find 0.
+  while(n &amp; 0x1) {
+    n &gt;&gt;= 1;
+    c1++;
+  }
+  // rearrrange following 1 and 0.
+  // change to 1 c0+1{0} c1-1{1}.
+  n += 1;
+  for(int i=0;i&lt;=c0;i++) {
+    n = (n &lt;&lt; 1);
+  }
+  for(int i=1;i&lt;c1;i++) {
+    n = (n &lt;&lt; 1) + 1;
+  }
+  return n;
+}
+
+int main() {
+  int n = (1 &lt;&lt; 5) + (1 &lt;&lt; 1) + 1;
+  int m = (1 &lt;&lt; 4) + (1 &lt;&lt; 3) + (1 &lt;&lt; 2);
+  assert(previous(n) == m);
+  assert(next(m) == n);
+  return 0;
+}
+
+</pre>
 
 
 </div>
@@ -906,7 +1052,9 @@ Questions:
 <ul>
 <li>dp[t][s][e] = 1 + min{ i=[s,e], max(dp[t-1][s][i-1], dp[t][i+1][e]) }. if(s&gt;e) 0 else if(t==0) e-s+1
 </li>
-<li><b>NOTE(dirlt): but seems hard to deduce actions from dp</b>
+<li><b>NOTE(dirlt): not easy to deduce actions from dp</b>
+</li>
+<li><b>NOTE(dirlt): and only one step can be decided. I've attached the code below.</b>
 </li>
 </ul>
 
@@ -919,6 +1067,87 @@ Questions:
 
 </li>
 </ul>
+
+
+
+<hr/>
+<p>
+6.5
+</p>
+
+
+
+<pre class="src src-C++">#include &lt;cstdio&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+const int N = 100;
+const int R = 2;
+int dp[R][N+1][N+1];
+
+int get(int t,int s,int e) {
+  if(s&gt;e) return 0;
+  if(dp[t][s][e] != 0) {
+    return dp[t][s][e];
+  }
+  int v = -1;
+  for(int i=s;i&lt;=e;i++) {
+    int r = 1 + max(get(t,i+1,e),dp[t-1][s][i-1]);
+    if(v == -1 || r &lt; v) {
+      v = r;
+    }
+  }
+  dp[t][s][e] = v;
+  return v;
+}
+
+void foo() {
+  memset(dp,0,sizeof(dp));
+  for(int i=1;i&lt;=N;i++) {
+    for(int j=i;j&lt;=N;j++) {
+      dp[0][i][j] = (j-i+1);
+    }
+  }
+  for(int t=1;t&lt;R;t++) {
+    for(int s=1;s&lt;=N;s++) {
+      for(int e=1;e&lt;=N;e++) {
+        get(t,s,e);
+      }
+    }
+  }
+}
+
+void reverse() {
+  int t = R-1;
+  int v = dp[t][1][N];
+  printf(<span class="org-string">"%d\n"</span>,v);
+
+  int s = 1;
+  int c = 1;
+  bool changed = true;
+  while(changed) {
+    changed = false;
+    for(int i=s;i&lt;=N;i++) {
+      // search first point that egg breaks.
+      // and to my intuition, there will be only one point.
+      if(v == (c + dp[t-1][s][i-1])) {
+        printf(<span class="org-string">"below %d\n"</span>,i);
+        s = i+1;
+        c++;
+        changed = true;        
+        break;
+      }
+    }
+  }
+}
+
+int main() {
+  foo();
+  reverse();
+  return 0;
+}
+
+</pre>
 
 
 </div>
@@ -1268,7 +1497,7 @@ Questions:
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-10-16T18:03+0800</p>
+<p class="date">Date: 2013-10-17T00:54+0800</p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.2 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
