@@ -57,7 +57,7 @@
    - [[file:algorithm.org][Algorithm]] 算法还是非常重要的。记录的都是现实中使用到的算法或者是比较有趣的数学问题吧。
      - [[file:./probabilistic-data-structures-for-web-analytics-and-data-mining.org][Probabilistic Data Structures for Web Analytics and Data Mining]]
      - [[file:./cracking-the-coding-interview.org][Cracking The Coding Interview]] 据说算法分为三种：面试算法，ACM算法，算法=D
-     - [[file:clr-interview-problem.org][@陈利人 面试题目集锦]] 这些都是 @陈利人 在新浪微博和微信公众账号"待字闺中"收集的面试题目
+     - [[file:clr-interview-problem.org][@陈利人 面试题目集锦]]  @陈利人 在新浪微博上发布的题目 
    - [[file:data-mining.org][Data Mining]] 了解一些数据挖掘方面的知识还是比较有帮助的。其实我们每天都在不知不觉地进行数据挖掘。
    - [[file:recommender-system.org][Recommender System]] 推荐系统
      - [[file:./deconstructing-recommender-systems.org][Deconstructing Recommender Systems]]
