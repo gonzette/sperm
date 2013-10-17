@@ -248,7 +248,7 @@
       ;; Use C-SPC for Set Mark command
       ;; (ibus-define-common-key ?\C-\s nil)
       ;; Use C-/ for Undo command
-      (ibus-define-common-key ?\C-/ nil) ;; 绑定在undo上面
+      (ibus-define-common-key ?\C-/ nil)
       (global-set-key [(shift)] 'ibus-toggle)
       ;; Change cursor color depending on IBus status
       (setq ibus-cursor-color '("red" "blue" "limegreen"))))
