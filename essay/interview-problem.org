@@ -1,4 +1,23 @@
 * interview-problem
+** Links
+HR：
+   - http://www.mercurynews.com/jobs job resource.
+   - http://www.glassdoor.com/index.htm job interview experience.
+
+Coding Problem:
+   - http://www.careercup.com/
+   - http://codility.com/
+   - http://leetcode.com/ 
+
+Online Editor:
+   - http://collabedit.com/ 
+   - https://codinghire.com/
+   - https://code.stypi.com/deuukwa6
+
+Resource:
+   - Cracking The Coding Interview.
+   - http://www.mitbbs.com/bbsdoc/JobHunting.html
+
 ** 待字闺中
  @陈利人 的新浪微博搜索“面试题"按照timeline整理的结果。但是对于那些长微博的方式发出来的或者是需要图片做描述的题目，我没有包含进来，主要是因为不太方便整理。之所以叫做"待字闺中", 是因为 @陈利人 开辟的关于面试题的微信工公众账号也是这个名称。
  
@@ -444,8 +463,3 @@ http://matpalm.com/median/index.html
 (done) #谷歌面试题# 两个鸡蛋：两个软硬程度一样但未知的鸡蛋，它们有可能都在一楼就摔碎，也可能从一百层楼摔下来没事。有座100层的建筑，要你用这两个鸡蛋以最少的次数确定哪一层是鸡蛋可以安全落下的最高位置。可以摔碎两个鸡蛋。
 
 两个鸡蛋：拿具体的数字作例子，假设100层楼扔16次可以搞定，那么第一次可以且最矮必须从16层扔。碎了好说，从第一层开始试，不碎的话还有15次机会，同理最矮可以从31层开始扔。假设需要扔n次，则有n + (n-1) + (n-2) + … + 1 >= 100，n (n +1) >= 200，满足这个等式的 min(n) = 14。
-
-
-
-
-
