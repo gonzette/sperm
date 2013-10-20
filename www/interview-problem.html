@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="interview-problem"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-19T00:24+0800"/>
+<meta name="generated" content="2013-10-20T20:53+0800"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -79,7 +79,11 @@
 <ul>
 <li><a href="#sec-1">1 interview-problem</a>
 <ul>
-<li><a href="#sec-1-1">1.1 待字闺中</a></li>
+<li><a href="#sec-1-1">1.1 Links</a></li>
+<li><a href="#sec-1-2">1.2 CareerCup</a></li>
+<li><a href="#sec-1-3">1.3 Codility</a></li>
+<li><a href="#sec-1-4">1.4 LeetCode</a></li>
+<li><a href="#sec-1-5">1.5 待字闺中</a></li>
 </ul>
 </li>
 </ul>
@@ -94,8 +98,83 @@
 </div>
 
 <div id="outline-container-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 待字闺中</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Links</h3>
 <div class="outline-text-3" id="text-1-1">
+
+<p>HR：
+</p><ul>
+<li><a href="http://www.mercurynews.com/jobs">http://www.mercurynews.com/jobs</a> job resource.
+</li>
+<li><a href="http://www.glassdoor.com/index.htm">http://www.glassdoor.com/index.htm</a> job interview experience.
+</li>
+</ul>
+
+
+<p>
+Coding Problem:
+</p><ul>
+<li><a href="http://www.careercup.com/">http://www.careercup.com/</a>
+</li>
+<li><a href="http://codility.com/">http://codility.com/</a>
+</li>
+<li><a href="http://leetcode.com/">http://leetcode.com/</a> 
+</li>
+</ul>
+
+
+<p>
+Online Editor:
+</p><ul>
+<li><a href="http://collabedit.com/">http://collabedit.com/</a> 
+</li>
+<li><a href="https://codinghire.com/">https://codinghire.com/</a>
+</li>
+<li><a href="https://code.stypi.com/deuukwa6">https://code.stypi.com/deuukwa6</a>
+</li>
+</ul>
+
+
+<p>
+Resource:
+</p><ul>
+<li>Cracking The Coding Interview.
+</li>
+<li><a href="http://www.mitbbs.com/bbsdoc/JobHunting.html">http://www.mitbbs.com/bbsdoc/JobHunting.html</a>
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> CareerCup</h3>
+<div class="outline-text-3" id="text-1-2">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Codility</h3>
+<div class="outline-text-3" id="text-1-3">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> LeetCode</h3>
+<div class="outline-text-3" id="text-1-4">
+
+</div>
+
+</div>
+
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 待字闺中</h3>
+<div class="outline-text-3" id="text-1-5">
 
 <p> @陈利人 的新浪微博搜索“面试题"按照timeline整理的结果。但是对于那些长微博的方式发出来的或者是需要图片做描述的题目，我没有包含进来，主要是因为不太方便整理。之所以叫做"待字闺中", 是因为 @陈利人 开辟的关于面试题的微信工公众账号也是这个名称。
 </p>
@@ -105,107 +184,140 @@ UPDATED:2013-10-18
 
 <hr/>
 <p>
-#面试题#给定字符串，可以通过插入字符，使其变为回文。求最少插入字符的数量。例如：ab最少插入1个字符，变为bab；aa最少插入0个字符；abcd最少插入3个字符，dcbabcd。
+(done) #面试题#给定字符串，可以通过插入字符，使其变为回文。求最少插入字符的数量。例如：ab最少插入1个字符，变为bab；aa最少插入0个字符；abcd最少插入3个字符，dcbabcd。
+</p>
+<p>
+<b>NOTE(dirlt):dp[s][e]表示[s,e]变成回文至少插入字符数量。时间空间复杂度均为O(n^2)</b>
 </p>
 
 <hr/>
 <p>
-#面试题#给定字符串，以及一个字典，判断字符串是否能够拆分为字段中的单词。例如，字段为{hello，world}，字符串为hellohelloworld，则可以拆分为hello,hello,world，都是字典中的单词。
+(done) #面试题#给定字符串，以及一个字典，判断字符串是否能够拆分为字段中的单词。例如，字段为{hello，world}，字符串为hellohelloworld，则可以拆分为hello,hello,world，都是字典中的单词。
+</p>
+<p>
+<b>NOTE(dirlt):dp[s][e]表示[s,e]是否可以做拆分。时间空间复杂度均为O(n^2)</b> 
 </p>
 
 <hr/>
 <p>
-#面试题#一根绳子，长度为n米。将其切成几段，每一段的长度都是整数。请给出一种切法，使得切成的各段绳子之间的乘积是最大的。注意，最少要切一下的。
+(done) #面试题#一根绳子，长度为n米。将其切成几段，每一段的长度都是整数。请给出一种切法，使得切成的各段绳子之间的乘积是最大的。注意，最少要切一下的。
+</p>
+<p>
+<b>NOTE(dirlt):如果分成1段(就是不切)，乘积贡献为n. 如果分成2段的话，那么肯定是对半切好，并且长度n&gt;=4才行. 乘积贡献(n/2)^2. 在2段基础上考虑3段，因为两段n/2,n/2乘积最大，如果n/2 &gt;=4 的话，那么在n/2上对切其乘积肯定&gt;=n/2. 以此类推，只要绳子长度&gt;=4的话，那么就可以对半切，并且乘积会变得更加大。</b> 
 </p>
 
 <hr/>
 <p>
-#面试题#给定软件的版本号的表示方式，以及一些版本号，请找出最新的版本。例如：1.2，2.2 最新的是2.2；3.1, 3.1.3 最新的是3.1.3。 上面的版本号，都是用字符串表示的。
+(done) #面试题#给定软件的版本号的表示方式，以及一些版本号，请找出最新的版本。例如：1.2，2.2 最新的是2.2；3.1, 3.1.3 最新的是3.1.3。 上面的版本号，都是用字符串表示的。
 </p>
 
 <hr/>
 <p>
-#面试题#城市的环形路有n个加油站，第i个加油站的油量用gas[i]来表示，你有如下的一辆车：它的油缸是无限量的，初始是空的；它从第i个加油站到第i+1个加油站消耗油量为cost[i]。从任意加油站开始，路过加油站可以不断的加油，问是否能够走完环形路。
+(done) #面试题#城市的环形路有n个加油站，第i个加油站的油量用gas[i]来表示，你有如下的一辆车：它的油缸是无限量的，初始是空的；它从第i个加油站到第i+1个加油站消耗油量为cost[i]。从任意加油站开始，路过加油站可以不断的加油，问是否能够走完环形路。
+</p>
+<p>
+<b>NOTE(dirlt):只要总和gas[i]&gt;=cost[i]即可。从start=0,i=0开始累加，累加到如果gas[i] &lt; cost[i]的话，那么放弃start而更新start为i+1继续。最终结果是如果以start为起点肯定可以走完环形. 时间复杂度O(n), 空间复杂度O(1)</b> 
 </p>
 
 <hr/>
 <p>
-#面试题#有一个链表，每一个节点除了next指针指向一下节点以外，又多出了一个指针random，指向链表中的任何一个节点，包括null。请给出方法完成链表的深拷贝。
+(done) #面试题#有一个链表，每一个节点除了next指针指向一下节点以外，又多出了一个指针random，指向链表中的任何一个节点，包括null。请给出方法完成链表的深拷贝。
+</p>
+<p>
+<b>NOTE(dirlt):cache</b>
 </p>
 
 <hr/>
 <p>
-#面试题#N个孩子站成一排，每个人分给一个权重。按照如下的规则分配糖果： 每个孩子至少有一个糖果；所分配权重较高的孩子，会比他的邻居获得更多的糖果。问题是，最少需要多少个糖果？
+(done) #面试题#N个孩子站成一排，每个人分给一个权重。按照如下的规则分配糖果： 每个孩子至少有一个糖果；所分配权重较高的孩子，会比他的邻居获得更多的糖果。问题是，最少需要多少个糖果？
+</p>
+<p>
+<b>NOTE(dirlt):forward和backward各扫描一遍存放在两个数组L,R. forward过程是如果a[i] &gt; a[i-1]的话，L[i] = L[i-1]+1,否则L[i]=1. backward过程类似。x[i] = max{L[i],R[i]}. 时间空间复杂度均为O(n)</b> 
 </p>
 
 <hr/>
 <p>
-#面试题#从一个长字符串中查找包含给定字符集合的最短子串。例如，长串为“aaaaaaaaaacbebbbbbdddddddcccccc”，字符集为{abcd}，那么最短子串是“acbebbbbbd”。如果将条件改为“包含且只包含给定字符集合”，你的算法和实现又将如何改动。
+(done) #面试题#从一个长字符串中查找包含给定字符集合的最短子串。例如，长串为“aaaaaaaaaacbebbbbbdddddddcccccc”，字符集为{abcd}，那么最短子串是“acbebbbbbd”。如果将条件改为“包含且只包含给定字符集合”，你的算法和实现又将如何改动。
+</p>
+<p>
+<b>NOTE(dirlt):i=0,j=0.j遍历直到所有所有字符集合都覆盖，然后从i++减去这些字符直到不是左右字符集都覆盖，然后继续j++.中间过程不断更新满足条件子串长度。对于只包含条件的话，如果j++发现字符不是集合内部的话，那么下次从这个字符之后重新开始。时间复杂度O(n), 空间复杂度O(1)</b> 
 </p>
 
 <hr/>
 <p>
-#面试题#给定两个字符串A和B，判断A中是否包含由B中字符重新排列成的新字符串。例如：A=abcdef, B=ba，结果应该返回true。因为ba的排列ab，是A的子串。
+(done) #面试题#给定两个字符串A和B，判断A中是否包含由B中字符重新排列成的新字符串。例如：A=abcdef, B=ba，结果应该返回true。因为ba的排列ab，是A的子串。
+</p>
+<p>
+<b>NOTE(dirlt):遍历len(b)所有子串，但是增量更新子串特征。特征可以表示为map&lt;char,int&gt;, 然后和B的特征进行对比. 如果特征表示好的话那么时间复杂度是O(n * m). 如果不维持特征的话那么可以对子串排序来对比，时间复杂度是O(n * (m + mlgm)) = O(n * mlgm). 空间复杂度是O(m)</b>
 </p>
 
 <hr/>
 <p>
-#面试题#给一个数字串，比如12259，映射到字母数组，比如，1 -&gt; a， 2-&gt; b，&hellip; ， 12 -&gt; l ，&hellip; 26-&gt; z。那么，12259 -&gt; lyi 或 abbei 或 lbei 或 abyi。输入一个数字串，判断是否能转换成字符串，如果能，则打印所以有可能的转换成的字符串。
+(done) #面试题#给一个数字串，比如12259，映射到字母数组，比如，1 -&gt; a， 2-&gt; b，&hellip; ， 12 -&gt; l ，&hellip; 26-&gt; z。那么，12259 -&gt; lyi 或 abbei 或 lbei 或 abyi。输入一个数字串，判断是否能转换成字符串，如果能，则打印所以有可能的转换成的字符串。
 </p>
 
 <hr/>
 <p>
-#面试题#给定字符串，找到它的最长回文子串，都有哪些思路呢？例如"adaiziguizhongrenenrgnohziugiziadb",回文字串很多了，但最长的是"daiziguizhongrenenrgnohziugiziad"。
+(done) #面试题#给定字符串，找到它的最长回文子串，都有哪些思路呢？例如"adaiziguizhongrenenrgnohziugiziadb",回文字串很多了，但最长的是"daiziguizhongrenenrgnohziugiziad"。
 </p>
 
 <hr/>
 <p>
-#面试题#删除字符串中的“b”和“ac”，需要满足如下的条件：字符串只能遍历一次；不能够实用额外的空间。例如：acbac ==&gt; ""；aaac ==&gt; aa；ababac ==&gt; aa；bbbbd ==&gt; d。进一步思考：如何处理aaccac呢，需要做哪些改变呢？
+(done) #面试题#删除字符串中的“b”和“ac”，需要满足如下的条件：字符串只能遍历一次；不能够实用额外的空间。例如：acbac ==&gt; ""；aaac ==&gt; aa；ababac ==&gt; aa；bbbbd ==&gt; d。进一步思考：如何处理aaccac呢，需要做哪些改变呢？
+</p>
+<p>
+<b>NOTE(dirlt):工作机制类似stack, a as (, c as ), ignore b. 一旦出现其他字符则将stack内容输出并且清空</b>
 </p>
 
 <hr/>
 <p>
-#面试题#3个字符串a，b，c。判断c是否是a和b的interleave，也就是c中应该有a，b中所有字符，并且c中字符顺序和a，b中一样。比如，a = "ef" b = "gh" c = "egfh" return true；a = "ef" b = "gh" c = "ehgf" return false。 
+(done) #面试题#3个字符串a，b，c。判断c是否是a和b的interleave，也就是c中应该有a，b中所有字符，并且c中字符顺序和a，b中一样。比如，a = "ef" b = "gh" c = "egfh" return true；a = "ef" b = "gh" c = "ehgf" return false。 
+</p>
+<p>
+<b>NOTE(dirlt):dp[s][e]表示a[0,s],b[0,e]是否可以组成c[0,s+e+1]. 时间空间复杂度均为O(n^2)</b> 
 </p>
 
 <hr/>
 <p>
-#面试题#给定字符串，输出括号是否匹配，例如，"()" yes；")(" no；"(abcd(e)" no； "(a)(b)" yes。要求必须用递归写，整个实现不可以出现一个循环语句。
+(done) #面试题#给定字符串，输出括号是否匹配，例如，"()" yes；")(" no；"(abcd(e)" no； "(a)(b)" yes。要求必须用递归写，整个实现不可以出现一个循环语句。
 </p>
 
 <hr/>
 <p>
-#面试题#一个数组A，数字出现的情况，只有以下三种：一些数字只出现一次；一些数字出现两次；只有一个数字出现三次。请给出方法，找到出现三次的数字。
+(todo) #面试题#一个数组A，数字出现的情况，只有以下三种：一些数字只出现一次；一些数字出现两次；只有一个数字出现三次。请给出方法，找到出现三次的数字。
 </p>
 
 <hr/>
 <p>
-#面试题#给定一个无序的整数数组，怎么找到第一个大于0，并且不在此数组的整数。比如[1,2,0] 返回 3, [3,4,-1,1] 返回 2。最好能O(1)空间和O(n)时间。
+(todo) #面试题#给定一个无序的整数数组，怎么找到第一个大于0，并且不在此数组的整数。比如[1,2,0] 返回 3, [3,4,-1,1] 返回 2。最好能O(1)空间和O(n)时间。
 </p>
 
 <hr/>
 <p>
-#面试题#数组A中，除了某一个数字x之外，其他数字都出现了三次，而x出现了一次。请给出最快的方法，找到x。
+(done) #面试题#数组A中，除了某一个数字x之外，其他数字都出现了三次，而x出现了一次。请给出最快的方法，找到x。
 </p>
 
 <hr/>
 <p>
-#面试题#给定未排序的数组，请给出方法找到最长的等差数列。
+(todo) #面试题#给定未排序的数组，请给出方法找到最长的等差数列。
 </p>
 
 <hr/>
 <p>
-#面试题#给定长度为n的整数数列：a0,a1,..,an-1，以及整数S。这个数列会有连续的子序列的整数总和大于S的，求这些数列中，最小的长度。
+(done) #面试题#给定长度为n的整数数列：a0,a1,..,an-1，以及整数S。这个数列会有连续的子序列的整数总和大于S的，求这些数列中，最小的长度。
+</p>
+<p>
+<b>NOTE(dirlt):i=0,j=0.j开始遍历，如果当前和&lt;0的话，那么i=j+1，然后继续遍历。一旦&gt;S的话，那么尝试从i开始减去，直到&lt;=S.整个过程不断更新最小长度。时间复杂度是O(n), 空间复杂度是O(1)</b> 
 </p>
 
 <hr/>
 <p>
-#面试题#给定大小为n的数组A，A中的元素有正有负。请给出方法，对其排序，保证：负数在前面，正数在后面；正数之间相对位置不变；负数之间相对位置不变。 能够做到时间复杂度为O(n)，空间复杂度为O(1)么？
+(todo) #面试题#给定大小为n的数组A，A中的元素有正有负。请给出方法，对其排序，保证：负数在前面，正数在后面；正数之间相对位置不变；负数之间相对位置不变。 能够做到时间复杂度为O(n)，空间复杂度为O(1)么？
 </p>
 
 <hr/>
 <p>
-#面试题#有数组A={5,3,8,9,16}，第一次遍历有：A = {3-5,8-3,9-8,16-9}={-2,5,1,7}，数组中元素和为-2+5+1+7=11；第二次遍历有：A = {5-(-2),1-5,7-1}={7，-4,6}，元素和为9. 给定数组A，求第n次遍历之后，数组中元素的和。
+(todo) #面试题#有数组A={5,3,8,9,16}，第一次遍历有：A = {3-5,8-3,9-8,16-9}={-2,5,1,7}，数组中元素和为-2+5+1+7=11；第二次遍历有：A = {5-(-2),1-5,7-1}={7，-4,6}，元素和为9. 给定数组A，求第n次遍历之后，数组中元素的和。
 </p>
 
 <hr/>
@@ -760,13 +872,16 @@ Facebook电话#面试题#：1. 把一个字符串中的 %20 都转成空格；2.
 <p>
 (done) #谷歌面试题# 给一串整数 0，1，2，&hellip;，N，其中一个整数缺失。也就是说，如果是排序好放到大小为N的数组中，其实最大的整数应该是N+1。你的任务和算法是找出其中缺失的整数。如果是排序好的，怎么做？如果是无序的，又该如何做？时间复杂度各是什么？
 </p>
+<p>
+<b>NOTE(dirlt):对无序数组可以通过求和来判断缺失</b>
+</p>
 
 <hr/>
 <p>
 (todo) #谷歌面试题# 给你一个数组，它有N个8-bit整数， （比如，从0到255）， 和M个子数组，[i, j] （每个子数组由两个下标 i 和 j 确定，0 &lt;= i &lt;= j &lt; N）。对每个子数组，找到平均值和中值。
 </p>
 <p>
-<b>NOTE(dirlt):预处理，平均值O(N), 中值O(N^2)</b>
+<b>NOTE(dirlt):预处理，平均值时间空间复杂度O(N), 中值时间空间复杂度O(N^2)</b>
 </p>
 
 <hr/>
@@ -834,18 +949,13 @@ Facebook电话#面试题#：1. 把一个字符串中的 %20 都转成空格；2.
 </p>
 <p>
 两个鸡蛋：拿具体的数字作例子，假设100层楼扔16次可以搞定，那么第一次可以且最矮必须从16层扔。碎了好说，从第一层开始试，不碎的话还有15次机会，同理最矮可以从31层开始扔。假设需要扔n次，则有n + (n-1) + (n-2) + … + 1 &gt;= 100，n (n +1) &gt;= 200，满足这个等式的 min(n) = 14。
-</p>
-
-
-
-
-</div>
+</p></div>
 </div>
 </div>
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-10-19T00:24+0800</p>
+<p class="date">Date: 2013-10-20T20:53+0800</p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.2 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
