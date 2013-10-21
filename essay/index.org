@@ -124,6 +124,7 @@
      - [[file:./beating-the-cap-theorem-checklist.org][Beating the CAP Theorem Checklist]] "遇到声称能突破CAP原理的民科的时候，用这个checklist来对付他" via @delphij
      - [[file:./in-stream-big-data-processing.org][In-Stream Big Data Processing]] 流式处理系统一些需要解决的问题以及方法
      - [[file:./lessons-learned-while-building-infrastructure-software-at-google.org][Lessons Learned While Building Infrastructure Software at Google]] @XLDB-2013 Jeff Dean
+     - [[file:./a-word-on-scalability.org][A Word on Scalability]]
    - [[file:streambase.org][StreamBase]] 在实现Baidu in-house的分布式实时流式计算系统之前，调研的商用流式计算系统。没有办法获得源代码只能够从文档中猜测其内部实现以及参考其提供的功能与接口。
    - [[file:chubby.org][Chubby]] Google为松耦合分布式系统开发的锁服务，但是在现实中还可以作为名字服务来使用。
    - [[file:gfs.org][GFS]] Google分布式基础架构的分布式文件系统。
