@@ -94,6 +94,7 @@
      - 累计行驶里程
 
 警告灯和指示灯
+
 file:../images/car-dashboard.png
 
    1. 防抱死制动系统(ABS)指示灯
