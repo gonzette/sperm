@@ -618,7 +618,6 @@ int main() {
 
 #+END_SRC
 
-
 *** Mathematical
 Questions:
    - 10.1 You have a basketball hoop and someone says that you can play 1 of 2 games 

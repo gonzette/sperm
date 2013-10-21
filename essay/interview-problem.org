@@ -8,7 +8,8 @@ HR：
 Coding Problem:
    - http://www.careercup.com/
    - http://codility.com/
-   - http://leetcode.com/ 
+   - http://leetcode.com/
+   - http://community.topcoder.com/
 
 Online Editor:
    - http://collabedit.com/ 
@@ -21,7 +22,6 @@ Resource:
 
 ** CareerCup
 ** Codility
-** LeetCode
 ** 待字闺中
 @陈利人 的微信公众账号
  
