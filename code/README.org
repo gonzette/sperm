@@ -11,28 +11,33 @@
    - sudo apt-get install flex
    - sudo apt-get install bison
 * cc
-   - common // some common code.
-   - sasuke // a half-async-half-sync rpc implementation based on zeromq.(http://www.zeromq.org/)
-   - itachi // a asynchronous programming framework based on libev.(http://software.schmorp.de/pkg/libev.html)
-   - bench // benchmark for system call performance.
-   - astyle // C/C++/Java language code formatter.(http://astyle.sourceforge.net/astyle.html)
-   - nasty // lisp-like language frontend used flex + bison.
-   - playboard // test code on c++ and library.
+   - common // 
+   - sasuke // a half-async-half-sync rpc server implementation based on zeromq. (http://www.zeromq.org/)
+   - itachi // a asynchronous programming framework based on libev. (http://software.schmorp.de/pkg/libev.html)
+   - bench // a benchmark collection of system call performance.
+   - astyle // a C/C++/Java language code formatter.(http://astyle.sourceforge.net/astyle.html)
+   - nasty // a lisp-like language frontend based on flex + bison.
+   - playboard // 
 
 * java
-   - fast-hbase-rest // fast hbase access layer based on netty using asynchbase and protobuf using HTTP.
+   - asynchbase // 
+   - fast-hbase-rest // 
+   - finagle //
+   - guava //
+   - hbase //
+   - hdfs //
+   - jni // 
+   - jredis //
+   - memcached //
+   - mr // code worked on hadoop-0.20
+   - mr2 // code worked on hadoop2.0
+   - mysql //
+   - netty //
+   - playboard
+   - veritas // 
 
 * sh
    - jstrace // hook java and do strace to it.
 
-* reserved project name
-   - madara //
-   - uchiha // 
-   - orochi //
-   - yagami //
-   - kyo //
-   - yamazaki //
-   - izanagi //
-   - chidori //
-   - hokage //
-   - kakashi // 
+* leetcode
+* topcoder
