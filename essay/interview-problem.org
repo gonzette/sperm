@@ -20,6 +20,13 @@ Resource:
    - Cracking The Coding Interview.
    - http://www.mitbbs.com/bbsdoc/JobHunting.html
 
+** Behavior
+   - So tell me about yourself.
+   - What is your greatest weakness?
+   - Have you ever had a conflict with a co-worker? How did you solve it?
+   - What is your most challenging/interesting project?
+   - Where do you see yourself in five years?
+
 ** CareerCup
 ** Codility
 ** 待字闺中
