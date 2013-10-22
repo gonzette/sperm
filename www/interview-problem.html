@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="interview-problem"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-21T21:51+0800"/>
+<meta name="generated" content="2013-10-22T18:06+0800"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -207,7 +207,7 @@ UPDATED:2013-10-21
 <b>NOTE(dirlt):这道题没有看到必须都是整数。如果都是整数的话，按照直觉应该是将n分解为3x + 2y. 然后对于x尽可能低大。因为假设对于6而言，3 ^ 2 &gt; 2 ^ 3.</b>
 </p>
 <p>
-<b>NOTE(dirlt):这道题目dp算法是dp[n] = max(n,1 * dp[n-1], 2 * dp[n-2], &hellip; ). 这里之所允许dp[n] = n的话，是因为对于n &gt;= 4来说，切分肯定比切分好，这个可以作为终止条件。对于n &lt; 4的话做special case即可。</b>
+<b>NOTE(dirlt):这道题目dp算法是dp[n] = max(n,1 * dp[n-1], 2 * dp[n-2], &hellip; ). 这里之所允许dp[n] = n的话，是因为对于n &gt;= 4来说，切分肯定比切分好，这个可以作为终止条件。对于n &lt; 4的话做special case即可。空间复杂度是O(n), 时间复杂度是O(n^2)</b>
 </p>
 
 <hr/>
@@ -566,7 +566,7 @@ UPDATED:2013-10-21
 
 <hr/>
 <p>
-9 (todo) 在一棵二叉搜索树中，有两个节点颠倒了顺序。要求实现一个算法，在不改变树结构的前提下，恢复正确的二叉搜索树。给出一个空间为O(n)的实现很容易，那该如何给出一个空间O(1)的实现呢？
+8 (todo) 在一棵二叉搜索树中，有两个节点颠倒了顺序。要求实现一个算法，在不改变树结构的前提下，恢复正确的二叉搜索树。给出一个空间为O(n)的实现很容易，那该如何给出一个空间O(1)的实现呢？
 </p>
 
 <hr/>
@@ -581,7 +581,7 @@ UPDATED:2013-10-21
 
 <hr/>
 <p>
-5 (todo) 给你一天的Google搜索日志，你怎么设计算法找出是否有一个搜索词，它出现的频率占所有搜索的一半以上？如果肯定有一个搜索词占大多数，你能怎么提高你的算法找到它？再假定搜索日志就是内存中的一个数组，能否有O(1)空间，O(n)时间的算法？
+5 (done) 给你一天的Google搜索日志，你怎么设计算法找出是否有一个搜索词，它出现的频率占所有搜索的一半以上？如果肯定有一个搜索词占大多数，你能怎么提高你的算法找到它？再假定搜索日志就是内存中的一个数组，能否有O(1)空间，O(n)时间的算法？
 </p>
 
 <hr/>
@@ -591,7 +591,7 @@ UPDATED:2013-10-21
 
 <hr/>
 <p>
-2 (todo) 两个单链表（singly linked list），每一个节点里面一个0-9的数字，输入就相当于两个大数了。然后返回这两个数的和（一个新list）。这两个输入的list长度相等。 要求是：1. 不用递归。2. 要求算法在最好的情况下，只遍历两个list一次 ，最差的情况下两遍。
+2 (done) 两个单链表（singly linked list），每一个节点里面一个0-9的数字，输入就相当于两个大数了。然后返回这两个数的和（一个新list）。这两个输入的list长度相等。 要求是：1. 不用递归。2. 要求算法在最好的情况下，只遍历两个list一次 ，最差的情况下两遍。
 </p>
 
 <hr/>
@@ -603,7 +603,7 @@ UPDATED:2013-10-21
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-10-21T21:51+0800</p>
+<p class="date">Date: 2013-10-22T18:06+0800</p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.2 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
