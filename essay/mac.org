@@ -10,7 +10,8 @@ mac软件还是非常齐全的，我大致安装了下面这些东西:
    - Evernote
    - brew # apt-get for Mac.
    - QQ
-   - 有道词典
+   - 有道词典 # 鼠标取词功能还行
+     - *NOTE(dirlt):mac自带的词典已经足够好了，附带了许多词库。在字典的偏好设置里面可以选择这些词库*
    - Tunnelblick # openvpn似乎在mac下面似乎有bug. *NOTE(dirlt):但是感觉没有openvpn好用，而且非常容易断开*
    - VirtualBox
    - Chrome
