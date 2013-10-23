@@ -9,6 +9,7 @@ fi
 # files.
 for f in private.tar.gz
 do
+    echo "sync $f..."
     sudo rsync -az $HOME/$f "$pwd/dirlt/$f"
 done
 
@@ -20,5 +21,6 @@ for d in doc \
     "VirtualBox VMs" \
     vmshare
 do
+    echo "sync $d..."
     sudo rsync -arz "$HOME/$d/" "$pwd/dirlt/$d/"
 done
