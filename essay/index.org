@@ -18,6 +18,8 @@
    - [[file:coroutine.org][Coroutine]] 协程，轻量级线程。
    - [[file:lock.org][Lock]] 锁的原理与不同实现
    - [[file:memory.org][Memory]] 内存相关
+     - [[file:./numa.org][NUMA]] Non-Uniform Memory Access. 非一致性内存访问
+     - [[file:./memory-barrier.org][Memory Barrier]] 内存屏障
      - [[file:tcmalloc.org][TCMalloc]] Google的开源线程缓存内存分配器，解决多线程下面内存分配效率问题。
    - [[file:continuation.org][Continuation]] 延续，异步编程一种实现。
    - [[file:sysperf.org][System-Peformance]] 系统性能相关
