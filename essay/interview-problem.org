@@ -1,9 +1,11 @@
 * interview-problem
 #+OPTIONS: H:2
 ** Links
-HR：
-   - http://www.mercurynews.com/jobs job resource.
-   - http://www.glassdoor.com/index.htm job interview experience.
+Job:
+   - http://careers.stackoverflow.com/jobs/
+   - http://recruiting.jobvite.com/
+   - http://www.glassdoor.com/index.htm 
+   - http://www.mercurynews.com/jobs
 
 Coding Problem:
    - http://www.careercup.com/
