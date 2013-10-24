@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="interview-problem"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-23T14:23+0800"/>
+<meta name="generated" content="2013-10-23T23:53+0800"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -200,6 +200,14 @@ Resource:
 </p>
 <p> 
 UPDATED:2013-10-21
+</p>
+
+<hr/>
+<p>
+85 (done) 给定两个数组X和Y，元素都是正数。请找出满足如下条件的数对的数目： x^y &gt; y^x，即x的y次方&gt;y的x次方；x来自X数组，y来自Y数组。
+</p>
+<p>
+<b>NOTE(dirlt):首先将x,y排序，然后遍历x. 上面条件可以转换成为y * ln x - x * ln y &gt; 0. 可以查看这个条件的导数（考虑y变化），y = x / ln x.因为x都是正数所以该导数&gt;0. 然后剩下的我们就是在y数组上通过二分查找到第一个y'使得上面不等式成立的值，并且因为导数&gt;0 所以对于任意y &gt; y'来说都符合。因此时间复杂度是O(nlgn), 而空间复杂度是O(1)</b> 
 </p>
 
 <hr/>
@@ -630,8 +638,8 @@ UPDATED:2013-10-21
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-10-23T14:23+0800</p>
-<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.2 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 23</p>
+<p class="date">Date: 2013-10-23T23:53+0800</p>
+<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.2 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
 </div>

@@ -1,3 +1,3 @@
 * fvwm
-TODO(dirlt):
-
+Links:
+   - http://docs.huihoo.com/homepage/shredderyin/fvwm_frame.html
