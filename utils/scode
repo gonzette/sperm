@@ -18,25 +18,3 @@ for x in pom.xml \
 do
     rsync -vz $S/$x $D/$x >/dev/null 2>&1
 done
-
-####################
-
-echo "patching veritas ..."
-S="$HOME/github/veritas/"
-D="$HOME/github/sperm/code/java/veritas/"
-
-for x in src/main/ \
-    script/ 
-do
-    rsync -avrz $S/$x $D/$x >/dev/null 2>&1
-done
-
-for x in pom.xml \
-    .gitignore \
-    run-veritas \
-    Makefile
-do
-    rsync -vz $S/$x $D/$x >/dev/null 2>&1
-done
-
-

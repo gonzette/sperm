@@ -1,2 +1,0 @@
-#!/bin/bash
-httperf --hog --num-calls=10 --num-conns=10 --rate=10 --server=dp0 --port=12347 --uri="/tell?reqid=3&account=dirlt&timeout=500&reqtype=&umid=0006652a188a867cccff4a35a4967"
