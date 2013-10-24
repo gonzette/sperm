@@ -207,3 +207,10 @@ Here is my contact info. I think email is the easiest way to get me.
 My favouritest words comes from theidea of [[http://www.valvesoftware.com/][Valve]] : "Open your mind, Open your eyes" (放眼未来，自由想象), with a [[file:images/valve-logo.jpg][image]] from its game "Half Life"
 
 Especially thanks to [[http://xuchaoqian.com][xuchaoqian]] for encouraging me to write and providing me host initially so I can publish my writings. And also thanks people who help me, support me, and accompany me, you complete me.
+
+** Some Links
+   - Matt Welsh. http://www.mdw.la/
+   - Joe Armstrong. http://joearms.github.io/
+   - Don Knuth. http://www-cs-faculty.stanford.edu/~uno/
+   - Jeff Dean. http://research.google.com/people/jeff/
+   - 
