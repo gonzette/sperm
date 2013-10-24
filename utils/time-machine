@@ -13,13 +13,21 @@ do
     sudo rsync -az $HOME/$f "$pwd/dirlt/$f"
 done
 
+# packages.
+pkgs=`find $HOME/utils/ -maxdepth 1 -type f`
+for p in $pkgs
+do
+    p=`basename $p`
+    echo "sync $p..."
+    sudo rsync -az $HOME/utils/$p "$pwd/dirlt/utils/$p"
+done
+
 # dirs.
 for d in doc \
-    ".m2" \
-    github \
-    utils \
-    "VirtualBox VMs" \
+    github/sperm \
+    github/dirtysalt.github.io \
     vmshare
+#    "VirtualBox VMs"
 do
     echo "sync $d..."
     sudo rsync -arz "$HOME/$d/" "$pwd/dirlt/$d/"
