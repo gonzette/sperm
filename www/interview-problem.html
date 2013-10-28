@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="interview-problem"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-10-27T12:02+0800"/>
+<meta name="generated" content="2013-10-28T21:06+0800"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -533,12 +533,18 @@ UPDATED:2013-10-21
 
 <hr/>
 <p>
-(todo) #面试题#输入数组[a1,a2,&hellip;,an,b1,b2,&hellip;,bn]，构造函数，使得输出为，[a1,b1,a2,b2,&hellip;,an,bn]，注意：方法要是in-place的。
+(done) #面试题#输入数组[a1,a2,&hellip;,an,b1,b2,&hellip;,bn]，构造函数，使得输出为，[a1,b1,a2,b2,&hellip;,an,bn]，注意：方法要是in-place的。
+</p>
+<p>
+<b>NOTE(dirlt):想到一个递归解决的办法，时间复杂度是O(n^2). 首先将a1,b1放在合适的位置，b1移到合适位置之后将之前的元素全部后移动，然后解决[a2,a3,&hellip;b2,b3,..]这个子问题</b> 
 </p>
 
 <hr/>
 <p>
-32 (todo) 有11瓶酒，只有一瓶有毒。喝酒之后，三天会死，只有三天时间。请问至少需要多少只老鼠，可以找出9瓶没有毒的酒。
+32 (done) 有11瓶酒，只有一瓶有毒。喝酒之后，三天会死，只有三天时间。请问至少需要多少只老鼠，可以找出9瓶没有毒的酒。
+</p>
+<p>
+<b>NOTE(dirlt):有两种方法搭配123 345 567 789 9,10,11. 这样肯定有一只或者是两只老鼠会死。假设123死的话，那么肯定毒酒是12, 那么剩下9瓶无毒。如果123 345死的话，那么肯定3有毒。另外一种搭配是1234 3456 5678 789,10 9,10,11.原理一样，也是5只</b> 
 </p>
 
 <hr/>
@@ -548,12 +554,18 @@ UPDATED:2013-10-21
 
 <hr/>
 <p>
-30 (todo) 在一个位图中找面积最大的白色矩形：给你一个NxN的黑白位图，找一个面积最大的全白色的矩形。注意了，是一个矩形，不是任意一个白色相连的区域。你的算法能够达到的最好的时间复杂度是多少呢？
+30 (done) 在一个位图中找面积最大的白色矩形：给你一个NxN的黑白位图，找一个面积最大的全白色的矩形。注意了，是一个矩形，不是任意一个白色相连的区域。你的算法能够达到的最好的时间复杂度是多少呢？
+</p>
+<p>
+<b>NOTE(dirlt):O(n^4).判断每个子矩形面积是O(1)算法，需要预处理</b> 
 </p>
 
 <hr/>
 <p>
-28 (todo) #面试题#n个色子，每个色子m面，每一面的值分别是1-m。你将n个色子同时抛，落地后将所有朝上面的数字加起来，记为sum。给定一个数字x，如果sum&gt;x，则你赢。给定n，m，x，求你赢的概率。1&lt;=n&lt;=100，1&lt;=m&lt;=10，m&lt;=x&lt;n*m。
+28 (done) #面试题#n个色子，每个色子m面，每一面的值分别是1-m。你将n个色子同时抛，落地后将所有朝上面的数字加起来，记为sum。给定一个数字x，如果sum&gt;x，则你赢。给定n，m，x，求你赢的概率。1&lt;=n&lt;=100，1&lt;=m&lt;=10，m&lt;=x&lt;n*m。
+</p>
+<p>
+<b>NOTE(dirlt):DP[u][v].其中u表示抛到地u个色子，v表示对应总和为v的个数.概率最后/ (m ^ n)</b>
 </p>
 
 <hr/>
@@ -685,7 +697,7 @@ UPDATED:2013-10-21
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-10-27T12:02+0800</p>
+<p class="date">Date: 2013-10-28T21:06+0800</p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.2 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
