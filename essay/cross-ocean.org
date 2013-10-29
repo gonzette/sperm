@@ -1,0 +1,19 @@
+* cross-ocean
+** spoon
+via StackOverflow http://careers.stackoverflow.com/jobs/42334/stream-software-from-the-web-senior-software-spoon-net
+
+@2013-10-29
+
+#+BEGIN_QUOTE
+Hi:
+
+I read your job description from StackOverflow. I think that's exactly what I want to do and I'm totally qualified to it. 
+
+My name is Yan Zhang, and I'm a Software Engineer from China with years experience of system software development on Linux and passionate about some low-level stuff. And I'm not sure whether my years experience of distributed systems design and implementation is a plus. 
+
+I write blog a lot http://dirlt.com/ (although much stuff is in Chinese), and play dozens of open source projects which are written in my Linkedin. 
+
+Looking forward to your reply.
+
+Sincerely.
+#+END_QUOTE

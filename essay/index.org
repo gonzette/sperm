@@ -171,6 +171,7 @@
      - [[file:./scala.org][Scala]] # Scala is an object-functional programming and scripting language for general software applications, statically typed, designed to concisely express solutions in an elegant, type-safe and lightweight (low ceremonial) manner. [[http://en.wikipedia.org/wiki/Scala_(programming_language)][Wikipedia]]
 
 ** Software Design
+   - [[file:./cross-ocean.org][Cross Ocean]]
    - [[file:design-reading.org][Design Reading]] 关于设计方面的一些文章以及阅读心得。
      - [[file:./suffering-oriented-programming.org][Suffering-oriented programming]]
      - [[file:./the-tyranny-of-the-clock.org][The Tyranny of the Clock]]
