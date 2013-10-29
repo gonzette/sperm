@@ -1,0 +1,6 @@
+* couchbase
+   - http://www.couchbase.com/
+   - http://www.infoq.com/news/2012/05/couchdb-vs-couchbase-membase
+
+Couchbase is a document-oriented database (with technology inherited from the Apache CouchDB project) that can scale horizontally and which provides very low-latency access to data for both reads and writes (due to Membase technology).
+

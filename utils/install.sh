@@ -1,4 +1,4 @@
-PROGNAME=$0
+PROGAME=$0
 BINDIR=`python -c "import os;print os.path.abspath('.')"`
 
 echo "[$PROGNAME]installing index.html..."
