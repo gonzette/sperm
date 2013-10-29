@@ -95,8 +95,10 @@
    - [[file:raid.org][RAID]] Redundant Array of Inexpensive Disk. 廉价磁盘冗余阵列
      - [[file:./the-skinny-on-raid.org][The skinny on RAID]]
    - [[file:riak.org][Riak]] a NoSQL database implementing the principles from Amazon's Dynamo paper in Erlang/C/C++/Javascript.
-   - [[file:memcached.org][Memcached]] an in-memory key-value store for small chunks of arbitrary data (strings, objects) 可以用来搭建分布式缓存服务
+   - [[file:memcached.org][Memcached]] an in-memory key-value store for small chunks of arbitrary data (strings, objects) 可以用来搭建分布式缓存服务，没有持久化存储。
    - [[file:gizzard.org][Gizzard]] a library for creating distributed datastores 可以认为是数据库中间层，完成partition/replication，也做fault-tolerant migration.
+   - [[file:./couchbase.org][CouchBase]] CouchDB(by CouchOne) + [[file:memcached.org][Memcached]](by Membase). a Dynamo like distributed document-oriented storage system whose closest competitor is [[file:mongodb.org][MongoDB]]. 
+   - [[file:./voldemort.org][Voldemort]] a Dynamo like distributed key-value storage system. Dynamo like.
 
 ** Distributed System
    - [[file:distributed-system-reading.org][Distributed System Reading]] 关于分布式系统方面的一些文章以及阅读心得。
@@ -157,7 +159,6 @@
    - [[file:tenzing.org][Tenzing]] Google的数据仓库平台，和Hive系统非常类似。
    - [[file:dapper.org][Dapper]] Google大型分布式系统的追踪设施。能够追踪分布式系统中各个组件之间相互调用关系并且记录性能数据进行性能分析。
    - [[file:gwp.org][GWP]] Google Wide Profiling. Google数据中心级别的profile系统。
-   - [[file:./couchbase.org][CouchBase]] CouchDB(by CouchOne) + MemCached(by MemBase).
 
 ** Programming Language
    - [[file:prog-lang.org][Programming Language]] including following languages:     
