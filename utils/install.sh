@@ -6,11 +6,11 @@ rm -rf ~/index.html
 ln -s $BINDIR/index.html ~/index.html
 
 echo "[$PROGNAME]installing hosts..."
-sudo rm -rf /etc/hosts
 kernel=`uname -s`
-if [ "$kernel" = "Linux" ]
+if [ $kernel"X" = "Linux""X" ]
 then
-    sudo ln -s $BINDIR/hosts /etc/hosts
+    sudo rm -rf /etc/hosts && sudo ln -s $BINDIR/hosts /etc/hosts
+    sudo rm -rf /etc/hostname && sudo ln -s $BINDIR/hostname /etc/hostname
 else
     # Darwin.
     sudo cp $BINDIR/hosts /etc/hosts
