@@ -20,3 +20,22 @@ Looking forward to your reply.
 Sincerely.
 #+END_QUOTE
 
+** wikimedian foundation
+via StackOverflow http://careers.stackoverflow.com/jobs/40283/software-engineer-data-analytics-back-end-wikimedia-foundation
+
+@2013-10-30
+
+#+BEGIN_VERSE
+Hi:
+
+I read your job description of "Software Engineer Data Analytics (Back End)" from StackOverflow. I think that's exactly what I want to do and I'm totally qualified to it.
+
+My name is Yan Zhang, and I'm a Software Engineer from China with years experience of distributed systems design and implementation. And I've played Hadoop/HBase for several years to work on big data process and analysis.
+
+I write blog a lot http://dirlt.com/ (although much stuff is in Chinese), and play dozens of open source projects which are written in my Linkedin(http://www.linkedin.com/in/dirlt). 
+
+Looking forward to your reply.
+
+Sincerely.
+
+#+END_VERSE

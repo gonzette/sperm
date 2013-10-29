@@ -3,7 +3,7 @@
 *** Summary
 Extensive experience in:
 - large-scale distributed system design and implementation.
-- network programing framework design and implementation.
+- network programming framework design and implementation.
 - storage system design and implementation.
 - performance optimization and tuning for systems and applications.
 - system software development.
@@ -12,7 +12,7 @@ Extensive experience in:
 Specialities:
 - proficient in C/C++, Python, Java, Scala.
 - solid knowledge of data structure and algorithm.
-- extremely familiar with system development toolchains on linux.
+- extremely familiar with system development toolchain on linux.
 - good understanding of compiler technique and related tools.
 
 *** Experience
@@ -117,11 +117,3 @@ IBase COM(component) Team.
 - 持续集成开发构建系统comake2。通过调研和使用很多已有的开源构建系统比如Google的GYP, CMake, SCons等，然后结合百度内部开发情况开发的高度定制化的构建系统。现在百度内部已经有近百个项目都在使用comake2作为构建系统进行持续集成开发。comake2因为是动态语言Python编写并且机制透明，现已经有不同的项目组贡献了十几个插件。总体来说现该系统已经可以很好地支持Baidu内部持续集成开发需求。
 
 - 维护，升级和优化基础库。接手的基础库各式各样，而这些库被近千个模块所依赖和使用。不完全地包括socket io, 文件io, url处理，http处理，通用数据结构包括lock-free的B树，字符编码识别和转换，字典，正则表达式，多模匹配，签名，内存分配器，数据格式，IDL编译器，单机存储系统，网络传输系统等。
-
-
-
-
-
-
-
-

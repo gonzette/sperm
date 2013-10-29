@@ -4,7 +4,7 @@
 # whether it's mac otherwise it's ubuntu.
 MAC=0
 kernel=`uname -s`
-if [ $kernel = "Darwin" ]
+if [ $kernel"X" = "DarwinX" ]
 then
     MAC=1
 fi

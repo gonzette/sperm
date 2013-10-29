@@ -50,8 +50,8 @@
 (setq show-paren-style 'parentheses)
 
 ;; turn off tool-bar, menu-bar, and scroll-bar
-(tool-bar-mode 0)
-(menu-bar-mode 1)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
 (scroll-bar-mode -1)
 ;; allow to view image directly.
 (auto-image-file-mode t) 
