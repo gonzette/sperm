@@ -1,5 +1,7 @@
 ;;; .emacs
-
+(add-to-list 'load-path "~/.emacs.d/")
+(require 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
 (setq mac-system nil)
 (when (eq system-type 'darwin)
   (setq mac-system t))
@@ -7,7 +9,6 @@
 ;;; common code.
 
 ;; sudo apt-get install emacs-goodies-el
-(add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/emacs-goodies-el-35.0/elisp/emacs-goodies-el/")
 (require 'xml-parse)
 (autoload 'make-regexp "make-regexp" 
@@ -529,15 +530,16 @@
 ;; (package-refresh-contents)
 (package-initialize)
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values (quote ((checkdoc-minor-mode . t) (require-final-newline . t) (mangle-whitespace . t))))
  '(session-use-package t nil (session)))
 (custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  )
 
