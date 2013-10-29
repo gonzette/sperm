@@ -82,9 +82,6 @@ PATH=$HOME/utils/python/bin:$PATH
 MANPATH=$HOME/utils/python/share/man:$MANPATH
 PATH=$HOME/utils/valgrind/bin:$PATH
 PATH=$HOME/utils/protobuf/bin:$PATH
-PATH=$HOME/utils/protobuf-2.3.0/build/bin:$PATH
-PATH=$HOME/utils/protobuf-2.5.0/build/bin:$PATH
-PATH=$HOME/utils/protobuf-2.4.1/build/bin:$PATH
 PATH=$HOME/utils/astyle/build/gcc/bin/:$PATH
 PATH=$HOME/utils/flex/bin:$PATH
 PATH=$HOME/utils/php/bin:$PATH
@@ -132,10 +129,19 @@ MANPATH=$HOME/utils/clisp/share/man:$MANPATH
 PATH=$HOME/github/depot_tools:$PATH
 PATH=$HOME/utils/nginx/sbin:$PATH
 PATH=$HOME/utils/uwsgi-1.4.4:$PATH
+
+# texmacs
 PATH=$HOME/utils/TeXmacs-1.0.7-static-gnu-linux/bin:$PATH
+
+# maven
 PATH=$HOME/utils/apache-maven-3.0.4/bin:$PATH
 
-# golang-go.
+# protocol buffers
+PATH=$HOME/utils/protobuf-2.3.0/build/bin:$PATH
+PATH=$HOME/utils/protobuf-2.5.0/build/bin:$PATH
+PATH=$HOME/utils/protobuf-2.4.1/build/bin:$PATH
+
+# golang
 export GOROOT=$HOME/utils/go
 export GOPATH=$HOME/go/
 PATH=$GOROOT/bin:$PATH
@@ -172,13 +178,10 @@ git config --global alias.unstage 'reset'
 git config --global alias.last 'log -1 HEAD'
 
 # some useful alias.
-alias ed="emacs" # for typo.
-alias dstat='dstat -cdlmnpsy' # easy use.
+alias dstat='dstat -cdlmnpsy'
 alias dp0="ssh -p 16021 -l dp dp0" # authorized.
-alias dp1="ssh -p 16021 -l dp dp1" # authorized.
 alias hadoop1="ssh -p 16021 -l yunbg hadoop1" # authorized.
 alias nexus="ssh -p 16021 -l yunbg nexus" # authorized.
-alias hudson="ssh -l ceshi hudson" # authorized.
 
 # private key.
 ssh-add ~/.ssh/id_rsa 2>/dev/null 

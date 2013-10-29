@@ -1,5 +1,4 @@
 ;;; .emacs
-
 (setq mac-system nil)
 (when (eq system-type 'darwin)
   (setq mac-system t))
@@ -541,3 +540,10 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; spell checking
+;; sudo apt-get install ispell
+;; sudo apt-get install apsell
+(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
+(autoload 'flyspell-delay-command "flyspell" "Delay on command." t) 
+(dolist (hook '(text-mode-hook))
+  (add-hook hook (lambda () (flyspell-mode 1))))
