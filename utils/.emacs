@@ -549,3 +549,11 @@
 ;; sudo apt-get install ispell
 ;; sudo apt-get install apsell
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
+
+(require 'tabbar)
+(tabbar-mode)
+(define-prefix-command 'lwindow-map)
+(global-set-key (kbd "<M-up>") 'tabbar-backward-group)
+(global-set-key (kbd "<M-down>") 'tabbar-forward-group)
+(global-set-key (kbd "<M-left>") 'tabbar-backward)
+(global-set-key (kbd "<M-right>") 'tabbar-forward)
