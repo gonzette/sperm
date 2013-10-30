@@ -399,7 +399,14 @@
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (add-hook 'org-mode-hook 'turn-on-font-lock)
 (add-hook 'org-mode-hook 
-          (lambda () (setq truncate-lines nil)))
+          (lambda () (progn 
+		       (setq truncate-lines nil)
+		       (local-unset-key (kbd "<M-up>"))
+		       (local-unset-key (kbd "<M-down>"))
+		       (local-unset-key (kbd "<M-left>"))
+		       (local-unset-key (kbd "<M-right>")))))
+			     
+			   
 (setq org-log-done t)
 
 ;; (define-key global-map "\C-ca" 'org-agenda)
@@ -557,3 +564,5 @@
 (global-set-key (kbd "<M-down>") 'tabbar-forward-group)
 (global-set-key (kbd "<M-left>") 'tabbar-backward)
 (global-set-key (kbd "<M-right>") 'tabbar-forward)
+(require 'speedbar)
+(global-set-key "\M-s" 'speedbar)
