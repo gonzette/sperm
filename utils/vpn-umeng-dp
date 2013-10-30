@@ -1,7 +1,2 @@
 #!/bin/bash
-function start() {
-    echo "cd $HOME/.private/vpn-umeng-dp && sudo openvpn --config client.conf"
-    cd $HOME/.private/vpn-umeng-dp && sudo openvpn --config client.conf
-}
-
-start
+cd $HOME/.private/vpn-umeng-dp && sudo openvpn --config client.conf

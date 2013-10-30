@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh -D 7070 -C -N -v vps.dirlt.com
