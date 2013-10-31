@@ -1,0 +1,7 @@
+* effective-scala
+#+TITLE: Effective Scala
+   - http://twitter.github.io/effectivescala/
+
+** Introduction
+
+
