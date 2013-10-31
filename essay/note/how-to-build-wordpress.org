@@ -21,4 +21,6 @@
        - local_enable=YES # 允许本地账户
        - write_enable=YES # 允许写权限
      - 启动ftp sudo /etc/init.d/vsftpd restart
+   - 配置插件
+     - SI CHAPTCHA http://wordpress.org/plugins/si-captcha-for-wordpress/ 可以用来阻止垃圾评论等 
 
