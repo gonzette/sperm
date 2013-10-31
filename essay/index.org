@@ -192,7 +192,7 @@
 ** About Me
 My name is Zhang Yan. I get MS. at [[http://www.sdu.edu.cn/][Shandong University]] on Computer Science and BEng. at [[http://www.sdu.edu.cn/][Shandong University]] on Electronic Engineering. I currently work as Software Architect in Data Platform Team at [[http://www.umeng.com/][Umeng]] which focus on mobile analytics since 2012.5 where I manily work on building the infrastructure of big data processing. From 2010.6 to 2012.6, I have been a Senior Software Engineer at [[http://www.baidu.com/][Baidu]] Infrastructure Tream where I wrote libraries, tools, services and distributed systems. From 2008.7 to 2010.6, I have been a Software Engineering Intern at [[http://www.baidu.com/][Baidu]] Component Tream where I wrote libraries and tools. You can dig me more on my linkedin(or [[file:./resume.org][resume]])
 
-[[file:note.org][Here]] are my some notes written casually to record my life footprint. I think it will be fun to read them when I became old.
+[[file:note.org][Here]] are my some notes written casually to record my life footprint. I think it will be fun to read them when I became old. Also there are some words on my [[http://blog.dirlt.com][blog]]
 
 My code name is dirtysalt or dirlt. It's translated from my chinese name. The translation works as following:
    - Zhang pronounce like 'dirty' in cn
@@ -216,4 +216,5 @@ Especially thanks to [[http://xuchaoqian.com][xuchaoqian]] for encouraging me to
    - Joe Armstrong. http://joearms.github.io/
    - Don Knuth. http://www-cs-faculty.stanford.edu/~uno/
    - Jeff Dean. http://research.google.com/people/jeff/
+   - Rob Pike : http://www.herpolhode.com/rob/
    - 
