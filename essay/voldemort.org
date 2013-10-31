@@ -1,2 +1,7 @@
 * voldemort
-   - http://www.project-voldemort.com/voldemort/
+   - http://www.project-voldemort.com/voldemort/ (Homepage)
+     - http://engineering.linkedin.com/voldemort/serving-large-scale-batch-computed-data-project-voldemort (Introduction)
+     - http://blog.linkedin.com/2009/03/20/project-voldemort-scaling-simple-storage-at-linkedin/ (Introduction)
+   - http://data.linkedin.com/blog/2009/06/building-a-terabyte-scale-data-cycle-at-linkedin-with-hadoop-and-project-voldemort (Principle)
+   - http://data.linkedin.com/blog/2009/06/building-voldemort-read-only-stores-with-hadoop (Usage)
+
