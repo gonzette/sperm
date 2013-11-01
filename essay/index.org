@@ -219,4 +219,7 @@ Especially thanks to [[http://xuchaoqian.com][xuchaoqian]] for encouraging me to
    - Don Knuth. http://www-cs-faculty.stanford.edu/~uno/
    - Jeff Dean. http://research.google.com/people/jeff/
    - Rob Pike : http://www.herpolhode.com/rob/
+   - www.preshing.com : http://www.preshing.com/
+   - Mechanical Sympathy : http://mechanical-sympathy.blogspot.co.at/
+   - The Writings of Leslie Lamport : http://research.microsoft.com/en-us/um/people/lamport/pubs/pubs.html
    - 
