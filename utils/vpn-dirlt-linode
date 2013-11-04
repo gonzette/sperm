@@ -1,2 +1,5 @@
 #!/bin/bash
-ssh -D 62221 -C -N -v vps.dirlt.com
+for((;;))
+do
+    ssh -D 62221 -C -N -v vps.dirlt.com
+done
