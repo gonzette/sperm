@@ -509,9 +509,8 @@
 (add-hook 'scala-mode-hook
           '(lambda ()
              (yas/minor-mode-on)))
-(add-to-list 'auto-mode-alist
-	     '("\\.scala$" . scala-mode)
-	     '("\\.sbt$" . scala-mode))
+(add-to-list 'auto-mode-alist '("\\.scala$" . scala-mode))
+(add-to-list 'auto-mode-alist '("\\.sbt$" . scala-mode))
 
 ;;; rainbow-delimiters
 ;; (require 'rainbow-delimiters)

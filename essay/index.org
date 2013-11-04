@@ -30,7 +30,7 @@
 
 ** Compression Technology
    - [[file:snappy.org][Snappy]] Google的开源压缩解压库。在满足一定压缩比率的条件下着重提升压缩和解压速度。
-   - [[file:lzf.org][Lzf]] Redis使用的开源压缩解压库。轻量(两个文件), 可以很容易地独立纳入项目。
+   - [[file:lzf.org][Lzf]] [[file:redis.org][Redis]] 使用的开源压缩解压库。轻量(两个文件), 可以很容易地独立纳入项目。
    - [[file:lzma.org][Lzma]] Lempel-Ziv-Markov chain algorithm ，压缩速度相对较慢但是压缩比超高。
    
 ** Tool and Desktop
