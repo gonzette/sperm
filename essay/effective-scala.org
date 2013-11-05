@@ -29,8 +29,14 @@ trait Collection[+T] {
 
 ** Concurrency
    - The subject of concurrent collections is fraught with opinions, subtleties, dogma and FUD. In most practical situations they are a nonissue: Always start with the simplest, most boring, and most standard collection that serves the purpose. Don’t reach for a concurrent collection before you know that a synchronized one won’t do: the JVM has sophisticated machinery to make synchronization cheap, so their efficacy may surprise you.
-   - 
+   - If an immutable collection will do, use it — they are referentially transparent, so reasoning about them in a concurrent context is simple. Mutations in immutable collections are typically handled by updating a reference to the current value (in a var cell or an AtomicReference). Care must be taken to apply these correctly: atomics must be retried, and vars must be declared volatile in order for them to be published to other threads.
+
 ** Control structures
+   - returns can have hidden costs: when used inside of a closure. *implemented in bytecode as an exception catching/throwing pair which, used in hot code, has performance implications.*
+   - require and assert both serve as executable documentation. Both are useful for situations in which the type system cannot express the required invariants. 
+     - assert is used for invariants that the code assumes (either internal or external),
+     - Whereas require is used to express API contracts:
+
 ** Functional programming
 ** Object oriented programming
 ** Error handling
