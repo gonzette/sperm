@@ -28,10 +28,27 @@ trait Collection[+T] {
    - Use scala.collection.JavaConverters to interoperate with Java collections. These are a set of implicits that add conversion asJava and asScala conversion methods. The use of these ensures that such conversions are explicit, aiding the reader.
 
 ** Concurrency
+   - Prefer transforming futures over creating your own. Future transformations ensure that failures are propagated, that cancellations are signalled, and free the programmer from thinking about the implications of the Java memory model.
    - The subject of concurrent collections is fraught with opinions, subtleties, dogma and FUD. In most practical situations they are a nonissue: Always start with the simplest, most boring, and most standard collection that serves the purpose. Don’t reach for a concurrent collection before you know that a synchronized one won’t do: the JVM has sophisticated machinery to make synchronization cheap, so their efficacy may surprise you.
-   - 
+
 ** Control structures
+   - require and assert both serve as executable documentation. Both are useful for situations in which the type system cannot express the required invariants. 
+     - assert is used for invariants that the code assumes
+     - Whereas require is used to express API contracts:
+
 ** Functional programming
+Value oriented programming confers many advantages, especially when used in conjunction with functional programming constructs. This style emphasizes 
+   - the transformation of values over stateful mutation, 
+   - yielding code that is referentially transparent, 
+   - providing stronger invariants and thus also easier to reason about. 
+   - Case classes, 
+   - pattern matching, 
+   - destructuring bindings, 
+   - type inference, and 
+   - lightweight closure- and 
+   - method-creation syntax 
+are the tools of this trade.
+
 ** Object oriented programming
 ** Error handling
 ** Garbage collection
