@@ -2,6 +2,7 @@
 #+OPTIONS: H:4
    - [[http://www.cs.ucsb.edu/~benh/260/Programming-in-Scala.pdf][Programming in Scala]] 
    - The Scala Programming Language : http://www.scala-lang.org/
+   - http://twitter.github.io/scala_school/
 
 ** 基础知识
 *** 标识符
@@ -136,6 +137,13 @@ def printLine(a:String) {
 所有函数都是继承于Function这个类的，比如(Int,Int) => Long那么继承于Function2[Int,Int,Long]并且实现了apply方法，所以如果想创建函数的话，实际上也可以使用创建对象方式来完成
 #+BEGIN_SRC Scala
 val x = new Function2[Int,Int,Long] {
+  def apply(x:Int,y:Int) = x + y
+}
+#+END_SRC
+
+NOTE(dirlt@2013-11-04):much shorter code. Function2[Int,Int,Long] = (Int,Int)=>Long
+#+BEGIN_SRC Scala
+object x extends((Int,Int)=>Long) {
   def apply(x:Int,y:Int) = x + y
 }
 #+END_SRC
@@ -1151,6 +1159,20 @@ val y = new Function1[Int,Int] {
 }
 #+END_SRC
 
+NOTE(dirlt@2013-11-04) 匿名函数也可以有下面的表达方式
+#+BEGIN_EXAMPLE
+{ (<param1>:<type1>,<param2>:<type2> ...) => <function-body> }
+// if only one parameter
+{ param: type => <function-body> }
+#+END_EXAMPLE
+
+相对上面的写法似乎更加漂亮
+#+BEGIN_SRC Scala
+val c = { a:Int => a + 1 }
+#+END_SRC
+
+--------------------
+
 但是在某些特殊情况则不需要指定parameter-type, 因为parameter-type可以通过上下文推导出来。 
 #+BEGIN_SRC Scala
 val x = (0 to 4).filter((x:Int) => x > 2)
@@ -1205,6 +1227,10 @@ println(foo(1)) // 11
 y = 0
 println(foo(1)) // 1
 #+END_SRC
+
+*** composition
+   - compose # f compose g = f(g(x))
+   - andThen # f andThen g = g(f(x))
 
 ** 面向泛型
 *** 类型参数化
@@ -1421,3 +1447,5 @@ type forSome { declarations }
    - Iterator[_ :< Component ]
 
 *NOTE(dirlt):大部分时候使用不到,主要还是为了能够比较好理解compile error message*
+
+

@@ -13,7 +13,24 @@ We present three abstractions around which we structure our server software at T
    - Relinquishing the programmer from these responsibilities, the runtime is free to adapt to the situation at hand. This is used to exploit thread locality, implement QoS, multiplex network I/O, and to thread through tracing metadata (`a la Google Dapper).
 
 ** Futures
+   - A future is a container used to hold the result of an asynchronous operation such as a network RPC, a timeout, or a disk I/O opera- tion. 
+   - A future is either empty—the result is not yet available; suc- ceeded—the producer has completed and has populated the future with the result of the operation; or failed—the producer failed, and the future contains the resulting exception. An immediately successful future is constructed with Future. value; an immediately failed future with Future.exception. 
+   - An empty future is represented by a Promise, which is a writable future allowing for at most one state transition, to either of the nonempty states. Promises are similar to I-structures, except that they embody failed as well as successful computations; they are rarely used directly.(Promise用来hold Future)
+   - Futures compose in two ways. First, a future may be defined as a function of other futures, giving rise to a dependency graph which is evaluated in the manner of dataflow programming. Second, inde- pendent futures are executed concurrently by default—execution is sequenced only where a dependency exists. All operations returning futures are expected to be asynchronous, though this is not enforced.(Future有下面这些组合方式)
+     - Dependent composition # transformation via 'flatMap'
+     - Handling errors # short-circuits and use 'rescue'
+     - Composing multiple dependencies # # reduce via 'collect'
+     - Recursive composition # 
 ** Services and Filters
+   - A service is an asynchronous function, typically representing some remote endpoint to which RPCs are dispatched; it is distinguished from a regular function in Scala by enforcing that its return value is represented by a Future
+     - type Service[Req, Rep] = Req => Future[Rep]
+     - Services represent clients and servers symmetrically and are used by Finagle.
+     - HTTP Proxy in one line 'Http.serve(":8080", Http.newService("twitter.com:80"))'
+   - Filters implement application-independent functionality; they are composed with services to modify service behavior.
+     - type Filter[Req, Rep] = (Req, Service[Req, Rep]) => Future[Rep]
+     - Filters provide a combinator, andThen, which is used to com- bine filters with other filters—producing composite filters—or with services—producing a new service whose behavior is modified by the filter.
+     - NOTE(dirlt):为什么我觉得filter和flatMap是一个东西呢？不过filter有概念上的抽象
+
 ** Discussion
 *** Declarative programming with futures
 The style of declarative programming encouraged by futures forces the programmer to structure his system as a set of components whose data dependencies are witnessed by the various future com-binators. *This is a sort of systems description, divorcing the seman-tics of an operation, which are described by the programmer, from execution details, handled by Finagle.* This has been enormously beneficial, freeing the programmer from the tedium of managing threads, queues, resource pools, and resource reclamation, allowing him instead to focus on application semantics.
@@ -27,7 +44,23 @@ Another, perhaps surprising, benefit is that since future types are “infectiou
 *** Futures in practice
 We introduced an interrupt mechanism to bridge the gap. In-terrupts enable consumers of a future to notify the asynchronous operation responsible for populating it, typically because the result is no longer needed. *Interrupts flow in the opposite direction of the data carried by futures, and they are advisory. Interrupts don’t di-rectly change the state of the future, but a producer may act on it. We added interrupt handling to the bottom-most part of our net-work clients.* In practice, only a handful of places in our code base, such as our timeout filter, were modified to raise interrupts.(interrupt并不会改变future状态, 但是producer能够识别它。整个interrupt是以data flow相反的方向传播的，然后finagle在最底层做interrupt处理)
 
+While interrupts violate the pure data flow model presented by futures, consumers are still oblivious to their producers. Interrupts are advisory, and do not directly affect the state of the future.
+
+Interrupts are not without problems. They introduce new seman- tic complications: Should combinators propagate interrupts to all futures? Or only the outstanding ones? What if a future is shared between multiple consumers? We don’t have great answers to these questions, but in practice interrupts are used rarely, and then almost exclusively by Finagle; we have not encountered any problems with their semantics or their implementation.(Interrupt语义方面没有特别好的办法来解决)
+
 *** Filters
+This is an excerpt from its current configura- tion:
+   - recordHandletime
+   - traceRequest
+   - collectJvmStats
+   - parseRequest
+   - logRequest
+   - recordClientStats
+   - sanitize
+   - respondToHealthCheck andThen
+   - applyTrafficControl  andThen
+   - virtualHostServer
+
 *** The cost of abstraction
 High level programming languages and constructs do not come for free. Future combinators allocate new futures on the garbage collected heap; closures, too, need to be allocated on the heap, since their invocation is deferred. While we’ve focused on reducing the allocation footprints—and indeed created many tools for allocation analysis—it is an ongoing concern.(产生很多内存碎片导致性能下降)
 

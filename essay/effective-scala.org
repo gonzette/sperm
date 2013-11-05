@@ -3,5 +3,39 @@
    - http://twitter.github.io/effectivescala/
 
 ** Introduction
+   - Scala provides many tools that enable succinct expression. Less typing is less reading, and less reading is often faster reading, and thus brevity enhances clarity. However brevity is a blunt tool that can also deliver the opposite effect: After correctness, think always of the reader.
+   - Above all, program in Scala. You are not writing Java, nor Haskell, nor Python; a Scala program is unlike one written in any of these. In order to use the language effectively, you must phrase your problems in its terms. There’s no use coercing a Java program into Scala, for it will be inferior in most ways to its original.
+   - This is a living document that will change to reflect our current “best practices,” but its core ideas are unlikely to change: *Always favor readability; write generic code but not at the expensive of clarity; take advantage of simple language features that afford great power but avoid the esoteric ones (especially in the type system). Above all, be always aware of the trade offs you make A sophisticated language requires a complex implementation, and complexity begets complexity: of reasoning, of semantics, of interaction between features, and of the understanding of your collaborators. Thus complexity is the tax of sophistication — you must always ensure that its utility exceeds its cost.*
 
+** Formatting
+** Types and Generics
+   - Immutable collections should be covariant. Methods that receive the contained type should “downgrade” the collection appropriately.
+#+BEGIN_SRC Scala
+trait Collection[+T] {
+  def add[U >: T](other: U): Collection[U]
+}
+#+END_SRC
+   - Mutable collections should be invariant. Covariance is typically invalid with mutable collections.
+   - If you do find yourself using implicits, always ask yourself if there is a way to achieve the same thing without their help. Do not use implicits to do automatic conversions between similar datatypes (for example, converting a list to a stream); these are better done explicitly because the types have different semantics, and the reader should beware of these implications.
+
+** Collections
+   - http://www.scala-lang.org/docu/files/collections-api/collections.html
+   - Prefer using immutable collections. They are applicable in most circumstances, and make programs easier to reason about since they are referentially transparent and are thus also threadsafe by default. Use the mutable namespace explicitly. 
+     - import scala.collection.mutable
+     - val set = mutable.Set()
+   - Use the default constructor for the collection type. The corollary to the above is: in your own methods and constructors, receive the most generic collection type appropriate. This typically boils down to one of the above: Iterable, Seq, Set, or Map.
+   - High level collections libraries (as with higher level constructs generally) make reasoning about performance more difficult: the further you stray from instructing the computer directly — in other words, imperative style — the harder it is to predict the exact performance implications of a piece of code. Reasoning about correctness however, is typically easier; readability is also enhanced. With Scala the picture is further complicated by the Java runtime; Scala hides boxing/unboxing operations from you, which can incur severe performance or space penalties.
+   - Use scala.collection.JavaConverters to interoperate with Java collections. These are a set of implicits that add conversion asJava and asScala conversion methods. The use of these ensures that such conversions are explicit, aiding the reader.
+
+** Concurrency
+   - The subject of concurrent collections is fraught with opinions, subtleties, dogma and FUD. In most practical situations they are a nonissue: Always start with the simplest, most boring, and most standard collection that serves the purpose. Don’t reach for a concurrent collection before you know that a synchronized one won’t do: the JVM has sophisticated machinery to make synchronization cheap, so their efficacy may surprise you.
+   - 
+** Control structures
+** Functional programming
+** Object oriented programming
+** Error handling
+** Garbage collection
+** Java compatibility
+** Twitter's standard libraries
+** Acknowledgements
 
