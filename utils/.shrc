@@ -186,3 +186,7 @@ alias nexus="ssh -p 16021 -l yunbg nexus" # authorized.
 # private key.
 ssh-add ~/.ssh/id_rsa 2>/dev/null 
 ssh-add ~/.ssh/github 2>/dev/null
+
+# sbt
+SBT_OPTS="-Dsbt.global.base=$HOME/.sbt -Dsbt.ivy.home=$HOME/.ivy2"
+export SBT_OPTS

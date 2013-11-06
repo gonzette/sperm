@@ -81,8 +81,11 @@
    - sudo apt-get install texinfo
    - #sudo apt-get install sun-java6-jdk
    - sudo apt-get install openjdk-6-jdk
+   - sudo apt-get install openjdk-6-doc
    - sudo apt-get install openvpn
    - sudo apt-get install lzop
+   - sudo apt-get install scala
+   - sudo apt-get install scala-doc
 
 ** 系统配置
 *** 察看ubuntu内部版本
@@ -296,6 +299,10 @@ ssh-add   ~/.ssh/id_rsa
 
 *NOTE（dirlt）：实际上第二点这个对于scp也是很必要的，因为scp没有办法指定工作端口只能使用默认的22*
 
+*** 修改默认shell
+sudo chsh -s /bin/zsh dirlt
+
+似乎需要重启才能够生效
 ** 虚拟机
 *** vmware虚拟机增加磁盘空间
 今天感觉自己的磁盘空间好像有点不够了，大部分数据都是在$HOME下面的，需要增加磁盘空间。

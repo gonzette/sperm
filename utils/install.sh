@@ -32,6 +32,19 @@ mkdir -p $HOME/.m2
 rm -rf $HOME/.m2/settings.xml
 ln -s $BINDIR/settings.xml $HOME/.m2/settings.xml
 
+echo "installing build.sbt..."
+mkdir -p $HOME/.sbt/plugins
+rm -rf $HOME/.sbt/plugins/build.sbt
+rm -rf $HOME/.sbt/build.sbt
+ln -s $BINDIR/plugins.sbt $HOME/.sbt/plugins/build.sbt
+ln -s $BINDIR/build.sbt $HOME/.sbt/build.sbt
+
+
+echo "install credentials..."
+mkdir -p $HOME/.ivy2
+rm -rf $HOME/.ivy2/.credentials
+ln -s $BINDIR/credentials $HOME/.ivy2/.credentials
+
 echo "installing config..."
 mkdir -p $HOME/.ssh
 rm -rf $HOME/.ssh/config
