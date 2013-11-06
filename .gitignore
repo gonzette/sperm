@@ -12,6 +12,7 @@
 *.sconsign.dblite
 *.iml
 *.exe
+*.log
 .idea
 .lein
 *.DS_Store
@@ -40,3 +41,5 @@ code/java/*/target
 essay/*.html
 essay/note/*.html
 a.out*
+
+target/
