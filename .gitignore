@@ -16,6 +16,7 @@
 .idea
 .lein
 *.DS_Store
+a.out
 
 utils/.emacs.d/tramp
 utils/.emacs.d/ac-comphist.dat
@@ -27,8 +28,6 @@ utils/.emacs.d/org-clock-save.el
 utils/.emacs.d/backups/
 utils/.emacs.d/.smex-items
 
-essay/images/.DS_Store
-
 essay/*.html
 essay/note/*.html
 essay/note/private
@@ -37,9 +36,7 @@ www/css
 sae/
 #www/kylin.html
 
-code/java/*/target
 essay/*.html
 essay/note/*.html
-a.out*
 
 target/
