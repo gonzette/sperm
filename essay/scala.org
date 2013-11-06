@@ -223,6 +223,10 @@ a = [x+2 for x in range(0,4) if x %2 == 0]
 #+END_SRC
 
 *NOTE（dirlt）：在书中“For Expressions Revisited”这节其实可以认为for是语法糖衣，将map/filter/anonymous-function包装起来.事实上缺少break/continue这样的控制语句，将for转换成为函数式计算也相对比较简单*
+Coursera Reactive Programming
+   - for(x<-e1) yield e2 => e1.map(x => e2)
+   - for(x<-e1 if f; s) yield e2 => for(x<-e1 withFilter f;s) yield e2
+   - for(x<-e1; y<-e2; s) yield e3 => e1.flatMap(x => for(y<-e2; s) yield e3)
 
 --------------------
 异常的触发和java类似都是throw new Exception(). catch部分可以通过模式匹配来完成。finally则主要用于处理清理资源释放等问题。

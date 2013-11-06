@@ -22,6 +22,18 @@ trait Collection[+T] {
 
 ** Collections
    - http://www.scala-lang.org/docu/files/collections-api/collections.html
+   - The collections library is large: in addition to an elaborate hierarchy — the root of which being Traversable[T] — there are immutable and mutable variants for most collections. Whatever the complexity, the following diagram contains the important distinctions for both immutable and mutable hierarchies. 
+     - Iterable[T] is any collection that may be iterated over, they provide an iterator method (and thus foreach). 
+     - Seq[T]s are collections that are ordered, 
+       - IndexedSeq
+	 - Vector
+       - LinearSeq
+	 - List
+     - Set[T]s are mathematical sets (unordered collections of unique items), 
+     - and Map[T]s are associative arrays, also unordered.
+
+file:./images/scala-collection-hierarchy-simple.png
+
    - Prefer using immutable collections. They are applicable in most circumstances, and make programs easier to reason about since they are referentially transparent and are thus also threadsafe by default. Use the mutable namespace explicitly. 
      - import scala.collection.mutable
      - val set = mutable.Set()
