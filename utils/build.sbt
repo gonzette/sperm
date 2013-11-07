@@ -30,16 +30,3 @@ publishTo <<= (version) {
   }
 }
 
-// fix the issue : package daemon contains object and package with same name: supervisor
-// TODO: why is work. -> http://comments.gmane.org/gmane.comp.java.clojure.storm/2426
-
-scalacOptions += "-Yresolve-term-conflict:package"
-
-// test scope.
-
-testFrameworks += new TestFramework("org.specs2.runner.SpecsFramework")
-
-parallelExecution in Test := false
-
-publishArtifact in Test := false
-

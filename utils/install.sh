@@ -50,7 +50,7 @@ mkdir -p $HOME/.ssh
 rm -rf $HOME/.ssh/config
 ln -s $BINDIR/config $HOME/.ssh/config
 
-TARGETS="2utf8 cxxindent oprof mysqldb syslog pinstall gc tpom vpn-umeng-dp vpn-dirlt-linode \
+TARGETS="2utf8 cxxindent oprof mysqldb syslog pinstall gc tpom tsbt vpn-umeng-dp vpn-dirlt-linode \
 proc-netstat rhs golang pcrypt einstall uinstall clj lein scode imei2umid time-machine apt-update"
 
 INSTALLDIR=$HOME/utils/bin
