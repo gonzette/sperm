@@ -1,20 +1,23 @@
 * cross-ocean
 *I'm looking for a remote job, and this statement is long term till I remove it*
+   - https://weworkremotely.com/
 
 ** spoon
 via StackOverflow http://careers.stackoverflow.com/jobs/42334/stream-software-from-the-web-senior-software-spoon-net
 
-@2013-10-29
+apply@2013-10-29
 
 ** wikimedian foundation
 via StackOverflow http://careers.stackoverflow.com/jobs/40283/software-engineer-data-analytics-back-end-wikimedia-foundation
 
-@2013-10-30
+apply@2013-10-30
+
+reject@2013-11-08
 
 ** dropbox
 via friends (remote?) https://www.dropbox.com/position?jvi=oNbJVfwm,Job
 
-@2013-11-06
+apply@2013-11-06
 
 ** parse.ly
 via weworkremotely.com https://weworkremotely.com/jobs/198
