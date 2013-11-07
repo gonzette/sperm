@@ -178,13 +178,13 @@ ff02::3	ip6-allhosts
 10.11.50.1 ad21
 10.11.50.4 ad24
 
-207.97.227.239 github.com
-204.232.175.94 gist.github.com
-107.21.116.220 help.github.com
-207.97.227.252 nodeload.github.com
-107.22.3.110 status.github.com
-204.232.175.78 training.github.com
-
+# 207.97.227.239 github.com
+# 204.232.175.94 gist.github.com
+# 107.21.116.220 help.github.com
+# 207.97.227.252 nodeload.github.com
+# 107.22.3.110 status.github.com
+# 204.232.175.78 training.github.com
+#
 #UPDATE:2013-07-07 21:01
 
 127.0.0.1	localhost
