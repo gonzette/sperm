@@ -16,7 +16,7 @@
 .idea
 .lein
 *.DS_Store
-a.out
+a.out*
 
 utils/.emacs.d/tramp
 utils/.emacs.d/ac-comphist.dat
