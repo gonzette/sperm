@@ -1,0 +1,7 @@
+package com.dirlt.scala.finagle.proto;
+
+option java_outer_classname = "Message";
+    
+message Pack {
+  required int32 id = 1;
+}
