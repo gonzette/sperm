@@ -21,8 +21,8 @@ ff02::1	ip6-allnodes
 ff02::2	ip6-allrouters
 ff02::3	ip6-allhosts
 
-122.11.52.244 git.fm
-122.11.52.244 github.umeng.com
+# 122.11.52.244 git.fm
+# 122.11.52.244 github.umeng.com
 122.11.52.226 hadoop1
 122.11.52.227 nexus
 10.18.103.251 hudson
