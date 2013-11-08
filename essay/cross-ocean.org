@@ -1,36 +1,43 @@
 * cross-ocean
 *I'm looking for a remote job, and this statement is long term till I remove it*
+   - http://careers.stackoverflow.com/jobs?allowsremote=true
    - https://weworkremotely.com/
 
 ** spoon
-via StackOverflow http://careers.stackoverflow.com/jobs/42334/stream-software-from-the-web-senior-software-spoon-net
+http://careers.stackoverflow.com/jobs/42334/stream-software-from-the-web-senior-software-spoon-net
+   - apply@2013-10-29
 
-apply@2013-10-29
-
-** wikimedian foundation
-via StackOverflow http://careers.stackoverflow.com/jobs/40283/software-engineer-data-analytics-back-end-wikimedia-foundation
-
-apply@2013-10-30
-
-reject@2013-11-08
+** wikimedia
+http://careers.stackoverflow.com/jobs/40283/software-engineer-data-analytics-back-end-wikimedia-foundation
+   - apply@2013-10-30
+   - reject@2013-11-08
 
 ** dropbox
-via friends (remote?) https://www.dropbox.com/position?jvi=oNbJVfwm,Job
-
-apply@2013-11-06
+https://www.dropbox.com/position?jvi=oNbJVfwm,Job remote?
+   - apply@2013-11-06
 
 ** parse.ly
-via weworkremotely.com https://weworkremotely.com/jobs/198
+https://weworkremotely.com/jobs/198
 
 TODO(dirlt)
 
 ** duckduckgo
-via weworkremotely.com https://weworkremotely.com/jobs/196
+https://weworkremotely.com/jobs/196
 
 TODO(dirlt)
 
 ** infinipool
-via weworkremotely.com https://weworkremotely.com/jobs/73
+https://weworkremotely.com/jobs/73
 
 TODO(dirlt)
 
+** sidebar
+https://weworkremotely.com/jobs/207
+
+** domino
+https://weworkremotely.com/jobs/112
+
+** aircloak
+https://weworkremotely.com/jobs/59
+
+** 

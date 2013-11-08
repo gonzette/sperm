@@ -15,10 +15,7 @@ new BasicServerConfig {
 
   loggers = new LoggerConfig {
     level = Level.DEBUG
-    handlers = new FileHandlerConfig {
-      filename = "server.log"
-      roll = Policy.SigHup
-    }
+    handlers = new ConsoleHandlerConfig
   }
 
   admin = new AdminServiceConfig {
