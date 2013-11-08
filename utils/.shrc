@@ -19,7 +19,7 @@ CDH4_3_0=1
 
 if [ $MAC = 1 ]
 then
-    export JAVA_HOME=/Library/Java/JavaVirtualMachines/1.6.0_43-b01-447.jdk/Contents/Home/
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_17.jdk/Contents/Home/
     export HADOOP_LZO=/Users/dirlt/github/hadoop-lzo/
     export HADOOP_CLASSPATH=.:$HADOOP_LZO/build/hadoop-lzo-0.4.17-SNAPSHOT.jar
     export JAVA_LIBRARY_PATH=$HADOOP_LZO/build/native/Mac_OS_X-x86_64-64/lib/
