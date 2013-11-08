@@ -18,18 +18,13 @@ https://www.dropbox.com/position?jvi=oNbJVfwm,Job remote?
 
 ** parse.ly
 https://weworkremotely.com/jobs/198
-
-TODO(dirlt)
+   - apply@2013-11-08
 
 ** duckduckgo
 https://weworkremotely.com/jobs/196
 
-TODO(dirlt)
-
 ** infinipool
 https://weworkremotely.com/jobs/73
-
-TODO(dirlt)
 
 ** sidebar
 https://weworkremotely.com/jobs/207
@@ -39,5 +34,4 @@ https://weworkremotely.com/jobs/112
 
 ** aircloak
 https://weworkremotely.com/jobs/59
-
-** 
+   - apply@2013-11-08
