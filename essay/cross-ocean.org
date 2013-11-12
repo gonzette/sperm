@@ -22,15 +22,22 @@ https://weworkremotely.com/jobs/198
 
 ** duckduckgo
 https://weworkremotely.com/jobs/196
-   - giveup@2013-11-11
+   - startup@2013-11-12
+   - NOTE(dirlt):community based.
+   - https://duckduckgo.com/
+   - https://dukgo.com/help/company/hiring
 
 ** infinipool
 https://weworkremotely.com/jobs/73
+   - apply@2013-11-12
 
 ** sidebar
 https://weworkremotely.com/jobs/207
+   - giveup@2013-11-12
+
 ** dominoup
 https://weworkremotely.com/jobs/112
+   - apply@2013-11-11
 
 ** aircloak
 https://weworkremotely.com/jobs/59
