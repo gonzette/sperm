@@ -20,3 +20,6 @@ http://msdn.microsoft.com/en-us/magazine/cc817398.aspx
 ** One picture explain Single-Thread, Multiple-Thread, Event-Driven.
 
 file:./images/single-multi-thread-event-driven.jpg
+
+** Is Parallel Programming Hard, And, If So, What Can You Do About It?
+https://www.kernel.org/pub/linux/kernel/people/paulmck/perfbook/perfbook.html

@@ -79,6 +79,7 @@
    - [[file:ace.org][ACE]] 开源的网络编程框架。非常重量级，也被人诟病为学术产物而不是适合生产实践。TODO(dirlt):只是有大概的了解，有待更深入的研究.
    - [[file:apache.org][Apache]] 历史悠久的开源HTTP服务器。 an effort to develop and maintain an open-source HTTP server for modern operating systems including UNIX and Windows NT
    - [[file:netty.org][Netty]] an asynchronous event-driven network application framework in *Java* based on Java NIO.
+   - [[file:./finagle.org][Finagle]] an extensible RPC system for the JVM, used to construct high-concurrency servers.
 
 ** Storage System
    - [[file:storage-system-reading.org][Storage System Reading]] 关于存储系统方面的一些文章以及阅读心得。
