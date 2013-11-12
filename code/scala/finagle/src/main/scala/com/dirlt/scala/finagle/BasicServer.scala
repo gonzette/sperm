@@ -6,7 +6,7 @@ import com.twitter.finagle.Service
 import com.twitter.finagle.stats.OstrichStatsReceiver
 import com.twitter.logging.Logger
 import com.twitter.ostrich.admin.config.ServerConfig
-import com.twitter.ostrich.admin.{Service => OstrichServive, RuntimeEnvironment}
+import com.twitter.ostrich.admin.{Service => OstrichService, RuntimeEnvironment}
 import com.twitter.util.Future
 import java.net.InetSocketAddress
 import org.jboss.netty.handler.codec.http._
@@ -27,7 +27,7 @@ class BasicServerConfig extends ServerConfig[BasicServer] {
   }
 }
 
-class BasicServer(config: BasicServerConfig) extends OstrichServive {
+class BasicServer(config: BasicServerConfig) extends OstrichService {
   val log = Logger.get()
   var server: Server = _
 

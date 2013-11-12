@@ -42,3 +42,4 @@ https://weworkremotely.com/jobs/112
 ** aircloak
 https://weworkremotely.com/jobs/59
    - apply@2013-11-08
+   - reject@2013-11-12
