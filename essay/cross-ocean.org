@@ -15,6 +15,7 @@ http://careers.stackoverflow.com/jobs/40283/software-engineer-data-analytics-bac
 ** dropbox
 https://www.dropbox.com/position?jvi=oNbJVfwm,Job remote?
    - apply@2013-11-06
+   - reject@2013-11-13
 
 ** parse.ly
 https://weworkremotely.com/jobs/198
@@ -30,6 +31,7 @@ https://weworkremotely.com/jobs/196
 ** infinipool
 https://weworkremotely.com/jobs/73
    - apply@2013-11-12
+   - reply@2013-11-13
 
 ** sidebar
 https://weworkremotely.com/jobs/207
