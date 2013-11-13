@@ -40,6 +40,49 @@ https://github.com/stumbleupon/asynchbase
 实现上asynchbase没有使用任何org.apache.hbase的代码，从头完成了自己的协议访问，这个可以从HBaseClient的构造参数可以看到，在里面没有使用configuration,
 而是直接传入quorumSpec就是zookeeper的地址。
 
+--------------------
+
+*NOTE(dirlt):关于Deferred实现有点出乎自己的意料*
+
+https://github.com/OpenTSDB/asynchbase/issues/72
+
+测试代码可以参考 com.dirlt.java.asynchbase.AsyncHBase, 在Get添加Callback之前会检查结果是否已经获取到。如果已经获取的话，那么会在当前的线程就执行callback
+
+===== Question
+
+#+BEGIN_VERSE
+Apology at first because this question should be raise in groups. But since the project has no groups or mail list, so I have to resort to the Github issue.
+
+What I wonder is that, is asynchbase using Deferred concept in the right way. I raise a GetRequest first, then get the Deferred object, then bind the callback to the object. However I guess sometimes this way won't work. Let me take the following extremely case for example.
+
+val deferred = client.get(request)
+// wait or hang for a LONG time.
+deferred addCallback {
+// process.
+}
+
+Since we add callback to the chain too later, I guess asynchbase engine will not execute the callback, will it?
+
+I think the right form should be the following instead of above
+
+client.get(request, new Callback {});
+
+and before launch the operation, engine has to make sure the callback already bind to the operation.
+
+Recently I learn Twitter's finagle, they bring up the concept of Future much like Deferred. However the biggest difference is Future binds to service, and Deferred binds to request.
+#+END_VERSE
+
+===== Answer
+
+#+BEGIN_VERSE
+Try and see by yourself: it works.
+
+The reason it works is that if you add a Callback on a Deferred that already has its result available, then the Callback will be invoked right away, with that result in argument.
+
+So everything is fine :)
+#+END_VERSE
+
+
 *** HBase Write Path | Apache Hadoop for the Enterprise | Cloudera
 http://blog.cloudera.com/blog/2012/06/hbase-write-path/
 
