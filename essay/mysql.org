@@ -5,7 +5,10 @@ http://www.mysql.com/
 *NOTE(dirlt):utils/mysqldb可以用来简单配置和批量操作mysql单机多个实例的脚本*
 
    - mysql_install_db --usrer=mysql --datadir=/var/lib/mysql/ # 创建MySQL基本表
+     - 权限问题 http://www.huoxingfan.com/834.html *NOTE（dirlt）：特别坑爹*
    - source <FILE> # 导入SQL文件
+   - GRANT ALL PRIVILEGES ON *.* TO 'root'@localhost IDENTIFIED BY '' # 授权
+     
 
 ** 层级估算
 *NOTE（dirlt）：多谢caole讲解*
