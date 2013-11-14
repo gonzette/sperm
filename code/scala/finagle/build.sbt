@@ -28,6 +28,7 @@ libraryDependencies ++= {
   Seq(
     "com.twitter" %% "finagle-core" % finagleVersion,
     "com.twitter" %% "finagle-ostrich4" % finagleVersion,
+    "com.twitter" %% "finagle-mysql" % finagleVersion,
     "com.twitter" %% "finagle-http" % finagleVersion,
     "com.twitter" %% "util-core" % utilVersion,
     "com.twitter" %% "util-logging" % utilVersion,

@@ -71,7 +71,7 @@ A frequent source of unintentional garbage collection pressure is the ease with 
 In most of our servers, major collections are rare. This gives rise to another kind of space leak: if a Promise is promoted to the major heap (for example because the operation it represents took an unexpectedly long time), its referent value, even if its useful lifetime is miniscule, survives until the next major garbage collection.
 
 Development discipline is an important mitigating factor. In order to ensure that allocation regressions aren’t introduced, we have developed a tool, JVMGCPROF which runs regularly along with our tests, providing reports on per-request allocation rates and lifetimes.
-This is an area of ongoing effort with many intriguing possibil-ities. Since Finagle controls logical-to-physical thread multiplex-ing and is aware of request boundaries, it can bias allocation. This opens up the possibility that, with the cooperation of the underlying JVM, we may make use of region allocation techniques.(jvmgcprof可以观察每个request到来时分配对象的频率以及这些对象的lifetime. fingale本身可以改进内存分配策略)
+This is an area of ongoing effort with many intriguing possibil-ities. Since Finagle controls logical-to-physical thread multiplex-ing and is aware of request boundaries, it can bias allocation. This opens up the possibility that, with the cooperation of the underlying JVM, we may make use of region allocation techniques.(jvmgcprof可以观察每个request到来时分配对象的频率以及这些对象的lifetime. finagle本身可以改进内存分配策略)
 
 *** Futures, Services, and Filters at Twitter
 ** Related work
