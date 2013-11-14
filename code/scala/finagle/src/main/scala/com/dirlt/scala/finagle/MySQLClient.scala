@@ -3,6 +3,7 @@ package com.dirlt.scala.finagle
 import com.twitter.finagle.exp.mysql.{StringValue, Client}
 import com.twitter.logging.Level
 import com.twitter.finagle.stats.OstrichStatsReceiver
+import com.twitter.util.Await
 
 
 /**
@@ -26,9 +27,11 @@ object MySQLClient extends App {
         (name,pass)
     }.ensure(client.closeStatement(ps))
   })
-  result.onSuccess(_.foreach{
-    x => println(x._1,x._2)
-  })
-  result.wait()
-  client.close()
+  result.onSuccess {
+    res =>
+      res.foreach{
+        x => println(x._1,x._2)
+      }
+      Await.result(client.close())
+  }
 }
