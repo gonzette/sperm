@@ -12,6 +12,10 @@ http://careers.stackoverflow.com/jobs/40283/software-engineer-data-analytics-bac
    - apply@2013-10-30
    - reject@2013-11-08
 
+** codeship
+http://careers.stackoverflow.com/jobs/43288/senior-software-developer-codership
+   - apply@2013-11-05
+
 ** dropbox
 https://www.dropbox.com/position?jvi=oNbJVfwm,Job remote?
    - apply@2013-11-06
@@ -32,6 +36,7 @@ https://weworkremotely.com/jobs/196
 https://weworkremotely.com/jobs/73
    - apply@2013-11-12
    - reply@2013-11-13
+   - skype@2013-11-16
 
 ** sidebar
 https://weworkremotely.com/jobs/207
@@ -45,3 +50,17 @@ https://weworkremotely.com/jobs/112
 https://weworkremotely.com/jobs/59
    - apply@2013-11-08
    - reject@2013-11-12
+
+** gitlab
+https://weworkremotely.com/jobs/167
+   - apply@2013-11-16
+
+** dataware ventures
+http://careers.stackoverflow.com/jobs/39501/research-software-developer-dataware-ventures
+
+** bayometric
+http://careers.stackoverflow.com/jobs/43577/senior-java-developer-tech-lead-bayometric
+
+** elastic search
+http://elasticsearch.com/job/distributed-systems-software-engineer/
+
