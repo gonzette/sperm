@@ -122,6 +122,26 @@ POM_TEMPLATE="""<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="ht
 </project>
 """
 
+LOG4J_TEMPLATE="""log.dir=.
+log.file=%(artifactId)s.log
+
+log4j.rootLogger=INFO,DRFA
+#log4j.logger.%(groupId)s.%(artifactId)s=${rootLogger},console
+
+log4j.appender.DRFA=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.DRFA.File=${log.dir}/${log.file}
+log4j.appender.DRFA.DatePattern=.yyyy-MM-dd
+log4j.appender.DRFA.layout=org.apache.log4j.PatternLayout
+#log4j.appender.DRFA.layout.ConversionPattern=%%d{ISO8601} %%p %%c: %%m%%n
+log4j.appender.DRFA.layout.ConversionPattern=%%d{ISO8601} %%p: %%m%%n
+
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%%d{ISO8601} %%p: %%m%%n
+
+"""
+
+
 import os
 def generate(project,groupId,artifactId):
     cps=groupId.split('.')
@@ -132,6 +152,7 @@ def generate(project,groupId,artifactId):
     os.system('mkdir -p %s/src/test/java/%s/'%(project,'/'.join(cps)))
     os.system('mkdir -p %s/src/main/proto/'%(project))
     os.system('mkdir -p %s/src/main/resources/'%(project))
+    open('%s/src/main/resources/log4j.properties'%(project),'w').write(LOG4J_TEMPLATE%(locals()))
     os.system('mkdir -p %s/src/test/resources/'%(project))
 
 import sys
