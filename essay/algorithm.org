@@ -588,3 +588,6 @@ int main() {
 
 以后每次打开题目都会在本地保存一份代码，并且里面附带测试用例，本地完成之后直接load即可保存到远程。nice!!!
 
+*** 初次div2
+
+file:./images/virgin-topcoder-div2.jpg 
