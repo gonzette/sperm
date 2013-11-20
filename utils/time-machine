@@ -24,9 +24,9 @@ done
 
 # dirs.
 for d in doc \
-    VirtualBox 
+    VirtualBox
 #    "VirtualBox VMs"
 do
     echo "sync $d..."
-    sudo rsync -arz "$HOME/$d/" "$pwd/dirlt/$d/"
+    sudo rsync -avrz "$HOME/$d/" "$pwd/dirlt/$d/"
 done
