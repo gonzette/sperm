@@ -2,7 +2,7 @@
 sudo hostname dirlt-ubuntu
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
 sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
-wget -q http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
+wget -q -O - http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc -O- | sudo apt-key add -
 sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian raring contrib" >> /etc/apt/sources.list.d/oracle.list'
 sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian quantal contrib" >> /etc/apt/sources.list.d/oracle.list'
 sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian precise contrib" >> /etc/apt/sources.list.d/oracle.list'
@@ -15,5 +15,6 @@ sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian hardy con
 sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian wheezy contrib" >> /etc/apt/sources.list.d/oracle.list'
 sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian squeeze contrib non-free" >> /etc/apt/sources.list.d/oracle.list'
 sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian lenny contrib non-free" >> /etc/apt/sources.list.d/oracle.list'
+sudo sh -c 'echo "deb http://ppa.launchpad.net/tualatrix/ppa/ubuntu precise main"  >> /etc/apt/sources.list.d/tualatrix.list'
 sudo apt-get update
 
