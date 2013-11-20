@@ -198,7 +198,7 @@ My name is Zhang Yan. I get MS. at [[http://www.sdu.edu.cn/][Shandong University
 
 [[file:note.org][Here]] are my some notes written casually to record my life footprint. I think it will be fun to read them when I became old. Also there are some words on my [[http://blog.dirlt.com][blog]]
 
-My code name is dirtysalt or dirlt. It's translated from my chinese name. The translation works as following:
+My code name is [[file:images/mysterious.gif][dirtysalt]] or dirlt. It's translated from my chinese name. The translation works as following:
    - Zhang pronounce like 'dirty' in cn
    - Yan pronounce like in 'salt' in cn 
    - then my code name is the combination of 'dirty' and 'salt' as 'dirtysalt'
@@ -210,6 +210,7 @@ Here is my contact info. I think email is the easiest way to get me.
    - weibo http://weibo.com/dirlt
    - twitter https://twitter.com/dirtysalt‎
    - github https://github.com/dirtysalt
+   - [[file:images/mysterious.gif][portrayal]]
 
 My favouritest words comes from theidea of [[http://www.valvesoftware.com/][Valve]] : "Open your mind, Open your eyes" (放眼未来，自由想象), with a [[file:images/valve-logo.jpg][image]] from its game "Half Life"
 
