@@ -86,6 +86,7 @@
    - sudo apt-get install lzop
    - sudo apt-get install scala
    - sudo apt-get install scala-doc
+   - sudp apt-get install ubuntu-tweak
 
 ** 系统配置
 *** 察看ubuntu内部版本
