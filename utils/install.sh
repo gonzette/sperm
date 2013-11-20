@@ -65,7 +65,7 @@ do
   ln -s $BINDIR/$target $INSTALLDIR/$target
 done
 
-TARGETS=".emacs .emacs.d"
+TARGETS=".emacs .emacs.d .screenrc"
 for target in $TARGETS
 do
   echo "installing $target..."

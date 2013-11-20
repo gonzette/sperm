@@ -19,13 +19,14 @@ mac软件还是非常齐全的，我大致安装了下面这些东西:
    - AirServer # AirPlay Server.
 
 下面软件是通过homebrew自动安装的: 
-   - brew install openvpn
+   - brew install openvpn # 翻墙代理
    - brew install emacs --cocoa --srgb
      - *NOTE(dirlt@2013-10-30):中途有段时间我想重装，但是在安装patch的时候需要访问raw.github.com被墙*
      - http://emacsformacosx.com/ 从这里可以直接安装发行版本
    - brew install svn --unicode-path
    - brew install ispell
    - brew install aspell
+   - brew install tmux
 
 brew的常用选项有下面这些：
    - brew search <package> # 搜索package 
