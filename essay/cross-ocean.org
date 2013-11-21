@@ -27,10 +27,10 @@ https://weworkremotely.com/jobs/198
 
 ** duckduckgo
 https://weworkremotely.com/jobs/196
-   - startup@2013-11-12
-   - NOTE(dirlt):community based.
-   - https://duckduckgo.com/
-   - https://dukgo.com/help/company/hiring
+   - giveup@2013-11-12 
+   - community based.
+     - https://duckduckgo.com/
+     - https://dukgo.com/help/company/hiring
 
 ** infinipool
 https://weworkremotely.com/jobs/73
@@ -57,9 +57,11 @@ https://weworkremotely.com/jobs/167
 
 ** dataware ventures
 http://careers.stackoverflow.com/jobs/39501/research-software-developer-dataware-ventures
+   - giveup@2013-11-21 *(At this time, we are only considering US-based remote workers.)*
 
 ** bayometric
 http://careers.stackoverflow.com/jobs/43577/senior-java-developer-tech-lead-bayometric
+   - giveup@2013-11-21
 
 ** elastic search
 http://elasticsearch.com/job/distributed-systems-software-engineer/
