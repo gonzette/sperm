@@ -4,7 +4,6 @@
 Job:
    - http://careers.stackoverflow.com/jobs/
    - http://recruiting.jobvite.com/
-   - http://www.glassdoor.com/index.htm 
    - http://www.mercurynews.com/jobs
 
 Coding Problem:
@@ -21,6 +20,7 @@ Online Editor:
 Resource:
    - Cracking The Coding Interview.
    - http://www.mitbbs.com/bbsdoc/JobHunting.html
+   - http://www.glassdoor.com/index.htm 
 
 ** Behavior
    - So tell me about yourself.

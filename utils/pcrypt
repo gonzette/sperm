@@ -215,7 +215,7 @@ def action(plain,crypt,passwd):
 
 def action2(plain,crypt):
     # read from ~/.passwd
-    passwd=string.strip(open(os.path.join(os.environ['HOME'],'.passwd')).read())
+    passwd=string.strip(open(os.path.join(os.environ['HOME'],'.private/passwd')).read())
     import hashlib
     m=hashlib.sha224()
     m.update(passwd)
