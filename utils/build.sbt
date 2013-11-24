@@ -19,8 +19,9 @@ resolvers ++= Seq(
   "jboss.com" at "http://repository.jboss.com/maven2",
   "cloudera.com" at "https://repository.cloudera.com/artifactory/cloudera-repos",
   "oracle.com" at "http://download.oracle.com/maven"
-  //"twitter.com" at "http://maven.twttr.com/", 
 )
+
+// resolvers += "twitter.com" at "http://maven.twttr.com/"
 
 publishTo <<= (version) { 
   version: String => {

@@ -11,9 +11,6 @@
 ::1 localhost
 fe80::1%lo0 localhost
 
-#10.18.102.200 uwork
-10.18.102.65 uwork
-
 # The following lines are desirable for IPv6 capable hosts
 ::1 localhost ip6-localhost ip6-loopback
 fe00::0	ip6-localnet
@@ -22,14 +19,14 @@ ff02::1	ip6-allnodes
 ff02::2	ip6-allrouters
 ff02::3	ip6-allhosts
 
+54.241.35.194 dirlt-aws
+
 122.11.52.244 git.fm
 122.11.52.244 github.umeng.com
 122.11.52.226 hadoop1
 122.11.52.227 nexus
 10.18.103.251 hudson
 10.18.20.1 dplog1
-
-54.241.35.194 dirlt-aws
 
 10.18.10.76 umidtrap1
 10.18.10.77 umidtrap2
@@ -40,7 +37,6 @@ ff02::3	ip6-allhosts
 
 10.11.0.31      dp0.umeng.com                   dp0
 10.18.10.54     dp1.umeng.com                   dp1
-
 10.11.0.2 	dp2.umops.us 			dp2
 10.11.0.3 	dp3.umops.us 			dp3
 10.11.0.4 	dp4.umops.us 			dp4
@@ -70,7 +66,6 @@ ff02::3	ip6-allhosts
 10.11.0.28	dp28.umops.us 			dp28
 10.11.0.29	dp29.umops.us 			dp29
 10.11.0.30	dp30.umops.us 			dp30
-
 10.11.0.45	dp31.umops.us			dp31
 10.11.0.32	dp32.umops.us			dp32
 10.11.0.33	dp33.umops.us			dp33
@@ -156,7 +151,6 @@ ff02::3	ip6-allhosts
 10.18.10.17     unode07-plog-as2.umeng.com      unode07-plog-as2 unode07
 10.18.10.19     unode09-alog-db2.umeng.com      unode09-alog-db2 unode09
 10.18.10.29     unode19-ct-db8.umeng.com        unode19-ct-db8 unode19
-
 10.18.10.66 unode57
 10.18.10.67 unode58
 10.18.10.68 unode59
@@ -164,21 +158,18 @@ ff02::3	ip6-allhosts
 10.18.20.3 unode76
 10.18.20.4 unode77
 10.18.10.55 unode67
-
 10.18.20.20 unode91-alog-as10 unode91
 10.18.20.21 unode92-alog-as11 unode92
 10.18.20.22 unode93-alog-as12 unode93
 10.18.20.23 unode94-alog-as13 unode94
 10.18.20.24 unode95-alog-as14 unode95
 10.18.20.25 unode96-alog-as15 unode96
-
 10.18.20.42 unode108-ins-db34 unode108
 10.18.20.43 unode109-ins-db35 unode109
 10.18.20.45 unode111
 
 10.11.50.1 ad21
 10.11.50.4 ad24
-
 
 #UPDATE:2013-07-07 21:01
 

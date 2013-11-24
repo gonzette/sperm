@@ -50,8 +50,8 @@ mkdir -p $HOME/.ssh
 rm -rf $HOME/.ssh/config
 ln -s $BINDIR/config $HOME/.ssh/config
 
-TARGETS="2utf8 cxxindent oprof mysqldb syslog pinstall gc tpom tsbt vpn-umeng-dp vpn-dirlt-linode \
-proc-netstat rhs golang pcrypt einstall uinstall clj lein scode imei2umid time-machine apt-update"
+TARGETS="cxxindent oprof mysqldb syslog pinstall tpom tsbt vpn-umeng-dp vpn-dirlt-linode \
+proc-netstat rhs golang einstall uinstall lein imei2umid time-machine apt-update"
 
 INSTALLDIR=$HOME/utils/bin
 if [ ! -d $INSTALLDIR ]
@@ -99,3 +99,8 @@ echo "installing github..."
 rm -rf $HOME/.ssh/github
 ln -s $HOME/.private/github $HOME/.ssh/github
 chmod 0600 $HOME/.ssh/github
+
+echo "installing pcrypt..."
+rm -rf $HOME/utils/bin/pcrypt
+ln -s $HOME/.private/pcrypt $HOME/utils/bin/pcrypt
+
