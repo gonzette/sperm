@@ -159,6 +159,9 @@ PATH=$SBT_HOME/bin:$PATH
 export PATH
 export MANPATH
 
+# other settings.
+export EDITOR=vim
+
 # lanuage.
 export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
