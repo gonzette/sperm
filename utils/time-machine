@@ -6,27 +6,30 @@ then
     exit 1
 fi
     
-# files.
-for f in private.tar.gz
-do
-    echo "sync $f..."
-    sudo rsync -az $HOME/$f "$pwd/dirlt/$f"
-done
-
 # packages.
+mkdir -p "$pwd/dirlt/utils"
 pkgs=`find $HOME/utils/ -maxdepth 1 -type f`
 for p in $pkgs
 do
+    echo "$p..."
     p=`basename $p`
-    echo "sync $p..."
     sudo rsync -az $HOME/utils/$p "$pwd/dirlt/utils/$p"
 done
 
-# dirs.
-for d in doc \
-    VirtualBox
-#    "VirtualBox VMs"
+# top-level
+mkdir -p "$pwd/dirlt/.IdeaIC12/config/"
+for d  in doc VirtualBox .m2 \
+    .IdeaIC12/config/inspection .IdeaIC12/config/keymaps .IdeaIC12/config/options .IdeaIC12/config/plugins
+#"VirtualBox VMs"
 do
-    echo "sync $d..."
-    sudo rsync -avrz "$HOME/$d/" "$pwd/dirlt/$d/"
+    echo "$d..."
+    sudo rsync -arz "$HOME/$d/" "$pwd/dirlt/$d/"
 done
+
+for f in private.tar.gz \
+    .IdeaIC12/config/disabled_plugins.txt
+do
+    echo "$f..."
+    sudo rsync -az "$HOME/$f" "$pwd/dirlt/$f"
+done
+
