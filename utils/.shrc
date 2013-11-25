@@ -175,6 +175,7 @@ export LC_ALL="en_US.UTF-8"
 # git related.
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --"
 git config --global color.ui true
+git config --global core.autocrlf false
 git config --global user.name "dirtysalt"
 git config --global user.email "dirtysalt1987@gmail.com"
 git config --global alias.co checkout
