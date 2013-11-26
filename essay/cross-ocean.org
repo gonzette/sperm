@@ -7,6 +7,9 @@
 http://careers.stackoverflow.com/jobs/42334/stream-software-from-the-web-senior-software-spoon-net
    - apply@2013-10-29
 
+http://careers.stackoverflow.com/jobs/38434/software-engineer-web-and-server-infrastructure-spoon-net
+   - apply@2013-11-26
+
 ** wikimedia
 http://careers.stackoverflow.com/jobs/40283/software-engineer-data-analytics-back-end-wikimedia-foundation
    - apply@2013-10-30
@@ -18,8 +21,8 @@ http://careers.stackoverflow.com/jobs/43288/senior-software-developer-codership
    - reply@2013-11-23
 
 ** dropbox
-https://www.dropbox.com/position?jvi=oNbJVfwm,Job remote?
-   - apply@2013-11-06
+https://www.dropbox.com/position?jvi=oNbJVfwm,Job
+   - apply@2013-11-06 *(maybe not remote)*
    - reject@2013-11-13
 
 ** parse.ly
@@ -28,8 +31,7 @@ https://weworkremotely.com/jobs/198
 
 ** duckduckgo
 https://weworkremotely.com/jobs/196
-   - giveup@2013-11-12 
-   - community based.
+   - giveup@2013-11-12 *(community based)*
      - https://duckduckgo.com/
      - https://dukgo.com/help/company/hiring
 
@@ -55,6 +57,7 @@ https://weworkremotely.com/jobs/59
 ** gitlab
 https://weworkremotely.com/jobs/167
    - apply@2013-11-16
+   - reject@2013-11-26
 
 ** dataware ventures
 http://careers.stackoverflow.com/jobs/39501/research-software-developer-dataware-ventures
@@ -62,16 +65,31 @@ http://careers.stackoverflow.com/jobs/39501/research-software-developer-dataware
 
 ** bayometric
 http://careers.stackoverflow.com/jobs/43577/senior-java-developer-tech-lead-bayometric
-   - giveup@2013-11-21
+   - giveup@2013-11-21 *(maybe not qualified)*
 
 ** elastic search
 http://elasticsearch.com/job/distributed-systems-software-engineer/
 
 ** box
 https://www.box.com/about-us/careers/open-positions/?jvi=owjsVfwW,Job
-   - apply@2013-11-21
+   - apply@2013-11-21 *(maybe not remote)*
 
 https://www.box.com/about-us/careers/open-positions/?jvi=oWdAXfwq,Job
-   - apply@2013-11-21
+   - apply@2013-11-21 *(maybe not remote)*
 
+** scribd
+http://careers.stackoverflow.com/jobs/43841/systems-engineer-scribd-scribd
 
+http://www.thesourcery.com/jobs/628
+   - apply@2013-11-26 *(maybe not match)*
+
+http://www.thesourcery.com/jobs/611
+   - apply@2013-11-26 *(maybe not remote)*
+
+** nerd-wallet
+http://www.thesourcery.com/jobs/650
+   - apply@2013-11-26 *(maybe not remote)*
+
+** media-crossing
+http://careers.stackoverflow.com/jobs/44442/senior-software-engineer-mediacrossing
+   - giveup@2013-11-26 *(maybe not qualified)*
