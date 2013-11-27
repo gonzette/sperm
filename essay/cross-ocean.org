@@ -82,13 +82,16 @@ http://careers.stackoverflow.com/jobs/43841/systems-engineer-scribd-scribd
 
 http://www.thesourcery.com/jobs/628
    - apply@2013-11-26 *(maybe not match)*
+   - giveup@2013-11-26
 
 http://www.thesourcery.com/jobs/611
    - apply@2013-11-26 *(maybe not remote)*
+   - giveup@2013-11-26
 
 ** nerd-wallet
 http://www.thesourcery.com/jobs/650
    - apply@2013-11-26 *(maybe not remote)*
+   - giveup@2013-11-26
 
 ** media-crossing
 http://careers.stackoverflow.com/jobs/44442/senior-software-engineer-mediacrossing

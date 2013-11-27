@@ -21,13 +21,16 @@ Senior Software Architect at Umeng
 
 Data Platform Team.
 
+- infrastructure.
+
 **** 2013.2-2013.11
 Software Architect at Umeng.
 
 Data Platform Team.
 
 - data analytics and data mining on Hadoop.
-- build data access service on HBase for advertise platform.
+
+- backend service to access data on Hadoop in Scala and Finagle.
 
 **** 2012.6-2013.2
 Senior Software Engineer at Umeng.
