@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+#coding:utf-8
+#Copyright (C) dirlt
+
+DIST_TEMPLATE="""#!/usr/bin/env bash
+#Copyright (C) dirlt
+
+pwd=`pwd`
+artifact=`basename $pwd`
+dist="$artifact-dist"
+
+rm -rf config/target/
+rm -rf scripts/target/
+rm -rf $dist
+mkdir -p $dist
+
+cp -r config/ $dist
+cp -r scripts/ $dist
+cp -r target/scala*/$artifact-assembly-*.jar $dist
+tar czvf $dist.tar.gz $dist
+
+"""
+
+import os
+def generate():
+    paths = ['build.sbt','config','scripts','target']
+    for p in paths:
+        if not os.path.exists(p):
+            print "not a standard sbt project! exit..."
+            return
+    open('build.dist','w').write(DIST_TEMPLATE%(locals()))
+    os.system("chmod ug+x build.dist")
+    
+import sys
+if __name__=='__main__':
+    generate()

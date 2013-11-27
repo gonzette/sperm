@@ -18,7 +18,9 @@ resolvers ++= Seq(
   "clojars.org" at "http://clojars.org/repo",
   "jboss.com" at "http://repository.jboss.com/maven2",
   "cloudera.com" at "https://repository.cloudera.com/artifactory/cloudera-repos",
-  "oracle.com" at "http://download.oracle.com/maven"
+  "oracle.com" at "http://download.oracle.com/maven",
+  "typesafe releases" at "http://repo.typesafe.com/typesafe/maven-releases",
+  "typesafe snapshots" at "http://repo.typesafe.com/typesafe/maven-snapshots"
 )
 
 // resolvers += "twitter.com" at "http://maven.twttr.com/"
@@ -30,4 +32,3 @@ publishTo <<= (version) {
     else Some("umeng.com.releases"  at umeng_repo + "releases/")
   }
 }
-

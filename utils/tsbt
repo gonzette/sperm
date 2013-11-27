@@ -67,6 +67,16 @@ version in PB.protobufConfig := protobufVersion
 // idea takes generated/com as source root, and I can't do nothing about it but manually change it in IDE:(
 javaSource in PB.protobufConfig <<= (sourceDirectory in Compile)(_ / "generated")
 
+// assembly
+
+mergeStrategy in assembly <<= (mergeStrategy in assembly) { 
+  (old) => {
+    case "log4j.properties" => MergeStrategy.first 
+    case PathList("org","apache","log4j",xs @ _*) => MergeStrategy.first
+    case x => old(x)
+  }
+}
+
 """
 
 LOG4J_TEMPLATE="""log.dir=.
@@ -79,12 +89,11 @@ log4j.appender.DRFA=org.apache.log4j.DailyRollingFileAppender
 log4j.appender.DRFA.File=${log.dir}/${log.file}
 log4j.appender.DRFA.DatePattern=.yyyy-MM-dd
 log4j.appender.DRFA.layout=org.apache.log4j.PatternLayout
-#log4j.appender.DRFA.layout.ConversionPattern=%%d{ISO8601} %%p %%c: %%m%%n
-log4j.appender.DRFA.layout.ConversionPattern=%%d{ISO8601} %%p: %%m%%n
+log4j.appender.DRFA.layout.ConversionPattern=%%d{ISO8601} %%p %%c: %%m%%n
 
 log4j.appender.console=org.apache.log4j.ConsoleAppender
 log4j.appender.console.layout=org.apache.log4j.PatternLayout
-log4j.appender.console.layout.ConversionPattern=%%d{ISO8601} %%p: %%m%%n
+log4j.appender.console.layout.ConversionPattern=%%d{ISO8601} %%p %%c: %%m%%n
 
 """
 
@@ -100,6 +109,8 @@ def generate(project,groupId,artifactId):
     os.system('mkdir -p %s/src/main/resources/'%(project))
     open('%s/src/main/resources/log4j.properties'%(project),'w').write(LOG4J_TEMPLATE%(locals()))
     os.system('mkdir -p %s/src/test/resources/'%(project))
+    os.system('mkdir -p %s/config/'%(project))
+    os.system('mkdir -p %s/scripts/'%(project))
 
 import sys
 if __name__=='__main__':
