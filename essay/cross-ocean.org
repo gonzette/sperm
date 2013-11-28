@@ -77,6 +77,8 @@ https://www.box.com/about-us/careers/open-positions/?jvi=owjsVfwW,Job
 https://www.box.com/about-us/careers/open-positions/?jvi=oWdAXfwq,Job
    - apply@2013-11-21 *(maybe not remote)*
 
+   - reply@2013-11-28
+
 ** scribd
 http://careers.stackoverflow.com/jobs/43841/systems-engineer-scribd-scribd
 
@@ -92,6 +94,7 @@ http://www.thesourcery.com/jobs/611
 http://www.thesourcery.com/jobs/650
    - apply@2013-11-26 *(maybe not remote)*
    - giveup@2013-11-26
+   - reply@2013-11-28
 
 ** media-crossing
 http://careers.stackoverflow.com/jobs/44442/senior-software-engineer-mediacrossing

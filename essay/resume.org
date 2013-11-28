@@ -30,7 +30,7 @@ Data Platform Team.
 
 - data analytics and data mining on Hadoop.
 
-- backend service to access data on Hadoop in Scala and Finagle.
+- KVProxy, an asynchronous high-performance HTTP server for easily accessing various database systems such as HBase, MySQL, Riak etc. It's written in Scala and Finagle, use Google Protocol-Buffers as data exchange format and Google Guava LRUCache as application-level cache. Since Finagle wraps asynchronous function in concept of 'Future' and encourages developer to take server as function(Your Server as a Function. http://monkey.org/~marius/funsrv.pdf) , so KVproxy could be used not only as server, but also as library that could be easily embedded into other applications.
 
 **** 2012.6-2013.2
 Senior Software Engineer at Umeng.

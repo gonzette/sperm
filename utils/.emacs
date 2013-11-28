@@ -405,8 +405,7 @@
 		       (local-unset-key (kbd "<M-down>"))
 		       (local-unset-key (kbd "<M-left>"))
 		       (local-unset-key (kbd "<M-right>")))))
-			     
-			   
+
 (setq org-log-done t)
 
 ;; (define-key global-map "\C-ca" 'org-agenda)
