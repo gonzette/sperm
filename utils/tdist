@@ -17,6 +17,7 @@ mkdir -p $dist
 cp -r config/ $dist
 cp -r scripts/ $dist
 cp -r target/scala*/$artifact-assembly-*.jar $dist
+cd $dist && ln -s $artifact-assembly-*.jar $artifact.jar && cd ..
 tar czvf $dist.tar.gz $dist
 
 """

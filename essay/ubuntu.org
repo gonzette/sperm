@@ -202,8 +202,9 @@ System Settings =》 Details 里面可以设置默认浏览器。至于emacs里�
 #+END_SRC
 
 *** thunderbird配置gmail
-   - pop3 pop.gmail.com/pop.googlmail.com SSL/TLS 995 normal password
-   - smtp smtp.gmail.com/pop.googlmail.com SSL/TLS 465 normal password
+   - pop3 pop.gmail.com SSL/TLS 995 normal password
+   - smtp smtp.gmail.com SSL/TLS 465 normal password
+   - *NOTE(dirlt):需要确认gmail允许pop3来访问*
    - 不过似乎现在thunderbird已经非常智能了，只要输入username以及email的话就可以自动进行配置了。nice！！！（现在看起来选择iamp模式也没有什么问题）
    - server settings => 
      - 1) leave mesages on server until I delete them. （对于imap模式来说的话，就使用默认移动到Trash下面即可）
