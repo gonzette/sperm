@@ -1,5 +1,5 @@
 * redis
-#+OPTIONS: H:5
+#+OPTIONS: H:4
    - alphazero/jredis · GitHub https://github.com/alphazero/jredis Java Client 支持异步操作 *NOTE（dirlt）：实际不支持*     
 
 ** 简介
