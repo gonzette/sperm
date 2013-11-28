@@ -18,7 +18,8 @@ done
 
 # top-level
 mkdir -p "$pwd/dirlt/.IdeaIC12/config/"
-for d  in doc VirtualBox .m2 \
+mkdir -p "$pwd/dirlt/.ivy2/"
+for d  in doc VirtualBox .m2 .ivy2/cache \
     .IdeaIC12/config/inspection .IdeaIC12/config/keymaps .IdeaIC12/config/options .IdeaIC12/config/plugins
 #"VirtualBox VMs"
 do

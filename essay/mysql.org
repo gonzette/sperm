@@ -134,3 +134,5 @@ java.sql.SQLException: null,  message from server: "Can't create a new thread (e
 
 问题还是出在资源限制上面，可以通过修改开辟最大的进程数目来解决。可以参考链接 http://www.mysqlperformanceblog.com/2013/02/04/cant_create_thread_errno_11/ 
 
+** 配置选项
+   - max_allowed_packet
