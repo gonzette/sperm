@@ -1,36 +1,55 @@
 #!/bin/bash
+
+rm -f /tmp/ubuntu-backup
+ln -s "/media/Expansion Drive/Ubuntu Backup/" /tmp/ubuntu-backup
+
 pwd=`pwd`
 if [ ! -d "$pwd/dirlt" ]
 then
-    echo "Are you at right backup directory???"
+    echo "Are you at right directory???"
     exit 1
 fi
+
+base=`basename "$pwd"`
+
+home=/home/dirlt/
+backup=/tmp/ubuntu-backup/dirlt
+
+if [ "X"$base = "Xhome" ]
+then
+    src=$backup
+    dst=$home
+else
+    src=$home
+    dst=$backup
+fi
+
+echo "$src ---> $dst"
     
-# packages.
-mkdir -p "$pwd/dirlt/utils"
-pkgs=`find $HOME/utils/ -maxdepth 1 -type f`
-for p in $pkgs
-do
-    echo "$p..."
-    p=`basename $p`
-    sudo rsync -az $HOME/utils/$p "$pwd/dirlt/utils/$p"
-done
+# # packages.
+# mkdir -p "$dst/utils"
+# pkgs=`find $src/utils/ -maxdepth 1 -type f`
+# for p in $pkgs
+# do
+#     echo "$p..."
+#     p=`basename $p`
+#     rsync -az --no-times $src/utils/$p $dst/utils/$p
+# done
+
+# for f in private.tar.gz \
+#     .IdeaIC12/config/disabled_plugins.txt
+# do
+#     echo "$f..."
+#     rsync -az --no-times $src/$f $dst/$f
+# done
 
 # top-level
-mkdir -p "$pwd/dirlt/.IdeaIC12/config/"
-mkdir -p "$pwd/dirlt/.ivy2/"
+mkdir -p $dst/.IdeaIC12/config/
+mkdir -p $dst/.ivy2/
 for d  in doc VirtualBox .m2 .ivy2/cache \
     .IdeaIC12/config/inspection .IdeaIC12/config/keymaps .IdeaIC12/config/options .IdeaIC12/config/plugins
 #"VirtualBox VMs"
 do
     echo "$d..."
-    sudo rsync -arz "$HOME/$d/" "$pwd/dirlt/$d/"
+    rsync -arz --no-times "$src/$d/" "$dst/$d/"
 done
-
-for f in private.tar.gz \
-    .IdeaIC12/config/disabled_plugins.txt
-do
-    echo "$f..."
-    sudo rsync -az "$HOME/$f" "$pwd/dirlt/$f"
-done
-
