@@ -40,11 +40,15 @@ do
 done
 
 # directories
-mkdir -p "$pwd/dirlt/.IdeaIC12/config/"
-mkdir -p "$pwd/dirlt/.ivy2/"
-for d  in doc VirtualBox .m2 .ivy2/cache \
+mkdir -p "$dst/.IdeaIC12/config/"
+mkdir -p "$dst/.ivy2/"
+
+
+    # "VirtualBox VMs" \
+    
+for d in doc VirtualBox \
+    .m2 .ivy2/cache \
     .IdeaIC12/config/inspection .IdeaIC12/config/keymaps .IdeaIC12/config/options .IdeaIC12/config/plugins
-#"VirtualBox VMs"
 do
     echo "$d..."
     rsync -arz --no-times "$src/$d/" "$dst/$d/"
