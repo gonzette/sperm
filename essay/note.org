@@ -29,7 +29,8 @@
    - [[file:./note/virgin-10km-running.org][初次10km跑步]]
    - [[file:./note/do-we-need-exercise.org][我们是否需要运动]]
    - [[file:./note/neck-health.org][颈椎健康]]
-   - [[file:./note/how-to-build-wordpress.org][简单搭建WordPress]] 
+   - [[file:./note/how-to-build-wordpress.org][简单搭建WordPress]]
+   - [[file:./note/my-virgin-english-conversation][初次英语对话]] 
  
 ** 印记
    - [[file:./note/todo.org][todo]] 记录自己日常需要完成的事情。
@@ -96,5 +97,7 @@
    - [[file:./note/goodbye-dyy.org][朋友远行，一路顺风]]
    - [[file:./note/meeting-dyq.org][“做CTO都是出去过的”]]
    - [[file:note/unecessary-hurry-up.org][急得蛋碎了也没有用]]
+   - [[file:./note/professional-amateur.org][非业余的业余爱好]]
+   - [[file:note/heart-broken.org][心碎]]
 
 
