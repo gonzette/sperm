@@ -2,21 +2,44 @@
 pwd=`pwd`
 if [ ! -d "$pwd/dirlt" ]
 then
-    echo "Are you at right backup directory???"
+    echo "Are you at right directory???"
     exit 1
 fi
     
+rm -rf /tmp/ubuntu-backup
+ln -s "/media/Expansion Drive/Ubuntu Backup" /tmp/ubuntu-backup
+base=`basename $pwd`
+home=/home/dirlt
+backup=/tmp/ubuntu-backup/dirlt/
+
+if [ $base == "home" ]
+then
+    src=$backup
+    dst=$home
+else
+    src=$home
+    dst=$backup
+fi
+
 # packages.
-mkdir -p "$pwd/dirlt/utils"
-pkgs=`find $HOME/utils/ -maxdepth 1 -type f`
+mkdir -p "$dst/utils"
+pkgs=`find $src/utils/ -maxdepth 1 -type f`
 for p in $pkgs
 do
     echo "$p..."
     p=`basename $p`
-    sudo rsync -az $HOME/utils/$p "$pwd/dirlt/utils/$p"
+    rsync -az --no-times $src/utils/$p $dst/utils/$p
 done
 
-# top-level
+# files.
+for f in private.tar.gz \
+    .IdeaIC12/config/disabled_plugins.txt
+do
+    echo "$f..."
+    rsync -az --no-times $src/$f $dst/$f
+done
+
+# directories
 mkdir -p "$pwd/dirlt/.IdeaIC12/config/"
 mkdir -p "$pwd/dirlt/.ivy2/"
 for d  in doc VirtualBox .m2 .ivy2/cache \
@@ -24,13 +47,6 @@ for d  in doc VirtualBox .m2 .ivy2/cache \
 #"VirtualBox VMs"
 do
     echo "$d..."
-    sudo rsync -arz "$HOME/$d/" "$pwd/dirlt/$d/"
-done
-
-for f in private.tar.gz \
-    .IdeaIC12/config/disabled_plugins.txt
-do
-    echo "$f..."
-    sudo rsync -az "$HOME/$f" "$pwd/dirlt/$f"
+    rsync -arz --no-times "$src/$d/" "$dst/$d/"
 done
 
