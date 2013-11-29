@@ -1,8 +1,10 @@
 #!/bin/bash
 
+# build environment.
 rm -f /tmp/ubuntu-backup
 ln -s "/media/Expansion Drive/Ubuntu Backup/" /tmp/ubuntu-backup
 
+# check condition.
 pwd=`pwd`
 if [ ! -d "$pwd/dirlt" ]
 then
@@ -10,8 +12,8 @@ then
     exit 1
 fi
 
+# determine source and destination.
 base=`basename "$pwd"`
-
 home=/home/dirlt/
 backup=/tmp/ubuntu-backup/dirlt
 
@@ -26,30 +28,37 @@ fi
 
 echo "$src ---> $dst"
     
-# # packages.
-# mkdir -p "$dst/utils"
-# pkgs=`find $src/utils/ -maxdepth 1 -type f`
-# for p in $pkgs
-# do
-#     echo "$p..."
-#     p=`basename $p`
-#     rsync -az --no-times $src/utils/$p $dst/utils/$p
-# done
+# do rsync.
 
-# for f in private.tar.gz \
-#     .IdeaIC12/config/disabled_plugins.txt
-# do
-#     echo "$f..."
-#     rsync -az --no-times $src/$f $dst/$f
-# done
+# packages.
+mkdir -p "$dst/utils"
+pkgs=`find $src/utils/ -maxdepth 1 -type f`
+for p in $pkgs
+do
+    echo "$p..."
+    p=`basename $p`
+    rsync -az --no-times $src/utils/$p $dst/utils/$p
+done
 
-# top-level
-mkdir -p $dst/.IdeaIC12/config/
-mkdir -p $dst/.ivy2/
-for d  in doc VirtualBox .m2 .ivy2/cache \
+# files.
+for f in private.tar.gz \
+    .IdeaIC12/config/disabled_plugins.txt
+do
+    echo "$f..."
+    rsync -az --no-times $src/$f $dst/$f
+done
+
+# directories
+mkdir -p "$dst/.IdeaIC12/config/"
+mkdir -p "$dst/.ivy2/"
+
+    # "VirtualBox VMs" \
+
+for d in doc VirtualBox \
+    .m2 .ivy2/cache \
     .IdeaIC12/config/inspection .IdeaIC12/config/keymaps .IdeaIC12/config/options .IdeaIC12/config/plugins
-#"VirtualBox VMs"
 do
     echo "$d..."
     rsync -arz --no-times "$src/$d/" "$dst/$d/"
 done
+
