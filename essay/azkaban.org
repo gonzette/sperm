@@ -37,7 +37,7 @@ http://azkaban.github.io/azkaban2/documents/2.1/ 文档描述的还是比较详�
      - plugins/jobtypes/common.properties 填写hadoop.home
    - 启动webserver/executorserver脚本.
      - 头部添加#!/bin/bash（似乎没有办法在zsh下面工作）
-     - basedir=$1 => basedir=.（不然就需要使用start.sh . 这样的方式启动）
-     - tmpdir= => tmpdir=./temp（不然会因为缺少tmpdir变量报错）
+     - basedir=$1 --> basedir=.（不然就需要使用start.sh . 这样的方式启动）
+     - tmpdir= --> tmpdir=./temp（不然会因为缺少tmpdir变量报错）
    - zip -r project.zip project # 将project打包成为.zip文件
    - PDT比CST慢16个小时，UTC比CST慢8个小时。这个在填写Schedule时候可能需要换算。
