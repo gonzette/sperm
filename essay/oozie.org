@@ -1,4 +1,4 @@
-* ozzie
+* oozie
 #+OPTIONS: H:5
 ** overview
 一些链接：
@@ -14,12 +14,12 @@
 *NOTE(dirlt):我只是粗略地使用了一下，直觉上觉得这个东西很烂。推荐大家可以考虑一下azkaban* 
 
 oozie工作方式也是启动一个mapper任务（这个任务启动真正任务）放在cluster上面运行。大致上来看的话需要几个文件：
-   - workflow.xml ozzie读取它来知道每个任务DAG如何并且失败以及成功之后如何处理。需要提交到hdfs上面。
+   - workflow.xml oozie读取它来知道每个任务DAG如何并且失败以及成功之后如何处理。需要提交到hdfs上面。
    - coordinator.xml 如果是coordinator模式的话，还需要这个文件。需要提交到hdfs上面。
    - job.properties 这个用来存放一些任务相关的参数等。这个部分其实可以和workflow.xml放在一起，但是分离出来的话可以方便分离。本地使用。
    - lib 目录下面存放启动启动需要的库文件比如jar或者是so等。需要提交到hdfs上面。
-然后我们需要将这写文件提交到hdfs上面，然后使用ozzie启动。ozzie会提供一个回调url，启动的任务应该会定时向这些url进行汇报状态（回调），或者是
-ozzie去查询这些任务状态（这些任务应该也会内置httpserver）。（应该是通过回调方式完成 http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a5_Oozie_Notifications ，
+然后我们需要将这写文件提交到hdfs上面，然后使用oozie启动。oozie会提供一个回调url，启动的任务应该会定时向这些url进行汇报状态（回调），或者是
+oozie去查询这些任务状态（这些任务应该也会内置httpserver）。（应该是通过回调方式完成 http://localhost/utils/oozie-2.3.2-cdh3u3/docs/WorkflowFunctionalSpec.html#a5_Oozie_Notifications ，
 并且这里注意到oozie只是使用best-effort方式来做notification）。值得一提的就是oozie也有local-mode方便调试和测试。
 
 oozie执行分为三种模式：
