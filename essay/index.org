@@ -28,6 +28,7 @@
      - [[file:gperftools.org][gperftools]] Google的性能分析工具，[[file:tcmalloc.org][TCMalloc]] 实现也在里面。用来观察应用程序似乎是个不错的选择。
      - [[file:perf.org][Perf]] Linux系统自带的性能分析工具，支持硬件以及软件事件计数器，支持profile kernel以及user code.
    - [[file:akka.org][Akka]] Akka is a toolkit and runtime for building highly concurrent, distributed, and fault tolerant event-driven applications on the JVM.
+   - [[file:./azkaban.org][Azkaban]] Linkedin的工作流管理器，和[[file:./oozie.org][Oozie]]
 
 ** Compression Technology
    - [[file:snappy.org][Snappy]] Google的开源压缩解压库。在满足一定压缩比率的条件下着重提升压缩和解压速度。
@@ -49,6 +50,7 @@
      - [[file:lcov.org][lcov]] the LTP(Linux Testing Project) GCOV extension.用来完成C/C++测试覆盖。
      - [[file:build-system.org][BuildSystem]] 在实现Baidu in-house的构建工具Comake2之前，做过构建系统的调研总结出来的。在语法表达上面(非常重要)借鉴了SCons,考虑了其他构建系统提供的功能。
        - [[file:maven.org][Maven]] 主要针对Java开发的基于工程对象模型(POM, Project Object Model)构建系统，主要记录了一些使用方面的问题和解决办法。
+       - [[file:./sbt.org][SBT]] Simple(or Scala?) Build Tool
    - Desktop 
      - [[file:ubuntu.org][Ubuntu]] 如何更好地使用Ubuntu. [[file:note/struggle-with-ubuntu.org][之前有过痛苦的经历]] 。主要记录自己使用出现的问题。
      - [[file:fvwm.org][FVWM]] F* Virtual Windows Manager.Linux下面高度可定制化的窗口管理器。
@@ -144,7 +146,7 @@
      - [[file:hbase.org][HBase]] Apache Hadoop项目的分布式表格系统，[[file:bigtable.org][BigTable]] 的开源实现。
      - [[file:mapred.org][MapReduce]] Apache Hadoop项目的分布式计算系统，[[file:mapreduce.org][MapReduce]] 的开源实现。
      - [[file:zookeeper.org][ZooKeeper]] Apache Hadoop项目的分布式锁服务，[[file:chubby.org][Chubby]] 的开源实现。
-     - [[file:oozie.org][Oozie]] Apache Hadoop项目的工作流系统，可以将多个MapReduce作业组合到一个逻辑单元中。支持作业之间的相互依赖，同时允许时间以及数据来触发作业。
+     - [[file:oozie.org][Oozie]] Apache Hadoop项目的工作流系统，可以将多个MapReduce作业组合到一个逻辑单元中。支持作业之间的相互依赖，同时允许时间以及数据来触发作业。     -
      - [[file:hive.org][Hive]] Apache Hadoop项目的数据仓库平台，以HDFS/HBase为数据仓库存储平台，底层执行引擎是MapReduce，上层提供类SQL的HiveQL数据查询语言。
      - [[file:pig.org][Pig]] Apache Hadoop项目的计算语言，用于简化MapReduce任务的编写。事实上底层可以很多其他的计算引擎比如Spark等。
    - [[file:tez.org][Tez]] Apache项目，可以有效地优化MapReduce组成的DAG。通常Pig/Hive都是生成这种DAG的，所以可以认为是替换了Pig/Hive的执行引擎。
