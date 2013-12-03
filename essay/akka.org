@@ -245,12 +245,14 @@ Akka implements a specific form called *“parental supervision”.*
    - Modifications to the list are done by creating (context.actorOf(...)) or stopping (context.stop(child)) children and these actions are reflected immediately.
    - The actual creation and termination actions happen behind the scenes in an asynchronous way, so they do not “block” their supervisor.（对于children的创建和终止是异步完成的）
 
+
 --------------------
 Depending on the nature of the work to be supervised and the nature of the failure, the supervisor has a choice of the following four options:（监控发现失败的话通常会采取下面几种策略）
    1. Resume the subordinate, keeping its accumulated internal state（恢复）
    2. Restart the subordinate, clearing out its accumulated internal state（重启）
    3. Terminate the subordinate permanently（终止）
    4. Escalate the failure, thereby failing itself（向上传递）
+This strategy cannot be changed afterwards as it is an integral part of the actor system’s structure.(策略一旦选定之后就不能够改变）
 
 --------------------
 Each supervisor is configured with a function translating all possible failure causes (i.e. exceptions) into one of the four choices given above; notably, this function does not take the failed actor’s identity as an input. It is quite easy to come up with examples of structures where this might not seem flexible enough, e.g. wishing for different strategies to be applied to different subordinates. At this point it is vital to understand that supervision is about forming a recursive fault handling structure. If you try to do too much at one level, it will become hard to reason about, hence the recommended way in this case is to add a level of supervision. Considering that there is only one such strategy for each actor, this means that if different strategies apply to the various children of an actor, the children should be grouped beneath intermediate supervisors with matching strategies, preferring once more the structuring of actor systems according to the splitting of tasks into sub-tasks. （supervisor处理失败函数并不能够是被actor的身份，所以不能够根据actor身份来选择不同的处理策略。如果确实有需求的话，那么需要考虑增加层级，引入间接的actor来分别管理它们）
@@ -333,19 +335,6 @@ Another consequence is that everything needs to be aware of all interactions bei
 
 We took the idea of transparency to the limit in that there is nearly no API for the remoting layer of Akka: it is purely driven by configuration. Just write your application according to the principles outlined in the previous sections, then specify remote deployment of actor sub-trees in the configuration file. This way, your application can be scaled out without having to touch the code. The only piece of the API which allows programmatic influence on remote deployment is that Props contain a field which may be set to a specific Deploy instance; this has the same effect as putting an equivalent deployment into the configuration file (if both are given, configuration file wins).（对于这种透明成本仅仅体现在配置文件上，而不需要使用特殊的API来控制，所以代价非常小是真正透明的）
 
-** Memory Model
-   - Java
-     - The monitor lock rule: a release of a lock happens before every subsequent acquire of the same lock.
-     - The volatile variable rule: a write of a volatile variable happens before every subsequent read of the same volatile variable
-   - Actor 
-     - The actor send rule: the send of the message to an actor happens before the receive of that message by the same actor.
-     - The actor subsequent processing rule: processing of one message happens before processing of the next message by the same actor.
-     - Both rules only apply for the same actor instance and are not valid if different actors are used.
-   - Future
-     - The completion of a Future “happens before” the invocation of any callbacks registered to it are executed.
-   - STM
-     - The transactional reference rule: a successful write during commit, on an transactional reference, happens before every subsequent read of the same transactional reference.
-
 ** Configuration
 You can start using Akka without defining any configuration, since sensible default values are provided. Later on you might need to amend the settings to change the default behavior or adapt for specific runtime environments. Typical examples of settings that you might amend:
    - log level and logger backend 
@@ -366,9 +355,106 @@ While constructing an ac- tor system, you can either pass in a Config object or 
 Akka’s configuration approach relies heavily on the notion of every module/jar having its own reference.conf file, all of these will be discovered by the configuration and loaded. Unfortunately this also means that if you put/merge multiple jars into the same jar, you need to merge all the reference.confs as well. Otherwise all defaults will be lost and Akka will not function.（可是需要注意如果打包成为fatjar的话，reference.conf可能会覆盖）
 
 ** Transactors
+*** Memory Model
+   - Java
+     - The monitor lock rule: a release of a lock happens before every subsequent acquire of the same lock.
+     - The volatile variable rule: a write of a volatile variable happens before every subsequent read of the same volatile variable
+   - Actor 
+     - The actor send rule: the send of the message to an actor happens before the receive of that message by the same actor.
+     - The actor subsequent processing rule: processing of one message happens before processing of the next message by the same actor.
+     - Both rules only apply for the same actor instance and are not valid if different actors are used.
+   - Future
+     - The completion of a Future “happens before” the invocation of any callbacks registered to it are executed.
+   - STM
+     - The transactional reference rule: a successful write during commit, on an transactional reference, happens before every subsequent read of the same transactional reference.
+
+TODO(dirlt):
+
+** Dispatcher
+An Akka MessageDispatcher is what makes Akka Actors “tick”, it is the engine of the machine so to speak. All MessageDispatcher implementations are also an ExecutionContext, which means that they can be used to execute arbitrary code, for instance Futures.(Dispatcher让整个Akka运行起来）。There are 4 different types of message dispatchers：
+   - Dispatcher（默认）
+     - This is an event-based dispatcher that binds a set of Actors to a thread pool. It is the default dispatcher used if one is not specified.
+     - Sharability: Unlimited
+     - Mailboxes: Any, creates one per Actor
+     - Use cases: Default dispatcher, Bulkheading
+     - Driven by: java.util.concurrent.ExecutorService specify  using “ex-ecutor” using “fork-join-executor”, “thread-pool-executor” or the FQCN of an akka.dispatcher.ExecutorServiceConfigurator
+
+   - PinnedDispatcher
+     - This dispatcher dedicates a unique thread for each actor using it; i.e. each actor will have its own thread pool with only one thread in the pool.
+     - Sharability: None
+     - Mailboxes: Any, creates one per Actor
+     - Use cases: Bulkheading
+     - Driven by: Any akka.dispatch.ThreadPoolExecutorConfigurator by default a “thread-pool-executor”
+
+   - BalancingDispatcher
+     - This is an executor based event driven dispatcher that will try to redistribute work from busy actors to idle actors.
+     - All the actors share a single Mailbox that they get their messages from.
+     - It is assumed that all actors using the same instance of this dispatcher can process all messages that have been sent to one of the actors; i.e. the actors belong to a pool of actors, and to the client there is no guarantee about which actor instance actually processes a given message.
+     - Sharability: Actors of the same type only
+     - Mailboxes: Any, creates one for all Actors
+     - Use cases: Work-sharing
+     - Driven by: java.util.concurrent.ExecutorService specify using “ex-ecutor” using “fork-join-executor”, “thread-pool-executor” or the FQCN of an akka.dispatcher.ExecutorServiceConfigurator
+     - *Note that you can not use a BalancingDispatcher as a Router Dispatcher. (You can however use it for the Routees)*
+
+   -  CallingThreadDispatcher
+     - This dispatcher runs invocations on the current thread only. This dispatcher does not create any new threads, but it can be used from different threads concurrently for the same actor. See CallingThread-Dispatcher for details and restrictions.
+     - Sharability: Unlimited
+     - Mailboxes: Any, creates one per Actor per Thread (on demand)
+     - Use cases: Testing
+     - Driven by: The calling thread (duh)
+
+可以通过 *system.dispatchers.lookup* 来定位dispatcher
+
+** Mailboxes
+Akka comes shipped with a number of mailbox implementations:
+   - UnboundedMailbox - The default mailbox
+     - Backed by a java.util.concurrent.ConcurrentLinkedQueue
+     - Blocking: No
+     - Bounded: No
+     - Configuration name: “unbounded” or “akka.dispatch.UnboundedMailbox”
+
+   - SingleConsumerOnlyUnboundedMailbox
+     - Backed by a very efficient Multiple Producer Single Consumer queue, cannot be used withingDispatcher
+     - Blocking: No
+     - Bounded: No
+     - Configuration name: “akka.dispatch.SingleConsumerOnlyUnboundedMailbox”
+
+   - BoundedMailbox
+     - Backed by a java.util.concurrent.LinkedBlockingQueue
+     - Blocking: Yes
+     - Bounded: Yes
+     - Configuration name: “bounded” or “akka.dispatch.BoundedMailbox”
+
+   - UnboundedPriorityMailbox
+     - Backed by a java.util.concurrent.PriorityBlockingQueue
+     - Blocking: Yes
+     - Bounded: No
+     - Configuration name: “akka.dispatch.UnboundedPriorityMailbox”
+
+   - BoundedPriorityMailbox
+     - Backed by a java.util.PriorityBlockingQueue wrapped in an akka.util.BoundedBlockingQueue
+     - Blocking: Yes
+     - Bounded: Yes
+     - Configuration name: “akka.dispatch.BoundedPriorityMailbox”
+
+   - Durable mailboxes, see Durable Mailboxes.
+
+** Routing
+A Router is an actor that receives messages and efficiently routes them to other actors, known as its routees. Different routing strategies can be used, according to your application’s needs. Akka comes with several useful routing strategies right out of the box. But, as you will see in this chapter, it is also possible to create your own. The routers shipped with Akka are:
+   - akka.routing.RoundRobinRouter
+   - akka.routing.RandomRouter
+   - akka.routing.SmallestMailboxRouter
+   - akka.routing.BroadcastRouter
+   - akka.routing.ScatterGatherFirstCompletedRouter
+   - akka.routing.ConsistentHashingRouter
+Sending a message to a router is easy. "router ! MyMsg". A router actor forwards messages to its routees according to its routing policy.
+
+
+
 ** Typed Channel
-在actor之间通信的channel上指定类型 TODO(dirlt)
+TODO(dirlt):
 
 ** Typed Actor
-在actor上指定类型。优势和劣势有点类似静态类型语言和动态类型语言之间的对比。 TODO(dirlt)
+TODO(dirlt):
 
+** FSM
