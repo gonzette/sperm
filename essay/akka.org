@@ -354,22 +354,6 @@ While constructing an ac- tor system, you can either pass in a Config object or 
 
 Akka’s configuration approach relies heavily on the notion of every module/jar having its own reference.conf file, all of these will be discovered by the configuration and loaded. Unfortunately this also means that if you put/merge multiple jars into the same jar, you need to merge all the reference.confs as well. Otherwise all defaults will be lost and Akka will not function.（可是需要注意如果打包成为fatjar的话，reference.conf可能会覆盖）
 
-** Transactors
-*** Memory Model
-   - Java
-     - The monitor lock rule: a release of a lock happens before every subsequent acquire of the same lock.
-     - The volatile variable rule: a write of a volatile variable happens before every subsequent read of the same volatile variable
-   - Actor 
-     - The actor send rule: the send of the message to an actor happens before the receive of that message by the same actor.
-     - The actor subsequent processing rule: processing of one message happens before processing of the next message by the same actor.
-     - Both rules only apply for the same actor instance and are not valid if different actors are used.
-   - Future
-     - The completion of a Future “happens before” the invocation of any callbacks registered to it are executed.
-   - STM
-     - The transactional reference rule: a successful write during commit, on an transactional reference, happens before every subsequent read of the same transactional reference.
-
-TODO(dirlt):
-
 ** Dispatcher
 An Akka MessageDispatcher is what makes Akka Actors “tick”, it is the engine of the machine so to speak. All MessageDispatcher implementations are also an ExecutionContext, which means that they can be used to execute arbitrary code, for instance Futures.(Dispatcher让整个Akka运行起来）。There are 4 different types of message dispatchers：
    - Dispatcher（默认）
@@ -438,23 +422,51 @@ Akka comes shipped with a number of mailbox implementations:
      - Configuration name: “akka.dispatch.BoundedPriorityMailbox”
 
    - Durable mailboxes, see Durable Mailboxes.
-
+     
 ** Routing
 A Router is an actor that receives messages and efficiently routes them to other actors, known as its routees. Different routing strategies can be used, according to your application’s needs. Akka comes with several useful routing strategies right out of the box. But, as you will see in this chapter, it is also possible to create your own. The routers shipped with Akka are:
-   - akka.routing.RoundRobinRouter
-   - akka.routing.RandomRouter
-   - akka.routing.SmallestMailboxRouter
-   - akka.routing.BroadcastRouter
-   - akka.routing.ScatterGatherFirstCompletedRouter
-   - akka.routing.ConsistentHashingRouter
-Sending a message to a router is easy. "router ! MyMsg". A router actor forwards messages to its routees according to its routing policy.
+   - akka.routing.RoundRobinRouter. Routes in a round-robin fashion to its routees.
+   - akka.routing.RandomRouter. As the name implies this router type selects one of its routees randomly and forwards the message it receives to this routee. 
+   - akka.routing.SmallestMailboxRouter. A Router that tries to send to the non-suspended routee with fewest messages in mailbox. The selection is done in this order:
+     - pick any idle routee (not processing message) with empty mailbox
+     - pick any routee with empty mailbox
+     - pick routee with fewest pending messages in mailbox
+     - pick any remote routee, remote actors are consider lowest priority, since their mailbox size is unknown
+   - akka.routing.BroadcastRouter. A broadcast router forwards the message it receives to all its routees.
+   - akka.routing.ScatterGatherFirstCompletedRouter. The ScatterGatherFirstCompletedRouter will send the message on to all its routees as a future. It then waits for first result it gets back. This result will be sent back to original sender.
+   - akka.routing.ConsistentHashingRouter. The ConsistentHashingRouter uses consistent hashing to select a connection based on the sent message.
 
+Routers, Routees and Senders
+   - Sending a message to a router is easy. "router ! MyMsg". A router actor forwards messages to its routees according to its routing policy.
+   - The router forwards messages onto its routees without changing the original sender. When a routee replies to a routed message, the reply will be sent to the original sender, not to the router.(直接返回给sender而不会经过router） *NOTE（dirlt）：也有办法回复给router*
+   - When a router creates routees, they are created as the routers children. This gives each routee its own identity in the actor system.
 
+Handling for Special Messages
+   - Broadcast Messages. A Broadcast message can be used to send a message to all of a router’s routees. When a router receives a Broadcast message, it will broadcast that message’s payload to all routees, no matter how that router would normally route its messages.
+   - PoisonPill Messages. A PoisonPill message has special handling for all actors, including for routers. When any actor receives a PoisonPill message, that actor will be stopped. *For a router, which normally passes on messages to routees, it is important to realised that PoisonPill messages are processed by the router only. PoisonPill messages sent to a router will not be sent on to routees.*
+   - Kill Messages. Kill messages are another type of message that has special handling. *When a Kill message is sent to a router the router processes the message internally, and does not send it on to its routees.* The router will throw an ActorKilledException and fail. It will then be either resumed, restarted or terminated, depending how it is supervised.
 
-** Typed Channel
+** Transactors
+Memory Model
+   - Java
+     - The monitor lock rule: a release of a lock happens before every subsequent acquire of the same lock.
+     - The volatile variable rule: a write of a volatile variable happens before every subsequent read of the same volatile variable
+   - Actor 
+     - The actor send rule: the send of the message to an actor happens before the receive of that message by the same actor.
+     - The actor subsequent processing rule: processing of one message happens before processing of the next message by the same actor.
+     - Both rules only apply for the same actor instance and are not valid if different actors are used.
+   - Future
+     - The completion of a Future “happens before” the invocation of any callbacks registered to it are executed.
+   - STM
+     - The transactional reference rule: a successful write during commit, on an transactional reference, happens before every subsequent read of the same transactional reference.
+
+** Enhancement
+*** Typed Channel
+*** Typed Actor
+*** FSM
+*** Futures
+*** Dataflow Concurrency
+*** STM
+*** Agents
+** TroubleShooting
 TODO(dirlt):
-
-** Typed Actor
-TODO(dirlt):
-
-** FSM
