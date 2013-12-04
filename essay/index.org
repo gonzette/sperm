@@ -165,7 +165,7 @@
    - [[file:tenzing.org][Tenzing]] Google的数据仓库平台，和Hive系统非常类似。
    - [[file:dapper.org][Dapper]] Google大型分布式系统的追踪设施。能够追踪分布式系统中各个组件之间相互调用关系并且记录性能数据进行性能分析。
    - [[file:gwp.org][GWP]] Google Wide Profiling. Google数据中心级别的profile系统。
-   - [[file:./spark.org][Spark]] AMPLab的分布式计算系统，现在是Apaache下面的项目。
+   - [[file:./spark.org][Spark]] AMPLab的分布式计算系统，现在是Apache下面的项目。
 
 ** Programming Language
    - [[file:prog-lang.org][Programming Language]] including following languages:     
