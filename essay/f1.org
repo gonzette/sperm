@@ -1,39 +1,39 @@
 * f1
-   - link http://research.google.com/pubs/pub38125.html
-   - title: F1 - The Fault-Tolerant Distributed RDBMS Supporting Google's Ad Business 
-   - date 2012
+** F1 - The Fault-Tolerant Distributed RDBMS Supporting Google's Ad Business 
+  - link http://research.google.com/pubs/pub38125.html
+  - date 2012
 
-** Today's Talk
-   - F1 - A Hybrid Database combining the
-     - Scalability of Bigtable
-     - Usability and functionality of SQL databases
+*** Today's Talk
+    - F1 - A Hybrid Database combining the
+      - Scalability of Bigtable
+      - Usability and functionality of SQL databases
 
-   - Key Ideas
-     - Scalability: Auto-sharded storage
-     - Availability & Consistency: Synchronous
-     - High commit latency: Can be hidden
-       - Hierarchical schema *层次schema？这个似乎是spanner直接提供的？*
-       - Protocol buffer column types
-       - Efficient client code
-     - Can you have a scalable database without going NoSQL?  Yes.
+    - Key Ideas
+      - Scalability: Auto-sharded storage
+      - Availability & Consistency: Synchronous
+      - High commit latency: Can be hidden
+       	- Hierarchical schema *层次schema？这个似乎是spanner直接提供的？*
+       	- Protocol buffer column types
+       	- Efficient client code
+      - Can you have a scalable database without going NoSQL?  Yes.
 
-** Our Legacy DB: Sharded MySQL
-   - Sharding Strategy
-     - Sharded by customer
-     - Apps optimized using shard awareness
+*** Our Legacy DB: Sharded MySQL
+    - Sharding Strategy
+      - Sharded by customer
+      - Apps optimized using shard awareness
 
-   - Limitations
-     - Availability
-       - Master / slave replication -> downtime during failover
-       - Schema changes -> downtime for table locking
-     - Scaling
-       - Grow by adding shards
-       - Rebalancing shards is extremely difficult and risky
-       - Therefore, limit size and growth of data stored in database
-     - Functionality
-       - Can't do cross-shard transactions or joins
+    - Limitations
+      - Availability
+       	- Master / slave replication -> downtime during failover
+       	- Schema changes -> downtime for table locking
+      - Scaling
+       	- Grow by adding shards
+       	- Rebalancing shards is extremely difficult and risky
+       	- Therefore, limit size and growth of data stored in database
+      - Functionality
+       	- Can't do cross-shard transactions or joins
 
-** Our Solution: F1
+*** Our Solution: F1
    - A new database
      - built from scratch,
      - designed to operate at Google scale,
@@ -81,27 +81,33 @@ file:./images/f1-architecture.png
      - Consistent indexes
      - Parallel reads with SQL or Map-Reduce
      
-** How We Deploy
-   - Five replicas needed for high availability
-     - Why not three?
-       - Assume one datacenter down
-       - Then one more machine crash => partial outage
-     - Replicas spread across the country to survive regional disasters
-       - Up to 100ms apart（传输距离达到了100ms以上？）
+*** How We Deploy
+    - Five replicas needed for high availability
+      - Why not three?
+       	- Assume one datacenter down
+       	- Then one more machine crash => partial outage
+      - Replicas spread across the country to survive regional disasters
+       	- Up to 100ms apart（传输距离达到了100ms以上？）
 
-   - Performance
-     - Very high commit latency - 50-100ms（因为写需要跨越几个机房）
-     - Reads take 5-10ms - much slower than MySQL（如果单次读取在5-10ms算是比较快的了）
-     - High throughput
+    - Performance
+      - Very high commit latency - 50-100ms（因为写需要跨越几个机房）
+      - Reads take 5-10ms - much slower than MySQL（如果单次读取在5-10ms算是比较快的了）
+      - High throughput
 
-   - Coping with High Latency
-     - Preferred transaction structure
-       - One read phase: No serial reads
-         - Read in batches
-       - Read asynchronously in parallel
-       - Buffer writes in client, send as one RPC
-     - Use coarse schema and hierarchy（通过提供protobuf column type来提供粗粒度的schema）
-       - Fewer tables and columns
-       - Fewer joins
-     - For bulk operations
-       - Use small transactions in parallel - high throughput
+    - Coping with High Latency
+      - Preferred transaction structure
+       	- One read phase: No serial reads
+          - Read in batches
+       	- Read asynchronously in parallel
+       	- Buffer writes in client, send as one RPC
+      - Use coarse schema and hierarchy（通过提供protobuf column type来提供粗粒度的schema）
+       	- Fewer tables and columns
+       	- Fewer joins
+      - For bulk operations
+       	- Use small transactions in parallel - high throughput
+
+** F1: A Distributed SQL Database That Scales
+   - link http://research.google.com/pubs/pub41344.html
+   - date 2013
+
+TODO(dirlt):

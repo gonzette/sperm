@@ -6,36 +6,35 @@
 
 ** Spark: Cluster Computing with Working Sets
 *** Abstract
-   - MapReduce and its variants have been highly successful in implementing large-scale data-intensive applications on commodity clusters. However, most of these systems are built around an acyclic data flow model that is not suitable for other popular applications.
-   - This paper fo- cuses on one such class of applications: those that reuse a working set of data across multiple parallel operations. This includes many iterative machine learning algorithms, as well as interactive data analysis tools.
-   - We propose a new framework called Spark that supports these applica- tions while retaining the scalability and fault tolerance of MapReduce. To achieve these goals, Spark introduces an abstraction called resilient distributed datasets (RDDs). An RDD is a read-only collection of objects partitioned across a set of machines that can be rebuilt if a partition is lost. 
+   - MapReduce and its variants have been highly successful in implementing large-scale data-intensive applications on commodity clusters. However, most of these systems are built around an acyclic data flow model that is not suitable for other popular applications. This paper fo- cuses on one such class of applications: those that reuse a working set of data across multiple parallel operations. This includes many iterative machine learning algorithms, as well as interactive data analysis tools.（迭代计算和交互式分析）
+   - We propose a new framework called Spark that supports these applica- tions while retaining the scalability and fault tolerance of MapReduce. To achieve these goals, Spark introduces an abstraction called resilient distributed datasets (RDDs). An RDD is a read-only collection of objects partitioned across a set of machines that can be rebuilt if a partition is lost.（RDD是一个只读对象的集合，并且会被分割成为多个partition，分布在多个机器上。如果一个partition丢失的话可以重算这个partition)
    - Spark can outperform Hadoop by 10x in iterative machine learning jobs, and can be used to interactively query a 39 GB dataset with sub-second response time.
 
 *** Introduction
 In this paper, we focus on one such class of applications: those that reuse a working set of data across multiple parallel operations. This includes two use cases where we have seen Hadoop users report that MapReduce is deficient:
-   - Iterative jobs: Many common machine learning algo- rithms apply a function repeatedly to the same dataset to optimize a parameter (e.g., through gradient de- scent). While each iteration can be expressed as a MapReduce/Dryad job, each job must reload the data from disk, incurring a significant performance penalty.
-   - Interactive analytics: Hadoop is often used to run ad-hoc exploratory queries on large datasets, through SQL interfaces such as Pig and Hive. Ideally, a user would be able to load a dataset of interest into memory across a number of machines and query it re- peatedly. However, with Hadoop, each query incurs significant latency (tens of seconds) because it runs as a separate MapReduce job and reads data from disk.
+   - *Iterative jobs*: Many common machine learning algo- rithms apply a function repeatedly to the same dataset to optimize a parameter (e.g., through gradient de- scent). While each iteration can be expressed as a MapReduce/Dryad job, each job must reload the data from disk, incurring a significant performance penalty.
+   - *Interactive analytics*: Hadoop is often used to run ad-hoc exploratory queries on large datasets, through SQL interfaces such as Pig and Hive. Ideally, a user would be able to load a dataset of interest into memory across a number of machines and query it re- peatedly. However, with Hadoop, each query incurs significant latency (tens of seconds) because it runs as a separate MapReduce job and reads data from disk.
 
 --------------------
-   - The main abstraction in Spark is that of a resilient dis- tributed dataset (RDD), which represents a read-only col- lection of objects partitioned across a set of machines that can be rebuilt if a partition is lost. Users can explicitly cache an RDD in memory across machines and reuse it in multiple MapReduce-like parallel operations. 
-   - RDDs achieve fault tolerance through a notion of lineage: if a partition of an RDD is lost, the RDD has enough infor- mation about how it was derived from other RDDs to be able to rebuild just that partition.
+   - The main abstraction in Spark is that of a resilient dis- tributed dataset (RDD), which represents a read-only col- lection of objects partitioned across a set of machines that can be rebuilt if a partition is lost. Users can explicitly cache an RDD in memory across machines and reuse it in multiple MapReduce-like parallel operations. （RDD可以存储在内存中，并且可以重复使用）
+   - RDDs achieve fault tolerance through a notion of lineage: if a partition of an RDD is lost, the RDD has enough infor- mation about how it was derived from other RDDs to be able to rebuild just that partition.（RDD通过lineage来达到fault-tolerant. 一个RDD内部包含足够信息来重新构造自己。因为RDD是只读的，所以这个信息只需要是input + sequence of transformatios)
    - Although RDDs are not a general shared memory abstraction, they represent a sweet-spot between expressivity on the one hand and scalability and reliability on the other hand, and we have found them well-suited for a variety of applications.
 
 *** Programming Model
    - To use Spark, developers write a driver program that im- plements the high-level control flow of their application and launches various operations in parallel.
    - Spark pro- vides two main abstractions for parallel programming: resilient distributed datasets and parallel operations on these datasets (invoked by passing a function to apply on a dataset). 
-   - In addition, Spark supports two restricted types of shared variables that can be used in functions running on the cluster, which we shall explain later.
+   - In addition, Spark supports two restricted types of shared variables that can be used in functions running on the cluster, which we shall explain later.（共享变量）
 
 **** Resilient Distributed Datasets (RDDs)
    - A resilient distributed dataset (RDD) is a read-only col- lection of objects partitioned across a set of machines that can be rebuilt if a partition is lost. 
-   - The elements of an RDD need not exist in physical storage; instead, a handle to an RDD contains enough information to compute the RDD starting from data in reliable storage. This means that RDDs can always be reconstructed if nodes fail.
-   - In Spark, each RDD is represented by a Scala object. Spark lets programmers construct RDDs in four ways:
-     - From a file in a shared file system, such as the Hadoop Distributed File System (HDFS).
-     - By “parallelizing” a Scala collection (e.g., an array) in the driver program, which means dividing it into a number of slices that will be sent to multiple nodes.
-     - By transforming an existing RDD. A dataset with ele- ments of type A can be transformed into a dataset with elements of type B using an operation called flatMap, which passes each element through a user-provided function of type A ⇒ List[B]. Other transforma- tions can be expressed using flatMap, including map (pass elements through a function of type A ⇒ B) and filter (pick elements matching a predicate).
+   - The elements of an RDD need not exist in physical storage; instead, a handle to an RDD contains enough information to compute the RDD starting from data in reliable storage. This means that RDDs can always be reconstructed if nodes fail.（每个RDD包含如何从data in reliable storage经过一系列变化转换过来）
+   - In Spark, each RDD is represented by a Scala object. Spark lets programmers construct RDDs in four ways:（RDD能够通过下面4种方式来构造）
+     - From a file in a shared file system, such as the Hadoop Distributed File System (HDFS).（从HDFS中读取）
+     - By “parallelizing” a Scala collection (e.g., an array) in the driver program, which means dividing it into a number of slices that will be sent to multiple nodes.（将driver中的collection切片）
+     - By transforming an existing RDD. A dataset with ele- ments of type A can be transformed into a dataset with elements of type B using an operation called flatMap, which passes each element through a user-provided function of type A ⇒ List[B]. Other transforma- tions can be expressed using flatMap, including map (pass elements through a function of type A ⇒ B) and filter (pick elements matching a predicate).（经过transformation)
      - By changing the persistence of an existing RDD. By default, RDDs are lazy and ephemeral. That is, par- titions of a dataset are materialized on demand when they are used in a parallel operation (e.g., by passing a block of a file through a map function), and are dis- carded from memory after use. However, a user can alter the persistence of an RDD through two actions:
-       - The cache action leaves the dataset lazy, but hints that it should be kept in memory after the first time it is computed, because it will be reused. We note that our cache action is only a hint: if there is not enough memory in the cluster to cache all partitions of a dataset, Spark will recompute them when they are used. We chose this design so that Spark programs keep work- ing (at reduced performance) if nodes fail or if a dataset is too big. This idea is loosely analogous to virtual memory.
-       - The save action evaluates the dataset and writes it to a distributed filesystem such as HDFS. The saved version is used in future operations on it.
+       - The cache action leaves the dataset lazy, but hints that it should be kept in memory after the first time it is computed, because it will be reused. We note that our cache action is only a hint: if there is not enough memory in the cluster to cache all partitions of a dataset, Spark will recompute them when they are used. We chose this design so that Spark programs keep work- ing (at reduced performance) if nodes fail or if a dataset is too big. This idea is loosely analogous to virtual memory.(cache可以用来提示将RDD缓存在内存中，以便被后面计算重复使用。如果空间不够的话那么会丢弃而下次需要的时候重新计算，类似虚拟内存） *TODO（dirlt）：难道不应该swap到磁盘上更加合适吗？*
+       - The save action evaluates the dataset and writes it to a distributed filesystem such as HDFS. The saved version is used in future operations on it.（save可以用来将RDD持久化到磁盘上）
      - We also plan to extend Spark to support other levels of persistence (e.g., in-memory replication across multiple nodes). Our goal is to let users trade off between the cost of storing an RDD, the speed of accessing it, the proba- bility of losing part of it, and the cost of recomputing it.
 
 **** Parallel Operations
@@ -47,10 +46,10 @@ Several parallel operations can be performed on RDDs:
 We note that Spark does not currently support a grouped reduce operation as in MapReduce; reduce re- sults are only collected at one process (the driver). We plan to support grouped reductions in the future using a “shuffle” transformation on distributed datasets, as de- scribed in Section 7.（没有shuffle是显然不行的）
 
 **** Shared Variables
-   - Programmers invoke operations like map, filter and re- duce by passing closures (functions) to Spark. As is typi- cal in functional programming, these closures can refer to variables in the scope where they are created. Normally, when Spark runs a closure on a worker node, these vari- ables are copied to the worker.
+   - Programmers invoke operations like map, filter and re- duce by passing closures (functions) to Spark. As is typi- cal in functional programming, these closures can refer to variables in the scope where they are created. Normally, when Spark runs a closure on a worker node, these vari- ables are copied to the worker.（closure使用的变量会被复制到worker上）
    - However, Spark also lets programmers create two restricted types of shared vari- ables to support two simple but common usage patterns:
-     - Broadcast variables: If a large read-only piece of data (e.g., a lookup table) is used in multiple parallel op- erations, it is preferable to distribute it to the workers only once instead of packaging it with every closure. Spark lets the programmer create a “broadcast vari-able” object that wraps the value and ensures that it is only copied to each worker once.
-     - Accumulators: These are variables that workers can only “add” to using an associative operation, and that only the driver can read. They can be used to im- plement counters as in MapReduce and to provide a more imperative syntax for parallel sums. Accumu- lators can be defined for any type that has an “add” operation and a “zero” value. Due to their “add-only” semantics, they are easy to make fault-tolerant.
+     - Broadcast variables: If a large read-only piece of data (e.g., a lookup table) is used in multiple parallel op- erations, it is preferable to distribute it to the workers only once instead of packaging it with every closure. Spark lets the programmer create a “broadcast vari-able” object that wraps the value and ensures that it is only copied to each worker once.（广播变量，类似Hadoop的distributed cache)
+     - Accumulators: These are variables that workers can only “add” to using an associative operation, and that only the driver can read. They can be used to im- plement counters as in MapReduce and to provide a more imperative syntax for parallel sums. Accumu- lators can be defined for any type that has an “add” operation and a “zero” value. Due to their “add-only” semantics, they are easy to make fault-tolerant.(累加器，类似Hadoop的counter)
 
 *** Examples
 *** Implementation
@@ -65,18 +64,19 @@ val ones = cachedErrs.map(_ => 1)
 val count = ones.reduce(_+_)
 #+END_SRC
 
-These datasets will be stored as a chain of objects cap- turing the lineage of each RDD, shown in Figure 1. Each dataset object contains a pointer to its parent and informa- tion about how the parent was transformed.
+These datasets will be stored as a chain of objects cap- turing the lineage of each RDD, shown in Figure 1. Each dataset object contains a pointer to its parent and informa- tion about how the parent was transformed. 
 
 file:./images/spark-rdd-code-examples.png
 
+*NOTE(dirlt):rdd = direct input + function as closure*
 
 --------------------
 
-Internally, each RDD object implements the same sim- ple interface, which consists of three operations:
-   - getPartitions, which returns a list of partition IDs.
-   - getIterator(partition), which iterates over a partition.
-   - getPreferredLocations(partition), which is used for task scheduling to achieve data locality.
-When a parallel operation is invoked on a dataset, Spark creates a task to process each partition of the dataset and sends these tasks to worker nodes. *We try to send each task to one of its preferred locations using a technique called delay scheduling.* Once launched on a worker, each task calls getIterator to start reading its partition.
+Internally, each RDD object implements the same sim- ple interface, which consists of three operations:（RDD interface)
+   - getPartitions, which returns a list of partition IDs.（这个RDD有哪些partitions)
+   - getIterator(partition), which iterates over a partition.(遍历partition获取数据）
+   - getPreferredLocations(partition), which is used for task scheduling to achieve data locality.（这个partition存储在哪些地方，这样可以将人任务分发到上面提高data locality)
+When a parallel operation is invoked on a dataset, Spark creates a task to process each partition of the dataset and sends these tasks to worker nodes. *We try to send each task to one of its preferred locations using a technique called delay scheduling.* Once launched on a worker, each task calls getIterator to start reading its partition.(通过将task放置到partition所在的位置称为延迟调度。一旦worker启动之后获取partition的遍历器来读取数据）
 
 The different types of RDDs differ only in how they implement the RDD interface. For example,
    - for a Hdfs- TextFile, the partitions are block IDs in HDFS, their pre- ferred locations are the block locations, and getIterator opens a stream to read a block. 
@@ -84,14 +84,12 @@ The different types of RDDs differ only in how they implement the RDD interface.
    - Finally, in a CachedDataset, the getIterator method looks for a locally cached copy of a transformed partition, and each partition’s preferred loca- tions start out equal to the parent’s preferred locations, but get updated after the partition is cached on some node to prefer reusing that node. 
 This design makes faults easy to handle: if a node fails, its partitions are re-read from their parent datasets and eventually cached on other nodes.
 
-Finally, shipping tasks to workers requires shipping closures to them—both the closures used to define a dis- tributed dataset, and closures passed to operations such as reduce. To achieve this, we rely on the fact that Scala clo- sures are Java objects and can be serialized using Java se- rialization; this is a feature of Scala that makes it relatively straightforward to send a computation to another machine. 
-
-Scala’s built-in closure implementation is not ideal, how- ever, because we have found cases where a closure object references variables in the closure’s outer scope that are not actually used in its body. We have filed a bug report about this, but in the meantime, we have solved the issue by performing a static analysis of closure classes’ byte- code to detect these unused variables and set the corre- sponding fields in the closure object to null. We omit the details of this analysis due to lack of space.
+Finally, shipping tasks to workers requires shipping closures to them—both the closures used to define a dis- tributed dataset, and closures passed to operations such as reduce. To achieve this, we rely on the fact that Scala clo- sures are Java objects and can be serialized using Java se- rialization; this is a feature of Scala that makes it relatively straightforward to send a computation to another machine. Scala’s built-in closure implementation is not ideal, how- ever, because we have found cases where a closure object references variables in the closure’s outer scope that are not actually used in its body. We have filed a bug report about this, but in the meantime, we have solved the issue by performing a static analysis of closure classes’ byte- code to detect these unused variables and set the corre- sponding fields in the closure object to null. We omit the details of this analysis due to lack of space.（通过对closure做序列化将task散布到worker上面）
 
 **** Shared Variables
 The two types of shared variables in Spark, broadcast variables and accumulators, are imple- mented using classes with custom serialization formats. 
-   - When one creates a broadcast variable b with a value v, v is saved to a file in a shared file system. The serialized form of b is a path to this file. When b’s value is queried on a worker node, Spark first checks whether v is in a local cache, and reads it from the file system if it isn’t. We initially used HDFS to broadcast variables, but we are developing a more efficient streaming broadcast system.
-   - Accumulators are implemented using a different “se- rialization trick.” Each accumulator is given a unique ID when it is created. When the accumulator is saved, its serialized form contains its ID and the “zero” value for its type. On the workers, a separate copy of the accu- mulator is created for each thread that runs a task using thread-local variables, and is reset to zero when a task be- gins. After each task runs, the worker sends a message to the driver program containing the updates it made to var- ious accumulators. The driver applies updates from each partition of each operation only once to prevent double- counting when tasks are re-executed due to failures.
+   - When one creates a broadcast variable b with a value v, v is saved to a file in a shared file system. The serialized form of b is a path to this file. When b’s value is queried on a worker node, Spark first checks whether v is in a local cache, and reads it from the file system if it isn’t. We initially used HDFS to broadcast variables, but we are developing a more efficient streaming broadcast system.（将HDFS当作共享文件系统，广播数据存储在HDFS上面，而广播变量就是HDFS的文件路径）
+   - Accumulators are implemented using a different “se- rialization trick.” Each accumulator is given a unique ID when it is created. When the accumulator is saved, its serialized form contains its ID and the “zero” value for its type. On the workers, a separate copy of the accu- mulator is created for each thread that runs a task using thread-local variables, and is reset to zero when a task be- gins. After each task runs, the worker sends a message to the driver program containing the updates it made to var- ious accumulators. The driver applies updates from each partition of each operation only once to prevent double- counting when tasks are re-executed due to failures.（累加器变量由driver分配ID，然后各个worker汇报在自己在这个ID上的增量）
 
 **** Interpret Intergation
 *** Results
@@ -116,9 +114,9 @@ In future work, we plan to focus on four areas:
    - However, we show that RDDs are expres- sive enough to capture a wide class of computations, in- cluding recent specialized programming models for iter- ative jobs, such as Pregel, and new applications that these models do not capture.
 
 *** Introduction
-   - Although current frameworks provide numerous ab- stractions for accessing a cluster’s computational re- sources, they lack abstractions for leveraging distributed memory. This makes them inefficient for an important class of emerging applications: those that reuse interme- diate results across multiple computations.
+   - Although current frameworks provide numerous ab- stractions for accessing a cluster’s computational re- sources, they lack abstractions for leveraging distributed memory. This makes them inefficient for an important class of emerging applications: those that reuse interme- diate results across multiple computations.（缺少有效使用分布式内存的抽象）
    - Data reuse is common in many iterative machine learning and graph algorithms, including PageRank, K-means clustering, and logistic regression. Another compelling use case is interactive data mining, where a user runs multiple ad- hoc queries on the same subset of the data.
-   - Unfortu- nately, in most current frameworks, the only way to reuse data between computations (e.g., between two MapRe- duce jobs) is to write it to an external stable storage sys- tem, e.g., a distributed file system. This incurs substantial overheads due to data replication, disk I/O, and serializa-tion, which can dominate application execution times.
+   - Unfortu- nately, in most current frameworks, the only way to reuse data between computations (e.g., between two MapRe- duce jobs) is to write it to an external stable storage sys- tem, e.g., a distributed file system. This incurs substantial overheads due to data replication, disk I/O, and serializa-tion, which can dominate application execution times.（而现在对于数据的重用都是依赖于外部持久化系统比如分布式文件系统，data replication, disk I/O, 序列化都带来比较大的overhead)
    - Recognizing this problem, researchers have developed specialized frameworks for some applications that re- quire data reuse. For example, Pregel is a system for iterative graph computations that keeps intermediate data in memory, while HaLoop offers an iterative MapRe- duce interface. However, these frameworks only support specific computation patterns (e.g., looping a series of MapReduce steps), and perform data sharing implicitly for these patterns. They do not provide abstractions for more general reuse, e.g., to let a user load several datasets into memory and run ad-hoc queries across them.
 
 --------------------
@@ -129,25 +127,23 @@ In future work, we plan to focus on four areas:
      - control their partitioning to optimize data placement, 
      - and ma-nipulate them using a rich set of operators.
    - The main challenge in designing RDDs is defining a programming interface that can provide fault tolerance efficiently.
-     - Existing abstractions for in-memory storage on clusters, such as distributed shared memory, key- value stores, databases, and Piccolo, offer an interface based on fine-grained updates to mutable state (e.g., cells in a table). With this interface, the only ways to provide fault tolerance are to replicate the data across machines or to log updates across machines. Both ap- proaches are expensive for data-intensive workloads, as they require copying large amounts of data over the clus- ter network, whose bandwidth is far lower than that of RAM, and they incur substantial storage overhead.
-     - In contrast to these systems, RDDs provide an inter- face based on coarse-grained transformations (e.g., map, filter and join) that apply the same operation to many data items. This allows them to efficiently provide fault tolerance by logging the transformations used to build a dataset (its lineage) rather than the actual data. If a parti- tion of an RDD is lost, the RDD has enough information about how it was derived from other RDDs to recompute just that partition. Thus, lost data can be recovered, often quite quickly, without requiring costly replication.
+     - Existing abstractions for in-memory storage on clusters, such as distributed shared memory, key- value stores, databases, and Piccolo, offer an interface based on fine-grained updates to mutable state (e.g., cells in a table). With this interface, the only ways to provide fault tolerance are to replicate the data across machines or to log updates across machines. Both ap- proaches are expensive for data-intensive workloads, as they require copying large amounts of data over the clus- ter network, whose bandwidth is far lower than that of RAM, and they incur substantial storage overhead.（允许细粒度地来更新状态，所以应对failover的实现办法只能够是replication)
+     - In contrast to these systems, RDDs provide an inter- face based on coarse-grained transformations (e.g., map, filter and join) that apply the same operation to many data items. This allows them to efficiently provide fault tolerance by logging the transformations used to build a dataset (its lineage) rather than the actual data. If a parti- tion of an RDD is lost, the RDD has enough information about how it was derived from other RDDs to recompute just that partition. Thus, lost data can be recovered, often quite quickly, without requiring costly replication.(而RDD只允许粗粒度地更新状态，所以可以通过重算来处理failover)
    - Although an interface based on coarse-grained trans- formations may at first seem limited, RDDs are a good fit for many parallel applications, because these appli- cations naturally apply the same operation to multiple data items. Indeed, we show that RDDs can efficiently express many cluster programming models that have so far been proposed as separate systems.
 
 *** Resilient Distributed Datasets (RDDs)
 **** RDD Abstraction
    - Formally, an RDD is a read-only, partitioned collection of records. RDDs can only be created through determin- istic operations on either (1) data in stable storage or (2) other RDDs. We call these operations transformations to differentiate them from other operations on RDDs. Ex- amples of transformations include map, filter, and join.
    - RDDs do not need to be materialized at all times. In- stead, an RDD has enough information about how it was derived from other datasets (its lineage) to compute its partitions from data in stable storage. This is a power- ful property: in essence, a program cannot reference an RDD that it cannot reconstruct after a failure.
-   - Finally, users can control two other aspects of RDDs: persistence and partitioning. Users can indicate which RDDs they will reuse and choose a storage strategy for them (e.g., in-memory storage). They can also ask that an RDD’s elements be partitioned across machines based on a key in each record. This is useful for placement op- timizations, such as ensuring that two datasets that will be joined together are hash-partitioned in the same way.
+   - Finally, users can control two other aspects of RDDs: persistence and partitioning. Users can indicate which RDDs they will reuse and choose a storage strategy for them (e.g., in-memory storage). They can also ask that an RDD’s elements be partitioned across machines based on a key in each record. This is useful for placement op- timizations, such as ensuring that two datasets that will be joined together are hash-partitioned in the same way.(用户可以控制持久化以及分片策略）
 
 **** Spark Programming Interface
 **** Advantages of the RDD Model
    - The main difference between RDDs and DSM is that RDDs can only be created (“written”) through coarse- grained transformations, while DSM allows reads and writes to each memory location. This restricts RDDs to applications that perform bulk writes, but allows for more efficient fault tolerance. In particular, RDDs do not need to incur the overhead of checkpointing, as they can be recovered using lineage. Furthermore, only the lost partitions of an RDD need to be recomputed upon fail- ure, and they can be recomputed in parallel on different nodes, without having to roll back the whole program.
-   - A second benefit of RDDs is that their immutable na- ture lets a system mitigate slow nodes (stragglers) by run- ning backup copies of slow tasks as in MapReduce. Backup tasks would be hard to implement with DSM, as the two copies of a task would access the same memory locations and interfere with each other’s updates.
+   - A second benefit of RDDs is that their immutable na- ture lets a system mitigate slow nodes (stragglers) by run- ning backup copies of slow tasks as in MapReduce. Backup tasks would be hard to implement with DSM, as the two copies of a task would access the same memory locations and interfere with each other’s updates. （可以很容易地复制计算单元，来处理出现straggler的情况）
    - Finally, RDDs provide two other benefits over DSM. First, in bulk operations on RDDs, a runtime can sched-ule tasks based on data locality to improve performance. Second, RDDs degrade gracefully when there is not enough memory to store them, as long as they are only being used in scan-based operations. Partitions that do not fit in RAM can be stored on disk and will provide similar performance to current data-parallel systems.
 
 file:./images/spark-rdd-vs-dsm.png
-
-**** Applications Not Suitable for RDDs
 *** Spark Programming Interface
 To use Spark, developers write a driver program that connects to a cluster of workers, as shown in Figure 2. The driver defines one or more RDDs and invokes ac- tions on them. Spark code on the driver also tracks the RDDs’ lineage. The workers are long-lived processes that can store RDD partitions in RAM across operations.
 
@@ -170,8 +166,8 @@ For example, an RDD representing an HDFS file has a partition for each block of 
 --------------------
 
 The most interesting question in designing this inter- face is how to represent dependencies between RDDs. We found it both sufficient and useful to classify depen- dencies into two types:
-   - narrow dependencies, where each partition of the parent RDD is used by at most one parti- tion of the child RDD, 
-   - wide dependencies, where multi- ple child partitions may depend on it. 
+   - *narrow dependencies(ND), where each partition of the parent RDD is used by at most one parti- tion of the child RDD, （一个partition只会被child RDD中的一个partition所使用）*
+   - *wide dependencies(WD), where multi- ple child partitions may depend on it.（一个partition会被child RDD中的多个partition所使用）*
 For example, map leads to a narrow dependency, while join leads to to wide dependencies (unless the parents are hash-partitioned). Figure 4 shows other examples.
 
 file:./images/spark-rdd-dependencies.png
