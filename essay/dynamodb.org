@@ -1,0 +1,6 @@
+* dynamodb
+   - http://s3.amazonaws.com/AllThingsDistributed/sosp/amazon-dynamo-sosp2007.pdf
+   - http://duanple.blog.163.com/blog/static/709717672011513111427410/
+   - http://untyped.com/untyping/2011/01/21/all-about-amazons-dynamo/
+   - http://blog.nosqlfan.com/html/1257.html
+
