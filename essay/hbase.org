@@ -82,7 +82,6 @@ The reason it works is that if you add a Callback on a Deferred that already has
 So everything is fine :)
 #+END_VERSE
 
-
 *** HBase Write Path | Apache Hadoop for the Enterprise | Cloudera
 http://blog.cloudera.com/blog/2012/06/hbase-write-path/
 
@@ -362,7 +361,7 @@ fusion iomemory 是类似 ssd的东西， *操作速度接近DRAM，成本更低
 
 *** hbase hbck
    - 默认检查hbase状态
-   - 如果出现不一致状态，可以使用参数 -fix 来修复
+   - 如果出现不一致状态，可以使用参数 -fix 来修复 *NOTE（dirlt）：存在丢失数据的风险*
 
 *** hbase increment
 http://hbase.apache.org/apidocs/org/apache/hadoop/hbase/client/Increment.html
@@ -416,6 +415,54 @@ thrift.Thrift.TApplicationException: Invalid method name: 'scannerOpenWithScan'
      - sudo -u hdfs hadoop fs -chmod -R 0777 <hfile-path> # 修改权限
      - sudo -u hdfs hadoop fs -chown -R hbase <hfile-path> # 修改owner
      - sudo -u hbase hadoop jar /usr/lib/hbase/hbase-0.94.6-cdh4.3.0-security.jar completebulkload <hfile-path> <table>
+
+*** hbase merge
+   - *NOTE(dirlt):需要停表或者是停集群*
+   - hbase org.apache.hadoop.hbase.util.Merge <table> <region1> <region2>
+   - 工作原理大致是
+     1. 读取region1,region2对应hbase的目录下面数据文件
+     2. 检查.regioninfo是否相连
+     3. 合并文件内容输出到另外一个目录下面
+     4. 修改hbase的.META文件信息
+   - *NOTE（dirlt）：这个对于修复数据非常有效*
+** TroubleShooting
+region一直assign不上，观察曾经尝试被assigned的节点出现下面的错误
+#+BEGIN_EXAMPLE
+java.io.IOException: java.io.IOException: java.io.FileNotFoundException: File does not exist: /hbase/installhistory/2f1b909bb15ce5960d72a1773902085c/install/240086423354424bb32d647fab6f9b98
+        at org.apache.hadoop.hdfs.server.namenode.INodeFile.valueOf(INodeFile.java:39)
+        at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getBlockLocationsUpdateTimes(FSNamesystem.java:1341)
+        at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getBlockLocationsInt(FSNamesystem.java:1293)
+        at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getBlockLocations(FSNamesystem.java:1269)
+        at org.apache.hadoop.hdfs.server.namenode.FSNamesystem.getBlockLocations(FSNamesystem.java:1242)
+        at org.apache.hadoop.hdfs.server.namenode.NameNodeRpcServer.getBlockLocations(NameNodeRpcServer.java:392)
+        at org.apache.hadoop.hdfs.protocolPB.ClientNamenodeProtocolServerSideTranslatorPB.getBlockLocations(ClientNamenodeProtocolServerSideTranslatorPB.java:172)
+        at org.apache.hadoop.hdfs.protocol.proto.ClientNamenodeProtocolProtos$ClientNamenodeProtocol$2.callBlockingMethod(ClientNamenodeProtocolProtos.java:44938)
+        at org.apache.hadoop.ipc.ProtobufRpcEngine$Server$ProtoBufRpcInvoker.call(ProtobufRpcEngine.java:453)
+        at org.apache.hadoop.ipc.RPC$Server.call(RPC.java:1002)
+        at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:1701)
+        at org.apache.hadoop.ipc.Server$Handler$1.run(Server.java:1697)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at javax.security.auth.Subject.doAs(Subject.java:396)
+        at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1408)
+        at org.apache.hadoop.ipc.Server$Handler.run(Server.java:1695)
+
+        at org.apache.hadoop.hbase.regionserver.HRegion.initializeRegionInternals(HRegion.java:607)
+        at org.apache.hadoop.hbase.regionserver.HRegion.initialize(HRegion.java:520)
+        at org.apache.hadoop.hbase.regionserver.HRegion.openHRegion(HRegion.java:4313)
+        at org.apache.hadoop.hbase.regionserver.HRegion.openHRegion(HRegion.java:4261)
+        at org.apache.hadoop.hbase.regionserver.handler.OpenRegionHandler.openRegion(OpenRegionHandler.java:329)
+        at org.apache.hadoop.hbase.regionserver.handler.OpenRegionHandler.process(OpenRegionHandler.java:100)
+        at org.apache.hadoop.hbase.executor.EventHandler.run(EventHandler.java:175)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:895)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:918)
+        at java.lang.Thread.run(Thread.java:662)
+
+#+END_EXAMPLE
+我们曾经遇到这个问题是因为集群数据出现不一致的情况。观察WebUI上实际上它查找另外一个encodedName 6ef7e4f2c72929d789f63baba2f13d4e. 这个路径在HDFS中存在并且文件名称和240086423354424bb32d647fab6f9b98完全一致。
+
+当时我们处理的办法是将6ef7e4f2c72929d789f63baba2f13d4e重命名为2f1b909bb15ce5960d72a1773902085c。实际上这是一个错误的做法，因为2f1b909bb15ce5960d72a1773902085c这个regionName在META里面根本不存在。出现这样的情况是因为当时在6ef7e4f2c72929d789f63baba2f13d4e下面存在一个文件 *240086423354424bb32d647fab6f9b98.2f1b909bb15ce5960d72a1773902085c* 。这个文件大小非常小，我们当时怀疑是一个类似软链接的文件，当读取240086423354424bb32d647fab6f9b98这个文件的时候，如果存在link文件的话，那么就会转移到另外一个directory下面读取。 *所以我们直接将这个link文件删除了，结果region瞬间加载成功*
+
+*NOTE（dirlt）：如果需要强制停止assign一个节点的话，只能进入zookeeper的/hbase/unassigned目录将下面节点完全删除，hbase shell的unassign命令只是针对那些assign成功的region有效*
 
 ** 日志分析
 *** output error
@@ -1298,11 +1345,12 @@ drwxr-xr-x   - dirlt supergroup          0 2013-05-30 12:32 /home/dirlt/hbase/te
      - splitlog. intermediate split files when log splitting.
      - .corrupt. corrupted logs.
    - Table Level Files
-     - /<tableName>/md5sum(<regionName>)/<columnFamily>/fileName(random number)
-     - regionName = <tableName>,<startRow>,<endRow> eg. test,,1369886221574
-     - regionNameOnWebUI = <regionName>.md5sum(<regionName>) eg. test,,1369886221574.1938ab7ad31208641c117035f7c012ab.
+     - *regionName* = <tableName>,<startRow>,<endRow> eg. test,,1369886221574
+     - *encodedName* = md5sum(regionName)
+     - *regionNameOnWebUI* = <regionName>.encodedName eg. test,,1369886221574.1938ab7ad31208641c117035f7c012ab.
+     - *path* = /<tableName>/encodedName/<columnFamily>/fileName(random number)
      - .tmp hold temporary files, for example the rewritten files from a compaction.
-     - .regioninfo the serialized information of the HRegionInfo instance for the given region.
+     - *.regioninfo* the serialized information of the HRegionInfo instance for the given region.
      - recovered.edits 在/splitlog完成了log splitting之后移动到这个目录下面进行恢复
      - splits Once the region needs to split because of its size, a matching splits directory is created, which is used to stage the two daughter regions. 用来进行region splitting
 
