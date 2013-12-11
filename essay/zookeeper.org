@@ -24,7 +24,3 @@ zookeeper需要java.下载好zookeeper的package解压之后的话，在zookeepe
 #+END_EXAMPLE
 然后在bin目录下面使用zkServer.sh restart即可。zookeeper也配置了zkCli.sh.通过zkCli.sh -server 127.0.0.1:2181即可进行交互式的界面来查看zookeeper上面的数据。
 
-
-
-
-

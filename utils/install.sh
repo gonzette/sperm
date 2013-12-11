@@ -11,9 +11,12 @@ then
     sudo rm -rf /etc/hosts && sudo ln -s $BINDIR/hosts /etc/hosts
     sudo rm -rf /etc/hostname && sudo ln -s $BINDIR/hostname /etc/hostname
 else
-    # Darwin.
+    # Darwin.    
+    sudo echo "plugin L2TP.ppp" >> /etc/ppp/options
+    sudo echo "l2tpnoipsec" >> /etc/ppp/options
     sudo cp $BINDIR/hosts /etc/hosts
 fi
+
 
 echo "installing .shrc"
 rm -rf $HOME/.shrc
