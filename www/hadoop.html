@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="hadoop"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-12-11T17:53+0800"/>
+<meta name="generated" content="2013-12-13T14:42+0800"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -937,7 +937,7 @@ export JAVA_HOME=/usr/java/default/
 
   &lt;property&gt;
     &lt;name&gt;dfs.replication&lt;/name&gt;
-    &lt;value&gt;2&lt;/value&gt;
+    &lt;value&gt;3&lt;/value&gt;
   &lt;/property&gt;
 
   &lt;property&gt;
@@ -963,6 +963,11 @@ export JAVA_HOME=/usr/java/default/
   &lt;property&gt;
     &lt;name&gt;dfs.datanode.handler.count&lt;/name&gt;
     &lt;value&gt;32&lt;/value&gt;
+  &lt;/property&gt;
+
+  &lt;property&gt;
+    &lt;name&gt;dfs.client.read.shortcircuit&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
   &lt;/property&gt;
 &lt;/configuration&gt;
 
@@ -1059,10 +1064,10 @@ export HADOOP_HEAPSIZE=6000
 
 # Command specific options appended to HADOOP_OPTS when specified
 export HADOOP_NAMENODE_OPTS=<span class="org-string">"-Xmx12000m $HADOOP_NAMENODE_OPTS"</span>
-export HADOOP_SECONDARYNAMENODE_OPTS=<span class="org-string">"-Xmx12000m -Dcom.sun.management.jmxremote $HADOOP_SECONDARYNAMENODE_OPTS"</span>
-export HADOOP_DATANODE_OPTS=<span class="org-string">"-Dcom.sun.management.jmxremote $HADOOP_DATANODE_OPTS"</span>
-export HADOOP_BALANCER_OPTS=<span class="org-string">"-Dcom.sun.management.jmxremote $HADOOP_BALANCER_OPTS"</span>
-export HADOOP_JOBTRACKER_OPTS=<span class="org-string">"-Xmx12000m -Dcom.sun.management.jmxremote $HADOOP_JOBTRACKER_OPTS"</span>
+export HADOOP_SECONDARYNAMENODE_OPTS=<span class="org-string">"-Xmx12000m $HADOOP_SECONDARYNAMENODE_OPTS"</span>
+export HADOOP_DATANODE_OPTS=<span class="org-string">"-Xmx6000m $HADOOP_DATANODE_OPTS"</span>
+export HADOOP_BALANCER_OPTS=<span class="org-string">"-Xmx3000m $HADOOP_BALANCER_OPTS"</span>
+export HADOOP_JOBTRACKER_OPTS=<span class="org-string">"-Xmx12000m $HADOOP_JOBTRACKER_OPTS"</span>
 </pre>
 
 
@@ -1147,6 +1152,11 @@ export HADOOP_JOBTRACKER_OPTS=<span class="org-string">"-Xmx12000m -Dcom.sun.man
     &lt;name&gt;hbase.hregion.majorcompaction&lt;/name&gt;
     &lt;value&gt;0&lt;/value&gt;
   &lt;/property&gt;
+
+  &lt;property&gt;
+    &lt;name&gt;hbase.regionserver.checksum.verify&lt;/name&gt;
+    &lt;value&gt;true&lt;/value&gt;
+  &lt;/property&gt;
 &lt;/configuration&gt;
 
 </pre>
@@ -1170,7 +1180,8 @@ export HBASE_HEAPSIZE=14000
 # Below are what we set by default. May only work with SUN JVM.
 # For more on why as well as other possible settings,
 # see http://wiki.apache.org/hadoop/PerformanceTuning
-export HBASE_OPTS=<span class="org-string">"-ea -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode"</span>
+# export HBASE_OPTS=<span class="org-string">"-ea -XX:+UseConcMarkSweepGC -XX:+CMSIncrementalMode"</span>
+export HBASE_OPTS=<span class="org-string">"-ea -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=90"</span>
 
 </pre>
 
@@ -3187,7 +3198,7 @@ Examples:
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-12-11T17:53+0800</p>
+<p class="date">Date: 2013-12-13T14:42+0800</p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.2 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 23</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
