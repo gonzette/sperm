@@ -21,8 +21,10 @@ ff02::3	ip6-allhosts
 
 54.241.35.194 dirlt-aws
 
-122.11.52.244 git.fm
-122.11.52.244 github.umeng.com
+#122.11.52.244 git.fm
+#122.11.52.244 github.umeng.com
+122.11.52.233 git.fm
+122.11.52.233 github.umeng.com
 122.11.52.226 hadoop1
 122.11.52.227 nexus
 10.18.103.251 hudson

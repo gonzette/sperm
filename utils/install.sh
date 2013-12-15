@@ -12,8 +12,8 @@ then
     sudo rm -rf /etc/hostname && sudo ln -s $BINDIR/hostname /etc/hostname
 else
     # Darwin.    
-    sudo echo "plugin L2TP.ppp" >> /etc/ppp/options
-    sudo echo "l2tpnoipsec" >> /etc/ppp/options
+    #sudo echo "plugin L2TP.ppp" >> /etc/ppp/options
+    #sudo echo "l2tpnoipsec" >> /etc/ppp/options
     sudo cp $BINDIR/hosts /etc/hosts
 fi
 

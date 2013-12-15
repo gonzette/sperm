@@ -232,3 +232,8 @@ Especially thanks to [[http://xuchaoqian.com][xuchaoqian]] for encouraging me to
    - The Writings of Leslie Lamport : http://research.microsoft.com/en-us/um/people/lamport/pubs/pubs.html
    - Paper Trail : http://the-paper-trail.org/blog/
    - 250bpm : http://250bpm.com/
+
+--------------------
+
+   - Snooda's Blog : http://www.snooda.com/
+   - 
