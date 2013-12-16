@@ -386,14 +386,14 @@ scala=`ls target/scala*/$artifact-assembly-*.jar 2>/dev/null`
 if [ "x$scala" != "x" -a -f build.sbt ]
 then
   cp -r $scala $dist
-  cd $dist && ln -s $scala $artifact.jar && cd ..
+  cd $dist && ln -s `basename $scala` $artifact.jar && cd ..
 fi
 
 java=`ls target/$artifact-*-jar-with-dependencies.jar 2>/dev/null`
 if [ "x$java" != "x" -a -f pom.xml ]
 then
   cp -r $java $dist
-  cd $dist && ln -s $java $artifact.jar && cd ..
+  cd $dist && ln -s `basename $java` $artifact.jar && cd ..
 fi
 
 tar czvf $dist.tar.gz $dist
