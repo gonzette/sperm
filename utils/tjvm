@@ -381,8 +381,21 @@ mkdir -p $dist
 
 cp -r config/ $dist
 cp -r scripts/ $dist
-cp -r target/scala*/$artifact-assembly-*.jar $dist
-cd $dist && ln -s $artifact-assembly-*.jar $artifact.jar && cd ..
+
+scala=`ls target/scala*/$artifact-assembly-*.jar 2>/dev/null`
+if [ "x$scala" != "x" -a -f build.sbt ]
+then
+  cp -r $scala $dist
+  cd $dist && ln -s $scala $artifact.jar && cd ..
+fi
+
+java=`ls target/$artifact-*-jar-with-dependencies.jar 2>/dev/null`
+if [ "x$java" != "x" -a -f pom.xml ]
+then
+  cp -r $java $dist
+  cd $dist && ln -s $java $artifact.jar && cd ..
+fi
+
 tar czvf $dist.tar.gz $dist
 
 """
@@ -408,12 +421,15 @@ def generate(project,groupId,artifactId):
     os.system('mkdir -p %s/src/test/resources/'%(project))
     os.system('mkdir -p %s/config/'%(project))
     os.system('mkdir -p %s/scripts/'%(project))
-    open('%s/scripts/%s-monit.sh'%(project,artifactId),'w').write(MONIT_TEMPLATE%(locals()))
-    os.system('chmod u+x %s/scripts/%s-monit.sh'%(project,artifactId))
-    open('%s/scripts/%s-run.sh'%(project,artifactId),'w').write(RUN_TEMPLATE%(locals()))
-    os.system('chmod u+x %s/scripts/%s-run.sh'%(project,artifactId))
-    open('%s/scripts/%s-dist.sh'%(project,artifactId),'w').write(DIST_TEMPLATE%(locals()))
-    os.system('chmod u+x %s/scripts/%s-dist.sh'%(project,artifactId))
+
+    open('%s/scripts/monit.sh'%(project),'w').write(MONIT_TEMPLATE%(locals()))
+    os.system('chmod u+x %s/scripts/monit.sh'%(project))
+
+    open('%s/scripts/run.sh'%(project),'w').write(RUN_TEMPLATE%(locals()))
+    os.system('chmod u+x %s/scripts/run.sh'%(project))
+
+    open('%s/scripts/dist.sh'%(project),'w').write(DIST_TEMPLATE%(locals()))
+    os.system('chmod u+x %s/scripts/dist.sh'%(project))
     
 import sys
 if __name__=='__main__':
