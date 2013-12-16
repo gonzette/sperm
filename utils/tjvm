@@ -422,14 +422,14 @@ def generate(project,groupId,artifactId):
     os.system('mkdir -p %s/config/'%(project))
     os.system('mkdir -p %s/scripts/'%(project))
 
-    open('%s/scripts/monit.sh'%(project),'w').write(MONIT_TEMPLATE%(locals()))
-    os.system('chmod u+x %s/scripts/monit.sh'%(project))
+    open('%s/scripts/ctl/monit.sh'%(project),'w').write(MONIT_TEMPLATE%(locals()))
+    os.system('chmod u+x %s/scripts/ctl/monit.sh'%(project))
 
-    open('%s/scripts/run.sh'%(project),'w').write(RUN_TEMPLATE%(locals()))
-    os.system('chmod u+x %s/scripts/run.sh'%(project))
+    open('%s/scripts/ctl/run.sh'%(project),'w').write(RUN_TEMPLATE%(locals()))
+    os.system('chmod u+x %s/scripts/ctl/run.sh'%(project))
 
-    open('%s/scripts/dist.sh'%(project),'w').write(DIST_TEMPLATE%(locals()))
-    os.system('chmod u+x %s/scripts/dist.sh'%(project))
+    open('%s/scripts/ctl/dist.sh'%(project),'w').write(DIST_TEMPLATE%(locals()))
+    os.system('chmod u+x %s/scripts/ctl/dist.sh'%(project))
     
 import sys
 if __name__=='__main__':
