@@ -280,7 +280,8 @@ export HBASE_CLASSPATH=$HBASE_HOME/hbase-0.94.6-cdh4.3.0-security.jar:$HBASE_HOM
 export ZK_HOME=/home/alium_zhanyinan/dirlt/zookeeper-3.4.5-cdh4.3.0
 export ZK_CLASSPATH=$ZK_HOME/zookeeper-3.4.5-cdh4.3.0.jar
 export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$HBASE_CLASSPATH:$ZK_CLASSPATH
-export JAVA_HOME=/usr/java/default/
+#export JAVA_HOME=/usr/java/default/
+export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HBASE_HOME/bin:$ZK_HOME/bin
 #+END_SRC
 
 **** core-site.xml
