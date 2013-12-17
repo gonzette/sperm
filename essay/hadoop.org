@@ -263,8 +263,10 @@ Making Hadoop easy to deploy, use, and operate should be the #1 priority for the
    - mr1和mr2分开存放主要有
      - etc目录，hadoop and hadoop-mapreduce1
      - bin目录，bin and bin-mapreduce1
-     - lib目录。如果需要使用mr1的话，那么将cp -r share/hadoop/mapreduce1/ .
+     - lib目录。如果需要使用mr1的话，那么cp -r share/hadoop/mapreduce1/ . *NOTE(dirlt):不要更改软链接*
        - *NOTE（dirlt）：似乎只需要最顶层的一些jar文件即可*
+       - *NOTE(dirlt): 似乎只需要hadoop-core-.jar文件即可*
+     - webapps目录。如果需要使用mr1的话，那么cp -r share/hadoop/mapreduce1/webapps . *NOTE(dirlt):不然不能够访问JobTracker WebUI*
    - +在bin/hadoop-config.sh添加source ~/.shrc 来强制设置环境变量。+
    - *NOTE（dirlt）：不要使用start-dfs.sh这些脚本启动，似乎这些脚本会去读取master,slaves这些文件然后逐个上去ssh启动。直接使用hadoop namenode这种方式可以只启动单个机器上的实例*
 
@@ -298,6 +300,32 @@ export JAVA_HOME=/usr/java/default/
 #+END_SRC
 
 **** hdfs-site.xml
+#+BEGIN_SRC XML
+<configuration>
+  <property>
+    <name>dfs.name.dir</name>
+    <value>/home/dirlt/hadoop/dfs/nn</value>
+  </property>
+
+  <property>
+    <name>dfs.data.dir</name>
+    <value>/home/dirlt/hadoop/dfs/dn</value>
+  </property>
+
+  <property>
+    <name>fs.checkpoint.dir</name>
+    <value>/home/dirlt/hadoop/dfs/snn</value>
+  </property>
+
+  <property>
+    <name>dfs.replication</name>
+    <value>1</value>
+  </property>
+</configuration>
+#+END_SRC
+
+--------------------
+
 #+BEGIN_SRC XML
 <configuration>
   <property>
@@ -354,6 +382,17 @@ export JAVA_HOME=/usr/java/default/
 #+END_SRC
 
 **** mapred-site.xml
+#+BEGIN_SRC XML
+<configuration>
+  <property>
+    <name>mapred.job.tracker</name>
+    <value>localhost:8021</value>
+  </property>
+</configuration>
+#+END_SRC
+
+--------------------
+
 #+BEGIN_SRC XML
 <configuration>
   <property>
