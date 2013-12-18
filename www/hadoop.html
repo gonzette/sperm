@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="hadoop"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-12-17T16:45+0800"/>
+<meta name="generated" content="2013-12-18T15:12+0800"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -882,7 +882,8 @@ export HBASE_CLASSPATH=$HBASE_HOME/hbase-0.94.6-cdh4.3.0-security.jar:$HBASE_HOM
 export ZK_HOME=/home/alium_zhanyinan/dirlt/zookeeper-3.4.5-cdh4.3.0
 export ZK_CLASSPATH=$ZK_HOME/zookeeper-3.4.5-cdh4.3.0.jar
 export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$HBASE_CLASSPATH:$ZK_CLASSPATH
-export JAVA_HOME=/usr/java/default/
+#export JAVA_HOME=/usr/java/default/
+export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HBASE_HOME/bin:$ZK_HOME/bin
 </pre>
 
 
@@ -3247,7 +3248,7 @@ Examples:
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-12-17T16:45+0800</p>
+<p class="date">Date: 2013-12-18T15:12+0800</p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.2 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 23</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
