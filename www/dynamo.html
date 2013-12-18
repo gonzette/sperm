@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="Dynamo: Amazon’s Highly Available Key-value Store"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2013-12-18T15:12+0800"/>
+<meta name="generated" content="2013-12-18T20:50+0800"/>
 <meta name="author" content="dirtysalt"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -578,7 +578,7 @@ A possible issue with vector clocks is that the size of vector clocks may grow i
 </ul>
 
 </li>
-<li><b>A node handling a read or write operation is known as the coordinator.</b> Typically, this is the first among the top N nodes in the preference list. If the requests are received through a load balancer, requests to access a key may be routed to any random node in the ring. In this scenario, the node that receives the request will not coordinate it if the node is not in the top N of the requested key’s preference list. Instead, that node will forward the request to the first among the top N nodes in the preference list. （通常是选择perference list上的第一个节点作为coordinator来处理read/write操作. <b>但是如果有load balancer的话比如HTTP代理，那么会选择任意preference list top N nodes里面的任意一个节点来做</b> ）
+<li><b>A node handling a read or write operation is known as the coordinator.</b> Typically, this is the first among the top N nodes in the preference list. If the requests are received through a load balancer, requests to access a key may be routed to any random node in the ring. In this scenario, the node that receives the request will not coordinate it if the node is not in the top N of the requested key’s preference list. Instead, that node will forward the request to the first among the top N nodes in the preference list. （通常是选择perference list上的第一个节点作为coordinator来处理read/write操作. <b>如果有load balance的话，那么会选择任意preference list top N nodes里面的任意一个节点来做</b> ） NOTE（dirlt）：其实理论上可以在任意一个节点上。现在read可以在任意节点上，而write必须这些节点中的任意一个。 <b>NOTE（dirlt）：client-library也是可以内置load-balance功能的</b>
 </li>
 <li>Read and write operations involve the first N healthy nodes in the preference list, skipping over those that are down or inaccessible. When all nodes are healthy, the top N nodes in a key’s preference list are accessed. <b>When there are node failures or network partitions, nodes that are lower ranked in the preference list are accessed.</b>
 </li>
@@ -810,6 +810,37 @@ The common (N,R,W) configuration used by several instances of Dynamo is (3,2,2).
 <h4 id="sec-1-7-2"><span class="section-number-4">1.7.2</span> Balancing Performance and Durability</h4>
 <div class="outline-text-4" id="text-1-7-2">
 
+<ul>
+<li>A typical SLA required of services that use Dynamo is that 99.9% of the read and write requests execute within 300ms.
+</li>
+<li>Figure 4 shows the average and 99.9th percentile latencies of Dynamo’s read and write operations during a period of 30 days.
+<ul>
+<li>the latencies exhibit a clear diurnal pattern which is a result of the diurnal pattern in the incoming request rate
+</li>
+<li>Moreover, the write latencies are higher than read latencies obviously because write operations always results in disk access.
+</li>
+<li>Also, the 99.9th percentile latencies are around 200 ms and are an order of magnitude higher than the averages. 
+</li>
+</ul>
+
+</li>
+</ul>
+
+<p><img src="./images/dynamo-latency-distribution.png"  alt="./images/dynamo-latency-distribution.png" />
+</p>
+
+<p>
+While this level of performance is acceptable for a number of services, a few customer-facing services required higher levels of performance. For these services, Dynamo provides the ability to trade-off durability guarantees for performance. In the optimization each storage node maintains an object buffer in its main memory. Each write operation is stored in the buffer and gets periodically written to storage by a writer thread. In this scheme, read operations first check if the requested key is present in the buffer. If so, the object is read from the buffer instead of the storage engine.（修改存储引擎，写入的话并没有直接写入磁盘而是写入到buffer里面，有专门的后台线程将这些数据刷出，然后read操作都去buffer内容，实现上和leveldb等非常类似） 
+</p>
+<p>
+Obviously, this scheme trades durability for performance. In this scheme, a server crash can result in missing writes that were queued up in the buffer. To reduce the durability risk, the write operation is refined to have the coordinator choose one out of the N replicas to perform a “durable write”. Since the coordinator waits only for W responses, the performance of the write operation is not affected by the performance of the durable write operation performed by a single replica.（可以很明显上面这个方案会影响到持久性。所以一个实现上的折衷是，要求N个replicas中至少有一个写入disk，而其他的可以只写入buffer。而因为最终只需要等待到W个节点返回成功即可，所以不会影响到写入操作的延迟）
+</p>
+<p>
+This optimization has resulted in lowering the 99.9th percentile latency by a factor of 5 during peak traffic even for a very small buffer of a thousand objects (see Figure 5). Also, as seen in the figure, write buffering smoothes out higher percentile latencies.
+</p>
+<p>
+<img src="./images/dynamo-write-optimization.png"  alt="./images/dynamo-write-optimization.png" />
+</p>
 </div>
 
 </div>
@@ -817,6 +848,100 @@ The common (N,R,W) configuration used by several instances of Dynamo is (3,2,2).
 <div id="outline-container-1-7-3" class="outline-4">
 <h4 id="sec-1-7-3"><span class="section-number-4">1.7.3</span> Ensuring Uniform Load distribution</h4>
 <div class="outline-text-4" id="text-1-7-3">
+
+<p><b>NOTE（dirlt）：这里的partition不仅仅涉及到了分布均匀性的问题，还涉及到了具体实现。虽然这里的出发点分布均匀性问题</b>
+</p>
+<p>
+To study the load imbalance and its correlation with request load, the total number of requests received by each node was measured for a period of 24 hours - broken down into intervals of 30 minutes. In a given time window, a node is considered to be “in- balance”, if the node’s request load deviates from the average load by a value a less than a certain threshold (here 15%). Otherwise the node was deemed “out-of-balance”. Figure 6 presents the fraction of nodes that are “out-of-balance” (henceforth, “imbalance ratio”) during this time period.（定义balance标准）
+</p>
+<p>
+<img src="./images/dynamo-balance.png"  alt="./images/dynamo-balance.png" />
+</p>
+<p>
+As seen in the figure, the imbalance ratio decreases with increasing load. For instance, during low loads the imbalance ratio is as high as 20% and during high loads it is close to 10%. Intuitively, this can be explained by the fact that under high loads, a large number of popular keys are accessed and due to uniform distribution of keys the load is evenly distributed. However, during low loads (where load is 1/8th of the measured peak load), fewer popular keys are accessed, resulting in a higher load imbalance.（情况是在高负载的情况下面，还是相对比较均衡的。可是在低负载的情况下，分布就不均衡了） NOTE（dirlt）：可能这个结论适合几乎所有的分布式系统
+</p>
+
+<hr/>
+
+<p>
+This section discusses how Dynamo’s partitioning scheme has evolved over time and its implications on load distribution.
+</p>
+<p>
+<img src="./images/dynamo-partition-strategy.png"  alt="./images/dynamo-partition-strategy.png" />
+</p>
+<ul>
+<li>Strategy 1: T random tokens per node and partition by token value
+<ul>
+<li>In this scheme, each node is assigned T tokens (chosen uniformly at random from the hash space). The tokens of all nodes are ordered according to their values in the hash space. Every two consecutive tokens define a range. The last token and the first token form a range that "wraps" around from the highest value to the lowest value in the hash space. Because the tokens are chosen randomly, the ranges vary in size. As nodes join and leave the system, the token set changes and consequently the ranges change. Note that the space needed to maintain the membership at each node increases linearly with the number of nodes in the system.（两个连续token定义一个range，所以如果节点发生变化的话，那么range也会发生变化）
+</li>
+<li>While using this strategy, the following problems were encountered. 
+<ul>
+<li>First, when a new node joins the system, it needs to “steal” its key ranges from other nodes. However, the nodes handing the key ranges off to the new node have to scan their local persistence store to retrieve the appropriate set of data items. Note that performing such a scan operation on a production node is tricky as scans are highly resource intensive operations and they need to be executed in the background without affecting the customer performance. This requires us to run the bootstrapping task at the lowest priority. However, this significantly slows the bootstrapping process and during busy shopping season, when the nodes are handling millions of requests a day, the bootstrapping has taken almost a day to complete. （第一个问题是如果新增节点的话，那么会将一部分kv转移过来。可是这部分kv没有简单办法定义预先计算好，因为是根据token来定义的range来选择的。所以实现上不可避免需要扫表，只是选择处于range部分kv，转移到新的节点上。而scan操作是比较消耗资源的）
+</li>
+<li>Second, when a node joins/leaves the system, the key ranges handled by many nodes change and the Merkle trees for the new ranges need to be recalculated, which is a non-trivial operation to perform on a production system. Finally, there was no easy way to take a snapshot of the entire key space due to the randomness in key ranges, and this made the process of archival complicated. In this scheme, archiving the entire key space requires us to retrieve the keys from each node separately, which is highly inefficient.（另外一个问题则是维护的Merkle Tree需要重新计算。同样因为没有办法预先计算好需要转移哪些kv，所以更新merkle tree也是非常费事的）
+</li>
+</ul>
+
+</li>
+<li>The fundamental issue with this strategy is that the schemes for data partitioning and data placement are intertwined. For instance, in some cases, it is preferred to add more nodes to the system in order to handle an increase in request load. However, in this scenario, it is not possible to add nodes without affecting data partitioning. Ideally, it is desirable to use independent schemes for partitioning and placement. To this end, following strategies were evaluated <b>NOTE（dirlt）：以我看来最主要的问题是数据的partition或者说是range以不可预知的方式变化</b>
+
+</li>
+</ul>
+
+</li>
+<li>Strategy 2: T random tokens per node and equal sized partitions
+<ul>
+<li>In this strategy, the hash space is divided into Q equally sized partitions/ranges and each node is assigned T random tokens. Q is usually set such that Q &gt;&gt; N and Q &gt;&gt; S*T, where S is the number of nodes in the system. （数据分片预先定义好了切分成为Q份，这样节点的变化并不会造成range发生变化）
+</li>
+<li>In this strategy, the tokens are only used to build the function that maps values in the hash space to the ordered lists of nodes and not to decide the partitioning. A partition is placed on the first N unique nodes that are encountered while walking the consistent hashing ring clockwise from the end of the partition（以上图为例，所有阴影区部分的数据都会放在这个阴影区之后的N个顺时针节点上）
+</li>
+<li>The primary advantages of this strategy are: (i) decoupling of partitioning and partition placement, and (ii) enabling the possibility of changing the placement scheme at runtime.
+</li>
+<li>NOTE（dirlt）：以上图为例，这些节点对应的token可能处于partition中间。这是和Strategy 3不同的地方。会导致分布不均匀的问题。
+
+</li>
+</ul>
+
+</li>
+<li>Strategy 3: Q/S tokens per node, equal-sized partitions
+<ul>
+<li>Similar to strategy 2, this strategy divides the hash space into Q equally sized partitions and the placement of partition is decoupled from the partitioning scheme. 
+</li>
+<li>Moreover, each node is assigned Q/S tokens where S is the number of nodes in the system. When a node leaves the system, its tokens are randomly distributed to the remaining nodes such that these properties are preserved. Similarly, when a node joins the system it "steals" tokens from nodes in the system in a way that preserves these properties.
+</li>
+<li>NOTE（dirlt）：和strategy 2非常类似，但是这些节点对应的token都是在对应的partition point上面。相对于2来说更加容易管理和实现，而且分布更加均匀。
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+
+<hr/>
+
+<p>
+The results are given in Figure 8. As seen in the figure, strategy 3 achieves the best load balancing efficiency and strategy 2 has the worst load balancing efficiency.
+</p>
+<p>
+<img src="./images/dynamo-partition-strategy-evaluation.png"  alt="./images/dynamo-partition-strategy-evaluation.png" />
+</p>
+<ul>
+<li>Compared to Strategy 1, Strategy 3 achieves better efficiency and reduces the size of membership information maintained at each node by three orders of magnitude. While storage is not a major issue the nodes gossip the membership information periodically and as such it is desirable to keep this information as compact as possible.（策略3所需要保存的信息更加简单，这样就使得gossip membership过程更加高效）
+</li>
+<li>In addition to this, strategy 3 is advantageous and simpler to deploy for the following reasons: 
+<ul>
+<li>(i) Faster bootstrapping/recovery: Since partition ranges are fixed, they can be stored in separate files, meaning a partition can be relocated as a unit by simply transferring the file (avoiding random accesses needed to locate specific items). This simplifies the process of bootstrapping and recovery. （每个节点可以将对应的partition数据分开存放在不同的文件下面，如果发生转移的话那么整个文件转移即可）
+</li>
+<li>(ii) Ease of archival: Periodical archiving of the dataset is a mandatory requirement for most of Amazon storage services. Archiving the entire dataset stored by Dynamo is simpler in strategy 3 because the partition files can be archived separately. By contrast, in Strategy 1, the tokens are chosen randomly and, archiving the data stored in Dynamo requires retrieving the keys from individual nodes separately and is usually inefficient and slow. 
+</li>
+</ul>
+
+</li>
+<li>The disadvantage of strategy 3 is that changing the node membership requires coordination in order to preserve the properties required of the assignment.
+</li>
+</ul>
+
 
 </div>
 
@@ -826,6 +951,23 @@ The common (N,R,W) configuration used by several instances of Dynamo is (3,2,2).
 <h4 id="sec-1-7-4"><span class="section-number-4">1.7.4</span> Divergent Versions: When and How Many?</h4>
 <div class="outline-text-4" id="text-1-7-4">
 
+<ul>
+<li>Divergent versions of a data item arise in two scenarios. 
+<ul>
+<li>The first is when the system is facing failure scenarios such as node failures, data center failures, and network partitions. 
+</li>
+<li>The second is when the system is handling a large number of concurrent writers to a single data item and multiple nodes end up coordinating the updates concurrently.
+</li>
+</ul>
+
+</li>
+<li>In our next experiment, the number of versions returned to the shopping cart service was profiled for a period of 24 hours. During this period, 99.94% of requests saw exactly one version; 0.00057% of requests saw 2 versions; 0.00047% of requests saw 3 versions and 0.00009% of requests saw 4 versions. This shows that divergent versions are created rarely.
+</li>
+<li>Experience shows that the increase in the number of divergent versions is contributed not by failures but due to the increase in number of concurrent writers. The increase in the number of concurrent writes is usually triggered by busy robots (automated client programs) and rarely by humans. This issue is not discussed in detail due to the sensitive nature of the story.
+</li>
+</ul>
+
+
 </div>
 
 </div>
@@ -834,6 +976,48 @@ The common (N,R,W) configuration used by several instances of Dynamo is (3,2,2).
 <h4 id="sec-1-7-5"><span class="section-number-4">1.7.5</span> Client-driven or Server-driven Coordination</h4>
 <div class="outline-text-4" id="text-1-7-5">
 
+<p>按照我的理解，这里的client-driven就通过partition-aware client library来操作，而server-driven就是外部节点随意请求节点，然后这个节点作为proxy将request forward到对应的处理节点上。很明显client-driven的工作方式会更加合理，但是partition-aware这个工作会将library复杂化。HTTP Proxy严格来说也不算是server-driven，但是最终效果上来看和server-driven是差不多的，所以这节的数据对比可以认为是client-library和HTTP方式的效率对比。
+</p>
+<p>
+As mentioned in Section 5, Dynamo has a request coordination component that uses a state machine to handle incoming requests. Client requests are uniformly assigned to nodes in the ring by a load balancer. 
+</p><ul>
+<li>Any Dynamo node can act as a coordinator for a read request. （理论上来说任何节点都可以相应put/get操作）
+</li>
+<li>Write requests on the other hand will be coordinated by a node in the key’s current preference list. This restriction is due to the fact that these preferred nodes have the added responsibility of creating a new version stamp that causally subsumes the version that has been updated by the write request. （现在之所以write由特定节点来操作的话，是因为需要这个节点的时间戳来处理vector clock历史，以及为后面冲突处理服务）
+</li>
+<li>Note that if Dynamo’s versioning scheme is based on physical timestamps, any node can coordinate a write request.（我的理解是，如果时间戳可以在所有集群上都同步的话，或者是差别比较小的话，实际上可以由任意节点来发起写操作）
+</li>
+</ul>
+
+
+<p>
+<b>NOTE（dirlt）：实际上HBase也有这个问题。我之前遇到过clock skew问题结果HBase拒绝工作。所以我觉得dynamo完全可以假设这个条件，这样任意节点都可以发起写操作了</b>
+</p>
+
+<p>
+client-driven工作方式大致如下： An alternative approach to request coordination is to move the state machine to the client nodes. In this scheme client applications use a library to perform request coordination locally. 
+</p><ul>
+<li>A client periodically picks a random Dynamo node and downloads its current view of Dynamo membership state. （很明显client需要得到membership信息，如何更新这个信息后面会给出解决办法）
+</li>
+<li>Using this information the client can determine which set of nodes form the preference list for any given key. 
+</li>
+<li>Read requests can be coordinated at the client node thereby avoiding the extra network hop that is incurred if the request were assigned to a random Dynamo node by the load balancer. 
+</li>
+<li>Writes will either be forwarded to a node in the key’s preference list or can be coordinated locally if Dynamo is using timestamps based versioning.
+</li>
+</ul>
+
+<p>An important advantage of the client-driven coordination approach is that a load balancer is no longer required to uniformly distribute client load. Fair load distribution is implicitly guaranteed by the near uniform assignment of keys to the storage nodes. TODO（dirlt）：？？？
+</p>
+<p>
+Obviously, the efficiency of this scheme is dependent on how fresh the membership information is at the client. Currently clients poll a random Dynamo node every 10 seconds for membership updates. A pull based approach was chosen over a push based one as the former scales better with large number of clients and requires very little state to be maintained at servers regarding clients. However, in the worst case the client can be exposed to stale membership for duration of 10 seconds. In case, if the client detects its membership table is stale (for instance, when some members are unreachable), it will immediately refresh its membership information.（现在membership的更新方式是每隔10s和随机节点做同步，由client主动发起）
+</p>
+<p>
+Table 2 shows the latency improvements at the 99.9th  percentile and averages that were observed for a period of 24 hours using client-driven coordination compared to the server-driven approach. As seen in the table, the client-driven coordination approach reduces the latencies by at least 30 milliseconds for 99.9th percentile latencies and decreases the average by 3 to 4 milliseconds. <b>The latency improvement is because the client-driven approach eliminates the overhead of the load balancer and the extra network hop that may be incurred when a request is assigned to a random node.</b> As seen in the table, average latencies tend to be significantly lower than latencies at the 99.9th percentile. <b>This is because Dynamo’s storage engine caches and write buffer have good hit ratios.</b> Moreover, since the load balancers and network introduce additional variability to the response time, the gain in response time is higher for the 99.9th percentile than the average. <b>NOTE（dirlt）：似乎说的不错，cache是造成average和99.9%的延迟差别较大的主要原因</b>
+</p>
+<p>
+<img src="./images/dynamo-client-and-server-driven.png"  alt="./images/dynamo-client-and-server-driven.png" />
+</p>
 </div>
 
 </div>
@@ -842,6 +1026,14 @@ The common (N,R,W) configuration used by several instances of Dynamo is (3,2,2).
 <h4 id="sec-1-7-6"><span class="section-number-4">1.7.6</span> Balancing background vs. foreground tasks</h4>
 <div class="outline-text-4" id="text-1-7-6">
 
+<p>Each node performs different kinds of background tasks for replica synchronization and data handoff (either due to hinting or adding/removing nodes) in addition to its normal foreground put/get operations. In early production settings, these background tasks triggered the problem of resource contention and affected the performance of the regular put and get operations. Hence, it became necessary to ensure that background tasks ran only when the regular critical operations are not affected significantly.（后台任务会影响到前台任务，而很明显前台任务的优先级更高）
+</p>
+<p>
+To this end, the background tasks were integrated with an admission control mechanism. Each of the background tasks uses this controller to reserve runtime slices of the resource (e.g. database), shared across all background tasks. A feedback mechanism based on the monitored performance of the foreground tasks is employed to change the number of slices that are available to the background tasks.（通过反馈系统来调节后台任务运行时间片，减少后台任务对于前台任务的影响）
+</p>
+<p>
+The admission controller constantly monitors the behavior of resource accesses while executing a "foreground" put/get operation. <b>Monitored aspects include latencies for disk operations, failed database accesses due to lock-contention and transaction timeouts, and request queue wait times. This information is used to check whether the percentiles of latencies (or failures) in a given trailing time window are close to a desired threshold.</b> For example, the background controller checks to see how close the 99th percentile database read latency (over the last 60 seconds) is to a preset threshold (say 50ms). The controller uses such comparisons to assess the resource availability for the foreground operations. Subsequently, it decides on how many time slices will be available to background tasks, thereby using the feedback loop to limit the intrusiveness of the background activities. 
+</p>
 </div>
 
 </div>
@@ -850,7 +1042,8 @@ The common (N,R,W) configuration used by several instances of Dynamo is (3,2,2).
 <h4 id="sec-1-7-7"><span class="section-number-4">1.7.7</span> Discussion</h4>
 <div class="outline-text-4" id="text-1-7-7">
 
-
+<p>In particular, applications have received successful responses (without timing out) for 99.9995% of its requests and no data loss event has occurred to date.
+</p>
 </div>
 </div>
 
@@ -868,7 +1061,7 @@ The common (N,R,W) configuration used by several instances of Dynamo is (3,2,2).
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2013-12-18T15:12+0800</p>
+<p class="date">Date: 2013-12-18T20:50+0800</p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.2 with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 23</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
 
