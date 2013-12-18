@@ -3,12 +3,12 @@
  */
 
 class Solution {
- public:
+public:
   int removeElement(int A[], int n, int elem) {
     // IMPORTANT: Please reset any member data you declared, as
     // the same Solution instance will be reused for each test case.
     int x = 0;
-    for(int i=0;i<n;i++) {
+    for(int i = 0; i < n; i++) {
       if(A[i] == elem) continue;
       A[x++] = A[i];
     }
