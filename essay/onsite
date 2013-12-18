@@ -1,6 +1,6 @@
 #!/bin/bash
 # to github pages.
-cd $HOME/github/dirtysalt.github.io
+cd ../../dirtysalt.github.io/css/
 git add * 
 git commit -a -m 'mirror' 
 git push origin master

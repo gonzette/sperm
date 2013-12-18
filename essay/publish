@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # do publish
+
 # find emacs executable file.
 kernel=`uname -s`
 emacs="emacs"
@@ -15,4 +16,10 @@ then
     echo "publish failed"
     exit 1
 fi
+
+# add some custom code.
 ./addcode
+
+# rsync images and css files.
+rsync -avrz images/ ../../dirtysalt.github.io/images/
+rsync -avrz css/ ../../dirtysalt.github.io/css/
