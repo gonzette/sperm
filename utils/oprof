@@ -2,18 +2,16 @@
 #coding:utf-8
 #Copyright (C) dirlt
 
+# NOTE(dirlt):2013-12-18. Maybe it's already obsolete.:(
+# I'd better to find better ways to use it.
+
 import string
 import re
 import os
 import sys
 
 class Profiler:
-    def __init__(self,
-                 image,
-                 report,
-                 srcdir,
-                 asmfile,
-                 cmd):
+    def __init__(self, image, report, srcdir, asmfile, cmd):
         self._image=os.path.realpath(image)
         self._cmd=cmd
         self._report=report
@@ -21,17 +19,17 @@ class Profiler:
         self._asmfile=asmfile
         
     def run(self):
-        content=[]
-        content.append("sudo opcontrol --reset")
-        content.append("sudo opcontrol --no-vmlinux --separate=lib --start --image=%s"%(self._image))
-        content.append(self._cmd)
-        content.append("sudo opcontrol --dump")
-        content.append("sudo opcontrol --shutdown")
-        content.append("sudo opreport -l image:%s -o %s"%(self._image,self._report))
-        content.append("sudo opannotate -s --output-dir=%s %s"%(self._srcdir,self._image))
-        content.append("sudo opannotate -a %s > %s"%(self._image,self._asmfile))
+        stmts=[]
+        stmts.append("sudo opcontrol --reset")
+        stmts.append("sudo opcontrol --no-vmlinux --separate=lib --start --image=%s"%(self._image))
+        stmts.append(self._cmd)
+        stmts.append("sudo opcontrol --dump")
+        stmts.append("sudo opcontrol --shutdown")
+        stmts.append("sudo opreport -l image:%s -o %s"%(self._image,self._report))
+        stmts.append("sudo opannotate -s --output-dir=%s %s"%(self._srcdir,self._image))
+        stmts.append("sudo opannotate -a %s > %s"%(self._image,self._asmfile))
 
-        for x in content:
+        for x in stmts:
             print x
             os.system(x)
         return True
