@@ -16,8 +16,3 @@ then
     exit 1
 fi
 ./addcode
-cd ../www/
-rm -rf images css
-ln -s ../essay/images/ images
-ln -s ../essay/css css
-cd ../essay/
