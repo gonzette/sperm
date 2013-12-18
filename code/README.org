@@ -4,7 +4,6 @@
    - sudo apt-get install libprotoc-dev
    - sudo apt-get install libev-dev
    - sudo apt-get install libzmq-dev
-   - sudo apt-get install libzookeeper-mt-dev
    - sudo apt-get install libgoogle-perftools-dev
    - sudo apt-get install google-perftools   
    - sudo apt-get install flex
