@@ -222,6 +222,8 @@ My favouritest words comes from theidea of [[http://www.valvesoftware.com/][Valv
 
 Especially thanks to [[http://xuchaoqian.com][xuchaoqian]] for encouraging me to write and providing me host initially so I can publish my writings. And also thanks people who help me, support me, and accompany me, you complete me.
 
+My bitcoin is 12D9xRUorzQfAAVmFZvKqgySqRmc55DXTx
+
 ** Some Links
    - Matt Welsh. http://www.mdw.la/
    - Joe Armstrong. http://joearms.github.io/
