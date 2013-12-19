@@ -1,0 +1,8 @@
+* cassandra
+   - Cassandra - A Decentralized Structured Storage System http://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf
+   - http://www.dbthink.com/archives/372
+   - Facebook’s Cassandra paper, annotated and compared to Apache Cassandra 2.0 : http://www.datastax.com/documentation/articles/cassandra/cassandrathenandnow.html
+
+** Cassandra - A Decentralized Structured Storage System
+** Facebook’s Cassandra paper, annotated and compared to Apache Cassandra 2.0
+

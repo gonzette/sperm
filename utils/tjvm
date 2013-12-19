@@ -420,7 +420,7 @@ def generate(project,groupId,artifactId):
     open('%s/src/main/resources/log4j.properties'%(project),'w').write(LOG4J_TEMPLATE%(locals()))
     os.system('mkdir -p %s/src/test/resources/'%(project))
     os.system('mkdir -p %s/config/'%(project))
-    os.system('mkdir -p %s/scripts/'%(project))
+    os.system('mkdir -p %s/scripts/ctl'%(project))
 
     open('%s/scripts/ctl/monit.sh'%(project),'w').write(MONIT_TEMPLATE%(locals()))
     os.system('chmod u+x %s/scripts/ctl/monit.sh'%(project))
