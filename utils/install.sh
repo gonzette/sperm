@@ -14,6 +14,8 @@ else
     # Darwin.    
     #sudo echo "plugin L2TP.ppp" >> /etc/ppp/options
     #sudo echo "l2tpnoipsec" >> /etc/ppp/options
+    sudo rm -rf /etc/ppp/options
+    sudo cp $BINDIR/ppp-options /etc/ppp/options
     sudo cp $BINDIR/hosts /etc/hosts
 fi
 
