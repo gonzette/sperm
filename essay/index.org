@@ -217,12 +217,13 @@ Here is my contact info. I think email is the easiest way to get me.
    - twitter https://twitter.com/dirtysalt‎
    - github https://github.com/dirtysalt
    - [[file:images/mysterious.gif][portrayal]]
+   - BTC
+     - 12D9xRUorzQfAAVmFZvKqgySqRmc55DXTx
+   - V2EX http://www.v2ex.com/?r=dirtysalt
 
 My favouritest words comes from theidea of [[http://www.valvesoftware.com/][Valve]] : "Open your mind, Open your eyes" (放眼未来，自由想象), with a [[file:images/valve-logo.jpg][image]] from its game "Half Life"
 
 Especially thanks to [[http://xuchaoqian.com][xuchaoqian]] for encouraging me to write and providing me host initially so I can publish my writings. And also thanks people who help me, support me, and accompany me, you complete me.
-
-My bitcoin is 12D9xRUorzQfAAVmFZvKqgySqRmc55DXTx
 
 ** Some Links
    - Matt Welsh. http://www.mdw.la/
