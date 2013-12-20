@@ -219,6 +219,7 @@ Here is my contact info. I think email is the easiest way to get me.
    - [[file:images/mysterious.gif][portrayal]]
    - btc
      - 12D9xRUorzQfAAVmFZvKqgySqRmc55DXTx
+     - 1CRgxMewTAR7QpJBr4NYryxT3hcRMrWm8c
    - v2ex http://www.v2ex.com/?r=dirtysalt
 
 My favouritest words comes from theidea of [[http://www.valvesoftware.com/][Valve]] : "Open your mind, Open your eyes" (放眼未来，自由想象), with a [[file:images/valve-logo.jpg][image]] from its game "Half Life"
