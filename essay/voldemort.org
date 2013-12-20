@@ -4,4 +4,9 @@
      - http://blog.linkedin.com/2009/03/20/project-voldemort-scaling-simple-storage-at-linkedin/ (Introduction)
    - http://data.linkedin.com/blog/2009/06/building-a-terabyte-scale-data-cycle-at-linkedin-with-hadoop-and-project-voldemort (Principle)
    - http://data.linkedin.com/blog/2009/06/building-voldemort-read-only-stores-with-hadoop (Usage)
+   - http://static.usenix.org/events/fast/tech/full_papers/Sumbaly.pdf
+
+** Serving Large-scale Batch Computed Data with Project Voldemort
+** Building a terabyte-scale data cycle at LinkedIn with Hadoop and Project Voldemort
+
 
