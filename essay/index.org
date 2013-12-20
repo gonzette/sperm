@@ -83,6 +83,7 @@
    - [[file:apache.org][Apache]] 历史悠久的开源HTTP服务器。 an effort to develop and maintain an open-source HTTP server for modern operating systems including UNIX and Windows NT
    - [[file:netty.org][Netty]] an asynchronous event-driven network application framework in *Java* based on Java NIO.
    - [[file:./finagle.org][Finagle]] an extensible RPC system for the JVM, used to construct high-concurrency servers.
+   - [[file:./haproxy.org][HAProxy]] 高性能的负载均衡器，可以提供4（TCP），7（HTTP）层两种代理。
 
 ** Storage System
    - [[file:storage-system-reading.org][Storage System Reading]] 关于存储系统方面的一些文章以及阅读心得。
@@ -98,11 +99,9 @@
      - [[file:./ssd-and-distributed-data-systems.org][SSDs and Distributed Data Systems]] ssd对于设计分布式数据系统的影响
    - [[file:raid.org][RAID]] Redundant Array of Inexpensive Disk. 廉价磁盘冗余阵列
      - [[file:./the-skinny-on-raid.org][The skinny on RAID]]
-   - [[file:riak.org][Riak]] a NoSQL database implementing the principles from Amazon's Dynamo paper in Erlang/C/C++/Javascript.
    - [[file:memcached.org][Memcached]] an in-memory key-value store for small chunks of arbitrary data (strings, objects) 可以用来搭建分布式缓存服务，没有持久化存储。
    - [[file:gizzard.org][Gizzard]] a library for creating distributed datastores 可以认为是数据库中间层，完成partition/replication，也做fault-tolerant migration.
-   - [[file:./couchbase.org][CouchBase]] CouchDB(by CouchOne) + [[file:memcached.org][Memcached]](by Membase). a Dynamo like distributed document-oriented storage system whose closest competitor is [[file:mongodb.org][MongoDB]]. 
-   - [[file:./voldemort.org][Voldemort]] a Dynamo like distributed key-value storage system.
+   - [[file:./rocksdb.org][RocksDB]] A persistent key-value store for fast storage environments. 基于 [[file:leveldb.org][LevelDB]] 构建，借鉴了 [[file:./hbase.org][HBase]] 的思想。
 
 ** Distributed System
    - [[file:distributed-system-reading.org][Distributed System Reading]] 关于分布式系统方面的一些文章以及阅读心得。
@@ -168,6 +167,11 @@
    - [[file:./spark.org][Spark]] AMPLab的分布式计算系统，现在是Apache下面的项目。
    - [[file:dynamo.org][Dynamo]] Amazon的分布式数据库。
    - [[file:./cassandra.org][Cassandra]] 类Dynamo的开源分布式数据库。
+   - [[file:./pnuts.org][PNUTS]] Yahoo的分布式数据库。
+   - [[file:./voldemort.org][Voldemort]] a Dynamo like distributed key-value storage system.
+   - [[file:riak.org][Riak]] a NoSQL database implementing the principles from Amazon's Dynamo paper in Erlang/C/C++/Javascript.
+   - [[file:./couchbase.org][CouchBase]] CouchDB(by CouchOne) + [[file:memcached.org][Memcached]](by Membase). a Dynamo like distributed document-oriented storage system whose closest competitor is [[file:mongodb.org][MongoDB]]. 
+   - [[file:./zbase.org][zBase]] Zynga. A high-performance, elastic, distributed key-value store
 
 ** Programming Language
    - [[file:prog-lang.org][Programming Language]] including following languages:     
