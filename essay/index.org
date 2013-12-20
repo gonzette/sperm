@@ -102,7 +102,7 @@
    - [[file:memcached.org][Memcached]] an in-memory key-value store for small chunks of arbitrary data (strings, objects) 可以用来搭建分布式缓存服务，没有持久化存储。
    - [[file:gizzard.org][Gizzard]] a library for creating distributed datastores 可以认为是数据库中间层，完成partition/replication，也做fault-tolerant migration.
    - [[file:./couchbase.org][CouchBase]] CouchDB(by CouchOne) + [[file:memcached.org][Memcached]](by Membase). a Dynamo like distributed document-oriented storage system whose closest competitor is [[file:mongodb.org][MongoDB]]. 
-   - [[file:./voldemort.org][Voldemort]] a Dynamo like distributed key-value storage system. Dynamo like.
+   - [[file:./voldemort.org][Voldemort]] a Dynamo like distributed key-value storage system.
 
 ** Distributed System
    - [[file:distributed-system-reading.org][Distributed System Reading]] 关于分布式系统方面的一些文章以及阅读心得。
@@ -167,6 +167,7 @@
    - [[file:gwp.org][GWP]] Google Wide Profiling. Google数据中心级别的profile系统。
    - [[file:./spark.org][Spark]] AMPLab的分布式计算系统，现在是Apache下面的项目。
    - [[file:dynamo.org][Dynamo]] Amazon的分布式数据库。
+   - [[file:./cassandra.org][Cassandra]] 类Dynamo的开源分布式数据库。
 
 ** Programming Language
    - [[file:prog-lang.org][Programming Language]] including following languages:     
@@ -216,6 +217,9 @@ Here is my contact info. I think email is the easiest way to get me.
    - twitter https://twitter.com/dirtysalt‎
    - github https://github.com/dirtysalt
    - [[file:images/mysterious.gif][portrayal]]
+   - btc
+     - 12D9xRUorzQfAAVmFZvKqgySqRmc55DXTx
+   - v2ex http://www.v2ex.com/?r=dirtysalt
 
 My favouritest words comes from theidea of [[http://www.valvesoftware.com/][Valve]] : "Open your mind, Open your eyes" (放眼未来，自由想象), with a [[file:images/valve-logo.jpg][image]] from its game "Half Life"
 
@@ -232,3 +236,8 @@ Especially thanks to [[http://xuchaoqian.com][xuchaoqian]] for encouraging me to
    - The Writings of Leslie Lamport : http://research.microsoft.com/en-us/um/people/lamport/pubs/pubs.html
    - Paper Trail : http://the-paper-trail.org/blog/
    - 250bpm : http://250bpm.com/
+
+--------------------
+
+   - Snooda's Blog : http://www.snooda.com/
+   - Tim[后端技术] : http://timyang.net/

@@ -1,8 +1,0 @@
-#!/bin/bash
-# to github pages.
-cd $HOME/github/dirtysalt.github.io
-git pull origin master
-rsync -avrzL $HOME/github/sperm/www/ $HOME/github/dirtysalt.github.io/
-git add * 
-git commit -a -m 'mirror' 
-git push origin master

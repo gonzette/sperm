@@ -21,6 +21,11 @@ ff02::3	ip6-allhosts
 
 54.241.35.194 dirlt-aws
 
+<<<<<<< HEAD
+=======
+#122.11.52.244 git.fm
+#122.11.52.244 github.umeng.com
+>>>>>>> 757c95f1aa16f755f6c018a4a99d3ddc2af41993
 122.11.52.233 git.fm
 122.11.52.233 github.umeng.com
 122.11.52.226 hadoop1

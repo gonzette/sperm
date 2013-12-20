@@ -8,8 +8,7 @@ env=Environment(CPPPATH=['../../'],
                 CXXFLAGS='-W -Wall -g -Wno-unused-parameter -Werror -DDEBUG -fPIC',
                 LIBPATH=['../'],
                 LIBS=['common',
-                      'protobuf', # protobuf
-                      'zookeeper_mt', # zookeeper
+                      'protobuf',
                       'rt',                
                       'pthread'])
 

@@ -1,0 +1,57 @@
+* cassandra
+   - Cassandra - A Decentralized Structured Storage System http://www.cs.cornell.edu/projects/ladis2009/papers/lakshman-ladis2009.pdf
+   - http://www.dbthink.com/archives/372
+   - Facebook’s Cassandra paper, annotated and compared to Apache Cassandra 2.0 : http://www.datastax.com/documentation/articles/cassandra/cassandrathenandnow.html
+
+** Cassandra - A Decentralized Structured Storage System
+*** ABSTRACT
+*** INTRODUCTION
+*** RELATED WORK
+*** DATA MODEL
+   - A table in Cassandra is a distributed multi dimensional map indexed by a key. 
+     - The value is an object which is highly structured. The row key in a table is a string with no size restrictions, although typically 16 to 36 bytes long. 
+     - Every operation under a single row key is atomic per replica no matter how many columns are being read or written into.
+   - Columns are grouped together into sets called column fam-ilies very much similar to what happens in the Bigtable system. 
+     - Cassandra exposes two kinds of columns families, Simple and Super column families. 
+     - Super column families can be visualized as a column family within a column family.
+   - Furthermore, applications can specify the sort order of columns within a Super Column or Simple Column family. The system allows columns to be sorted either by time or by name. Time sorting of columns is exploited by applica- tion like Inbox Search where the results are always displayed in time sorted order. 
+   - Any column within a column family is accessed using the convention *column family : column* and any column within a column family that is of type super is accessed using the convention *column family : super column : column*.
+
+*** API
+The Cassandra API consists of the following three simple methods.
+   - insert(table, key, rowMutation)
+   - get(table, key, columnName)
+   - delete(table, key, columnName)
+columnName can refer to a specific column within a col-umn, a column family, a super column family, or a column within a super column.
+
+*** SYSTEM ARCHITECTURE
+**** Partitioning
+   - Cassandra partitions data across the cluster using consistent hashing but uses an *order pre-serving hash function* to do so. TODO(dirlt):???
+   - The basic consistent hashing algorithm presents some challenges.
+     - First, the random position assignment of each node on the ring leads to non-uniform data and load distribution. 
+     - Sec-ond, the basic algorithm is oblivious to the heterogeneity in the performance of nodes. 
+   - Typically there exist two ways to address this issue: 
+     - One is for nodes to get assigned to multi-ple positions in the circle (like in Dynamo), 
+     - and the second is to analyze load information on the ring and have lightly loaded nodes move on the ring to alleviate heavily loaded nodes as described in. 
+     - Cassandra opts for the latter as it makes the design and implementation very tractable and helps to make very deterministic choices about load balanc-ing.
+
+**** Replication
+   - Cassandra provides the client with various options for how data needs to be replicated. Cassandra provides various replication poli- cies such as “Rack Unaware”, “Rack Aware” (within a data- center) and “Datacenter Aware”. Replicas are chosen based on the replication policy chosen by the application. If cer-tain application chooses “Rack Unaware” replication strat-egy then the non-coordinator replicas are chosen by picking N-1 successors of the coordinator on the ring. For “Rack Aware” and “Datacenter Aware” strategies the algorithm is slightly more involved.
+   - Cassandra system elects a leader amongst its nodes using a system called Zookeeper. All nodes on joining the cluster contact the leader who tells them for what ranges they are replicas for and leader makes a concerted effort to maintain the invariant that no node is responsible for more than N-1 ranges in the ring. The metadata about the ranges a node is responsible is cached locally at each node and in a fault-tolerant manner inside Zookeeper - this way a node that crashes and comes back up knows what ranges it was responsible for.
+
+**** Membership
+   - *Cluster membership in Cassandra is based on Scuttle-butt*, a very efficient anti-entropy Gossip based mech-anism. The salient feature of Scuttlebutt is that it has very efficient CPU utilization and very efficient utilization of the gossip channel. Within the Cassandra system Gossip is not only used for membership but also to disseminate other sys-tem related control state.
+   - Failure detection is a mechanism by which a node can locally determine if any other node in the system is up or down. In Cassandra failure detection is also used to avoid at-tempts to communicate with unreachable nodes during var-ious operations.
+   - Cassandra uses a modified version of the Φ Accrual Failure Detector. The idea of an Accrual Failure Detection is that the failure detection module doesn’t emit a Boolean value stating a node is up or down. Instead the failure detection module emits a value which represents a suspicion level for each of monitored nodes. This value is defined as Φ. The basic idea is to express the value of Φ on a scale that is dynamically adjusted to reflect network and load conditions at the monitored nodes.
+   - Φ has the following meaning: Given some threshold Φ, and assuming that we decide to suspect a node A when Φ = 1, then the likelihood that we will make a mistake (i.e., the decision will be contradicted in the future by the reception of a late heartbeat) is about 10%. The likelihood is about 1% with Φ = 2, 0.1% with Φ = 3, and so on. Every node in the system maintains a sliding window of inter-arrival times of gossip messages from other nodes in the cluster. The distribution of these inter-arrival times is determined and Φ is calculated. 
+   - Although the original paper suggests that the distribution is approximated by the Gaussian distribu-tion we found the Exponential Distribution to be a better approximation, because of the nature of the gossip channel and its impact on latency. To our knowledge our implemen-tation of the Accrual Failure Detection in a Gossip based setting is the first of its kind. Accrual Failure Detectors are very good in both their accuracy and their speed and they also adjust well to network conditions and server load conditions.
+
+**** Bootstrapping
+**** Scaling the Cluster
+**** Local Persistence
+**** Implementation Details
+*** PRACTICAL EXPERIENCES
+*** CONCLUSION
+
+** Facebook’s Cassandra paper, annotated and compared to Apache Cassandra 2.0
+

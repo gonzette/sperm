@@ -12,8 +12,10 @@ then
     sudo rm -rf /etc/hostname && sudo ln -s $BINDIR/hostname /etc/hostname
 else
     # Darwin.    
-    sudo echo "plugin L2TP.ppp" >> /etc/ppp/options
-    sudo echo "l2tpnoipsec" >> /etc/ppp/options
+    #sudo echo "plugin L2TP.ppp" >> /etc/ppp/options
+    #sudo echo "l2tpnoipsec" >> /etc/ppp/options
+    sudo rm -rf /etc/ppp/options
+    sudo cp $BINDIR/ppp-options /etc/ppp/options
     sudo cp $BINDIR/hosts /etc/hosts
 fi
 
@@ -53,7 +55,7 @@ mkdir -p $HOME/.ssh
 rm -rf $HOME/.ssh/config
 ln -s $BINDIR/config $HOME/.ssh/config
 
-TARGETS="cxxindent oprof mysqldb syslog pinstall tpom tsbt tmonit tdist vpn-umeng-dp vpn-dirlt-linode \
+TARGETS="cxxindent oprof mysqldb syslog pinstall tjvm vpn-umeng-dp vpn-dirlt-linode \
 proc-netstat rhs golang einstall uinstall lein imei2umid time-machine apt-update"
 
 INSTALLDIR=$HOME/utils/bin

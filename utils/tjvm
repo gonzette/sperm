@@ -1,0 +1,440 @@
+#!/usr/bin/env python
+#coding:utf-8
+#Copyright (C) dirlt
+
+POM_TEMPLATE="""<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>%(groupId)s</groupId>
+  <artifactId>%(artifactId)s</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>%(project)s</name>
+  <url>http://dirlt.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <distributionManagement>    
+    <repository>
+      <id>releases</id>
+      <name>Release Repository</name>
+      <url>http://nexus:8088/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshots</id>
+      <name>Snapshot Repository</name>
+      <url>http://nexus:8088/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- <dependency> -->
+    <!--   <groupId>com.google.protobuf</groupId> -->
+    <!--   <artifactId>protobuf-java</artifactId> -->
+    <!--   <version>2.3.0</version> -->
+    <!-- </dependency> -->
+  </dependencies>
+  
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.5.1</version>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>    
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- <plugin> -->
+      <!--   <groupId>org.codehaus.mojo</groupId> -->
+      <!--   <artifactId>build-helper-maven-plugin</artifactId> -->
+      <!--   <version>1.8</version> -->
+      <!--   <executions> -->
+      <!--     <execution> -->
+      <!--       <phase>generate-sources</phase> -->
+      <!--       <goals><goal>add-source</goal></goals> -->
+      <!--       <configuration> -->
+      <!--         <sources> -->
+      <!--           <source>src/main/gen-java</source> -->
+      <!--           <source>src/main/resources</source> -->
+      <!--         </sources> -->
+      <!--       </configuration> -->
+      <!--     </execution> -->
+      <!--   </executions> -->
+      <!-- </plugin> -->
+
+      <!-- <plugin> -->
+      <!--   <artifactId>maven-antrun-plugin</artifactId> -->
+      <!--   <executions> -->
+      <!--     <execution> -->
+      <!--       <id>generate-sources</id> -->
+      <!--       <phase>generate-sources</phase> -->
+      <!--       <configuration> -->
+      <!--         <tasks> -->
+      <!--           <mkdir dir="src/main/gen-java"/> -->
+      <!--           <exec executable="protoc"> -->
+      <!--             <arg value="src/main/proto/message.proto"/> -->
+      <!--           </exec> -->
+      <!--         </tasks> -->
+      <!--         <sourceRoot>src/main/gen-java</sourceRoot> -->
+      <!--       </configuration> -->
+      <!--       <goals> -->
+      <!--         <goal>run</goal> -->
+      <!--       </goals> -->
+      <!--     </execution> -->
+      <!--   </executions> -->
+      <!-- </plugin> -->
+    </plugins>
+  </build>
+
+</project>
+"""
+
+SBT_TEMPLATE="""import sbtprotobuf.{ProtobufPlugin=>PB}
+import AssemblyKeys._
+
+seq(PB.protobufSettings: _*)
+
+assemblySettings
+
+// ====================
+
+name := "%(artifactId)s"
+
+organization := "%(groupId)s"
+
+version := "1.0-SNAPSHOT"
+
+scalaVersion := "2.10.2"
+
+val protobufVersion = "2.4.1"
+
+// fix the issue : package daemon contains object and package with same name: supervisor
+// TODO: why is work. -> http://comments.gmane.org/gmane.comp.java.clojure.storm/2426
+
+scalacOptions += "-Yresolve-term-conflict:package"
+
+scalacOptions in Test ++= Seq("-Yrangepos")
+ 
+libraryDependencies ++= {
+  val finagleVersion = "6.6.2"
+  val utilVersion = "6.6.0"
+  Seq(
+    "com.twitter" %%%% "finagle-core" %% finagleVersion,
+    "com.twitter" %%%% "finagle-ostrich4" %% finagleVersion,
+//  "com.twitter" %%%% "finagle-mysql" %% finagleVersion,
+    "com.twitter" %%%% "finagle-http" %% finagleVersion,
+    "com.twitter" %%%% "util-core" %% utilVersion,
+    "com.twitter" %%%% "util-logging" %% utilVersion,
+//  "org.hbase" %% "asynchbase" %% "1.4.1",    
+    "com.google.protobuf" %% "protobuf-java" %% protobufVersion,
+    "com.google.guava" %% "guava" %% "13.0.1",
+    "com.google.code.findbugs" %% "jsr305" %% "1.3.9",
+//    "log4j" %% "log4j" %% "1.2.17",
+    "org.slf4j" %% "slf4j-log4j12" %% "1.7.5",
+//    "com.typesafe.akka" %%%% "akka-actor" %% "2.2.3",
+    "org.specs2" %%%% "specs2" %% "2.3.4" %% "test"
+    )
+}
+
+// ====================
+
+// Test Suite
+
+testFrameworks += new TestFramework("org.specs2.runner.SpecsFramework")
+
+parallelExecution in Test := false
+
+publishArtifact in Test := false
+
+// Protocol-Buffers
+
+sourceDirectory in PB.protobufConfig := new java.io.File("src/main/proto")
+
+version in PB.protobufConfig := protobufVersion
+
+// idea takes generated/com as source root, and I can't do nothing about it but manually change it in IDE:(
+javaSource in PB.protobufConfig <<= (sourceDirectory in Compile)(_ / "generated")
+
+// assembly
+
+mergeStrategy in assembly <<= (mergeStrategy in assembly) { 
+  (old) => {
+    case "log4j.properties" => MergeStrategy.first 
+    case PathList("org","apache","log4j",xs @ _*) => MergeStrategy.first
+    case x => old(x)
+  }
+}
+
+"""
+
+LOG4J_TEMPLATE="""log.dir=.
+log.file=%(artifactId)s.log
+
+log4j.rootLogger=DEBUG,DRFA,console
+#log4j.logger.%(groupId)s.%(artifactId)s=${rootLogger},console
+
+log4j.appender.DRFA=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.DRFA.File=${log.dir}/${log.file}
+log4j.appender.DRFA.DatePattern=.yyyy-MM-dd
+log4j.appender.DRFA.layout=org.apache.log4j.PatternLayout
+log4j.appender.DRFA.layout.ConversionPattern=%%d{ISO8601} %%p %%c: %%m%%n
+
+log4j.appender.console=org.apache.log4j.ConsoleAppender
+log4j.appender.console.layout=org.apache.log4j.PatternLayout
+log4j.appender.console.layout.ConversionPattern=%%d{ISO8601} %%p %%c: %%m%%n
+
+"""
+
+MONIT_TEMPLATE="""#!/usr/bin/env bash
+#Copyright (C) dirlt
+
+#
+# umid init.d script. 
+#
+# All java services require the same directory structure:
+#   /var/run/$APP_NAME.pid
+
+APP_NAME="%(artifactId)s"
+JAR_NAME="%(artifactId)s.jar"
+
+HEAP_OPTS="-Xms8192m -Xmx8192m -XX:NewSize=1024m"
+GC_OPTS="-XX:+UseConcMarkSweepGC -XX:+UseParNewGC"
+LOG4J_OPTS="-Dlog4j.configuration=file:$APP_HOME/log4j.properties "
+JMX_OPTS="-Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+JAVA_OPTS="-server $GC_OPTS $HEAP_OPTS $JMX_OPTS $LOG4J_OPTS -Dfile.encoding=UTF-8"
+
+# TODO(dirlt):
+APP_HOME=""
+JAR_MAIN="%(groupId)s.%(artifactId)s.Main"
+CONFIG="-Dcom.sun.management.jmxremote.port= "
+
+pidfile="/var/run/$APP_NAME.pid"
+
+running(){
+  # File does not exist, we can run
+  [ -f $pidfile ] || return 1
+  # Read PID from file
+  read PID < $pidfile
+  # pid file is empty
+  [ ! -z "$PID" ] || return 1
+  # File exists but process does not.
+  [ -d /proc/${PID} ] || return 1
+  return 0
+}
+
+find_java() {
+  if [ ! -z "$JAVA_HOME" ]; then
+    return
+  fi
+  for dir in /usr /usr/lib/jvm/java-6-sun /opt/jdk /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home /usr/java/default; do
+    if [ -x $dir/bin/java ]; then
+      JAVA_HOME=$dir
+      break
+    fi
+  done
+}
+
+find_java
+
+case "$1" in
+  start)
+    echo -n "Starting $APP_NAME... "
+
+    if [ ! -r $APP_HOME/$JAR_NAME ]; then
+      echo "FAIL"
+      echo "*** $APP_NAME jar missing: $APP_HOME/$JAR_NAME - not starting"
+      exit 1
+    fi
+    if [ ! -x $JAVA_HOME/bin/java ]; then
+      echo "FAIL"
+      echo "*** $JAVA_HOME/bin/java doesn't exist -- check JAVA_HOME?"
+      exit 1
+    fi
+    if running; then
+      exit 0
+      echo "already running."
+    fi
+
+    sh -c "echo $$ > $pidfile;"
+    cd $APP_HOME && exec ${JAVA_HOME}/bin/java ${JAVA_OPTS} -cp .:./conf:$APP_HOME/$JAR_NAME ${JAR_MAIN} ${CONFIG}
+    tries=0
+    while ! running; do
+      tries=$((tries + 1))
+      if [ $tries -ge 5 ]; then
+        echo "FAIL"
+        exit 1
+      fi
+      sleep 1
+    done
+    echo "done."
+  ;;
+
+  stop)
+    echo -n "Stopping $APP_NAME... "
+    if ! running; then
+      echo "wasn't running."
+      exit 0
+    fi
+
+    tries=0
+    while running; do
+      tries=$((tries + 1))
+      if [ $tries -ge 15 ]; then
+        echo "FAILED SOFT SHUTDOWN, TRYING HARDER"
+        if [ -f $pidfile ]; then
+          kill $(cat $pidfile)
+        else
+          echo "CAN'T FIND PID, TRY KILL MANUALLY"
+          exit 1
+        fi
+        hardtries=0
+        while running; do
+          hardtries=$((hardtries + 1))
+          if [ $hardtries -ge 5 ]; then
+            echo "FAILED HARD SHUTDOWN, TRY KILL -9 MANUALLY"
+            kill -9 $(cat $pidfile)
+          fi
+          sleep 1
+        done
+      fi
+      sleep 1
+    done
+    echo "done."
+  ;;
+
+  status)
+    if running; then
+      echo "$APP_NAME is running."
+    else
+      echo "$APP_NAME is NOT running."
+    fi
+  ;;
+
+  restart)
+    $0 stop
+    sleep 2
+    $0 start
+  ;;
+
+  *)
+    echo "Usage: /etc/init.d/${APP_NAME}.sh {start|stop|restart|status}"
+    exit 1
+  ;;
+esac
+
+exit 0
+"""
+
+RUN_TEMPLATE="""#!/usr/bin/env bash
+#Copyright (C) dirlt
+
+# TODO(dirlt):
+java -cp %(artifactId)s.jar \\
+  Xms4096m -Xmx4096m -XX:NewSize=1024m -server \\
+  %(groupId)s.%(artifactId)s.Main $@
+"""
+
+DIST_TEMPLATE="""#!/usr/bin/env bash
+#Copyright (C) dirlt
+
+pwd=`pwd`
+artifact=`basename $pwd`
+dist="$artifact-dist"
+
+rm -rf config/target/
+rm -rf scripts/target/
+rm -rf $dist
+mkdir -p $dist
+
+cp -r config/ $dist
+cp -r scripts/ $dist
+
+scala=`ls target/scala*/$artifact-assembly-*.jar 2>/dev/null`
+if [ "x$scala" != "x" -a -f build.sbt ]
+then
+  cp -r $scala $dist
+  cd $dist && ln -s `basename $scala` $artifact.jar && cd ..
+fi
+
+java=`ls target/$artifact-*-jar-with-dependencies.jar 2>/dev/null`
+if [ "x$java" != "x" -a -f pom.xml ]
+then
+  cp -r $java $dist
+  cd $dist && ln -s `basename $java` $artifact.jar && cd ..
+fi
+
+tar czvf $dist.tar.gz $dist
+
+"""
+
+import os
+
+POM=0
+SBT=1
+
+def generate(project,groupId,artifactId):
+    cps=groupId.split('.')
+    cps.append(artifactId)
+    os.system('mkdir -p %s'%(project))
+    open('%s/pom.xml'%(project),'w').write(POM_TEMPLATE%(locals()))
+    open('%s/build.sbt'%(project),'w').write(SBT_TEMPLATE%(locals()))
+    os.system('mkdir -p %s/src/main/java/%s/'%(project,'/'.join(cps)))
+    os.system('mkdir -p %s/src/test/java/%s/'%(project,'/'.join(cps)))
+    os.system('mkdir -p %s/src/main/scala/%s/'%(project,'/'.join(cps)))
+    os.system('mkdir -p %s/src/test/scala/%s/'%(project,'/'.join(cps)))
+    os.system('mkdir -p %s/src/main/proto/'%(project))
+    os.system('mkdir -p %s/src/main/resources/'%(project))
+    open('%s/src/main/resources/log4j.properties'%(project),'w').write(LOG4J_TEMPLATE%(locals()))
+    os.system('mkdir -p %s/src/test/resources/'%(project))
+    os.system('mkdir -p %s/config/'%(project))
+    os.system('mkdir -p %s/scripts/ctl'%(project))
+
+    open('%s/scripts/ctl/monit.sh'%(project),'w').write(MONIT_TEMPLATE%(locals()))
+    os.system('chmod u+x %s/scripts/ctl/monit.sh'%(project))
+
+    open('%s/scripts/ctl/run.sh'%(project),'w').write(RUN_TEMPLATE%(locals()))
+    os.system('chmod u+x %s/scripts/ctl/run.sh'%(project))
+
+    open('%s/scripts/ctl/dist.sh'%(project),'w').write(DIST_TEMPLATE%(locals()))
+    os.system('chmod u+x %s/scripts/ctl/dist.sh'%(project))
+    
+import sys
+if __name__=='__main__':
+    if(len(sys.argv)!=4):
+        print 'create a new jvm project in java or scala'
+        print 'usage:%s project-name groupId artifactId'%(sys.argv[0])
+    else:
+        generate(sys.argv[1],sys.argv[2],sys.argv[3])
